@@ -3,7 +3,7 @@
 ## Table of Contents
 
 - [Description](#description)
-- [User stories](#User stories)
+- [user_stories](#user_stories)
 
 ## Description
 
@@ -13,7 +13,7 @@ In order for Squiddrone to reach its maturity state, going from Alpha, to Beta a
 - Compliance tests for the specification.
 - The c++ implementations to be 100% complete and spec compliant.
 
-## User stories
+## user_stories
 
 Here you will find a comprehensive list of the various user stories in the Squiddrone Project to reach version 1.0.0.
 
