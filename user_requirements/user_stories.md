@@ -19,7 +19,7 @@ Here you will find a comprehensive list of the various user stories in the Squid
 
 ### user
 
-- [ ] As a user, I want to be able, to control the Drone.
-    - [ ] As a user, I want to be able, to control the Drone by a computer.
-    - [ ] As a user, I want to be able, to control the Drone by an android app.
+- [ ] As a user, I want to be able to communicate to the Drone, to set the target parameters for the flight trajectory.
+    - [ ] As a user, I want to use a computer, to communicate to the drone.
+    - [ ] As a user, I want to use an android app, to communicate to the drone.
 
