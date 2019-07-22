@@ -3,7 +3,7 @@
 ## Table of Contents
 
 - [Description](#description)
-- [user_stories](#user_stories)
+- [User stories](#User stories)
 
 ## Description
 
