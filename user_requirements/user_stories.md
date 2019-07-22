@@ -13,11 +13,11 @@ In order for Squiddrone to reach its maturity state, going from Alpha, to Beta a
 - Compliance tests for the specification.
 - The c++ implementations to be 100% complete and spec compliant.
 
-## user_stories
+## User stories
 
 Here you will find a comprehensive list of the various user stories in the Squiddrone Project to reach version 1.0.0.
 
-### user
+### Role::user
 
 - [ ] As a user, I want to be able to communicate to the Drone, to set the target parameters for the flight trajectory.
     - [ ] As a user, I want to use a computer, to communicate to the drone.
