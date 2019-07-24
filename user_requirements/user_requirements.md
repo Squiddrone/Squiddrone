@@ -1,7 +1,7 @@
 # User requirements
 ## Communication
 - **UR001 - PC Link**  
-The USER shall be able to create a data link to the drone from a PC  
+The USER shall be able to create a *wireless* data link to the drone from an external computing device.  
 - **UR002 - Programming interface**  
 The USER shall be able to feed programming information to the drone.  
 - **UR003 - Status information**  
