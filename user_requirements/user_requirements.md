@@ -7,7 +7,7 @@ The USER shall be able to feed programming information to the drone.
 **UR003 - Status information**  
 The USER shall be able to retrieve status information from the drone.  
 
-## Guidance
+## Guidance / Flight
 **UR004 - Setting a target point**  
 The USER shall be able to set a target point for the drone.  
 **UR005 - Defining a flight trajectory**  
@@ -15,7 +15,13 @@ The USER shall be able to define a flight trajectory for the drone.
 **UR006 - Defining the flight duration**  
 The USER shall be able to define the flight duration for the drone.  
 **UR007 - Defining a flight direction**  
-The USER shall be able to define a flight direction.  
+The USER shall be able to define a flight direction for the drone.  
+**UR008 - Basic flight operation**  
+The USER shall be able to operate the drone without flight training.  
+**UR009 - Starting the drone**  
+The USER shall be able to perform a starting maneuver without any manual intervention.  
+**UR010 - Landing the drone**  
+The USER shall be able to perform a landing maneuver without any manual intervention.  
 
 ## Illumination
 
