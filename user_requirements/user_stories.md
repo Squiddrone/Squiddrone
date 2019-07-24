@@ -25,4 +25,5 @@ Here you will find a comprehensive list of the various user stories in the Squid
     - [ ] As a user, I want several drones to regulate themselves as a swarm so that there are no collisions.
 - [ ] As a user, I would like to use a computer program to create a pattern for the drones so that I don't have to control the drones myself.
     - [ ] As a user, I want to generate the data for a pattern from an image so that I don't have to do it myself.
+- [ ] As a user, I want to see the state of charge of the battery using the RGB LED when I switch on the drone, to see how long the drone can approximately fly.
 
