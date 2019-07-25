@@ -30,4 +30,8 @@ Here you will find a comprehensive list of the various user stories in the Squid
     - [ ] As a user, I want to generate the data for a pattern from an image so that I don't have to do it myself.
 #### UST005
 - [ ] As a user, I want to see the state of charge of the battery using the RGB LED when I switch on the drone, to see how long the drone can approximately fly.
+#### UST006
+- [ ] As a user, I want the drone to have a minimum flight time of 15 minutes so that I can fly multiple patterns.
+#### UST007
+- [ ] As a user, I want the drone to land safely on its own before the battery is completely depleted so that the drone is not damaged.
 
