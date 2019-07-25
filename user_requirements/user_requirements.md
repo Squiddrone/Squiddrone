@@ -31,9 +31,7 @@ The USER shall be able to set the color of the buildin lamp.
 - **UR013 - Lighting effects**  
 The USER shall be able to set lighting effects such as flashing, blinking or fading of the buildin lamp.  
 
-## Maintenance
-- **UR014 - Charging**  
-The USER shall be able to charge the drone without removing the power source.  
-- **UR015 - Error log**  
+## Maintenance 
+- **UR014 - Error log**  
 The USER shall be provided an error log which contains information that help investigating apparent or inapparent
 error sources.  
