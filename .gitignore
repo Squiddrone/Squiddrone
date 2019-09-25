@@ -99,6 +99,9 @@ local.properties
 
 # CDT-specific (C/C++ Development Tooling)
 .cproject
+.mxproject
+*.launch
+*.ioc
 
 # CDT- autotools
 .autotools
@@ -143,5 +146,9 @@ local.properties
 .apt_generated
 
 .sts4-cache/
+
+Debug/
+Release/
+
 
 # End of https://www.gitignore.io/api/c,c++,eclipse
