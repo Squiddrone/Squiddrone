@@ -6,6 +6,7 @@ target_sources(${ELF_FILE}
         ${CMAKE_CURRENT_SOURCE_DIR}/system_stm32g4xx.c
         ${CMAKE_CURRENT_SOURCE_DIR}/sysmem.c
         ${CMAKE_CURRENT_SOURCE_DIR}/syscalls.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/stm32g4xx_hal_msp.c
 )
 
 target_include_directories(${ELF_FILE}
