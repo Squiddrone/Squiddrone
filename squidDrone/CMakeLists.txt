@@ -3,7 +3,8 @@ cmake_minimum_required (VERSION 3.12 FATAL_ERROR)
 set(APPLICATION_NAME SquidDrone)
 project(${APPLICATION_NAME} LANGUAGES CXX C ASM)
 
-set(CMAKE_VERBOSE_MAKEFILE ON)
+#for debugging purposes turn this ON
+set(CMAKE_VERBOSE_MAKEFILE OFF)
 
 set(ELF_FILE ${APPLICATION_NAME}.elf)
 

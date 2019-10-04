@@ -12,14 +12,17 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(SHARED_FLAGS "-mcpu=cortex-m4 -g3 --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb")
-set(ADDITIONAL_SHARED_COMPILE_FLAGS " -c -O0 -ffunction-sections -fdata-sections -fstack-usage -Wall")
+set(ADDITIONAL_SHARED_COMPILE_FLAGS "-O0 -ffunction-sections -fdata-sections -fstack-usage -Wall")
 
 set(LINKER_FILE "${CMAKE_SOURCE_DIR}/startup/STM32G431KBTX_FLASH.ld")
 set(ADDITIONAL_LINK_FLAGS "-T${LINKER_FILE} --specs=nosys.specs -Wl,-Map=${CMAKE_PROJECT_NAME}.map -Wl,--gc-sections -static -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group")
 
-set(CMAKE_EXE_LINKER_FLAGS "${SHARED_FLAGS} ${ADDITIONAL_LINK_FLAGS}" CACHE INTERNAL "linker flags")
-set(CMAKE_C_FLAGS "${SHARED_FLAGS} ${ADDITIONAL_SHARED_COMPILE_FLAGS} -std=gnu11" CACHE INTERNAL "C flags")
-set(CMAKE_CXX_FLAGS "${SHARED_FLAGS} ${ADDITIONAL_SHARED_COMPILE_FLAGS} -std=gnu++14 -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -Wconversion" CACHE INTERNAL "C++ flags")
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
+
+set(CMAKE_EXE_LINKER_FLAGS "${ADDITIONAL_LINK_FLAGS}" CACHE INTERNAL "linker flags")
+set(CMAKE_C_FLAGS "${SHARED_FLAGS} ${ADDITIONAL_SHARED_COMPILE_FLAGS}" CACHE INTERNAL "C flags")
+set(CMAKE_CXX_FLAGS "${SHARED_FLAGS} ${ADDITIONAL_SHARED_COMPILE_FLAGS} -fno-exceptions -fno-rtti -fno-threadsafe-statics -fno-use-cxa-atexit -Wconversion" CACHE INTERNAL "C++ flags")
 set(CMAKE_ASM_FLAGS "${SHARED_FLAGS} -c -x assembler-with-cpp " CACHE INTERNAL "Assembler flags")
 
 set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
