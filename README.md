@@ -1,7 +1,5 @@
 # Squiddrone
 
-![License](https://img.shields.io/github/license/elheck/Squiddrone)
-
 Squiddrone is a project for an autonomous flying swarm of drones.
 
 ## Description
