@@ -1,3 +1,5 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/30c69d07db254d5d9c13b1cc057d4259)](https://www.codacy.com/manual/hubert.flor/Squiddrone?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=elheck/Squiddrone&amp;utm_campaign=Badge_Grade)
+
 # Squiddrone
 
 Squiddrone is a project for an autonomous flying swarm of drones.
