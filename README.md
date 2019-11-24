@@ -2,7 +2,7 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/elheck/squiddrone/badge)](https://www.codefactor.io/repository/github/elheck/squiddrone)
 [![Build Status](https://travis-ci.org/ThorsHamster/Squiddrone.svg?branch=master)](https://travis-ci.org/ThorsHamster/Squiddrone)
 
-# Squiddrone
+# Squiddrone1
 
 Squiddrone is a project for an autonomous flying swarm of drones.
 
