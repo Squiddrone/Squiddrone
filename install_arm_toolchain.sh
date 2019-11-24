@@ -9,4 +9,3 @@ if [ ! -d $HOME/arm-gcc-toolchain/bin ]; then
 	tar -jxf gcc.tar.bz2 --strip=1
 	popd
 fi
-export PATH=$HOME/arm-gcc-toolchain/bin:$PATH
