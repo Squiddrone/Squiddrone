@@ -16,7 +16,12 @@ addons:
     packages:
     - libc6-i386 
 
+cache:
+  directories:
+  - $HOME/arm-gcc-toolchain
+
 install:
+  - if [ -d $HOME/arm-gcc-toolchain ]; then
   - pushd .
   - cd ~ 
   - mkdir arm-gcc-toolchain
@@ -24,6 +29,7 @@ install:
   - cd arm-gcc-toolchain
   - tar -jxf gcc.tar.bz2 --strip=1
   - popd
+  - fi
   - export PATH=$HOME/arm-gcc-toolchain/bin:$PATH
   
 before_script:
