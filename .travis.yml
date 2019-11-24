@@ -31,3 +31,13 @@ before_script:
 
 script:
   - ./build.sh
+
+before_deploy:
+  - tar czvf build.tar.gz -C build .
+
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  file: "./build.tar.gz"
+  skip_cleanup: true
+  draft: true
