@@ -28,7 +28,7 @@ add_subdirectory(system)
 
 add_custom_target(${ELF_FILE}-size DEPENDS ${ELF_FILE} COMMAND ${ARM_SIZE_EXECUTABLE} -B ${ELF_FILE})
 add_custom_target(${LSS_FILE} DEPENDS ${ELF_FILE} COMMAND ${CMAKE_OBJDUMP} -S ${ELF_FILE} > ${LSS_FILE})
-add_custom_target(${HEX_FILE} DEPENDS ${ELF_FILE} COMMAND ${CMAKE_OBJCOPY} -O ihex ${ELF_FILE} ${HEX_FILE})
-add_custom_target(${BIN_FILE} DEPENDS ${ELF_FILE} COMMAND ${CMAKE_OBJCOPY} -O binary ${ELF_FILE} ${BIN_FILE})
+add_custom_target(${HEX_FILE} DEPENDS ${ELF_FILE} COMMAND arm-none-eabi-objcopy -O ihex ${ELF_FILE} ${HEX_FILE})
+add_custom_target(${BIN_FILE} DEPENDS ${ELF_FILE} COMMAND arm-none-eabi-objcopy -O binary ${ELF_FILE} ${BIN_FILE})
 add_custom_target(${APPLICATION_NAME} ALL DEPENDS ${ELF_FILE}-size ${BIN_FILE} ${HEX_FILE} ${LSS_FILE})
 
