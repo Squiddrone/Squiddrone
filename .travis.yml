@@ -1,0 +1,41 @@
+notifications:
+  email: false
+
+sudo: false
+
+language: c
+
+matrix:
+  fast_finish: true
+  include:
+    - name: 7-2018-q2
+      env: GCC_URL=https://developer.arm.com/-/media/Files/downloads/gnu-rm/7-2018q2/gcc-arm-none-eabi-7-2018-q2-update-linux.tar.bz2?revision=bc2c96c0-14b5-4bb4-9f18-bceb4050fee7?product=GNU%20Arm%20Embedded%20Toolchain,64-bit,,Linux,7-2018-q2-update
+
+addons:
+  apt:
+    packages:
+    - libc6-i386 
+
+cache:
+  directories:
+  - $HOME/arm-gcc-toolchain
+
+install:
+  - ./install_arm_toolchain.sh
+  - export PATH=$HOME/arm-gcc-toolchain/bin:$PATH
+  
+before_script:
+  - arm-none-eabi-gcc --version
+
+script:
+  - ./build.sh
+
+before_deploy:
+  - tar czvf build.tar.gz -C squidDrone/build .
+
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  file: "./build.tar.gz"
+  skip_cleanup: true
+  draft: true
