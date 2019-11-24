@@ -33,7 +33,7 @@ script:
   - ./build.sh
 
 before_deploy:
-  - tar czvf build.tar.gz -C build .
+  - tar czvf build.tar.gz -C squidDrone/build .
 
 deploy:
   provider: releases
