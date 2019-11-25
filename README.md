@@ -1,4 +1,4 @@
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/30c69d07db254d5d9c13b1cc057d4259)](https://www.codacy.com/manual/elheck/Squiddrone?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=elheck/Squiddrone&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/88da9a5c932545adb22b885a39a1ae35)](https://www.codacy.com/manual/elheck/Squiddrone?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=elheck/Squiddrone&amp;utm_campaign=Badge_Grade)
 [![CodeFactor](https://www.codefactor.io/repository/github/elheck/squiddrone/badge)](https://www.codefactor.io/repository/github/elheck/squiddrone)
 [![Build Status](https://travis-ci.org/elheck/Squiddrone.svg?branch=master)](https://travis-ci.org/elheck/Squiddrone)
 
