@@ -1,6 +1,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/30c69d07db254d5d9c13b1cc057d4259)](https://www.codacy.com/manual/hubert.flor/Squiddrone?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=elheck/Squiddrone&amp;utm_campaign=Badge_Grade)
 [![CodeFactor](https://www.codefactor.io/repository/github/elheck/squiddrone/badge)](https://www.codefactor.io/repository/github/elheck/squiddrone)
 [![Build Status](https://travis-ci.org/ThorsHamster/Squiddrone.svg?branch=master)](https://travis-ci.org/ThorsHamster/Squiddrone)
+[![Mergify Status](https://gh.mergify.io/badges/ThorsHamster/Squiddrone&style=flat)](https://mergify.io)
 
 # Squiddrone
 
