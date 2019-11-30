@@ -150,7 +150,5 @@ local.properties
 Debug/
 Release/
 build/
-build/
-
 
 # End of https://www.gitignore.io/api/c,c++,eclipse
