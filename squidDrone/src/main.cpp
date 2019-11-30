@@ -11,7 +11,6 @@
 #include "mcu_settings.h"
 
 int main(){
-
 	HAL_Init();
 	SystemClock_Config();
 	MX_GPIO_Init();
