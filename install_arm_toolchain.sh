@@ -9,5 +9,6 @@ if [ ! -d "$HOME/arm-gcc-toolchain/bin" ]; then
 	wget -O "$HOME/arm-gcc-toolchain/gcc.tar.bz2" $GCC_URL
 	cd arm-gcc-toolchain
 	tar -jxf gcc.tar.bz2 --strip=1
+	rm -f gcc.tar.bz2
 	popd
 fi
