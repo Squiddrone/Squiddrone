@@ -15,6 +15,7 @@ int main(){
 	SystemClock_Config();
 	MX_GPIO_Init();
 	MX_USART2_UART_Init();
+	float a = 0;
 	while(1){
 		HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
 		HAL_Delay(500);

@@ -19,7 +19,15 @@ target_compile_definitions(${ELF_FILE}
     PRIVATE
         STM32G431xx
         USE_HAL_DRIVER
+        ARM_MATH_CM4
 )
+
+find_library(DSP_LIB arm_cortexM4lf_math
+	REQUIRED
+	HINTS "${CMAKE_CURRENT_SOURCE_DIR}/system/cmsis/dsp"
+)
+
+target_link_libraries(${ELF_FILE} "${DSP_LIB}")
 
 add_subdirectory(drivers)
 add_subdirectory(src)
