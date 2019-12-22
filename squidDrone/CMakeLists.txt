@@ -6,6 +6,12 @@ project(${APPLICATION_NAME} LANGUAGES CXX C ASM)
 #for debugging purposes turn this ON
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 
+option(GOOGLE_TESTS "Build the tests" OFF)
+option(CODE_COVERAGE "Enable coverage reporting" OFF)
+
+message(STATUS "Google Tests: ${GOOGLE_TESTS}")
+message(STATUS "Coverage reporting: ${CODE_COVERAGE}")
+
 set(ELF_FILE ${APPLICATION_NAME}.elf)
 set(BIN_FILE ${APPLICATION_NAME}.bin)
 set(HEX_FILE ${APPLICATION_NAME}.hex)
@@ -34,9 +40,19 @@ add_subdirectory(src)
 add_subdirectory(startup)
 add_subdirectory(system)
 
+if(CODE_COVERAGE)
+  set(CMAKE_BUILD_TYPE "Debug")
+  include(${PROJECT_SOURCE_DIR}/cmake/CodeCoverage.cmake)
+  APPEND_COVERAGE_COMPILER_FLAGS()
+endif(CODE_COVERAGE)
+
+if(GOOGLE_TESTS)
+  enable_testing()
+  add_subdirectory(tests)
+endif()
+
 add_custom_target(${ELF_FILE}-size DEPENDS ${ELF_FILE} COMMAND ${ARM_SIZE_EXECUTABLE} -B ${ELF_FILE})
 add_custom_target(${LSS_FILE} DEPENDS ${ELF_FILE} COMMAND ${CMAKE_OBJDUMP} -S ${ELF_FILE} > ${LSS_FILE})
 add_custom_target(${HEX_FILE} DEPENDS ${ELF_FILE} COMMAND arm-none-eabi-objcopy -O ihex ${ELF_FILE} ${HEX_FILE})
 add_custom_target(${BIN_FILE} DEPENDS ${ELF_FILE} COMMAND arm-none-eabi-objcopy -O binary ${ELF_FILE} ${BIN_FILE})
 add_custom_target(${APPLICATION_NAME} ALL DEPENDS ${ELF_FILE}-size ${BIN_FILE} ${HEX_FILE} ${LSS_FILE})
-
