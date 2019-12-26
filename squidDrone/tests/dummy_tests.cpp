@@ -8,7 +8,7 @@ namespace {
   }
 
   TEST(dummy, trivial_fail) {
-    EXPECT_EQ(true, true);
+    EXPECT_EQ(true, false);
   }
 
   TEST(main2, trivial_fail) {
