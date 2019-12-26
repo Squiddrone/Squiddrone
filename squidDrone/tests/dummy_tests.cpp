@@ -6,7 +6,7 @@ namespace {
     EXPECT_EQ(true, true);
   }
 
-  TEST(dummy, trivial_faile) {
+  TEST(dummy, trivial_fail) {
     EXPECT_EQ(true, false);
   }
 }
