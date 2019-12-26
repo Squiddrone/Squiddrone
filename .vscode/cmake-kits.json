@@ -6,5 +6,5 @@
   {
     "name": "unittest_toolchain",
     "toolchainFile": "../squidDrone/cmake/gcc_linux_toolchain.cmake"
-  },
+  }
 ]
