@@ -5,6 +5,10 @@ sudo: false
 
 language: c
 
+addons:
+  apt:
+    packages: lcov
+
 matrix:
   fast_finish: true
   include:
