@@ -46,7 +46,7 @@ else()
 endif()
 set_target_properties(check PROPERTIES FOLDER "Scripts")
 
-#include_directories(${gtest_SOURCE_DIR}/include)
+include_directories(${gtest_SOURCE_DIR}/include)
 
 # More modern way to do the last line, less messy but needs newish CMake:
 # target_include_directories(gtest INTERFACE ${gtest_SOURCE_DIR}/include)
