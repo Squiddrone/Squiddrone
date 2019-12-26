@@ -3,7 +3,7 @@
 set -euo pipefail
 
 cd squidDrone
-mkdir -p build && cd build
+mkdir -p build_unittests && cd build_unittests
 
 # Configure
 cmake ../ -DGOOGLE_TESTS=ON -DCODE_COVERAGE=ON -DCMAKE_TOOLCHAIN_FILE=../cmake/gcc_linux_toolchain.cmake

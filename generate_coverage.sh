@@ -1,5 +1,5 @@
 #!/bin/bash
 
-cd build
+cd build_unittests || exit
 # generate Coverage
 make coverage
