@@ -11,6 +11,7 @@ option(CODE_COVERAGE "Enable coverage reporting" OFF)
 
 message(STATUS "Google Tests: ${GOOGLE_TESTS}")
 message(STATUS "Coverage reporting: ${CODE_COVERAGE}")
+message(STATUS "Toolchain File: ${CMAKE_TOOLCHAIN_FILE}")
 
 if(NOT GOOGLE_TESTS)
 
