@@ -9,7 +9,7 @@ macro(package_add_test TESTNAME)
     set_target_properties(${TESTNAME} PROPERTIES FOLDER "tests")
 endmacro()
 
-package_add_test(dummy dummy_tests.cpp ${CMAKE_SOURCE_DIR}/src/test_file.cpp)
+package_add_test(dummy dummy_tests.cpp)
 
 if(CODE_COVERAGE)
     SETUP_TARGET_FOR_COVERAGE_LCOV(
