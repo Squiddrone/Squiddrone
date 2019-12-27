@@ -15,6 +15,7 @@ addons:
   apt:
     packages:
     - libc6-i386
+    - lcov
 
 cache:
   directories:
@@ -29,6 +30,12 @@ before_script:
 
 script:
   - ./build.sh
+
+after_script:
+  - ./build_unittests.sh
+  - ./generate_coverage.sh
+  - ./upload_report_ci.sh
+  - ./upload_codecov.sh
 
 deploy:
   provider: releases
