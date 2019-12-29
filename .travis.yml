@@ -16,6 +16,7 @@ addons:
     packages:
     - libc6-i386
     - lcov
+    - doxygen
 
 cache:
   directories:
@@ -38,10 +39,16 @@ after_script:
   - ./upload_codecov.sh
 
 deploy:
-  provider: releases
-  api_key: $GITHUB_TOKEN
-  file: "./squidDrone/build/SquidDrone.bin"
-  skip_cleanup: true
-  draft: true
-  on:
-    all_branches: true
+  - provider: releases
+    api_key: $GITHUB_TOKEN
+    file: "./squidDrone/build/SquidDrone.bin"
+    skip_cleanup: true
+    draft: true
+    on:
+      all_branches: true
+  - provider: pages
+    skip_cleanup: true
+    local_dir: ./squidDrone/build/doc_doxygen/html
+    github_token: $GITHUB_TOKEN
+    on:
+      branch: dev_publish_doxygen
