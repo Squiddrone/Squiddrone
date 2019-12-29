@@ -17,7 +17,8 @@ addons:
     - libc6-i386
     - lcov
     - doxygen
-
+    - graphviz
+    
 cache:
   directories:
   - $HOME/arm-gcc-toolchain
