@@ -18,7 +18,7 @@ addons:
     - lcov
     - doxygen
     - graphviz
-    
+
 cache:
   directories:
   - $HOME/arm-gcc-toolchain
