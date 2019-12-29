@@ -8,10 +8,19 @@ set(CMAKE_VERBOSE_MAKEFILE OFF)
 
 option(GOOGLE_TESTS "Build the Unittests" OFF)
 option(CODE_COVERAGE "Enable coverage reporting" OFF)
+option(BUILD_DOC "Build documentation" OFF)
 
 message(STATUS "Google Tests: ${GOOGLE_TESTS}")
 message(STATUS "Coverage reporting: ${CODE_COVERAGE}")
+message(STATUS "Generate documentation: ${BUILD_DOC}")
 message(STATUS "Toolchain File: ${CMAKE_TOOLCHAIN_FILE}")
+
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+
+# generate documentation
+if(BUILD_DOC)
+    include(doxygen)
+endif()
 
 if(NOT GOOGLE_TESTS)
 
@@ -50,8 +59,6 @@ if(NOT GOOGLE_TESTS)
     add_custom_target(${APPLICATION_NAME} ALL DEPENDS ${ELF_FILE}-size ${BIN_FILE} ${HEX_FILE} ${LSS_FILE})
 
 else()
-    list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
-
     if(CODE_COVERAGE)
         set(CMAKE_BUILD_TYPE "Debug")
         include(CodeCoverage)
