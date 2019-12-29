@@ -51,4 +51,4 @@ deploy:
     local_dir: ./squidDrone/build/doc_doxygen/html
     github_token: $GITHUB_TOKEN
     on:
-      branch: dev_publish_doxygen
+      branch: master
