@@ -24,6 +24,7 @@
 # Libraries
 *.lib
 *.a
+!libarm_cortexM4lf_math.a
 *.la
 *.lo
 

@@ -8,13 +8,16 @@ language: c
 matrix:
   fast_finish: true
   include:
-    - name: 7-2018-q2
-      env: GCC_URL=https://developer.arm.com/-/media/Files/downloads/gnu-rm/7-2018q2/gcc-arm-none-eabi-7-2018-q2-update-linux.tar.bz2?revision=bc2c96c0-14b5-4bb4-9f18-bceb4050fee7?product=GNU%20Arm%20Embedded%20Toolchain,64-bit,,Linux,7-2018-q2-update
+    - name: 9-2019-q4
+      env: GCC_URL="https://developer.arm.com/-/media/Files/downloads/gnu-rm/9-2019q4/RC2.1/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux.tar.bz2?revision=6e63531f-8cb1-40b9-bbfc-8a57cdfc01b4&la=en&hash=F761343D43A0587E8AC0925B723C04DBFB848339"
 
 addons:
   apt:
     packages:
     - libc6-i386
+    - lcov
+    - doxygen
+    - graphviz
 
 cache:
   directories:
@@ -30,11 +33,23 @@ before_script:
 script:
   - ./build.sh
 
+after_script:
+  - ./build_unittests.sh
+  - ./generate_coverage.sh
+  - ./upload_report_ci.sh
+  - ./upload_codecov.sh
+
 deploy:
-  provider: releases
-  api_key: $GITHUB_TOKEN
-  file: "./squidDrone/build/SquidDrone.bin"
-  skip_cleanup: true
-  draft: true
-  on:
-    all_branches: true
+  - provider: releases
+    api_key: $GITHUB_TOKEN
+    file: "./squidDrone/build/SquidDrone.bin"
+    skip_cleanup: true
+    draft: true
+    on:
+      all_branches: true
+  - provider: pages
+    skip_cleanup: true
+    local_dir: ./squidDrone/build/doc_doxygen/html
+    github_token: $GITHUB_TOKEN
+    on:
+      branch: master
