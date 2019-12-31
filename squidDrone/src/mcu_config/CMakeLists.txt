@@ -9,4 +9,5 @@ target_sources(${ELF_FILE}
         ${CMAKE_CURRENT_SOURCE_DIR}/mcu_settings.c
         ${CMAKE_CURRENT_SOURCE_DIR}/gpio_config.c
         ${CMAKE_CURRENT_SOURCE_DIR}/serial_config.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/cordic_config.c
 )

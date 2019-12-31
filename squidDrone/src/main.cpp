@@ -8,13 +8,16 @@
 #include "clock_config.h"
 #include "gpio_config.h"
 #include "serial_config.h"
+#include "cordic_config.h"
 #include "mcu_settings.h"
 
 int main(){
 	HAL_Init();
 	SystemClock_Config();
 	MX_GPIO_Init();
+	MX_USART1_UART_Init();
 	MX_USART2_UART_Init();
+	MX_CORDIC_Init();
 	while(1){
 		HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
 		HAL_Delay(500);

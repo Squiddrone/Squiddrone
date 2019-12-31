@@ -18,4 +18,14 @@ target_sources(${ELF_FILE}
         ${CMAKE_CURRENT_SOURCE_DIR}/stm32g4xx_hal_uart.c
         ${CMAKE_CURRENT_SOURCE_DIR}/stm32g4xx_hal_uart_ex.c
         ${CMAKE_CURRENT_SOURCE_DIR}/stm32g4xx_ll_pwr.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/stm32g4xx_hal_cordic.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/stm32g4xx_hal_fmac.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/stm32g4xx_hal_crc.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/stm32g4xx_hal_crc_ex.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/stm32g4xx_hal_i2c.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/stm32g4xx_hal_i2c_ex.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/stm32g4xx_hal_spi.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/stm32g4xx_hal_spi_ex.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/stm32g4xx_hal_tim.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/stm32g4xx_hal_tim_ex.c
 )
