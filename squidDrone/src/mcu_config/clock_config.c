@@ -1,9 +1,3 @@
-/*
- * clock_config.c
- *
- *  Created on: Oct 10, 2019
- *      Author: aron
- */
 #include "stm32g4xx_hal.h"
 #include "clock_config.h"
 #include "mcu_settings.h"

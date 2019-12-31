@@ -1,10 +1,3 @@
-/*
- * serial_config.h
- *
- *  Created on: Oct 20, 2019
- *      Author: aron
- */
-
 #ifndef SRC_MCU_CONFIG_SERIAL_CONFIG_H_
 #define SRC_MCU_CONFIG_SERIAL_CONFIG_H_
 

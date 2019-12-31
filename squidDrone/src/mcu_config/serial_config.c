@@ -1,10 +1,3 @@
-/*
- * serial_config.c
- *
- *  Created on: Oct 20, 2019
- *      Author: aron
- */
-
 #include "stm32g4xx_hal.h"
 #include "serial_config.h"
 #include "mcu_settings.h"

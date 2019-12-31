@@ -1,9 +1,3 @@
-/*
- * cordic_config.c
- *
- *  Created on: Dec 31, 2019
- *      Author: aron
- */
 #include "stm32g4xx_hal.h"
 #include "cordic_config.h"
 #include "mcu_settings.h"

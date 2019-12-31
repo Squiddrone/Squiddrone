@@ -1,11 +1,3 @@
-/*
- * settings.h
- *
- *  Created on: Oct 10, 2019
- *      Author: aron
- */
-
-
 #ifndef SRC_MCU_CONFIG_MCU_SETTINGS_H_
 #define SRC_MCU_CONFIG_MCU_SETTINGS_H_
 
