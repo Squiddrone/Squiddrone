@@ -1,10 +1,3 @@
-/*
- * clock_config.h
- *
- *  Created on: Oct 10, 2019
- *      Author: aron
- */
-
 #ifndef SRC_MCU_CONFIG_CLOCK_CONFIG_H_
 #define SRC_MCU_CONFIG_CLOCK_CONFIG_H_
 
