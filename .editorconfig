@@ -12,7 +12,7 @@ indent_size = 4
 [CMakeLists.*]
 indent_size = 4
 
-[*.h,*.cc]
+[*.h,*.c,*.hpp,*.cpp]
 indent_size = 2
 
 [*.md]
