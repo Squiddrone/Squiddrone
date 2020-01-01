@@ -7,6 +7,12 @@
 
 namespace types{
 
+  ///
+  /// @brief A 3 element type of variable datatype, which is meant to be used in the context of thrust
+  /// @tparam ElementType The under lying datatype of each of the three elements.
+  ///                     Underlying type needs to be integral and trivial. 
+  ///                     It also needs to be signed in order to allow negative thrust.
+  ///
   template<typename ElementType>
   struct ThrustVector
   {
