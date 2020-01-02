@@ -1,4 +1,5 @@
 add_subdirectory(mcu_config)
+add_subdirectory(types)
 
 target_sources(${ELF_FILE}
     PRIVATE
