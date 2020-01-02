@@ -14,7 +14,6 @@ macro(package_add_test TESTNAME)
     set_target_properties(${TESTNAME} PROPERTIES FOLDER "tests")
 endmacro()
 
-package_add_test(dummy dummy_tests.cpp)
 package_add_test(thrust_vector types/thrust_vector_test.cpp)
 
 if(CODE_COVERAGE)
@@ -22,6 +21,6 @@ if(CODE_COVERAGE)
         NAME coverage                 
         EXECUTABLE ctest -j ${n_cores} # Executable in PROJECT_BINARY_DIR
         DEPENDENCIES
-            dummy
+            thrust_vector
     )
 endif(CODE_COVERAGE)
