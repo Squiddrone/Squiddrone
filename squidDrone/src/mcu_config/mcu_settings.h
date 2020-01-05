@@ -37,6 +37,8 @@
 #define PWM_LED_RED_GPIO_Port GPIOB
 #define LD2_Pin GPIO_PIN_8
 #define LD2_GPIO_Port GPIOB
+#define TRANSCEIVER_EXTI_Pin GPIO_PIN_15
+#define TRANSCEIVER_EXTI_GPIO_Port GPIOA
 
 void Error_Handler();
 
