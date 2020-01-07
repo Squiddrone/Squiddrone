@@ -7,14 +7,14 @@ namespace types{
 
   ///
   /// @brief A 3 element type of variable datatype, which is meant to be used in the context of thrust
-  /// @tparam ElementType The under lying datatype of each of the three elements.
-  ///                     Underlying type needs to be integral and trivial. 
+  /// @tparam ElementType The underlying datatype of each of the three elements.
+  ///                     Underlying type needs to be arithmetic and trivial. 
   ///                     It also needs to be signed in order to allow negative thrust.
   ///
   template<typename ElementType>
   struct ThrustVector
   {
-    static_assert(std::is_integral<ElementType>::value, "Type is not integral");
+    static_assert(std::is_arithmetic<ElementType>::value, "Type is not arithmetic");
     static_assert(std::is_trivial<ElementType>::value, "Type is not trivial");
     static_assert(std::is_signed<ElementType>::value, "Unsigned type can't be used");
     explicit ThrustVector() = default;
