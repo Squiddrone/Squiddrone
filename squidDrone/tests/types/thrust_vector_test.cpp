@@ -14,11 +14,11 @@ namespace {
   }
 
   TEST(thrust_vector_test, is_copy_constructible){
-    types::ThrustVector<int> other{1, 2, 3};
-    types::ThrustVector<int> unit_under_test(other);
-    ASSERT_EQ(1, unit_under_test.x);
-    ASSERT_EQ(2, unit_under_test.y);
-    ASSERT_EQ(3, unit_under_test.z);
+    types::ThrustVector<float> other{1.5, 2.5, 3.5};
+    types::ThrustVector<float> unit_under_test(other);
+    ASSERT_EQ(1.5, unit_under_test.x);
+    ASSERT_EQ(2.5, unit_under_test.y);
+    ASSERT_EQ(3.5, unit_under_test.z);
   }
 
   TEST(thrust_vector_test, is_move_constructible){
