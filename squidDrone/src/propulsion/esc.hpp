@@ -27,7 +27,7 @@ namespace propulsion{
       /// The only thing this constructor does, is to set the protected 
       /// member variable timer_.
       ///
-      explicit Esc(TIM_HandleTypeDef timer): timer_(timer){};
+      explicit Esc(TIM_HandleTypeDef& timer): timer_(timer){};
 
     protected:
       
@@ -35,7 +35,7 @@ namespace propulsion{
       /// Hal provided timer interface is protected, so
       /// the concrete implementation can use it.
       ///
-      TIM_HandleTypeDef timer_;
+      TIM_HandleTypeDef& timer_;
       
   };  
 

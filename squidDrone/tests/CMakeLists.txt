@@ -9,6 +9,7 @@ macro(package_add_test TESTNAME)
             ${CMAKE_SOURCE_DIR}/src
             ${CMAKE_SOURCE_DIR}/src/types
             ${CMAKE_SOURCE_DIR}/src/propulsion
+            ${CMAKE_SOURCE_DIR}/tests/mock_libraries
     )
     target_link_libraries(${TESTNAME} gtest gmock gtest_main)
     add_test(NAME ${TESTNAME} COMMAND ${TESTNAME} --gtest_output=xml:${TESTNAME}.xml)
