@@ -5,6 +5,7 @@
 
 namespace{
   
+  /// A mock implementation of the Esc class that should be tested here
   class ConcreteEsc: public propulsion::Esc{
     public:
       using propulsion::Esc::timer_;
