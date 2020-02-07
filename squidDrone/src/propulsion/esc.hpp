@@ -55,13 +55,11 @@ namespace propulsion{
       virtual const auto SetPulseDuration(int pulse_duration) noexcept -> decltype(types::HalError::working) = 0;
 
     protected:
-      
       ///
       /// Hal provided timer interface is protected, so
       /// the concrete implementation can use it.
       ///
       TIM_HandleTypeDef& timer_;
-      
   };  
 
 }
