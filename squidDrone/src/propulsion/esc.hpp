@@ -2,6 +2,7 @@
 #define SRC_PROPULSION_ESC_HPP_
 
 #include "stm32g4xx_hal_tim.h"
+#include "error_types.hpp"
 
 namespace propulsion{
 
@@ -28,6 +29,30 @@ namespace propulsion{
       /// member variable timer_.
       ///
       explicit Esc(TIM_HandleTypeDef& timer): timer_(timer){};
+
+      ///
+      /// @brief The default destructor is sufficent
+      ///
+      virtual ~Esc() = default;
+
+      ///
+      /// @brief Abstract method for returning the maximum pulse duration for the concrete ESC
+      /// @return Pulse duration in microseconds. 
+      ///
+      virtual const auto GetMaxPulseDurationInMicroSeconds() const noexcept -> decltype(auto) = 0;
+
+      ///
+      /// @brief Abstract method for returning the minimum pulse duration for the concrete ESC
+      /// @return Pulse duration in microseconds. 
+      ///
+      virtual const auto GetMinPulseDurationInMicroSeconds() const noexcept -> decltype(auto) = 0;
+
+      ///
+      /// @brief Abstract method for setting the pulse duration based on the min and max values
+      /// @param pulse_duration Desired Pulse duration in microseconds
+      /// @return A types::HalError type confirmation whether it was working or not
+      ///
+      virtual const auto SetPulseDuration(int pulse_duration) noexcept -> decltype(types::HalError::working) = 0;
 
     protected:
       
