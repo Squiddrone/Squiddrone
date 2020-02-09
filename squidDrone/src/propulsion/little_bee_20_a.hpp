@@ -44,12 +44,16 @@ namespace propulsion{
       ///
       /// @brief Sets the new pulse duration for he next cycle.
       /// Can be calculated using min and max pulse duration of oneshot 125.
-      /// The real PWM period and pulse duration is calculated as follows:
-      ///   EXPLAIN HOW!!!
-      /// @param pulse_duration The Oneshot125 pulse duuration (125us - 250us)
-      /// @param repetition_period Time between pulses in microseconds
-      /// @return types::HalError::working if the is no error
-      ///         types::HalError::parameter_change_error if new pulse duration didn't work
+      ///        _____               _____
+      /// 1     |     |             |     |
+      /// 0 ____|     |_____________|     |______
+      ///       ^-----^ pulse_duration
+      ///       ^-------------------^ repition_period
+      /// @param pulse_duration The Oneshot125 pulse duration (125us - 250us)
+      /// @param repetition_period Time between pulses in microseconds (pulse_duration - 20ms)
+      /// @return types::HalError::working if there is no error
+      ///         types::HalError::parameter_error if new pulse duration didn't work
+      ///         types::HalError::config_error if timer config didn't work
       ///
       const auto SetPulseDuration(int pulse_duration, int repetition_period) noexcept -> types::HalError override;
     
@@ -69,13 +73,17 @@ namespace propulsion{
       /// @param period The actual period count for setting PWM period.
       /// @param pulse The actual pulse PWM pulse count number.
       /// @return types::HalError::working if everything went fine
-      ///         types::HalError::parameter_change_error if an error occured
+      ///         types::HalError::config_error if an error occured
       ///
       const auto SetPwm(std::uint32_t period, std::uint32_t pulse) const noexcept -> types::HalError;
 
       bool timer_is_configured_;
-      static constexpr int oneshot_125_max_pulse_duration_in_us_ = 250;
-      static constexpr int oneshot_125_min_pulse_duration_in_us_ = 125;
+      static constexpr auto oneshot_125_max_pulse_duration_in_us_ = 250;
+      static constexpr auto oneshot_125_min_pulse_duration_in_us_ = 125;
+      static constexpr auto max_repetition_period_ = 20000;
+      static constexpr auto target_timer_clock_rate_ = 10000000;
+      static constexpr auto microseconds_per_seconds_ = 1000000;
+      static constexpr auto ticks_per_us_ = target_timer_clock_rate_ / microseconds_per_seconds_;
   };
 
 }

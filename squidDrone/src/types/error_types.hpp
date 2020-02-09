@@ -13,8 +13,8 @@ namespace types{
     working,
     /// Configuration returned an error
     config_error,
-    /// parameter change failed
-    parameter_change_error
+    /// parameter failed
+    parameter_error
   };
 
 }
