@@ -4,7 +4,7 @@
 namespace propulsion{
 
   const auto LittleBee20A::SetPulseDuration(int pulse_duration, int repetition_period) noexcept -> types::HalError{
-    types::HalError error_state = types::HalError::working;
+    types::HalError error_state;
     const bool pulse_limit_breach = pulse_duration > oneshot_125_max_pulse_duration_in_us_ || pulse_duration < oneshot_125_min_pulse_duration_in_us_;
     const bool period_limit_breach = repetition_period < pulse_duration || repetition_period > max_repetition_period_;
     if(pulse_limit_breach || period_limit_breach){
