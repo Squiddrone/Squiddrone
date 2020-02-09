@@ -53,11 +53,10 @@ namespace propulsion{
       /// @param repetition_period Time between pulses in microseconds (pulse_duration - 20ms)
       /// @return types::HalError::working if there is no error
       ///         types::HalError::parameter_error if new pulse duration didn't work
-      ///         types::HalError::config_error if timer config didn't work
+      ///         types::HalError::config_error if timer config not done yet
       ///
       const auto SetPulseDuration(int pulse_duration, int repetition_period) noexcept -> types::HalError override;
-    
-    private:
+      
       ///
       /// @brief Does the initial reconfiguration based on prescaler
       /// @return types::HalError::working if everything went fine
@@ -65,6 +64,7 @@ namespace propulsion{
       ///
       const auto ConfigureTimer() noexcept -> types::HalError;
 
+    private:
       ///
       /// @brief Set Oneshot125 pulse and period
       /// The actual timer period and pulse length is calculated using MCU_CLOCK and its dividers.
