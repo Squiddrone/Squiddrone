@@ -28,7 +28,7 @@ namespace propulsion{
       /// The only thing this constructor does, is to set the protected 
       /// member variable timer_.
       ///
-      explicit Esc(TIM_HandleTypeDef& timer): timer_(timer){};
+      explicit Esc(TIM_HandleTypeDef* timer): timer_(timer){};
 
       ///
       /// @brief The default destructor is sufficent
@@ -52,14 +52,14 @@ namespace propulsion{
       /// @param pulse_duration Desired Pulse duration in microseconds
       /// @return A types::HalError type confirmation whether it was working or not
       ///
-      virtual const auto SetPulseDuration(int pulse_duration) noexcept -> decltype(types::HalError::working) = 0;
+      virtual const auto SetPulseDuration(int pulse_duration, int repetition_period) noexcept -> decltype(types::HalError::working) = 0;
 
     protected:
       ///
       /// Hal provided timer interface is protected, so
       /// the concrete implementation can use it.
       ///
-      TIM_HandleTypeDef& timer_;
+      TIM_HandleTypeDef* timer_;
   };  
 
 }
