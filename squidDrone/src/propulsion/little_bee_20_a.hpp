@@ -48,7 +48,7 @@ namespace propulsion{
       /// 1     |     |             |     |
       /// 0 ____|     |_____________|     |______
       ///       ^-----^ pulse_duration
-      ///       ^-------------------^ repition_period
+      ///       ^-------------------^ repetition_period
       /// @param pulse_duration The Oneshot125 pulse duration (125us - 250us)
       /// @param repetition_period Time between pulses in microseconds (pulse_duration - 20ms)
       /// @return types::HalError::working if there is no error
