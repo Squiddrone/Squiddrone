@@ -4,20 +4,20 @@
 namespace propulsion{
 
   const auto LittleBee20A::SetPulseDuration(int pulse_duration, int repetition_period) noexcept -> types::HalError{
-    types::HalError error_state;
     const bool pulse_limit_breach = pulse_duration > oneshot_125_max_pulse_duration_in_us_ || pulse_duration < oneshot_125_min_pulse_duration_in_us_;
     const bool period_limit_breach = repetition_period < pulse_duration || repetition_period > max_repetition_period_;
     if(pulse_limit_breach || period_limit_breach){
-      error_state = types::HalError::parameter_error;
+      return types::HalError::parameter_error;
     }else{
+      types::HalError error_state;
       if(!timer_is_configured_){
-          error_state = ConfigureTimer();
+        error_state = ConfigureTimer();
       }
       const std::uint32_t pulse_duration_in_ticks = pulse_duration * ticks_per_us_;
       const std::uint32_t period = repetition_period * ticks_per_us_;
       error_state = SetPwm(period, pulse_duration_in_ticks);
+      return error_state;
     }
-    return error_state;
   }
 
   const auto LittleBee20A::ConfigureTimer() noexcept -> types::HalError{
