@@ -11,7 +11,8 @@ namespace propulsion{
       return types::HalError::parameter_error;
     }else{
       if(!timer_is_configured_){
-        if(ConfigureTimer() != types::HalError::working){
+        auto configuration_error_state = ConfigureTimer();
+        if(configuration_error_state != types::HalError::working){
           return types::HalError::config_error;
         }
       }
