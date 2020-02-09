@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 #include "esc.hpp"
-#include "stm32g4xx_hal_tim.h"
+#include "stm32g4xx.h"
 
 
 namespace{

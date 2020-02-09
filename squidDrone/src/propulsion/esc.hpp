@@ -1,7 +1,7 @@
 #ifndef SRC_PROPULSION_ESC_HPP_
 #define SRC_PROPULSION_ESC_HPP_
 
-#include "stm32g4xx_hal_tim.h"
+#include "stm32g4xx.h"
 #include "error_types.hpp"
 
 namespace propulsion{
