@@ -19,7 +19,7 @@ namespace{
         return min_pulse_;
       }
 
-      const auto SetPulseDuration(int pulse_duration) noexcept -> decltype(types::HalError::working){
+      const auto SetPulseDuration(int pulse_duration, int repetition_period) noexcept -> decltype(types::HalError::working){
         return types::HalError::parameter_change_error;
       }
 
@@ -50,7 +50,7 @@ namespace{
   TEST(esc_test, set_pulse_duration){
     TIM_HandleTypeDef mock_timer;
     ConcreteEsc unit_under_test{&mock_timer};
-    ASSERT_EQ(types::HalError::parameter_change_error, unit_under_test.SetPulseDuration(1));
+    ASSERT_EQ(types::HalError::parameter_change_error, unit_under_test.SetPulseDuration(1,1));
   }
 
 }
