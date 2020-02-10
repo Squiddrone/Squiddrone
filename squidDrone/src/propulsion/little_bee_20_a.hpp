@@ -53,7 +53,7 @@ namespace propulsion{
       /// @param repetition_period Time between pulses in microseconds (pulse_duration - 20ms)
       /// @return types::HalError::working if there is no error
       ///         types::HalError::parameter_error if new pulse duration didn't work
-      ///         types::HalError::config_error if timer config not done yet
+      ///         types::HalError::config_error if timer config didn't work
       ///
       const auto SetPulseDuration(int pulse_duration, int repetition_period) noexcept -> types::HalError override;
 
