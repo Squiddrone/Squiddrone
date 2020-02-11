@@ -17,27 +17,27 @@
 #include "mcu_settings.h"
 
 int main(){
-	HAL_Init();
-	SystemClock_Config();
-	MX_GPIO_Init();
-	MX_USART1_UART_Init();
-	MX_USART2_UART_Init();
-	MX_CORDIC_Init();
-	MX_CRC_Init();
-	MX_FMAC_Init();
-	MX_I2C2_Init();
-    MX_SPI1_Init();
-    MX_TIM2_Init();
-    MX_TIM3_Init();
-    MX_TIM4_Init();
-    MX_TIM16_Init();
-    MX_TIM17_Init();
+  HAL_Init();
+  SystemClock_Config();
+  MX_GPIO_Init();
+  MX_USART1_UART_Init();
+  MX_USART2_UART_Init();
+  MX_CORDIC_Init();
+  MX_CRC_Init();
+  MX_FMAC_Init();
+  MX_I2C2_Init();
+  MX_SPI1_Init();
+  MX_TIM2_Init();
+  MX_TIM3_Init();
+  MX_TIM4_Init();
+  MX_TIM16_Init();
+  MX_TIM17_Init();
 
-	while(1){
-		HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-		HAL_Delay(500);
-	}
-	return 0;
+  while(1){
+    HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+    HAL_Delay(500);
+  }
+  return 0;
 }
 
 

@@ -10,11 +10,11 @@ namespace types{
   ///
   enum class HalError: std::uint16_t{
     /// Hal function is working
-    working,
+    WORKING,
     /// Configuration returned an error
-    config_error,
+    CONFIG_ERROR,
     /// parameter failed
-    parameter_error
+    PARAMETER_ERROR
   };
 
 }
