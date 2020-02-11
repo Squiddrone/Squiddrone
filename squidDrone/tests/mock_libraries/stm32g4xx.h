@@ -1,8 +1,14 @@
-#ifndef TESTS_MOCK_LIBRARIES_STM32G4XX_HAL_TIM_H_
-#define TESTS_MOCK_LIBRARIES_STM32G4XX_HAL_TIM_H_
+#ifndef TESTS_MOCK_LIBRARIES_STM32G4XX_H_
+#define TESTS_MOCK_LIBRARIES_STM32G4XX_H_
 
-using TIM_HandleTypeDef = struct TimerType{
-    int test_member;
-};
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "stm32g4xx_hal_tim.h"
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

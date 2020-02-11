@@ -18,7 +18,8 @@ endmacro()
 
 package_add_test(thrust_vector types/thrust_vector_test.cpp)
 package_add_test(abstract_esc propulsion/esc_test.cpp)
-package_add_test(concrete_esc_little_bee_20_a propulsion/little_bee_20_a_test.cpp)
+package_add_test(concrete_esc_little_bee_20_a propulsion/little_bee_20_a_test.cpp ${CMAKE_SOURCE_DIR}/src/propulsion/little_bee_20_a.cpp)
+target_compile_definitions(concrete_esc_little_bee_20_a PRIVATE STM32G431xx)
 
 if(CODE_COVERAGE)
     SETUP_TARGET_FOR_COVERAGE_LCOV(

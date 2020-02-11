@@ -52,7 +52,7 @@ namespace propulsion{
       /// @param pulse_duration Desired Pulse duration in microseconds
       /// @return A types::HalError type confirmation whether it was working or not
       ///
-      virtual const auto SetPulseDuration(int pulse_duration, int repetition_period) noexcept -> decltype(types::HalError::working) = 0;
+      virtual const auto SetPulseDuration(int pulse_duration, int repetition_period) noexcept ->  types::HalError = 0;
 
     protected:
       ///
