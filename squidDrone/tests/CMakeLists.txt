@@ -18,7 +18,11 @@ endmacro()
 
 package_add_test(thrust_vector types/thrust_vector_test.cpp)
 package_add_test(abstract_esc propulsion/esc_test.cpp)
-package_add_test(concrete_esc_little_bee_20_a propulsion/little_bee_20_a_test.cpp ${CMAKE_SOURCE_DIR}/src/propulsion/little_bee_20_a.cpp)
+package_add_test(concrete_esc_little_bee_20_a 
+    propulsion/little_bee_20_a_test.cpp 
+    ${CMAKE_SOURCE_DIR}/src/propulsion/little_bee_20_a.cpp
+    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/stm32g4xx_hal_tim.c
+)
 target_compile_definitions(concrete_esc_little_bee_20_a PRIVATE STM32G431xx)
 
 if(CODE_COVERAGE)
