@@ -9,6 +9,8 @@ extern "C" {
 #include <stdint.h>
 #include "stm32g4xx_hal_def.h"
 
+#define NUM_RETURN_VALUES 2U
+
 #define TIM_OCPOLARITY_HIGH 0x00000000U
 #define TIM_OCFAST_DISABLE 0x00000000U
 #define TIM_OCMODE_PWM1 0x00000000U
@@ -41,7 +43,8 @@ typedef struct {
 typedef struct {
   TIM_HandleTypeDef* htim;
   uint32_t channel;
-  HAL_StatusTypeDef return_value;
+  HAL_StatusTypeDef return_value[NUM_RETURN_VALUES];
+  int which_return;
 } HalTimPwmStopMockValues;
 
 extern HalTimPwmStopMockValues hal_tim_pwm_stop_mock_values;
@@ -79,7 +82,8 @@ HAL_StatusTypeDef HAL_TIM_PWM_ConfigChannel(TIM_HandleTypeDef *htim, TIM_OC_Init
 
 typedef struct{
   TIM_HandleTypeDef* htim;
-  HAL_StatusTypeDef return_value;
+  HAL_StatusTypeDef return_value[NUM_RETURN_VALUES];
+  int which_return;
 } HalTimPwmInitMockValues;
 
 extern HalTimPwmInitMockValues hal_tim_pwm_init_mock_values;

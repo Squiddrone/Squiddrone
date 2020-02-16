@@ -8,7 +8,9 @@ HalTimPwmStopMockValues hal_tim_pwm_stop_mock_values;
 HAL_StatusTypeDef HAL_TIM_PWM_Stop(TIM_HandleTypeDef *htim, uint32_t Channel){
   hal_tim_pwm_stop_mock_values.htim = htim;
   hal_tim_pwm_stop_mock_values.channel = Channel;
-  return hal_tim_pwm_stop_mock_values.return_value;
+  HAL_StatusTypeDef return_value = hal_tim_pwm_stop_mock_values.return_value[hal_tim_pwm_stop_mock_values.which_return];
+  hal_tim_pwm_stop_mock_values.which_return ++;
+  return return_value;
 }
 
 HalTimCalcPscMockValues hal_tim_calc_psc_mock_values;
@@ -32,7 +34,9 @@ HalTimPwmInitMockValues hal_tim_pwm_init_mock_values;
 
 HAL_StatusTypeDef HAL_TIM_PWM_Init(TIM_HandleTypeDef *htim){
   hal_tim_pwm_init_mock_values.htim = htim;
-  return hal_tim_pwm_init_mock_values.return_value;
+  HAL_StatusTypeDef return_value = hal_tim_pwm_init_mock_values.return_value[hal_tim_pwm_init_mock_values.which_return];
+  hal_tim_pwm_init_mock_values.which_return ++;
+  return return_value;
 }
 
 HalTimPwmStartMockValues hal_tim_pwm_start_mock_values;

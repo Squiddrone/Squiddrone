@@ -72,6 +72,7 @@
     "sstream": "cpp",
     "stdexcept": "cpp",
     "streambuf": "cpp",
-    "typeinfo": "cpp"
+    "typeinfo": "cpp",
+    "stm32g4xx_hal_def.h": "c"
   }
 }
