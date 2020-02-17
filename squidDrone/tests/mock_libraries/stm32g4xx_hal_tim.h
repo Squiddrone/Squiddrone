@@ -43,8 +43,8 @@ typedef struct {
 typedef struct {
   TIM_HandleTypeDef* htim;
   uint32_t channel;
-  HAL_StatusTypeDef return_value[NUM_RETURN_VALUES];
   int which_return;
+  HAL_StatusTypeDef return_value[NUM_RETURN_VALUES];
 } HalTimPwmStopMockValues;
 
 extern HalTimPwmStopMockValues hal_tim_pwm_stop_mock_values;
@@ -82,8 +82,8 @@ HAL_StatusTypeDef HAL_TIM_PWM_ConfigChannel(TIM_HandleTypeDef *htim, TIM_OC_Init
 
 typedef struct{
   TIM_HandleTypeDef* htim;
-  HAL_StatusTypeDef return_value[NUM_RETURN_VALUES];
   int which_return;
+  HAL_StatusTypeDef return_value[NUM_RETURN_VALUES];
 } HalTimPwmInitMockValues;
 
 extern HalTimPwmInitMockValues hal_tim_pwm_init_mock_values;
