@@ -17,12 +17,26 @@ namespace types{
     static_assert(std::is_arithmetic<ElementType>::value, "Type is not arithmetic");
     static_assert(std::is_trivial<ElementType>::value, "Type is not trivial");
     static_assert(std::is_signed<ElementType>::value, "Unsigned type can't be used");
+
+    /// @brief  Default constructor is explicitly defaulted
     explicit ThrustVector() = default;
+
+    /// @brief Explicitly defaulted copy constructor
     explicit ThrustVector(const ThrustVector& other) = default;
+
+    /// @brief Explicitly defaulted move constructor
     explicit ThrustVector(ThrustVector&& other) = default;
+
+    /// @brief Custom constructor for all three elements  
     explicit ThrustVector(const ElementType x, const ElementType y, const ElementType z): x(x), y(y), z(z){};
+
+    /// X axis representation
     ElementType x;
+    
+    /// Y axis representation
     ElementType y;
+
+    /// Z axis representation
     ElementType z;
   };
 }
