@@ -22,8 +22,10 @@ namespace propulsion{
       ///
       /// @brief Custom constructor with needed timer pointer
       /// Raw pointer will be used in order to comply with C HAL
+      /// @param timer See ESC.hpp
+      /// @param channel See ESC.hpp
       ///
-      explicit LittleBee20A(TIM_HandleTypeDef* timer): Esc(timer), timer_is_configured_(false){}
+      explicit LittleBee20A(TIM_HandleTypeDef* timer, std::uint32_t channel): Esc(timer, channel), timer_is_configured_(false){}
       
       /// 
       /// @brief Implementation of abstract method for getting max pulse duration.  

@@ -15,6 +15,7 @@
 #include "spi_config.h"
 #include "timer_config.h"
 #include "mcu_settings.h"
+#include "little_bee_20_a.hpp"
 
 int main(){
   HAL_Init();
@@ -33,9 +34,17 @@ int main(){
   MX_TIM16_Init();
   MX_TIM17_Init();
 
+  static constexpr auto delay_time = 300;
+  static constexpr auto pulse_repetition = 500;
+  auto little_bee = propulsion::LittleBee20A(&htim16, TIM_CHANNEL_1);
+  const auto max_pulse = little_bee.GetMaxPulseDurationInMicroSeconds();
+  const auto min_pulse = little_bee.GetMinPulseDurationInMicroSeconds();
+
   while(1){
-    HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-    HAL_Delay(500);
+    little_bee.SetPulseDuration(min_pulse, pulse_repetition);
+    HAL_Delay(delay_time);
+    little_bee.SetPulseDuration(max_pulse, pulse_repetition);
+    HAL_Delay(delay_time);
   }
   return 0;
 }

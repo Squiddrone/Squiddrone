@@ -25,10 +25,11 @@ namespace propulsion{
       ///         the one to be used. 
       /// @param  timer The timer handle struct defined by hal driver 
       ///               stm32g4xx_hal_tim.h. 
+      /// @param  channel The used channel for this timer
       /// The only thing this constructor does, is to set the protected 
       /// member variable timer_.
       ///
-      explicit Esc(TIM_HandleTypeDef* timer): timer_(timer){};
+      explicit Esc(TIM_HandleTypeDef* timer, std::uint32_t channel): timer_(timer), channel_(channel){};
 
       ///
       /// @brief The default destructor is sufficent
@@ -50,6 +51,7 @@ namespace propulsion{
       ///
       /// @brief Abstract method for setting the pulse duration based on the min and max values
       /// @param pulse_duration Desired Pulse duration in microseconds
+      /// @param repetition_period Desired time until pulse is repeated
       /// @return A types::HalError type confirmation whether it was working or not
       ///
       virtual const auto SetPulseDuration(int pulse_duration, int repetition_period) noexcept ->  types::HalError = 0;
@@ -60,6 +62,9 @@ namespace propulsion{
       /// the concrete implementation can use it.
       ///
       TIM_HandleTypeDef* timer_;
+
+      /// The used channel number as can be seen stm32g4xx_hal_tim.h
+      std::uint32_t channel_;
   };  
 
 }

@@ -24,7 +24,7 @@ namespace propulsion{
   }
 
   const auto LittleBee20A::ConfigureTimer() noexcept -> types::HalError{
-    if(HAL_TIM_PWM_Stop(timer_, timer_->Channel) != HAL_OK){
+    if(HAL_TIM_PWM_Stop(timer_, channel_) != HAL_OK){
       return types::HalError::CONFIG_ERROR;
     }
     uint32_t prescaler_10_mhz = __HAL_TIM_CALC_PSC(TIMER_CLOCK, TARGET_TIMER_CLOCK_RATE_); //calculate timer input clock
@@ -37,7 +37,7 @@ namespace propulsion{
   }
 
   const auto LittleBee20A::SetPwm(std::uint32_t period, std::uint32_t pulse) const noexcept -> types::HalError{
-    if(HAL_TIM_PWM_Stop(timer_, timer_->Channel) != HAL_OK){
+    if(HAL_TIM_PWM_Stop(timer_, channel_) != HAL_OK){
       return types::HalError::CONFIG_ERROR;
     }
     TIM_OC_InitTypeDef new_timer_configuration = {0};
@@ -49,10 +49,10 @@ namespace propulsion{
     new_timer_configuration.Pulse = pulse;
     new_timer_configuration.OCPolarity = TIM_OCPOLARITY_HIGH;
     new_timer_configuration.OCFastMode = TIM_OCFAST_DISABLE;
-    if(HAL_TIM_PWM_ConfigChannel(timer_, &new_timer_configuration, timer_->Channel) != HAL_OK){
+    if(HAL_TIM_PWM_ConfigChannel(timer_, &new_timer_configuration, channel_) != HAL_OK){
       return types::HalError::CONFIG_ERROR;
     }
-    if(HAL_TIM_PWM_Start(timer_, timer_->Channel) != HAL_OK){
+    if(HAL_TIM_PWM_Start(timer_, channel_) != HAL_OK){
       return types::HalError::CONFIG_ERROR;
     }
     return types::HalError::WORKING;

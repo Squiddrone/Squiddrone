@@ -9,7 +9,7 @@ namespace{
   class LittleBeeEscTests: public ::testing::Test{
     protected:
       virtual void SetUp(){
-        unit_under_test_ = std::make_unique<propulsion::LittleBee20A>(&mock_timer);
+        unit_under_test_ = std::make_unique<propulsion::LittleBee20A>(&mock_timer, 2);
         legal_pulse_duration = 150;
         legal_repetition_period = 2000;
         hal_tim_pwm_stop_mock_values.which_return = 0;
@@ -26,6 +26,7 @@ namespace{
       }
 
       TIM_HandleTypeDef mock_timer;
+      std::uint32_t mock_channel;
       std::unique_ptr<propulsion::LittleBee20A> unit_under_test_;
       int legal_pulse_duration;
       int legal_repetition_period; 
