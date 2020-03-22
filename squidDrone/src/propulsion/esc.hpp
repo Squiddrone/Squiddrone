@@ -21,7 +21,7 @@ namespace propulsion{
       Esc() = delete;
 
       ///
-      /// @brief  The single argument custom constructor is
+      /// @brief  The custom constructor is
       ///         the one to be used. 
       /// @param  timer The timer handle struct defined by hal driver 
       ///               stm32g4xx_hal_tim.h. 
