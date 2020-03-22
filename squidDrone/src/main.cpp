@@ -34,10 +34,7 @@ int main(){
   MX_TIM16_Init();
   MX_TIM17_Init();
 
-
-  while(1){
-    
-  }
+  while(1){}
   return 0;
 }
 
