@@ -34,17 +34,9 @@ int main(){
   MX_TIM16_Init();
   MX_TIM17_Init();
 
-  static constexpr auto delay_time = 300;
-  static constexpr auto pulse_repetition = 500;
-  auto little_bee = propulsion::LittleBee20A(&htim16, TIM_CHANNEL_1);
-  const auto max_pulse = little_bee.GetMaxPulseDurationInMicroSeconds();
-  const auto min_pulse = little_bee.GetMinPulseDurationInMicroSeconds();
 
   while(1){
-    little_bee.SetPulseDuration(min_pulse, pulse_repetition);
-    HAL_Delay(delay_time);
-    little_bee.SetPulseDuration(max_pulse, pulse_repetition);
-    HAL_Delay(delay_time);
+    
   }
   return 0;
 }
