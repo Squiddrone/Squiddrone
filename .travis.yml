@@ -1,43 +1,23 @@
 notifications:
   email: false
 
-sudo: false
+services:
+  - docker
 
-language: c
+env:
+  - DOCKER_CONTAINER=thorshamster/squiddrone:latest
 
-matrix:
-  fast_finish: true
-  include:
-    - name: 9-2019-q4
-      env: GCC_URL="https://developer.arm.com/-/media/Files/downloads/gnu-rm/9-2019q4/RC2.1/gcc-arm-none-eabi-9-2019-q4-major-x86_64-linux.tar.bz2?revision=6e63531f-8cb1-40b9-bbfc-8a57cdfc01b4&la=en&hash=F761343D43A0587E8AC0925B723C04DBFB848339"
-
-addons:
-  apt:
-    packages:
-    - libc6-i386
-    - lcov
-    - doxygen
-    - graphviz
-
-cache:
-  directories:
-  - $HOME/arm-gcc-toolchain
-
-install:
-  - ./install_arm_toolchain.sh
-  - export PATH=$HOME/arm-gcc-toolchain/bin:$PATH
-
-before_script:
-  - arm-none-eabi-gcc --version
+before_install:
+  - docker pull ${DOCKER_CONTAINER}
 
 script:
-  - ./build.sh
+  - docker run --rm -v $(pwd):/usr/project ${DOCKER_CONTAINER} ./build.sh
 
 after_script:
-  - ./build_unittests.sh
-  - ./generate_coverage.sh
-  - ./upload_report_ci.sh
-  - ./upload_codecov.sh
+  - docker run --rm -v $(pwd):/usr/project ${DOCKER_CONTAINER} ./build_unittests.sh
+  - docker run --rm -v $(pwd):/usr/project ${DOCKER_CONTAINER} ./generate_coverage.sh
+  - docker run --rm -v $(pwd):/usr/project ${DOCKER_CONTAINER} ./upload_report_ci.sh
+  - docker run --rm -v $(pwd):/usr/project ${DOCKER_CONTAINER} ./upload_codecov.sh
 
 deploy:
   - provider: releases
