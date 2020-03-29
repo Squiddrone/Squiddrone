@@ -3,7 +3,7 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/elheck/squiddrone/badge)](https://www.codefactor.io/repository/github/elheck/squiddrone)
 [![codecov](https://codecov.io/gh/elheck/squiddrone/branch/dev/graph/badge.svg)](https://codecov.io/gh/elheck/squiddrone)
 [![badge](https://report.ci/status/elheck/Squiddrone/badge.svg?branch=dev)](https://report.ci/status/elheck/Squiddrone?branch=dev)
-[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/elheck/Squiddrone) 
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/elheck/Squiddrone/tree/dev) 
 
 
 # Squiddrone
