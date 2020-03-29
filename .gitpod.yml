@@ -1,5 +1,4 @@
-image:
-  file: Dockerfile
+image: thorshamster/squiddrone:1.0
 
 vscode:
   extensions:
