@@ -1,4 +1,4 @@
-image: thorshamster/squiddrone:1.0
+image: thorshamster/squiddrone:1.1
 
 vscode:
   extensions:
