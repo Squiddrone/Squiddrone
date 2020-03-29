@@ -18,8 +18,9 @@ script:
 after_script:
   - docker run --rm -v $(pwd):/usr/project ${DOCKER_CONTAINER} ./build_unittests.sh
   - docker run --rm -v $(pwd):/usr/project ${DOCKER_CONTAINER} ./generate_coverage.sh
-  - docker run --rm -v $(pwd):/usr/project ${DOCKER_CONTAINER} ./upload_report_ci.sh
-  - docker run --rm -v $(pwd):/usr/project ${DOCKER_CONTAINER} ./upload_codecov.sh
+  - docker run --env GITHUB_TOKEN=$GITHUB_TOKEN --rm -v $(pwd):/usr/project ${DOCKER_CONTAINER} ./upload_report_ci.sh
+  - ci_env=`bash <(curl -s https://codecov.io/env)`
+  - docker run $ci_env --rm -v $(pwd):/usr/project ${DOCKER_CONTAINER} ./upload_codecov.sh
 
 deploy:
   - provider: releases
