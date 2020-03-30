@@ -8,7 +8,7 @@ namespace types{
   ///
   /// @brief A error type enum
   ///
-  enum class HalError: std::uint16_t{
+  enum class HalError: int{
     /// Hal function is working
     WORKING,
     /// Configuration returned an error
