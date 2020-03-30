@@ -3,6 +3,7 @@
 
 #include "stm32g4xx.h"
 #include "esc.hpp"
+#include "cstdint"
 
 
 namespace propulsion{

@@ -1,12 +1,17 @@
 #include "little_bee_20_a.hpp"
 #include "globals.hpp"
 
+
 namespace propulsion{
 
   const auto LittleBee20A::SetPulseDuration(int pulse_duration, int repetition_period) noexcept -> types::HalError{
     types::HalError error_state;
-    const bool pulse_limit_breach = pulse_duration > ONESHOT_125_MAX_PULSE_DURATION_IN_US_ || pulse_duration < ONESHOT_125_MIN_PULSE_DURATION_IN_US_;
-    const bool period_limit_breach = repetition_period < pulse_duration || repetition_period > MAX_REPETITION_PERIOD_;
+    const bool pulse_limit_breach = 
+      pulse_duration > ONESHOT_125_MAX_PULSE_DURATION_IN_US_ || 
+      pulse_duration < ONESHOT_125_MIN_PULSE_DURATION_IN_US_;
+    const bool period_limit_breach = 
+      repetition_period < pulse_duration || 
+      repetition_period > MAX_REPETITION_PERIOD_;
     if(pulse_limit_breach || period_limit_breach){
       return types::HalError::PARAMETER_ERROR;
     }else{
@@ -16,8 +21,10 @@ namespace propulsion{
           return types::HalError::CONFIG_ERROR;
         }
       }
-      const std::uint32_t pulse_duration_in_ticks = static_cast<std::uint32_t>(pulse_duration * TICKS_PER_MICROSECOND_);
-      const std::uint32_t period = static_cast<std::uint32_t>(repetition_period * TICKS_PER_MICROSECOND_);
+      const std::uint32_t pulse_duration_in_ticks = 
+        static_cast<std::uint32_t>(pulse_duration * TICKS_PER_MICROSECOND_);
+      const std::uint32_t period = 
+        static_cast<std::uint32_t>(repetition_period * TICKS_PER_MICROSECOND_);
       error_state = SetPwm(period, pulse_duration_in_ticks);
     }
     return error_state;
@@ -27,7 +34,8 @@ namespace propulsion{
     if(HAL_TIM_PWM_Stop(timer_, channel_) != HAL_OK){
       return types::HalError::CONFIG_ERROR;
     }
-    uint32_t prescaler_10_mhz = __HAL_TIM_CALC_PSC(TIMER_CLOCK, TARGET_TIMER_CLOCK_RATE_); //calculate timer input clock
+    std::uint32_t prescaler_10_mhz = 
+      __HAL_TIM_CALC_PSC(TIMER_CLOCK, TARGET_TIMER_CLOCK_RATE_); //calculate timer input clock
     timer_->Init.Prescaler = prescaler_10_mhz;
     if(HAL_TIM_PWM_Init(timer_) != HAL_OK){
       return types::HalError::CONFIG_ERROR;

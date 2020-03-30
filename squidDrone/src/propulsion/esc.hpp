@@ -27,7 +27,7 @@ namespace propulsion{
       ///               stm32g4xx_hal_tim.h. 
       /// @param  channel The used channel for this timer
       /// The only thing this constructor does, is to set the protected 
-      /// member variable timer_.
+      /// member variables timer_ and channel_.
       ///
       explicit Esc(TIM_HandleTypeDef* timer, std::uint32_t channel): timer_(timer), channel_(channel){};
 
