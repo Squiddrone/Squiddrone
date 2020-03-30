@@ -63,6 +63,13 @@ namespace propulsion{
       const auto SetPulseDuration(int pulse_duration, int repetition_period) noexcept -> types::HalError override;
 
     private:
+      static constexpr auto ONESHOT_125_MAX_PULSE_DURATION_IN_US_ = 250;
+      static constexpr auto ONESHOT_125_MIN_PULSE_DURATION_IN_US_ = 125;
+      static constexpr auto MAX_REPETITION_PERIOD_ = 20000;
+      static constexpr auto TARGET_TIMER_CLOCK_RATE_ = 10000000;
+      static constexpr auto MICROSECONDS_PER_SECOND_ = 1000000;
+      static constexpr auto TICKS_PER_MICROSECOND_ = TARGET_TIMER_CLOCK_RATE_ / MICROSECONDS_PER_SECOND_;
+ 
       ///
       /// @brief Does the initial reconfiguration based on prescaler
       /// @return types::HalError::working if everything went fine
@@ -83,12 +90,6 @@ namespace propulsion{
       const auto SetPwm(std::uint32_t period, std::uint32_t pulse) const noexcept -> types::HalError;
 
       bool timer_is_configured_;
-      static constexpr auto ONESHOT_125_MAX_PULSE_DURATION_IN_US_ = 250;
-      static constexpr auto ONESHOT_125_MIN_PULSE_DURATION_IN_US_ = 125;
-      static constexpr auto MAX_REPETITION_PERIOD_ = 20000;
-      static constexpr auto TARGET_TIMER_CLOCK_RATE_ = 10000000;
-      static constexpr auto MICROSECONDS_PER_SECOND_ = 1000000;
-      static constexpr auto TICKS_PER_MICROSECOND_ = TARGET_TIMER_CLOCK_RATE_ / MICROSECONDS_PER_SECOND_;
   };
 
 }
