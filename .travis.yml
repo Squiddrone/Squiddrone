@@ -1,3 +1,5 @@
+dist: xenial
+
 notifications:
   email: false
 
@@ -27,12 +29,12 @@ deploy:
   - provider: releases
     api_key: $GITHUB_TOKEN
     file: "./squidDrone/build/SquidDrone.bin"
-    skip_cleanup: true
-    draft: true
+    cleanup: true
+    overwrite: true
     on:
-      all_branches: true
+      tags: true
   - provider: pages
-    skip_cleanup: true
+    cleanup: true
     local_dir: ./squidDrone/build/doc_doxygen/html
     github_token: $GITHUB_TOKEN
     on:
