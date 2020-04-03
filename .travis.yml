@@ -27,7 +27,7 @@ deploy:
   - provider: releases
     api_key: $GITHUB_TOKEN
     file: "./squidDrone/build/SquidDrone.bin"
-    skip_cleanup: true
+    cleanup: true
     overwrite: true
     on:
       tags: true
