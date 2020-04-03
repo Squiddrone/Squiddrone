@@ -28,9 +28,9 @@ deploy:
     api_key: $GITHUB_TOKEN
     file: "./squidDrone/build/SquidDrone.bin"
     skip_cleanup: true
-    draft: true
+    overwrite: true
     on:
-      all_branches: true
+      tags: true
   - provider: pages
     skip_cleanup: true
     local_dir: ./squidDrone/build/doc_doxygen/html
