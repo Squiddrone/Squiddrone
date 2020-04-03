@@ -34,7 +34,7 @@ deploy:
     on:
       tags: true
   - provider: pages
-    skip_cleanup: true
+    cleanup: true
     local_dir: ./squidDrone/build/doc_doxygen/html
     github_token: $GITHUB_TOKEN
     on:
