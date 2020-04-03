@@ -1,0 +1,62 @@
+#ifndef SRC_PROPULSION_MOTOR_HPP
+#define SRC_PROPULSION_MOTOR_HPP
+
+#include <memory>
+
+///needed for swapping header in unittesting
+#ifndef UNIT_TEST
+#include "esc.hpp"
+#else
+#include "mock_classes.hpp"
+#endif
+
+namespace propulsion{
+    
+  ///
+  /// @class Motor 
+  /// @brief This abstract class is the interface for implementing
+  /// specific motor types 
+  ///
+  class Motor{
+    public:
+      ///
+      /// @brief Default constructor not needed
+      ///
+      Motor() = delete;
+
+      /// 
+      /// @brief This custom ctor is to only one to be used
+      /// @param esc A unique_ptr to the abstract base class of 
+      ///            all ESCs. The inheriting class should be 
+      ///            intialized with a specialized ESC casted to 
+      ///            to the ESC base class
+      ///
+      explicit Motor(std::unique_ptr<Esc> esc): esc_(std::move(esc)){}
+
+      ///
+      /// @brief Default behavior of Motor dtor is sufficent, because
+      ///        unique_ptr gets deleted if it goes out of scope
+      ///
+      virtual ~Motor() = default;
+
+      ///
+      /// @brief Returns the current speed of the motor converted to 
+      ///        percent
+      ///
+      virtual auto GetCurrentSpeedInPercent() const noexcept -> float = 0;
+
+      ///
+      /// @brief Handles setting rotational speed of the motor via the Esc
+      /// @param speed Speed in percent that should be reached by this motor
+      ///
+      virtual auto SetSpeedInPercent(const float speed) noexcept -> void = 0;
+  
+    protected:
+      /// Holds the local reference to a concrete ESC object
+      std::unique_ptr<Esc> esc_;
+  };
+}
+
+
+
+#endif
