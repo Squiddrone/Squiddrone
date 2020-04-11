@@ -6,29 +6,29 @@
 namespace types{
 
   ///
-  /// @brief A 3 element type of variable datatype, which is meant to be used in the context of thrust
+  /// @brief A 3 element type of variable datatype, which is meant to be used in the context of euclidean vectors
   /// @tparam ElementType The underlying datatype of each of the three elements.
   ///                     Underlying type needs to be arithmetic and trivial. 
-  ///                     It also needs to be signed in order to allow negative thrust.
+  ///                     It also needs to be signed in order to allow negative values.
   ///
   template<typename ElementType>
-  struct ThrustVector
+  struct EuclideanVector
   {
     static_assert(std::is_arithmetic<ElementType>::value, "Type is not arithmetic");
     static_assert(std::is_trivial<ElementType>::value, "Type is not trivial");
     static_assert(std::is_signed<ElementType>::value, "Unsigned type can't be used");
 
     /// @brief  Default constructor is explicitly defaulted
-    explicit ThrustVector() = default;
+    explicit EuclideanVector() = default;
 
     /// @brief Explicitly defaulted copy constructor
-    explicit ThrustVector(const ThrustVector& other) = default;
+    explicit EuclideanVector(const EuclideanVector& other) = default;
 
     /// @brief Explicitly defaulted move constructor
-    explicit ThrustVector(ThrustVector&& other) = default;
+    explicit EuclideanVector(EuclideanVector&& other) = default;
 
     /// @brief Custom constructor for all three elements  
-    explicit ThrustVector(const ElementType x, const ElementType y, const ElementType z): x(x), y(y), z(z){};
+    explicit EuclideanVector(const ElementType x, const ElementType y, const ElementType z): x(x), y(y), z(z){};
 
     /// X axis representation
     ElementType x;
