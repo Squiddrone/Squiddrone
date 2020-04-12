@@ -9,6 +9,7 @@ macro(package_add_test TESTNAME)
             ${CMAKE_SOURCE_DIR}/src
             ${CMAKE_SOURCE_DIR}/src/types
             ${CMAKE_SOURCE_DIR}/src/propulsion
+            ${CMAKE_SOURCE_DIR}/src/i2c
             ${CMAKE_SOURCE_DIR}/src/imu
             ${CMAKE_SOURCE_DIR}/tests/mock_libraries
     )
@@ -25,7 +26,10 @@ package_add_test(concrete_esc_little_bee_20_a
     ${CMAKE_SOURCE_DIR}/tests/mock_libraries/stm32g4xx_hal_tim.c
 )
 target_compile_definitions(concrete_esc_little_bee_20_a PRIVATE STM32G431xx)
-package_add_test(imu_interface imu/imu_tests.cpp)
+package_add_test(imu_interface 
+    imu/imu_tests.cpp
+    ${CMAKE_SOURCE_DIR}/src/imu/imu_interface.cpp
+)
 
 if(CODE_COVERAGE)
     SETUP_TARGET_FOR_COVERAGE_LCOV(
