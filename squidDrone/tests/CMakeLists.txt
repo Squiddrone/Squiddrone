@@ -17,8 +17,7 @@ macro(package_add_test TESTNAME)
     target_compile_definitions(${TESTNAME} PRIVATE UNIT_TEST STM32G431xx)
 endmacro()
 
-package_add_test(thrust_vector types/thrust_vector_test.cpp)
-
+package_add_test(euclidean_vector types/euclidean_vector_test.cpp)
 package_add_test(abstract_esc propulsion/esc_test.cpp)
 
 package_add_test(concrete_esc_little_bee_20_a 
@@ -35,7 +34,7 @@ if(CODE_COVERAGE)
         NAME coverage                 
         EXECUTABLE ctest -j ${n_cores} # Executable in PROJECT_BINARY_DIR
         DEPENDENCIES
-            thrust_vector
+            euclidean_vector
             abstract_esc
             concrete_esc_little_bee_20_a
             abstract_motor
