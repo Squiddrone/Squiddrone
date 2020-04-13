@@ -23,20 +23,25 @@ types::AccelerometerSensitivity InertialMeasurement::GetAccelerometerSensitivity
 
 types::EuclideanVector<float> InertialMeasurement::GetGyroscope(void) noexcept
 {
-  //types::EuclideanVector<float> value{7.5, 8.5, 9.5};
-  //return value;
+  types::EuclideanVector<float> value{0, 0, 0};
+  return value;
 }
 
 types::EuclideanVector<float> InertialMeasurement::GetAccelerometer(void) noexcept
 {
+  types::EuclideanVector<float> value{0, 0, 0};
+  return value;
 }
 
 types::EuclideanVector<float> InertialMeasurement::GetMagnetometer(void) noexcept
 {
+  types::EuclideanVector<float> value{0, 0, 0};
+  return value;
 }
 
 int InertialMeasurement::GetTemperature(void) noexcept
 {
+  return 0;
 }
 
 } // namespace imu
