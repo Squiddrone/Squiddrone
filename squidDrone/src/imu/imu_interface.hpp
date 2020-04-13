@@ -15,7 +15,7 @@ namespace imu
     public:
       InertialMeasurementInterface() = delete;
       virtual ~InertialMeasurementInterface() = default;
-      explicit InertialMeasurementInterface(i2c::I2CHandler i2c_handler): i2c_handler_(i2c_handler){}
+      explicit InertialMeasurementInterface(i2c::I2CHandler i2c_handler): i2c_handler_(i2c_handler){};
       virtual void SetGyroscopeSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept;
       virtual types::GyroscopeSensitivity GetGyroscopeSensitivity(void) noexcept;
       virtual void SetAccelerometerSensitivity(types::AccelerometerSensitivity accelerometer_sensitivity) noexcept;
