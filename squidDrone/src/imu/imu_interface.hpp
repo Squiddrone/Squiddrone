@@ -14,17 +14,17 @@ namespace imu
   {
     public:
       InertialMeasurementInterface() = delete;
-      ~InertialMeasurementInterface() = default;
+      virtual ~InertialMeasurementInterface() = default;
       explicit InertialMeasurementInterface(i2c::I2CHandler i2c_handler): i2c_handler_(i2c_handler){}
-      void SetGyroscopeSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept;
-      types::GyroscopeSensitivity GetGyroscopeSensitivity(void) noexcept;
-      void SetAccelerometerSensitivity(types::AccelerometerSensitivity accelerometer_sensitivity) noexcept;
-      types::AccelerometerSensitivity GetAccelerometerSensitivity(void) noexcept;
-      types::EuclideanVector<float> GetGyroscope(void) noexcept;
-      types::EuclideanVector<float> GetAccelerometer(void) noexcept;
-      types::EuclideanVector<float> GetMagnetometer(void) noexcept;
-      int GetTemperature(void) noexcept;
-    private:
+      virtual void SetGyroscopeSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept;
+      virtual types::GyroscopeSensitivity GetGyroscopeSensitivity(void) noexcept;
+      virtual void SetAccelerometerSensitivity(types::AccelerometerSensitivity accelerometer_sensitivity) noexcept;
+      virtual types::AccelerometerSensitivity GetAccelerometerSensitivity(void) noexcept;
+      virtual types::EuclideanVector<float> GetGyroscope(void) noexcept;
+      virtual types::EuclideanVector<float> GetAccelerometer(void) noexcept;
+      virtual types::EuclideanVector<float> GetMagnetometer(void) noexcept;
+      virtual int GetTemperature(void) noexcept;
+    protected:
       i2c::I2CHandler i2c_handler_;
   };
 
