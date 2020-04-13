@@ -21,11 +21,11 @@ namespace types{
     /// @brief  Default constructor is explicitly defaulted
     explicit EuclideanVector() = default;
 
-    /// @brief Explicitly defaulted copy constructor
-    explicit EuclideanVector(const EuclideanVector& other) = default;
+    /// @brief Defaulted copy constructor
+    EuclideanVector(const EuclideanVector& other) = default;
 
-    /// @brief Explicitly defaulted move constructor
-    explicit EuclideanVector(EuclideanVector&& other) = default;
+    /// @brief Defaulted move constructor
+    EuclideanVector(EuclideanVector&& other) = default;
 
     /// @brief Custom constructor for all three elements  
     explicit EuclideanVector(const ElementType x, const ElementType y, const ElementType z): x(x), y(y), z(z){};
