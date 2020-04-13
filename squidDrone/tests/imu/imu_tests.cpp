@@ -95,30 +95,30 @@ namespace{
     i2c::I2CHandler i2c_handler;
     imu::InertialMeasurement imu_interface(i2c_handler);
     types::EuclideanVector<float> expected_value{1.5, 2.5, 3.5};
-    //types::EuclideanVector<float> gyroscope_return = imu_interface.GetGyroscope();
-    // EXPECT_EQ(gyroscope_return.x, expected_value.x);
-    // EXPECT_EQ(gyroscope_return.y, expected_value.y);
-    // EXPECT_EQ(gyroscope_return.z, expected_value.z);
+    types::EuclideanVector<float> gyroscope_return = imu_interface.GetGyroscope();
+    EXPECT_EQ(gyroscope_return.x, expected_value.x);
+    EXPECT_EQ(gyroscope_return.y, expected_value.y);
+    EXPECT_EQ(gyroscope_return.z, expected_value.z);
   }
 
   TEST(imu, interface_get_accelerometer){
     i2c::I2CHandler i2c_handler;
     imu::InertialMeasurement imu_interface(i2c_handler);
     types::EuclideanVector<float> expected_value{4.5, 5.5, 6.5};
-    //types::EuclideanVector<float> accelerometer_return = imu_interface.GetAccelerometer();
-    // EXPECT_EQ(accelerometer_return.x, expected_value.x);
-    // EXPECT_EQ(accelerometer_return.y, expected_value.y);
-    // EXPECT_EQ(accelerometer_return.z, expected_value.z);
+    types::EuclideanVector<float> accelerometer_return = imu_interface.GetAccelerometer();
+    EXPECT_EQ(accelerometer_return.x, expected_value.x);
+    EXPECT_EQ(accelerometer_return.y, expected_value.y);
+    EXPECT_EQ(accelerometer_return.z, expected_value.z);
   }
 
   TEST(imu, interface_get_magnetometer){
     i2c::I2CHandler i2c_handler;
     imu::InertialMeasurement imu_interface(i2c_handler);
     types::EuclideanVector<float> expected_value{7.5, 8.5, 9.5};
-    //types::EuclideanVector<float> magnetometer_return = imu_interface.GetMagnetometer();
-    // EXPECT_EQ(magnetometer_return.x, expected_value.x);
-    // EXPECT_EQ(magnetometer_return.y, expected_value.y);
-    // EXPECT_EQ(magnetometer_return.z, expected_value.z);
+    types::EuclideanVector<float> magnetometer_return = imu_interface.GetMagnetometer();
+    EXPECT_EQ(magnetometer_return.x, expected_value.x);
+    EXPECT_EQ(magnetometer_return.y, expected_value.y);
+    EXPECT_EQ(magnetometer_return.z, expected_value.z);
   }
 
   TEST(imu, interface_get_temperature){
