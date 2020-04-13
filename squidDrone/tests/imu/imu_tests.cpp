@@ -3,12 +3,40 @@
 
 namespace{
 
-  TEST(imu_interface, set_gyroscope_sensitivity){
+  TEST(imu, imu_interface_set_gyroscope_sensitivity_finest){
     i2c::I2CHandler i2c_handler;
     imu::InertialMeasurementInterface imu_interface(i2c_handler);
     types::GyroscopeSensitivity sensitivity = types::GyroscopeSensitivity::FINEST;
     imu_interface.SetGyroscopeSensitivity(sensitivity);
-    EXPECT_EQ(1, 2);
+    types::GyroscopeSensitivity gyroscope_sensitivity_return = imu_interface.GetGyroscopeSensitivity();
+    EXPECT_EQ(gyroscope_sensitivity_return, sensitivity);
+  }
+
+  TEST(imu, imu_interface_set_gyroscope_sensitivity_finer){
+    i2c::I2CHandler i2c_handler;
+    imu::InertialMeasurementInterface imu_interface(i2c_handler);
+    types::GyroscopeSensitivity sensitivity = types::GyroscopeSensitivity::FINER;
+    imu_interface.SetGyroscopeSensitivity(sensitivity);
+    types::GyroscopeSensitivity gyroscope_sensitivity_return = imu_interface.GetGyroscopeSensitivity();
+    EXPECT_EQ(gyroscope_sensitivity_return, sensitivity);
+  }
+
+  TEST(imu, imu_interface_set_gyroscope_sensitivity_rougher){
+    i2c::I2CHandler i2c_handler;
+    imu::InertialMeasurementInterface imu_interface(i2c_handler);
+    types::GyroscopeSensitivity sensitivity = types::GyroscopeSensitivity::ROUGHER;
+    imu_interface.SetGyroscopeSensitivity(sensitivity);
+    types::GyroscopeSensitivity gyroscope_sensitivity_return = imu_interface.GetGyroscopeSensitivity();
+    EXPECT_EQ(gyroscope_sensitivity_return, sensitivity);
+  }
+
+  TEST(imu, imu_interface_set_gyroscope_sensitivity_roughest){
+    i2c::I2CHandler i2c_handler;
+    imu::InertialMeasurementInterface imu_interface(i2c_handler);
+    types::GyroscopeSensitivity sensitivity = types::GyroscopeSensitivity::ROUGHEST;
+    imu_interface.SetGyroscopeSensitivity(sensitivity);
+    types::GyroscopeSensitivity gyroscope_sensitivity_return = imu_interface.GetGyroscopeSensitivity();
+    EXPECT_EQ(gyroscope_sensitivity_return, sensitivity);
   }
 
 }
