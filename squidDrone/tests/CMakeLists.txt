@@ -1,5 +1,6 @@
 
 include(AddGoogleTest)
+include(BundleAllTests)
 
 macro(package_add_test TESTNAME)
     add_executable(${TESTNAME} ${ARGN})
@@ -29,14 +30,20 @@ package_add_test(concrete_esc_little_bee_20_a
 package_add_test(abstract_motor propulsion/motor_test.cpp)
 
 
+SETUP_ALLTESTS_TARGET(
+    NAME all_tests                 
+    EXECUTABLE GTEST_COLOR=1 ctest --verbose -j ${n_cores}
+    DEPENDENCIES
+        euclidean_vector
+        abstract_esc
+        concrete_esc_little_bee_20_a
+)
+
 if(CODE_COVERAGE)
     SETUP_TARGET_FOR_COVERAGE_LCOV(
         NAME coverage                 
         EXECUTABLE ctest -j ${n_cores} # Executable in PROJECT_BINARY_DIR
         DEPENDENCIES
-            euclidean_vector
-            abstract_esc
-            concrete_esc_little_bee_20_a
-            abstract_motor
+            all_tests
     )
 endif(CODE_COVERAGE)
