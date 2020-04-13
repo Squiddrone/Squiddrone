@@ -6,4 +6,8 @@ namespace imu{
 
   }
 
+  types::GyroscopeSensitivity InertialMeasurementInterface::GetGyroscopeSensitivity(void) noexcept {
+    return types::GyroscopeSensitivity::ROUGHEST;
+  }
+
 }
