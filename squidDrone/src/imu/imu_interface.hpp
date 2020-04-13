@@ -18,6 +18,7 @@ namespace imu
       void SetGyroscopeSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept;
       types::GyroscopeSensitivity GetGyroscopeSensitivity(void) noexcept;
       void SetAccelerometerSensitivity(types::AccelerometerSensitivity accelerometer_sensitivity) noexcept;
+      types::AccelerometerSensitivity GetAccelerometerSensitivity(void) noexcept;
       types::EuclideanVector<float> GetGyroscope(void) noexcept;
       types::EuclideanVector<float> GetAccelerometer(void) noexcept;
       types::EuclideanVector<float> GetMagnetometer(void) noexcept;

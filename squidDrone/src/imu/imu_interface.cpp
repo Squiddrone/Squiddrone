@@ -10,4 +10,12 @@ namespace imu{
     return types::GyroscopeSensitivity::ROUGHEST;
   }
 
+  void InertialMeasurementInterface::SetAccelerometerSensitivity(types::AccelerometerSensitivity accelerometer_sensitivity) noexcept {
+
+  }
+
+  types::AccelerometerSensitivity InertialMeasurementInterface::GetAccelerometerSensitivity(void) noexcept {
+    return types::AccelerometerSensitivity::ROUGHEST;
+  }
+
 }
