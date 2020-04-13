@@ -12,12 +12,13 @@ namespace{
 
       explicit ConcreteMotor(): propulsion::Motor(std::make_unique<propulsion::Esc>()), speed_(1){}
 
-      auto GetCurrentSpeedInPercent() const noexcept -> float override{
+      auto GetCurrentSpeedInPercent() const noexcept -> const float override{
         return static_cast<float>(10.1);
       }
 
-      auto SetSpeedInPercent(const float speed) noexcept -> void override{
+      auto SetSpeedInPercent(const float speed) noexcept -> types::InputError override{
         speed_ = speed;
+        return types::InputError::INPUT_CORRECT;
       }
   };
 
@@ -35,6 +36,11 @@ namespace{
   TEST(motor_test, get_current_speed){
     ConcreteMotor unit_under_test{};
     ASSERT_FLOAT_EQ(10.1, unit_under_test.GetCurrentSpeedInPercent());
+  }
+
+  TEST(motor_test, set_current_speed_input_correct){
+    ConcreteMotor unit_under_test{};
+    ASSERT_EQ(types::InputError::INPUT_CORRECT, unit_under_test.SetSpeedInPercent(10.2));
   }
 }
 

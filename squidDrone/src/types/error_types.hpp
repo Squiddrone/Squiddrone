@@ -17,6 +17,18 @@ namespace types{
     PARAMETER_ERROR
   };
 
+  ///
+  /// @brief An input error enum for setter methods
+  ///
+  enum class InputError: int{
+    /// Target input is accepted
+    INPUT_CORRECT,
+    /// Target input is out of defined range
+    INPUT_OUT_OF_RANGE,
+    /// Target input is not accepted
+    INPUT_FAULTY
+  };
+
 }
 
 #endif 

@@ -2,6 +2,7 @@
 #define SRC_PROPULSION_MOTOR_HPP
 
 #include <memory>
+#include "error_types.hpp"
 
 ///needed for swapping header in unittesting
 #ifndef UNIT_TEST
@@ -42,14 +43,16 @@ namespace propulsion{
       ///
       /// @brief Returns the current speed of the motor converted to 
       ///        percent
+      /// @return Current speed in percent between 0 and 100
       ///
-      virtual auto GetCurrentSpeedInPercent() const noexcept -> float = 0;
+      virtual auto GetCurrentSpeedInPercent() const noexcept -> const float = 0;
 
       ///
       /// @brief Handles setting rotational speed of the motor via the Esc
       /// @param speed Speed in percent that should be reached by this motor
+      /// @param A typed::InputError to indicate whether it is faulty or not
       ///
-      virtual auto SetSpeedInPercent(const float speed) noexcept -> void = 0;
+      virtual auto SetSpeedInPercent(const float speed) noexcept -> types::InputError = 0;
   
     protected:
       /// Holds the local reference to a concrete ESC object

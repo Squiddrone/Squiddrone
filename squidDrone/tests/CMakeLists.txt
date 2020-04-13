@@ -28,6 +28,9 @@ package_add_test(concrete_esc_little_bee_20_a
 )
 
 package_add_test(abstract_motor propulsion/motor_test.cpp)
+package_add_test(letodar_2204 propulsion/letodar_2204_test.cpp
+    ${CMAKE_SOURCE_DIR}/src/propulsion/letodar_2204.cpp
+)
 
 
 SETUP_ALLTESTS_TARGET(
@@ -37,6 +40,7 @@ SETUP_ALLTESTS_TARGET(
         euclidean_vector
         abstract_esc
         concrete_esc_little_bee_20_a
+        letodar_2204
 )
 
 if(CODE_COVERAGE)
