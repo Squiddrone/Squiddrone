@@ -39,6 +39,14 @@ namespace{
     EXPECT_EQ(gyroscope_sensitivity_return, sensitivity);
   }
 
+  TEST(imu, imu_interface_get_gyroscope_sensitivity_default){
+    i2c::I2CHandler i2c_handler;
+    imu::InertialMeasurementInterface imu_interface(i2c_handler);
+    types::GyroscopeSensitivity sensitivity = types::GyroscopeSensitivity::FINEST;
+    types::GyroscopeSensitivity gyroscope_sensitivity_return = imu_interface.GetGyroscopeSensitivity();
+    EXPECT_EQ(gyroscope_sensitivity_return, sensitivity);
+  }
+
 }
 
 int main(int argc, char **argv) {
