@@ -9,7 +9,6 @@ macro(package_add_test TESTNAME)
             ${CMAKE_SOURCE_DIR}/src
             ${CMAKE_SOURCE_DIR}/src/types
             ${CMAKE_SOURCE_DIR}/src/propulsion
-            ${CMAKE_SOURCE_DIR}/src/i2c
             ${CMAKE_SOURCE_DIR}/src/imu
             ${CMAKE_SOURCE_DIR}/tests/mock_libraries
     )
