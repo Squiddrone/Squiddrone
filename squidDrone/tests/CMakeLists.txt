@@ -11,6 +11,7 @@ macro(package_add_test TESTNAME)
             ${CMAKE_SOURCE_DIR}/src/propulsion
             ${CMAKE_SOURCE_DIR}/src/imu
             ${CMAKE_SOURCE_DIR}/tests/mock_libraries
+            ${CMAKE_SOURCE_DIR}/tests/imu/mock_libraries
     )
     target_link_libraries(${TESTNAME} gtest gmock gtest_main)
     add_test(NAME ${TESTNAME} COMMAND ${TESTNAME} --gtest_output=xml:${TESTNAME}.xml)
@@ -27,6 +28,7 @@ package_add_test(concrete_esc_little_bee_20_a
 target_compile_definitions(concrete_esc_little_bee_20_a PRIVATE STM32G431xx)
 package_add_test(imu_interface 
     imu/imu_tests.cpp
+    imu/mock_libraries/generic_imu.cpp
     ${CMAKE_SOURCE_DIR}/src/imu/imu_interface.cpp
 )
 

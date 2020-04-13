@@ -1,5 +1,5 @@
-#ifndef SRC_I2C_HANDLER_HPP_
-#define SRC_I2C_HANDLER_HPP_
+#ifndef MOCK_I2C_HANDLER_HPP_
+#define MOCK_I2C_HANDLER_HPP_
 
 namespace i2c
 {
