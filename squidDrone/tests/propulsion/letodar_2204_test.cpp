@@ -5,7 +5,7 @@
 namespace{
   class Letodar2204Tests: public ::testing::Test{
     protected:
-      virtual void SetUp() override{
+      virtual void SetUp(){
         unit_under_test_ = std::make_unique<propulsion::LeTodar2204>(std::make_unique<propulsion::Esc>(esc_));
       }
 
