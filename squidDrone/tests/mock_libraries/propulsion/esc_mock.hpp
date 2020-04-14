@@ -1,3 +1,8 @@
+#ifndef TESTS_MOCK_LIBRARIES_PROPULSION_ESC_MOCK_HPP
+#define TESTS_MOCK_LIBRARIES_PROPULSION_ESC_MOCK_HPP
+#include "error_types.hpp"
+
+
 namespace propulsion{
   class Esc{
     public:
@@ -10,5 +15,9 @@ namespace propulsion{
       }
 
       auto SetPulseDuration(int pulse_duration, int repetition_period) noexcept -> types::HalError;
+  
+      types::HalError set_pulse_duration_return_value_ = types::HalError::WORKING;
   };
 }
+
+#endif

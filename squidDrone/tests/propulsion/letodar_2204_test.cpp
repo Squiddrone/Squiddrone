@@ -5,8 +5,14 @@
 namespace{
   class Letodar2204Tests: public ::testing::Test{
     protected:
-      virtual void SetUp(){
+      virtual void SetUp() override{
         unit_under_test_ = std::make_unique<propulsion::LeTodar2204>(std::make_unique<propulsion::Esc>(esc_));
+      }
+
+      virtual void SetUpWithReturnTypeForSetPulseDuration(types::HalError provoked_error){
+        propulsion::Esc new_esc;
+        new_esc.set_pulse_duration_return_value_ = provoked_error;
+        unit_under_test_ = std::make_unique<propulsion::LeTodar2204>(std::make_unique<propulsion::Esc>(new_esc));
       }
 
       propulsion::Esc esc_;
@@ -32,9 +38,13 @@ namespace{
     auto set_speed_return = unit_under_test_->SetSpeedInPercent(50.0);
     ASSERT_EQ(types::InputError::INPUT_CORRECT, set_speed_return);
   }
+
+  TEST_F(Letodar2204Tests, set_speed_in_percent_hal_error_triggered){
+    SetUpWithReturnTypeForSetPulseDuration(types::HalError::CONFIG_ERROR);
+    auto set_speed_return = unit_under_test_->SetSpeedInPercent(50.0);
+    ASSERT_EQ(types::InputError::INPUT_FAULTY, set_speed_return);
+  }
 }
-
-
 
 
 int main(int argc, char **argv) {

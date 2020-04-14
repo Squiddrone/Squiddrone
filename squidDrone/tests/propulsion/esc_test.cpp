@@ -11,11 +11,11 @@ namespace{
       using propulsion::Esc::timer_;
       explicit ConcreteEsc(TIM_HandleTypeDef* timer, std::uint32_t channel): propulsion::Esc(timer, channel) {}
  
-      const auto GetMaxPulseDurationInMicroSeconds() const noexcept  -> decltype(auto) override{
+      const auto GetMaxPulseDurationInMicroSeconds() const noexcept  -> int override{
         return max_pulse_;
       }
 
-      const auto GetMinPulseDurationInMicroSeconds() const noexcept -> decltype(auto) override{
+      const auto GetMinPulseDurationInMicroSeconds() const noexcept -> int override{
         return min_pulse_;
       }
 

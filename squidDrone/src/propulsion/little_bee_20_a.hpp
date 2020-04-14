@@ -33,7 +33,7 @@ namespace propulsion{
       /// Needs to be defined in header, because of type deduction.
       /// @return Oneshot 125 maximum pulse duration for full throttle
       ///
-      const auto GetMaxPulseDurationInMicroSeconds() const noexcept -> decltype(auto) override{
+      const auto GetMaxPulseDurationInMicroSeconds() const noexcept -> int override{
           return ONESHOT_125_MAX_PULSE_DURATION_IN_US_;
       }
 
@@ -42,7 +42,7 @@ namespace propulsion{
       /// Needs to be defined in header, because of type deduction.
       /// @return Oneshot 125 minimum pulse duration for no throttle
       ///
-      const auto GetMinPulseDurationInMicroSeconds() const noexcept -> decltype(auto) override{
+      const auto GetMinPulseDurationInMicroSeconds() const noexcept -> int override{
           return ONESHOT_125_MIN_PULSE_DURATION_IN_US_;
       }
 

@@ -8,7 +8,7 @@
 #ifndef UNIT_TEST
 #include "esc.hpp"
 #else
-#include "propulsion_mock_dependencies.hpp"
+#include "esc_mock.hpp"
 #endif
 
 namespace propulsion{
