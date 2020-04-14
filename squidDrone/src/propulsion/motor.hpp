@@ -50,7 +50,7 @@ namespace propulsion{
       ///
       /// @brief Handles setting rotational speed of the motor via the Esc
       /// @param speed Speed in percent that should be reached by this motor
-      /// @param A typed::InputError to indicate whether it is faulty or not
+      /// @return A types::InputError to indicate whether it is faulty or not
       ///
       virtual auto SetSpeedInPercent(const float speed) noexcept -> types::InputError = 0;
   
