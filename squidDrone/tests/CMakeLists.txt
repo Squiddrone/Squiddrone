@@ -1,5 +1,6 @@
 
 include(AddGoogleTest)
+include(BundleAllTests)
 
 macro(package_add_test TESTNAME)
     add_executable(${TESTNAME} ${ARGN})
@@ -32,14 +33,21 @@ package_add_test(imu_interface
     ${CMAKE_SOURCE_DIR}/src/imu/inertial_measurement.cpp
 )
 
+SETUP_ALLTESTS_TARGET(
+    NAME all_tests                 
+    EXECUTABLE GTEST_COLOR=1 ctest --verbose -j ${n_cores}
+    DEPENDENCIES
+        euclidean_vector
+        abstract_esc
+        concrete_esc_little_bee_20_a
+        imu_interface
+)
+
 if(CODE_COVERAGE)
     SETUP_TARGET_FOR_COVERAGE_LCOV(
         NAME coverage                 
         EXECUTABLE ctest -j ${n_cores} # Executable in PROJECT_BINARY_DIR
         DEPENDENCIES
-            euclidean_vector
-            abstract_esc
-            concrete_esc_little_bee_20_a
-            imu_interface
+            all_tests
     )
 endif(CODE_COVERAGE)

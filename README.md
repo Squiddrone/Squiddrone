@@ -5,7 +5,6 @@
 [![badge](https://report.ci/status/elheck/Squiddrone/badge.svg?branch=dev)](https://report.ci/status/elheck/Squiddrone?branch=dev)
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/elheck/Squiddrone/tree/dev) 
 
-
 # Squiddrone
 
 Squiddrone is a project for an autonomous flying swarm of drones.
