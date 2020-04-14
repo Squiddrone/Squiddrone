@@ -1,7 +1,6 @@
 #ifndef SRC_IMU_INTERFACE_HPP_
 #define SRC_IMU_INTERFACE_HPP_
 
-#include <utility>
 #include "i2c_handler.hpp"
 #include "basic_types.hpp"
 #include "gyroscope_sensitivity.hpp"
