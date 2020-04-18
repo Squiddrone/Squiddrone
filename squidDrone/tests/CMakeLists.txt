@@ -6,13 +6,13 @@ macro(package_add_test TESTNAME)
     add_executable(${TESTNAME} ${ARGN})
     target_include_directories(${TESTNAME} 
         PRIVATE 
-            ${CMAKE_CURRENT_SOURCE_DIR} 
+            ${CMAKE_CURRENT_SOURCE_DIR}
             ${CMAKE_SOURCE_DIR}/src
             ${CMAKE_SOURCE_DIR}/src/types
             ${CMAKE_SOURCE_DIR}/src/propulsion
             ${CMAKE_SOURCE_DIR}/src/imu
             ${CMAKE_SOURCE_DIR}/tests/mock_libraries
-            ${CMAKE_SOURCE_DIR}/tests/imu/mock_libraries
+            ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu
     )
     target_link_libraries(${TESTNAME} gtest gmock gtest_main)
     add_test(NAME ${TESTNAME} COMMAND ${TESTNAME} --gtest_output=xml:${TESTNAME}.xml)
