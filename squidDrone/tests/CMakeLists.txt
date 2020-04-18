@@ -29,8 +29,8 @@ package_add_test(concrete_esc_little_bee_20_a
 target_compile_definitions(concrete_esc_little_bee_20_a PRIVATE STM32G431xx)
 package_add_test(imu_interface 
     imu/imu_tests.cpp
-    mock_libraries/imu/generic_imu.cpp
     ${CMAKE_SOURCE_DIR}/src/imu/inertial_measurement.cpp
+    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu/generic_imu.cpp
 )
 
 SETUP_ALLTESTS_TARGET(
