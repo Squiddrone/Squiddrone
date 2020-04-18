@@ -3,19 +3,19 @@
 namespace imu {
 
   void Mpu9250::SetGyroscopeSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept {
-
+    gyroscope_sensitivity_ = gyroscope_sensitivity;
   }
 
   types::GyroscopeSensitivity Mpu9250::GetGyroscopeSensitivity(void) noexcept {
-    return gyroscope_sensitivity;
+    return gyroscope_sensitivity_;
   }
 
   void Mpu9250::SetAccelerometerSensitivity(types::AccelerometerSensitivity accelerometer_sensitivity) noexcept {
-
+    accelerometer_sensitivity_ = accelerometer_sensitivity;
   }
 
   types::AccelerometerSensitivity Mpu9250::GetAccelerometerSensitivity(void) noexcept {
-    return accelerometer_sensitivity;
+    return accelerometer_sensitivity_;
   }
 
   types::EuclideanVector<float> Mpu9250::GetGyroscope(void) noexcept {
