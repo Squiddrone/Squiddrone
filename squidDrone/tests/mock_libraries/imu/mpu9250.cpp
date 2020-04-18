@@ -19,17 +19,17 @@ namespace imu {
     }
 
     types::EuclideanVector<float> Mpu9250::GetGyroscope(void) noexcept {
-      types::EuclideanVector<float> value{0, 0, 0};
+      types::EuclideanVector<float> value{1.5, 2.5, 3.5};
       return value;
     }
 
     types::EuclideanVector<float> Mpu9250::GetAccelerometer(void) noexcept {
-      types::EuclideanVector<float> value{0, 0, 0};
+      types::EuclideanVector<float> value{4.5, 5.5, 6.5};
       return value;
     }
 
     types::EuclideanVector<float> Mpu9250::GetMagnetometer(void) noexcept {
-      types::EuclideanVector<float> value{0, 0, 0};
+      types::EuclideanVector<float> value{7.5, 8.5, 9.5};
       return value;
     }
 
