@@ -24,8 +24,8 @@ class Mpu9250 final : public GenericInertialMeasurementUnit{
     types::EuclideanVector<float> GetMagnetometer(void) noexcept;
     int GetTemperature(void) noexcept;
   protected:
-    types::GyroscopeSensitivity gyroscope_sensitivity = types::GyroscopeSensitivity::FINEST;
-    types::AccelerometerSensitivity accelerometer_sensitivity = types::AccelerometerSensitivity::FINEST;
+    types::GyroscopeSensitivity gyroscope_sensitivity_ = types::GyroscopeSensitivity::FINEST;
+    types::AccelerometerSensitivity accelerometer_sensitivity_ = types::AccelerometerSensitivity::FINEST;
     i2c::I2CHandler i2c_handler_;
 };
 
