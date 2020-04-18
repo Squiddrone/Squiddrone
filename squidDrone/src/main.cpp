@@ -15,7 +15,11 @@
 #include "spi_config.h"
 #include "timer_config.h"
 #include "mcu_settings.h"
+#include "esc.hpp"
+#include "letodar_2204.hpp"
 #include "little_bee_20_a.hpp"
+#include <memory>
+#include <utility>
 
 int main(){
   HAL_Init();
@@ -34,6 +38,14 @@ int main(){
   MX_TIM16_Init();
   MX_TIM17_Init();
 
+  
+  propulsion::LeTodar2204 letodar(std::make_unique<propulsion::LittleBee20A>(&htim16, TIM_CHANNEL_1));
+
+  letodar.SetSpeedInPercent(100);
+  auto a = letodar.GetCurrentSpeedInPercent();
+  letodar.SetSpeedInPercent(50);
+  letodar.SetSpeedInPercent(0);
+  letodar.SetSpeedInPercent(13.3F);
   while(1){}
   return 0;
 }
