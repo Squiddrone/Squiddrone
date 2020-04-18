@@ -14,16 +14,47 @@ namespace imu
   {
     public:
       GenericInertialMeasurementUnit() = delete;
-      virtual ~GenericInertialMeasurementUnit() = default;
+      ~GenericInertialMeasurementUnit() = default;
       explicit GenericInertialMeasurementUnit(i2c::I2CHandler i2c_handler): i2c_handler_(i2c_handler){}
-      virtual void SetGyroscopeSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept = 0;
-      virtual types::GyroscopeSensitivity GetGyroscopeSensitivity(void) noexcept = 0;
-      virtual void SetAccelerometerSensitivity(types::AccelerometerSensitivity accelerometer_sensitivity) noexcept = 0;
-      virtual types::AccelerometerSensitivity GetAccelerometerSensitivity(void) noexcept = 0;
-      virtual types::EuclideanVector<float> GetGyroscope(void) noexcept = 0;
-      virtual types::EuclideanVector<float> GetAccelerometer(void) noexcept = 0;
-      virtual types::EuclideanVector<float> GetMagnetometer(void) noexcept = 0;
-      virtual int GetTemperature(void) noexcept = 0;
+      void SetGyroscopeSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept
+      {
+
+      }
+
+      types::GyroscopeSensitivity GetGyroscopeSensitivity(void) noexcept
+      {
+        return gyroscope_sensitivity;
+      }
+
+      void SetAccelerometerSensitivity(types::AccelerometerSensitivity accelerometer_sensitivity) noexcept
+      {
+
+      }
+      
+      types::AccelerometerSensitivity GetAccelerometerSensitivity(void) noexcept
+      {
+        return accelerometer_sensitivity;
+      }
+
+      types::EuclideanVector<float> GetGyroscope(void) noexcept
+      {
+        types::EuclideanVector<float> value{0, 0, 0};
+      }
+
+      types::EuclideanVector<float> GetAccelerometer(void) noexcept
+      {
+        types::EuclideanVector<float> value{0, 0, 0};
+      }
+
+      types::EuclideanVector<float> GetMagnetometer(void) noexcept
+      {
+        types::EuclideanVector<float> value{0, 0, 0};
+      }
+
+      int GetTemperature(void) noexcept
+      {
+        return 17;
+      }
     protected:
       types::GyroscopeSensitivity gyroscope_sensitivity = types::GyroscopeSensitivity::FINEST;
       types::AccelerometerSensitivity accelerometer_sensitivity = types::AccelerometerSensitivity::FINEST;
