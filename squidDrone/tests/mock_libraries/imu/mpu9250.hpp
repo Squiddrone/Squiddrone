@@ -1,5 +1,5 @@
-#ifndef MOCK_GENERIC_IMU_HPP_
-#define MOCK_GENERIC_IMU_HPP_
+#ifndef MOCK_Mpu9250_HPP_
+#define MOCK_Mpu9250_HPP_
 
 #include "i2c_handler.hpp"
 #include "basic_types.hpp"
@@ -9,13 +9,13 @@
 namespace imu
 {
 
-  /// Mocklibrary for generic IMU
-  class GenericInertialMeasurementUnit
+  /// Mocklibrary for MPU9250
+  class Mpu9250
   {
     public:
-      GenericInertialMeasurementUnit() = delete;
-      ~GenericInertialMeasurementUnit() = default;
-      explicit GenericInertialMeasurementUnit(i2c::I2CHandler i2c_handler): i2c_handler_(i2c_handler){}
+      Mpu9250() = delete;
+      ~Mpu9250() = default;
+      explicit Mpu9250(i2c::I2CHandler i2c_handler): i2c_handler_(i2c_handler){}
       void SetGyroscopeSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept
       {
 
@@ -30,7 +30,7 @@ namespace imu
       {
 
       }
-      
+
       types::AccelerometerSensitivity GetAccelerometerSensitivity(void) noexcept
       {
         return accelerometer_sensitivity;
@@ -55,6 +55,7 @@ namespace imu
       {
         return 17;
       }
+
     protected:
       types::GyroscopeSensitivity gyroscope_sensitivity = types::GyroscopeSensitivity::FINEST;
       types::AccelerometerSensitivity accelerometer_sensitivity = types::AccelerometerSensitivity::FINEST;
