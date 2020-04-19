@@ -10,7 +10,6 @@ namespace i2c
     public:
       I2CHandler(){};
       ~I2CHandler(){};
-      int read(void);
   };
 
 }

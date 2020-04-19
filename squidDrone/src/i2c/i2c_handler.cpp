@@ -4,9 +4,4 @@
 namespace i2c
 {
 
-  int I2CHandler::read(void)
-  {
-    return 2;
-  }
-
 }
