@@ -4,35 +4,35 @@ namespace imu
 {
 
   void InertialMeasurement::SetGyroscopeSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept {
-    mpu9250.SetGyroscopeSensitivity(gyroscope_sensitivity);
+    mpu9250_.SetGyroscopeSensitivity(gyroscope_sensitivity);
   }
 
   types::GyroscopeSensitivity InertialMeasurement::GetGyroscopeSensitivity(void) noexcept {
-    return mpu9250.GetGyroscopeSensitivity();
+    return mpu9250_.GetGyroscopeSensitivity();
   }
 
   void InertialMeasurement::SetAccelerometerSensitivity(types::AccelerometerSensitivity accelerometer_sensitivity) noexcept {
-    mpu9250.SetAccelerometerSensitivity(accelerometer_sensitivity);
+    mpu9250_.SetAccelerometerSensitivity(accelerometer_sensitivity);
   }
 
   types::AccelerometerSensitivity InertialMeasurement::GetAccelerometerSensitivity(void) noexcept {
-    return mpu9250.GetAccelerometerSensitivity();
+    return mpu9250_.GetAccelerometerSensitivity();
   }
 
   types::EuclideanVector<float> InertialMeasurement::GetGyroscope(void) noexcept {
-    return mpu9250.GetGyroscope();
+    return mpu9250_.GetGyroscope();
   }
 
   types::EuclideanVector<float> InertialMeasurement::GetAccelerometer(void) noexcept {
-    return mpu9250.GetAccelerometer();
+    return mpu9250_.GetAccelerometer();
   }
 
   types::EuclideanVector<float> InertialMeasurement::GetMagnetometer(void) noexcept {
-    return mpu9250.GetMagnetometer();
+    return mpu9250_.GetMagnetometer();
   }
 
   int InertialMeasurement::GetTemperature(void) noexcept {
-    return mpu9250.GetTemperature();
+    return mpu9250_.GetTemperature();
   }
 
 } // namespace imu
