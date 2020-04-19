@@ -20,9 +20,6 @@ namespace imu
     types::EuclideanVector<float> GetAccelerometer(void) noexcept override;
     types::EuclideanVector<float> GetMagnetometer(void) noexcept override;
     int GetTemperature(void) noexcept override;
-  private:
-    types::GyroscopeSensitivity gyroscope_sensitivity_ = types::GyroscopeSensitivity::FINEST;
-    types::AccelerometerSensitivity accelerometer_sensitivity_ = types::AccelerometerSensitivity::FINEST;
   };
 
 } // namespace imu

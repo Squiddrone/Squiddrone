@@ -25,8 +25,8 @@ namespace imu
       virtual types::EuclideanVector<float> GetMagnetometer(void) noexcept = 0;
       virtual int GetTemperature(void) noexcept = 0;
     protected:
-      types::GyroscopeSensitivity gyroscope_sensitivity = types::GyroscopeSensitivity::FINEST;
-      types::AccelerometerSensitivity accelerometer_sensitivity = types::AccelerometerSensitivity::FINEST;
+      types::GyroscopeSensitivity gyroscope_sensitivity_ = types::GyroscopeSensitivity::FINEST;
+      types::AccelerometerSensitivity accelerometer_sensitivity_ = types::AccelerometerSensitivity::FINEST;
       std::unique_ptr<i2c::I2CHandler> i2c_handler_;
   };
 
