@@ -1,5 +1,5 @@
-#ifndef MOCK_GENERIC_IMU_HPP_
-#define MOCK_GENERIC_IMU_HPP_
+#ifndef SRC_GENERIC_IMU_HPP_
+#define SRC_GENERIC_IMU_HPP_
 
 #include "i2c_handler.hpp"
 #include "basic_types.hpp"
