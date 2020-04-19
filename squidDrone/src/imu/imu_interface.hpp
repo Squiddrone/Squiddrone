@@ -1,6 +1,7 @@
 #ifndef SRC_IMU_INTERFACE_HPP_
 #define SRC_IMU_INTERFACE_HPP_
 
+#include <memory>
 #include "i2c_handler.hpp"
 #include "basic_types.hpp"
 #include "gyroscope_sensitivity.hpp"
@@ -14,7 +15,7 @@ namespace imu
     public:
       InertialMeasurementInterface() = delete;
       virtual ~InertialMeasurementInterface() = default;
-      explicit InertialMeasurementInterface(i2c::I2CHandler i2c_handler): i2c_handler_(i2c_handler){};
+      explicit InertialMeasurementInterface(std::unique_ptr<i2c::I2CHandler> i2c_handler): i2c_handler_(std::move(i2c_handler)){};
       virtual void SetGyroscopeSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept = 0;
       virtual types::GyroscopeSensitivity GetGyroscopeSensitivity(void) noexcept = 0;
       virtual void SetAccelerometerSensitivity(types::AccelerometerSensitivity accelerometer_sensitivity) noexcept = 0;
@@ -24,7 +25,7 @@ namespace imu
       virtual types::EuclideanVector<float> GetMagnetometer(void) noexcept = 0;
       virtual int GetTemperature(void) noexcept = 0;
     protected:
-      i2c::I2CHandler i2c_handler_;
+      std::unique_ptr<i2c::I2CHandler> i2c_handler_;
   };
 
 } // namespace imu

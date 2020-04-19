@@ -7,6 +7,10 @@ namespace i2c
   /// TODO: stub: Needs to be filled
   class I2CHandler
   {
+    public:
+      I2CHandler(){};
+      ~I2CHandler(){};
+      int read(void);
   };
 
 }
