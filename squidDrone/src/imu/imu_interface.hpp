@@ -1,18 +1,15 @@
 #ifndef SRC_IMU_INTERFACE_HPP_
 #define SRC_IMU_INTERFACE_HPP_
 
-#include <memory>
 #include "i2c_handler.hpp"
 #include "basic_types.hpp"
 #include "gyroscope_sensitivity.hpp"
 #include "accelerometer_sensitivity.hpp"
 #include "mpu9250.hpp"
 
-namespace imu
-{
+namespace imu {
 
-  class InertialMeasurementInterface
-  {
+  class InertialMeasurementInterface {
     public:
       InertialMeasurementInterface() = delete;
       virtual ~InertialMeasurementInterface() = default;

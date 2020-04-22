@@ -7,11 +7,9 @@
 #include "gyroscope_sensitivity.hpp"
 #include "accelerometer_sensitivity.hpp"
 
-namespace imu
-{
+namespace imu {
 
-  class GenericInertialMeasurementUnit
-  {
+  class GenericInertialMeasurementUnit {
     public:
       GenericInertialMeasurementUnit() = delete;
       virtual ~GenericInertialMeasurementUnit() = default;
