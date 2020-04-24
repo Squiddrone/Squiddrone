@@ -12,8 +12,8 @@ macro(package_add_test TESTNAME)
             ${CMAKE_SOURCE_DIR}/src/propulsion
             ${CMAKE_SOURCE_DIR}/src/imu
             ${CMAKE_SOURCE_DIR}/src/i2c
-            ${CMAKE_SOURCE_DIR}/tests/mock_libraries
             ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu
+            ${CMAKE_SOURCE_DIR}/tests/mock_libraries/propulsion
     )
     target_link_libraries(${TESTNAME} gtest gmock gtest_main)
     add_test(NAME ${TESTNAME} COMMAND ${TESTNAME} --gtest_output=xml:${TESTNAME}.xml)
@@ -25,7 +25,7 @@ package_add_test(abstract_esc propulsion/esc_test.cpp)
 package_add_test(concrete_esc_little_bee_20_a 
     propulsion/little_bee_20_a_test.cpp 
     ${CMAKE_SOURCE_DIR}/src/propulsion/little_bee_20_a.cpp
-    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/stm32g4xx_hal_tim.c
+    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/propulsion/stm32g4xx_hal_tim.c
 )
 target_compile_definitions(concrete_esc_little_bee_20_a PRIVATE STM32G431xx)
 
