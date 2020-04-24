@@ -16,8 +16,7 @@ namespace imu {
   class InertialMeasurementInterface {
     public:
       ///
-      /// @brief  Default constructor may not be used, so
-      ///         it is deleted.
+      /// @brief  Default constructor may not be used, so it is deleted.
       ///
       InertialMeasurementInterface() = delete;
 
@@ -27,30 +26,29 @@ namespace imu {
       virtual ~InertialMeasurementInterface() = default;
 
       ///
-      /// @brief  The custom constructor is
-      ///         the one to be used. 
+      /// @brief  The custom constructor is the one to be used. 
       /// @param  i2c_handler Unique pointer to I2C Handler defined by hal driver 
       ///
       explicit InertialMeasurementInterface(std::unique_ptr<i2c::I2CHandler> i2c_handler): mpu9250_(std::make_unique<imu::Mpu9250>(std::move(i2c_handler))){};
       
       ///
-      /// @brief Method for setting of the gyroscopes sensitivity
+      /// @brief Used for setting of the gyroscopes sensitivity
       ///
       virtual void SetGyroscopeSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept = 0;
 
       ///
-      /// @brief Method for reading the gyroscopes sensitivity
+      /// @brief Used for reading the gyroscopes sensitivity
       /// @return Gyroscopes sensitivity as types::GyroscopeSensitivity
       ///
       virtual auto GetGyroscopeSensitivity(void) noexcept -> types::GyroscopeSensitivity = 0;
 
       ///
-      /// @brief Method for setting of the accelerometers sensitivity
+      /// @brief Used for setting of the accelerometers sensitivity
       ///
       virtual void SetAccelerometerSensitivity(types::AccelerometerSensitivity accelerometer_sensitivity) noexcept = 0;
 
       ///
-      /// @brief Method for reading the accelerometers sensitivity
+      /// @brief Used for reading the accelerometers sensitivity
       /// @return accelerometers sensitivity as types::AccelerometerSensitivity
       ///
       virtual auto GetAccelerometerSensitivity(void) noexcept -> types::AccelerometerSensitivity = 0;
