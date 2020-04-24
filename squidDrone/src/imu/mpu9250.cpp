@@ -2,11 +2,11 @@
 
 namespace imu{
 
-  types::GyroscopeSensitivity Mpu9250::GetGyroscopeSensitivity(void) noexcept {
+  auto Mpu9250::GetGyroscopeSensitivity(void) noexcept -> types::GyroscopeSensitivity {
     return gyroscope_sensitivity_;
   }
 
-  types::AccelerometerSensitivity Mpu9250::GetAccelerometerSensitivity(void) noexcept {
+  auto Mpu9250::GetAccelerometerSensitivity(void) noexcept -> types::AccelerometerSensitivity {
     return accelerometer_sensitivity_;
   }
 }

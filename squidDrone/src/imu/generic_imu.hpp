@@ -15,13 +15,13 @@ namespace imu {
       virtual ~GenericInertialMeasurementUnit() = default;
       explicit GenericInertialMeasurementUnit(std::unique_ptr<i2c::I2CHandler> i2c_handler): i2c_handler_(std::move(i2c_handler)){}
       virtual void SetGyroscopeSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept = 0;
-      virtual types::GyroscopeSensitivity GetGyroscopeSensitivity(void) noexcept = 0;
+      virtual auto GetGyroscopeSensitivity(void) noexcept -> types::GyroscopeSensitivity = 0;
       virtual void SetAccelerometerSensitivity(types::AccelerometerSensitivity accelerometer_sensitivity) noexcept = 0;
-      virtual types::AccelerometerSensitivity GetAccelerometerSensitivity(void) noexcept = 0;
-      virtual types::EuclideanVector<float> GetGyroscope(void) noexcept = 0;
-      virtual types::EuclideanVector<float> GetAccelerometer(void) noexcept = 0;
-      virtual types::EuclideanVector<float> GetMagnetometer(void) noexcept = 0;
-      virtual int GetTemperature(void) noexcept = 0;
+      virtual auto GetAccelerometerSensitivity(void) noexcept -> types::AccelerometerSensitivity = 0;
+      virtual auto GetGyroscope(void) noexcept -> types::EuclideanVector<float> = 0;
+      virtual auto GetAccelerometer(void) noexcept -> types::EuclideanVector<float> = 0;
+      virtual auto GetMagnetometer(void) noexcept -> types::EuclideanVector<float> = 0;
+      virtual auto GetTemperature(void) noexcept -> int = 0;
     protected:
       types::GyroscopeSensitivity gyroscope_sensitivity_ = types::GyroscopeSensitivity::FINEST;
       types::AccelerometerSensitivity accelerometer_sensitivity_ = types::AccelerometerSensitivity::FINEST;
