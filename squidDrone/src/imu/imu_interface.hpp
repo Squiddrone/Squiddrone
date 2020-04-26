@@ -29,7 +29,7 @@ namespace imu {
       /// @brief  The custom constructor is the one to be used. 
       /// @param  i2c_handler Unique pointer to I2C Handler defined by hal driver 
       ///
-      explicit InertialMeasurementInterface(std::unique_ptr<i2c::I2CHandler> i2c_handler, std::unique_ptr<imu::GenericInertialMeasurementUnit> generic_imu): generic_imu_(std::move(generic_imu)){};
+      explicit InertialMeasurementInterface(std::unique_ptr<i2c::I2CHandler> i2c_handler, std::unique_ptr<imu::GenericInertialMeasurementUnit> imu): imu_(std::move(imu)){};
       
       ///
       /// @brief Used for setting of the gyroscopes sensitivity
@@ -79,7 +79,7 @@ namespace imu {
 
     protected:
       /// Holds the local reference to generic imu
-      std::unique_ptr<imu::GenericInertialMeasurementUnit> generic_imu_;
+      std::unique_ptr<imu::GenericInertialMeasurementUnit> imu_;
   };
 
 } // namespace imu
