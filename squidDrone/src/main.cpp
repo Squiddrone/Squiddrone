@@ -15,7 +15,7 @@
 #include "spi_config.h"
 #include "timer_config.h"
 #include "mcu_settings.h"
-#include "little_bee_20_a.hpp"
+
 
 int main(){
   HAL_Init();

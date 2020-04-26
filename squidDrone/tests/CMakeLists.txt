@@ -15,16 +15,24 @@ macro(package_add_test TESTNAME)
     target_link_libraries(${TESTNAME} gtest gmock gtest_main)
     add_test(NAME ${TESTNAME} COMMAND ${TESTNAME} --gtest_output=xml:${TESTNAME}.xml)
     set_target_properties(${TESTNAME} PROPERTIES FOLDER "tests")
+    target_compile_definitions(${TESTNAME} PRIVATE UNIT_TEST STM32G431xx)
 endmacro()
 
 package_add_test(euclidean_vector types/euclidean_vector_test.cpp)
 package_add_test(abstract_esc propulsion/esc_test.cpp)
+
 package_add_test(concrete_esc_little_bee_20_a 
     propulsion/little_bee_20_a_test.cpp 
     ${CMAKE_SOURCE_DIR}/src/propulsion/little_bee_20_a.cpp
     ${CMAKE_SOURCE_DIR}/tests/mock_libraries/propulsion/stm32g4xx_hal_tim.c
 )
-target_compile_definitions(concrete_esc_little_bee_20_a PRIVATE STM32G431xx)
+
+package_add_test(abstract_motor propulsion/motor_test.cpp)
+package_add_test(letodar_2204 propulsion/letodar_2204_test.cpp
+    ${CMAKE_SOURCE_DIR}/src/propulsion/letodar_2204.cpp
+    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/propulsion/esc_mock.cpp
+)
+
 
 SETUP_ALLTESTS_TARGET(
     NAME all_tests                 
@@ -33,6 +41,7 @@ SETUP_ALLTESTS_TARGET(
         euclidean_vector
         abstract_esc
         concrete_esc_little_bee_20_a
+        letodar_2204
 )
 
 if(CODE_COVERAGE)

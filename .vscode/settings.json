@@ -74,6 +74,7 @@
     "streambuf": "cpp",
     "typeinfo": "cpp",
     "stm32g4xx_hal_def.h": "c",
-    "mcu_settings.h": "c"
+    "mcu_settings.h": "c",
+    "clock_config.h": "c"
   }
 }

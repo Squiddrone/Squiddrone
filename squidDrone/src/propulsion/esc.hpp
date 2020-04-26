@@ -40,13 +40,13 @@ namespace propulsion{
       /// @brief Abstract method for returning the maximum pulse duration for the concrete ESC
       /// @return Pulse duration in microseconds. 
       ///
-      virtual const auto GetMaxPulseDurationInMicroSeconds() const noexcept -> decltype(auto) = 0;
+      virtual const auto GetMaxPulseDurationInMicroSeconds() const noexcept -> int = 0;
 
       ///
       /// @brief Abstract method for returning the minimum pulse duration for the concrete ESC
       /// @return Pulse duration in microseconds. 
       ///
-      virtual const auto GetMinPulseDurationInMicroSeconds() const noexcept -> decltype(auto) = 0;
+      virtual const auto GetMinPulseDurationInMicroSeconds() const noexcept -> int = 0;
 
       ///
       /// @brief Abstract method for setting the pulse duration based on the min and max values
