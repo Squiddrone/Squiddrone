@@ -76,6 +76,7 @@ namespace imu {
       /// @return Temperature of Inertial Measurement Unit as Integer
       ///
       virtual auto GetTemperature(void) noexcept -> int = 0;
+
     protected:
       /// Holds the local reference to MPU9250
       std::unique_ptr<imu::GenericInertialMeasurementUnit> mpu9250_;
