@@ -26,7 +26,7 @@ namespace propulsion{
       Motor() = delete;
 
       /// 
-      /// @brief This custom ctor is to only one to be used
+      /// @brief This custom ctor is the only one to be used
       /// @param esc A unique_ptr to the abstract base class of 
       ///            all ESCs. The inheriting class should be 
       ///            intialized with a specialized ESC casted to 
