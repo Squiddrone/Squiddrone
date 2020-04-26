@@ -52,6 +52,7 @@ SETUP_ALLTESTS_TARGET(
         abstract_esc
         concrete_esc_little_bee_20_a
         imu_interface
+        abstract_motor
         letodar_2204
 )
 
