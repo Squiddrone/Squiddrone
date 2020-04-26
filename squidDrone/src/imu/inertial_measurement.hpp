@@ -7,7 +7,7 @@ namespace imu {
 
   ///
   /// @class InertialMeasurement 
-  /// @brief The InertialMeasurement provides an interface for the Inertial Measurement Unit.
+  /// @brief Concrete implementation of the Inertial Measurement Unit Interface.
   ///
   class InertialMeasurement final : public InertialMeasurementInterface {
     public:
