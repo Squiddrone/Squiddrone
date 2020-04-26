@@ -75,6 +75,7 @@
     "typeinfo": "cpp",
     "stm32g4xx_hal_def.h": "c",
     "mcu_settings.h": "c",
-    "bit": "cpp"
+    "bit": "cpp",
+    "clock_config.h": "c"
   }
 }
