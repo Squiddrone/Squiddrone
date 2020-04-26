@@ -1,5 +1,5 @@
-#ifndef SRC_IM_HPP_
-#define SRC_IM_HPP_
+#ifndef SRC_INERTIAL_MEASUREMENT_HPP_
+#define SRC_INERTIAL_MEASUREMENT_HPP_
 
 #include "imu_interface.hpp"
 
