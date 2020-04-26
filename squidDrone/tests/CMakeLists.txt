@@ -6,10 +6,13 @@ macro(package_add_test TESTNAME)
     add_executable(${TESTNAME} ${ARGN})
     target_include_directories(${TESTNAME} 
         PRIVATE 
-            ${CMAKE_CURRENT_SOURCE_DIR} 
+            ${CMAKE_CURRENT_SOURCE_DIR}
             ${CMAKE_SOURCE_DIR}/src
             ${CMAKE_SOURCE_DIR}/src/types
             ${CMAKE_SOURCE_DIR}/src/propulsion
+            ${CMAKE_SOURCE_DIR}/src/imu
+            ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c
+            ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu
             ${CMAKE_SOURCE_DIR}/tests/mock_libraries/propulsion
     )
     target_link_libraries(${TESTNAME} gtest gmock gtest_main)
@@ -34,6 +37,13 @@ package_add_test(letodar_2204 propulsion/letodar_2204_test.cpp
 )
 
 
+package_add_test(imu_interface 
+    imu/imu_interface_tests.cpp
+    ${CMAKE_SOURCE_DIR}/src/imu/inertial_measurement.cpp
+    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/i2c_handler.cpp
+    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu/mpu9250.cpp
+)
+
 SETUP_ALLTESTS_TARGET(
     NAME all_tests                 
     EXECUTABLE GTEST_COLOR=1 ctest --verbose -j ${n_cores}
@@ -41,6 +51,8 @@ SETUP_ALLTESTS_TARGET(
         euclidean_vector
         abstract_esc
         concrete_esc_little_bee_20_a
+        imu_interface
+        abstract_motor
         letodar_2204
 )
 
