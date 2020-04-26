@@ -11,7 +11,7 @@ macro(package_add_test TESTNAME)
             ${CMAKE_SOURCE_DIR}/src/types
             ${CMAKE_SOURCE_DIR}/src/propulsion
             ${CMAKE_SOURCE_DIR}/src/imu
-            ${CMAKE_SOURCE_DIR}/src/i2c
+            ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c
             ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu
             ${CMAKE_SOURCE_DIR}/tests/mock_libraries/propulsion
     )
@@ -32,7 +32,7 @@ target_compile_definitions(concrete_esc_little_bee_20_a PRIVATE STM32G431xx)
 package_add_test(imu_interface 
     imu/imu_interface_tests.cpp
     ${CMAKE_SOURCE_DIR}/src/imu/inertial_measurement.cpp
-    ${CMAKE_SOURCE_DIR}/src/i2c/i2c_handler.cpp
+    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/i2c_handler.cpp
     ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu/mpu9250.cpp
 )
 
