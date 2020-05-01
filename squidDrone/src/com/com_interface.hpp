@@ -12,7 +12,7 @@
 * 
 */
 
-#include "ComMessageBuffer.hpp"
+#include "com_message_buffer.hpp"
 #include <array>
 
 namespace com {
@@ -36,7 +36,7 @@ namespace com {
       * 
       * @return decltype(array<std::uint8_t, 32>) 
       */
-      virtual const auto get_data_packet() const noexcept -> std::array<std::uint8_t, 32> = 0;
+      virtual auto get_data_packet() const noexcept -> std::array<std::uint8_t, 32> = 0;
       
       /** 
       * @brief Transmit dataframe of max length 32 byte via the drones' wifi interface.
@@ -47,7 +47,7 @@ namespace com {
       * @return decltype(std::uint8_t) true in case of successful transmission, false in case something 
       * went wrong.
       */
-      virtual const auto put_data_packet(std::uint8_t target_id, std::array<std::uint8_t, 32> &payload) const noexcept
+      virtual auto put_data_packet(std::uint8_t target_id, std::array<std::uint8_t, 32> &payload) const noexcept
       -> std::uint8_t = 0;
       
     protected:
