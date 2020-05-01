@@ -3,9 +3,10 @@
 
 namespace types{
 
-  ///
-  /// @brief A enum for Accelerometer Sensitivity of Inertial Measurement Unit
-  ///
+  /**
+   * @brief A enum for Accelerometer Sensitivity of Inertial Measurement Unit
+   * 
+   */
   enum class AccelerometerSensitivity: int{
     /// Finest sensitivity. For MPU9250: Full-Scale Range of +- 2g with a Sensitivity of 16.384 LSB/g
     FINEST,
