@@ -3,9 +3,10 @@
 
 namespace types{
 
-  ///
-  /// @brief A enum for Gyroscope Sensitivity of Inertial Measurement Unit
-  ///
+  /**
+   * @brief A enum for Gyroscope Sensitivity of Inertial Measurement Unit
+   * 
+   */
   enum class GyroscopeSensitivity: int{
     /// Finest sensitivity. For MPU9250: Full-Scale Range of +- 250 °/s with a Sensitivity of 131 °/s
     FINEST,
