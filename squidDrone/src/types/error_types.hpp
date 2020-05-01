@@ -5,9 +5,10 @@
 
 namespace types{
 
-  ///
-  /// @brief A error type enum
-  ///
+  /**
+   * @brief A error type enum
+   * 
+   */
   enum class HalError: int{
     /// Hal function is working
     WORKING,
@@ -17,9 +18,10 @@ namespace types{
     PARAMETER_ERROR
   };
 
-  ///
-  /// @brief An input error enum for setter methods
-  ///
+  /**
+   * @brief An input error enum for setter methods
+   * 
+   */
   enum class InputError: int{
     /// Target input is accepted
     INPUT_CORRECT,
