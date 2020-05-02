@@ -5,4 +5,8 @@
 
 namespace propulsion{
 
+  auto MotorBuilder::Create(propulsion::PropulsionHardwareConfig motor_config) -> const std::unique_ptr<Motor>{
+  
+  }
+
 }
