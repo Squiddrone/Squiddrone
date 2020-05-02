@@ -44,6 +44,8 @@ package_add_test(imu_interface
     ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu/mpu9250.cpp
 )
 
+package_add_test(propulsion_hardware_config_type propulsion/propulsion_hardware_config_test.cpp)
+
 SETUP_ALLTESTS_TARGET(
     NAME all_tests                 
     EXECUTABLE GTEST_COLOR=1 ctest --verbose -j ${n_cores}
@@ -54,6 +56,7 @@ SETUP_ALLTESTS_TARGET(
         imu_interface
         abstract_motor
         letodar_2204
+        propulsion_hardware_config_type
 )
 
 if(CODE_COVERAGE)
