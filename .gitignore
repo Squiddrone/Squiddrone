@@ -101,6 +101,7 @@ local.properties
 # CDT-specific (C/C++ Development Tooling)
 *.launch
 *.ioc
+.mxproject
 
 # CDT- autotools
 .autotools
