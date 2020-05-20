@@ -1,0 +1,28 @@
+#ifndef SRC_I2C_INTERFACE_HPP_
+#define SRC_I2C_INTERFACE_HPP_
+
+#include <stdint.h>
+#include <vector> 
+
+constexpr int I2C_STANDARD_TIMEOUT = 0xFFFFFFFFU; //taken from HAL_MAX_DELAY
+
+namespace i2c {
+
+  enum class I2CStatus: int{
+    I2C_TRANSACTION_SUCCESSFUL,
+    I2C_TRANSACTION_FAILED,
+    I2C_TRANSACTION_TIMEOUT
+  };
+
+  class I2CInterface {
+    public:
+      virtual ~I2CInterface() = default;
+      explicit I2CInterface(void){};
+
+      virtual std::vector<uint8_t> read(uint8_t address, std::vector<uint8_t> data, int timeout=I2C_STANDARD_TIMEOUT) noexcept = 0;
+      virtual I2CStatus write(uint8_t address, std::vector<uint8_t> data, int timeout=I2C_STANDARD_TIMEOUT) noexcept = 0;
+  };
+
+} // namespace i2c
+
+#endif
