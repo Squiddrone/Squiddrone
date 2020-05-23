@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "i2c_handler.hpp"
+#include "i2c.hpp"
 #include "inertial_measurement.hpp"
 
 namespace{
@@ -7,11 +7,11 @@ namespace{
   class ImuInterfaceTests: public ::testing::Test{
   protected:
     virtual void SetUp(){
-      auto i2c_handler_ = std::make_unique<i2c::I2CHandler>();
+      auto i2c_handler_ = std::make_unique<i2c::I2C>();
       unit_under_test_ = std::make_unique<imu::InertialMeasurement>(std::move(i2c_handler_));
     }
 
-    std::unique_ptr<i2c::I2CHandler> i2c_handler_;
+    std::unique_ptr<i2c::I2C> i2c_handler_;
     std::unique_ptr<imu::InertialMeasurement> unit_under_test_;
   };
 
