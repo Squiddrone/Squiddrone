@@ -1,7 +1,7 @@
 #ifndef SRC_IMU_INTERFACE_HPP_
 #define SRC_IMU_INTERFACE_HPP_
 
-#include "i2c_handler.hpp"
+#include "i2c.hpp"
 #include "basic_types.hpp"
 #include "gyroscope_sensitivity.hpp"
 #include "accelerometer_sensitivity.hpp"
@@ -33,7 +33,7 @@ namespace imu {
        * @param  i2c_handler Unique pointer to I2C Handler defined by hal driver 
        * 
        */
-      explicit InertialMeasurementInterface(std::unique_ptr<i2c::I2CHandler> i2c_handler, std::unique_ptr<imu::GenericInertialMeasurementUnit> imu): imu_(std::move(imu)){};
+      explicit InertialMeasurementInterface(std::unique_ptr<i2c::I2C> i2c_handler, std::unique_ptr<imu::GenericInertialMeasurementUnit> imu): imu_(std::move(imu)){};
       
       /**
        * @brief Used for setting of the gyroscopes sensitivity

@@ -21,7 +21,7 @@ namespace imu {
        * @param  i2c_handler Unique pointer to I2C Handler defined by hal driver 
        * 
        */
-      explicit InertialMeasurement(std::unique_ptr<i2c::I2CHandler> i2c_handler): InertialMeasurementInterface(std::move(i2c_handler), std::make_unique<imu::Mpu9250>(std::move(i2c_handler))){}
+      explicit InertialMeasurement(std::unique_ptr<i2c::I2C> i2c_handler): InertialMeasurementInterface(std::move(i2c_handler), std::make_unique<imu::Mpu9250>(std::move(i2c_handler))){}
       void SetGyroscopeSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept override;
       auto GetGyroscopeSensitivity(void) noexcept -> types::GyroscopeSensitivity override;
       void SetAccelerometerSensitivity(types::AccelerometerSensitivity accelerometer_sensitivity) noexcept override;
