@@ -14,8 +14,8 @@ namespace i2c {
       virtual ~I2CInterface() = default;
       explicit I2CInterface(void){};
 
-      virtual auto read(uint8_t address, std::vector<uint8_t> data, int timeout=I2C_STANDARD_TIMEOUT) noexcept -> std::vector<uint8_t> = 0;
-      virtual auto write(uint8_t address, std::vector<uint8_t> data, int timeout=I2C_STANDARD_TIMEOUT) noexcept -> I2CStatus = 0;
+      virtual auto read(uint8_t address, const std::vector<uint8_t> data, int timeout=I2C_STANDARD_TIMEOUT) noexcept -> std::vector<uint8_t> = 0;
+      virtual auto write(uint8_t address, const std::vector<uint8_t> data, int timeout=I2C_STANDARD_TIMEOUT) noexcept -> I2CStatus = 0;
   };
 
 } // namespace i2c
