@@ -10,8 +10,8 @@ namespace i2c {
       ~I2C() = default;
       explicit I2C(void): I2CInterface(){};
 
-      std::vector<uint8_t> read(uint8_t address, std::vector<uint8_t> data, int timeout=I2C_STANDARD_TIMEOUT) noexcept override;
-      I2CStatus write(uint8_t address, std::vector<uint8_t> data, int timeout=I2C_STANDARD_TIMEOUT) noexcept override;
+      auto read(uint8_t address, std::vector<uint8_t> data, int timeout=I2C_STANDARD_TIMEOUT) noexcept -> std::vector<uint8_t> override;
+      auto write(uint8_t address, std::vector<uint8_t> data, int timeout=I2C_STANDARD_TIMEOUT) noexcept -> I2CStatus override;
   };
 
 } // namespace i2c
