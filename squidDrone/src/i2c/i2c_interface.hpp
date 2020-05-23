@@ -1,18 +1,13 @@
 #ifndef SRC_I2C_INTERFACE_HPP_
 #define SRC_I2C_INTERFACE_HPP_
 
+#include "i2c_status.hpp"
 #include <stdint.h>
-#include <vector> 
+#include <vector>
 
 constexpr int I2C_STANDARD_TIMEOUT = 0xFFFFFFFFU; //taken from HAL_MAX_DELAY
 
 namespace i2c {
-
-  enum class I2CStatus: int{
-    I2C_TRANSACTION_SUCCESSFUL,
-    I2C_TRANSACTION_FAILED,
-    I2C_TRANSACTION_TIMEOUT
-  };
 
   class I2CInterface {
     public:
