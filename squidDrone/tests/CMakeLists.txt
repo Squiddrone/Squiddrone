@@ -8,6 +8,7 @@ macro(package_add_test TESTNAME)
         PRIVATE 
             ${CMAKE_CURRENT_SOURCE_DIR}
             ${CMAKE_SOURCE_DIR}/src
+            ${CMAKE_SOURCE_DIR}/src/com
             ${CMAKE_SOURCE_DIR}/src/types
             ${CMAKE_SOURCE_DIR}/src/propulsion
             ${CMAKE_SOURCE_DIR}/src/imu
@@ -42,6 +43,10 @@ package_add_test(imu_interface
     ${CMAKE_SOURCE_DIR}/src/imu/inertial_measurement.cpp
     ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/i2c_handler.cpp
     ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu/mpu9250.cpp
+)
+
+package_add_test(com_interface
+    com/com_interface_tests.cpp
 )
 
 SETUP_ALLTESTS_TARGET(
