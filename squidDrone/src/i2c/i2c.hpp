@@ -1,6 +1,8 @@
 #ifndef SRC_I2C_HANDLER_HPP_
 #define SRC_I2C_HANDLER_HPP_
 
+#include "stm32g4xx_hal.h"
+#include "i2c_config.h"
 #include "i2c_interface.hpp"
 
 namespace i2c {

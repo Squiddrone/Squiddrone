@@ -41,13 +41,14 @@ package_add_test(letodar_2204 propulsion/letodar_2204_test.cpp
 package_add_test(imu_interface 
     imu/imu_interface_tests.cpp
     ${CMAKE_SOURCE_DIR}/src/imu/inertial_measurement.cpp
-    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/i2c_handler.cpp
+    ${CMAKE_SOURCE_DIR}/src/i2c/i2c.cpp
     ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu/mpu9250.cpp
 )
 
 package_add_test(i2c_interface 
     i2c/i2c_interface_tests.cpp
     ${CMAKE_SOURCE_DIR}/src/i2c/i2c.cpp
+    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/stm32g4xx_hal.c
 )
 
 SETUP_ALLTESTS_TARGET(
