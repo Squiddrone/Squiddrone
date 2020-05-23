@@ -11,8 +11,9 @@ macro(package_add_test TESTNAME)
             ${CMAKE_SOURCE_DIR}/src/types
             ${CMAKE_SOURCE_DIR}/src/propulsion
             ${CMAKE_SOURCE_DIR}/src/imu
-            ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c
+            ${CMAKE_SOURCE_DIR}/src/i2c
             ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu
+            ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c
             ${CMAKE_SOURCE_DIR}/tests/mock_libraries/propulsion
     )
     target_link_libraries(${TESTNAME} gtest gmock gtest_main)
@@ -44,6 +45,11 @@ package_add_test(imu_interface
     ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu/mpu9250.cpp
 )
 
+package_add_test(i2c_interface 
+    i2c/i2c_interface_tests.cpp
+    ${CMAKE_SOURCE_DIR}/src/i2c/i2c.cpp
+)
+
 SETUP_ALLTESTS_TARGET(
     NAME all_tests                 
     EXECUTABLE GTEST_COLOR=1 ctest --verbose -j ${n_cores}
@@ -54,6 +60,7 @@ SETUP_ALLTESTS_TARGET(
         imu_interface
         abstract_motor
         letodar_2204
+        i2c_interface
 )
 
 if(CODE_COVERAGE)
