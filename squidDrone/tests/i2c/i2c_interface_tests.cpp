@@ -80,8 +80,19 @@ namespace{
     EXPECT_EQ(result_status, i2c::I2CStatus::I2C_PARAMETER_ERROR);
   }
 
-  TEST_F(I2CInterfaceTests, read_address_0){
+  TEST_F(I2CInterfaceTests, read_address_out_of_range_0){
     auto address = 0x00;
+    auto byte_size = 3;
+    auto timeout = 2;
+    i2c::I2CStatus result_status;
+    std::vector<uint8_t> result_data;
+    std::tie(result_status, result_data) = unit_under_test_->read(address, byte_size, timeout);
+
+    EXPECT_EQ(result_status, i2c::I2CStatus::I2C_PARAMETER_ERROR);
+  }
+
+  TEST_F(I2CInterfaceTests, read_address_out_of_range_0x78){
+    auto address = 0x78;
     auto byte_size = 3;
     auto timeout = 2;
     i2c::I2CStatus result_status;
