@@ -14,7 +14,7 @@ namespace{
   };
 
   TEST_F(I2CInterfaceTests, read_successful){
-    auto address = 0x01;
+    auto address = 0x10;
     auto byte_size = 3;
     auto timeout = 2;
     i2c::I2CStatus result_status;
@@ -26,7 +26,7 @@ namespace{
   }
 
   TEST_F(I2CInterfaceTests, read_failed){
-    auto address = 0x02;
+    auto address = 0x11;
     auto byte_size = 3;
     auto timeout = 2;
     i2c::I2CStatus result_status;
@@ -37,7 +37,7 @@ namespace{
   }
 
   TEST_F(I2CInterfaceTests, read_timeout){
-    auto address = 0x03;
+    auto address = 0x12;
     auto byte_size = 3;
     auto timeout = 2;
     i2c::I2CStatus result_status;
@@ -48,7 +48,7 @@ namespace{
   }
 
   TEST_F(I2CInterfaceTests, read_busy){
-    auto address = 0x04;
+    auto address = 0x13;
     auto byte_size = 3;
     auto timeout = 2;
     i2c::I2CStatus result_status;
@@ -59,7 +59,7 @@ namespace{
   }
 
   TEST_F(I2CInterfaceTests, read_byte_size_0){
-    auto address = 0x01;
+    auto address = 0x10;
     auto byte_size = 0;
     auto timeout = 2;
     i2c::I2CStatus result_status;
@@ -70,9 +70,20 @@ namespace{
   }
 
   TEST_F(I2CInterfaceTests, read_timeout_0){
-    auto address = 0x01;
+    auto address = 0x10;
     auto byte_size = 3;
     auto timeout = 0;
+    i2c::I2CStatus result_status;
+    std::vector<uint8_t> result_data;
+    std::tie(result_status, result_data) = unit_under_test_->read(address, byte_size, timeout);
+
+    EXPECT_EQ(result_status, i2c::I2CStatus::I2C_PARAMETER_ERROR);
+  }
+
+  TEST_F(I2CInterfaceTests, read_address_0){
+    auto address = 0x00;
+    auto byte_size = 3;
+    auto timeout = 2;
     i2c::I2CStatus result_status;
     std::vector<uint8_t> result_data;
     std::tie(result_status, result_data) = unit_under_test_->read(address, byte_size, timeout);

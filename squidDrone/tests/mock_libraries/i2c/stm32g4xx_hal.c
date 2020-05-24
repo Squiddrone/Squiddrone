@@ -4,20 +4,20 @@ HAL_StatusTypeDef HAL_I2C_Master_Receive(I2C_HandleTypeDef *hi2c, uint16_t DevAd
 {
   DevAddress = DevAddress >> 1; //revert shift to the left for easier comparison
 
-  if (DevAddress == 0x01) {
+  if (DevAddress == 0x10) {
     pData[0] = 1;
     pData[1] = 2;
     pData[2] = 3;
     pData[3] = 4;
     return HAL_OK;
   }
-  else if (DevAddress == 0x02) {
+  else if (DevAddress == 0x11) {
     return HAL_ERROR;
   }
-  else if (DevAddress == 0x03) {
+  else if (DevAddress == 0x12) {
     return HAL_TIMEOUT;
   }
-  else if (DevAddress == 0x04) {
+  else if (DevAddress == 0x13) {
     return HAL_BUSY;
   }
 
