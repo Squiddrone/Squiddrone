@@ -12,7 +12,7 @@ namespace i2c {
       ~I2C() = default;
       explicit I2C(void): I2CInterface(){};
 
-      auto read(uint8_t address, const std::vector<uint8_t>& data, int timeout=I2C_STANDARD_TIMEOUT) noexcept -> std::vector<uint8_t> override;
+      auto read(uint8_t address, const std::vector<uint8_t>& data, int timeout=I2C_STANDARD_TIMEOUT) noexcept -> std::tuple<I2CStatus, std::vector<uint8_t>> override;
       auto write(uint8_t address, const std::vector<uint8_t>& data, int timeout=I2C_STANDARD_TIMEOUT) noexcept -> I2CStatus override;
   };
 
