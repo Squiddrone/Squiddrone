@@ -59,6 +59,7 @@ SETUP_ALLTESTS_TARGET(
         imu_interface
         abstract_motor
         letodar_2204
+        com_interface
 )
 
 if(CODE_COVERAGE)

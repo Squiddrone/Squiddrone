@@ -1,22 +1,17 @@
 #ifndef SRC_COM_COMINTERFACE_HPP_
 #define SRC_COM_COMINTERFACE_HPP_
 
-/** 
-* @file ComInterface.hpp
-* @author your name (you@domain.com)
-* @brief 
-* @version 0.1
-* @date 2020-04-25
-* 
-* @copyright Copyright (c) 2020
-* 
-*/
-
 #include "com_message_buffer.hpp"
 #include <array>
 
 namespace com {
 
+  /**
+   * @class ComInterface 
+   * @brief This is a purely virtual class to act as
+   * a facade for the device specific implmentation.
+   * 
+   */
   class ComInterface {
     public:
       /** 

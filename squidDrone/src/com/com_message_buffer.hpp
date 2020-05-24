@@ -1,17 +1,6 @@
 #ifndef SRC_COM_MESSAGE_BUFFER_HPP_
 #define SRC_COM_MESSAGE_BUFFER_HPP_
 
-/** 
-* @file ComMessageBuffer.hpp
-* @author your name (you@domain.com)
-* @brief 
-* @version 0.1
-* @date 2020-04-27
-* 
-* @copyright Copyright (c) 2020
-* 
-*/
-
 #include <array>
 #include <queue>
 
@@ -26,6 +15,7 @@ namespace com {
     public:
       /** 
       * @brief Construct a new Com Message Buffer object
+      * 
       */
       ComMessageBuffer(){};
 
@@ -34,6 +24,7 @@ namespace com {
       * 
       * @param data Reference to data frame. Must conform to data frame specifications.
       * @return uint8_t Number of bytes put into the data queue.
+      * 
       */
       uint8_t put_data(std::array<std::uint8_t, 32> &data);
 
@@ -41,6 +32,7 @@ namespace com {
       * @brief Retrieve data frame from queue buffer.
       * 
       * @return std::array<std::uint8_t, 32> 
+      * 
       */
       std::array<std::uint8_t, 32> get_data();
     private:
