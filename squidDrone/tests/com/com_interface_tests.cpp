@@ -7,12 +7,7 @@ namespace{
   class ComInterfaceTests: public ::testing::Test{
   protected:
     virtual void SetUp(){
-      auto msg_buffer_ = std::make_unique<com::ComMessageBuffer>();
-      unit_under_test_ = std::make_unique<com::ComInterface>(std::move(msg_buffer_));
     }
-
-    std::unique_ptr<com::ComMessageBuffer> msg_buffer_;
-    std::unique_ptr<com::ComInterface> unit_under_test_;
   };
 }
 
