@@ -6,6 +6,8 @@ namespace i2c
   auto I2C::read(uint8_t address, uint16_t byte_size, int timeout) noexcept -> std::tuple<I2CStatus, std::vector<uint8_t>> {
     uint8_t buffer[byte_size];
 
+    address = address << 1; //because of 7 Bit addresses in I2C, one shift to the left
+
     HAL_StatusTypeDef hal_status = HAL_I2C_Master_Receive(&hi2c2, address, buffer, byte_size, timeout);
 
     std::vector<uint8_t> data(buffer, buffer+byte_size);
