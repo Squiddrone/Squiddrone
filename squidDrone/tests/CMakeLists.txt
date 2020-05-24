@@ -43,12 +43,15 @@ package_add_test(imu_interface
     ${CMAKE_SOURCE_DIR}/src/imu/inertial_measurement.cpp
     ${CMAKE_SOURCE_DIR}/src/i2c/i2c.cpp
     ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu/mpu9250.cpp
+    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/stm32g4xx_hal.c
+    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/i2c_config.c
 )
 
 package_add_test(i2c_interface 
     i2c/i2c_interface_tests.cpp
     ${CMAKE_SOURCE_DIR}/src/i2c/i2c.cpp
     ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/stm32g4xx_hal.c
+    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/i2c_config.c
 )
 
 SETUP_ALLTESTS_TARGET(
