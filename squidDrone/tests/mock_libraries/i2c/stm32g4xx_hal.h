@@ -2,7 +2,14 @@
 #define MOCK_STM32G4xx_HAL_H_
 
 #include <stdint.h>
-#include "stm32g4xx_hal_def.h"
+
+typedef enum
+{
+  HAL_OK       = 0x00U,
+  HAL_ERROR    = 0x01U,
+  HAL_BUSY     = 0x02U,
+  HAL_TIMEOUT  = 0x03U
+} HAL_StatusTypeDef;
 
 typedef struct __I2C_HandleTypeDef
 {
