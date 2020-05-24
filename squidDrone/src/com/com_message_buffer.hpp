@@ -35,6 +35,7 @@ namespace com {
       * 
       */
       std::array<std::uint8_t, 32> get_data();
+    
     private:
       /** 
       * @brief Queue to hold the 32 byte long data frames. Queue shall be emptied on
