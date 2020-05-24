@@ -20,7 +20,7 @@ namespace{
     i2c::I2CStatus result_status;
     std::vector<uint8_t> result_data;
     std::tie(result_status, result_data) = unit_under_test_->read(command, data, timeout);
-    
+
     EXPECT_EQ(result_status, i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL);
     EXPECT_THAT(result_data, testing::ElementsAre(1, 2, 3));
   }
@@ -45,6 +45,17 @@ namespace{
     std::tie(result_status, result_data) = unit_under_test_->read(command, data, timeout);
 
     EXPECT_EQ(result_status, i2c::I2CStatus::I2C_TRANSACTION_TIMEOUT);
+  }
+
+  TEST_F(I2CInterfaceTests, read_command_busy){
+    auto command = 0x04;
+    auto data = std::vector<uint8_t>{0, 0};
+    auto timeout = 2;
+    i2c::I2CStatus result_status;
+    std::vector<uint8_t> result_data;
+    std::tie(result_status, result_data) = unit_under_test_->read(command, data, timeout);
+
+    EXPECT_EQ(result_status, i2c::I2CStatus::I2C_TRANSACTION_BUSY);
   }
 }
 
