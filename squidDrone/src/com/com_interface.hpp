@@ -1,5 +1,5 @@
-#ifndef SRC_COM_COMINTERFACE_HPP_
-#define SRC_COM_COMINTERFACE_HPP_
+#ifndef SRC_COM_INTERFACE_HPP_
+#define SRC_COM_INTERFACE_HPP_
 
 #include "com_message_buffer.hpp"
 #include <array>
