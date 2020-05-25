@@ -8,7 +8,7 @@
 namespace propulsion{
   class Motor{
     public:
-      Motor(std::unique_ptr<Esc> esc): esc_{std::move(esc)}, is_created_{true}{} 
+      explicit Motor(std::unique_ptr<Esc> esc): esc_{std::move(esc)}, is_created_{true}{} 
       std::unique_ptr<Esc> esc_;
       bool is_created_ = false;
   };
