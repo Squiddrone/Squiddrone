@@ -3,7 +3,6 @@
 
 namespace{
   class ConcreteComInterface final: public com::ComInterface {
-
     private:
       std::array<std::uint8_t, 32> ret_array = {0};
 
