@@ -28,8 +28,6 @@ namespace propulsion{
        * @return const std::unique_ptr<Motor> A pointer to said Motor. Nullptr on error
        */
       static auto Create(propulsion::PropulsionHardwareConfig& motor_config) -> std::unique_ptr<Motor>;
-
-
   };
 }
 #endif
