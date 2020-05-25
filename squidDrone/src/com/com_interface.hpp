@@ -1,7 +1,12 @@
 #ifndef SRC_COM_INTERFACE_HPP_
 #define SRC_COM_INTERFACE_HPP_
 
+#ifndef UNIT_TEST
 #include "com_message_buffer.hpp"
+#else
+#include "com_message_buffer_mock.hpp"
+#endif
+
 #include <array>
 
 namespace com {

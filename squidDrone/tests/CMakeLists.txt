@@ -12,6 +12,7 @@ macro(package_add_test TESTNAME)
             ${CMAKE_SOURCE_DIR}/src/types
             ${CMAKE_SOURCE_DIR}/src/propulsion
             ${CMAKE_SOURCE_DIR}/src/imu
+            ${CMAKE_SOURCE_DIR}/tests/mock_libraries/com
             ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c
             ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu
             ${CMAKE_SOURCE_DIR}/tests/mock_libraries/propulsion
@@ -47,6 +48,7 @@ package_add_test(imu_interface
 
 package_add_test(com_interface
     com/com_interface_tests.cpp
+    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/com/com_message_buffer_mock.cpp
 )
 
 SETUP_ALLTESTS_TARGET(

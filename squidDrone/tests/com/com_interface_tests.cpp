@@ -1,16 +1,23 @@
 #include "gtest/gtest.h"
 #include "com_interface.hpp"
-#include "com_message_buffer.hpp"
 
 namespace{
-  class ComInterfaceDerived: public com::ComInterface {
+  class ConcreteComInterface final: public com::ComInterface {
+
     private:
       std::array<std::uint8_t, 32> ret_array = {0};
+
     public:
-      explicit ComInterfaceDerived(std::unique_ptr<com::ComMessageBuffer> com_buf) : com::ComInterface(std::move(com_buf)){};
-      auto get_data_packet() const noexcept -> std::array<std::uint8_t, 32>{return ret_array;};
-      auto put_data_packet(std::uint8_t target_id, std::array<std::uint8_t, 32> &payload) const noexcept
-        -> std::uint8_t{return 0;};
+      using com::ComInterface::msg_buffer;
+      explicit ConcreteComInterface(std::unique_ptr<com::ComMessageBuffer> com_buf) : com::ComInterface(std::move(com_buf)){}
+
+      auto get_data_packet() const noexcept -> std::array<std::uint8_t, 32>{
+        return msg_buffer->get_data();
+      }
+
+      auto put_data_packet(std::uint8_t target_id, std::array<std::uint8_t, 32> &payload) const noexcept-> std::uint8_t{
+        return 1;
+      }
   };
 
   class ComInterfaceTests: public ::testing::Test{
@@ -20,9 +27,26 @@ namespace{
   };
 }
 
-TEST_F(ComInterfaceTests, signture_stability){
-    auto com_buffer_ = std::make_unique<com::ComMessageBuffer>();
-    std::make_unique<ComInterfaceDerived>(std::move(com_buffer_));
+TEST_F(ComInterfaceTests, is_constructible_with_com_buffer){
+  auto com_buffer_ = std::make_unique<com::ComMessageBuffer>();
+  com_buffer_->test_member = 0xfa;
+  auto unit_under_test_ = std::make_unique<ConcreteComInterface>(std::move(com_buffer_));
+  ASSERT_EQ(0xfa, unit_under_test_->msg_buffer->test_member);
+}
+
+TEST_F(ComInterfaceTests, get_data_packet){
+  std::array<std::uint8_t, 32> data_compare_;
+  data_compare_.fill(0xaa);
+  auto com_buffer_ = std::make_unique<com::ComMessageBuffer>();
+  auto unit_under_test_ = std::make_unique<ConcreteComInterface>(std::move(com_buffer_));
+  ASSERT_EQ(data_compare_, unit_under_test_->get_data_packet());
+}
+
+TEST_F(ComInterfaceTests, put_data_packet){
+  std::array<std::uint8_t, 32> data_;
+  auto com_buffer_ = std::make_unique<com::ComMessageBuffer>();
+  auto unit_under_test_ = std::make_unique<ConcreteComInterface>(std::move(com_buffer_));
+  ASSERT_EQ(1, unit_under_test_->put_data_packet(1, data_));
 }
 
 int main(int argc, char **argv) {
