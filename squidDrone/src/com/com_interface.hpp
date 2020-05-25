@@ -24,7 +24,7 @@ namespace com {
       * @brief Construct a new Com Interface object
       * 
       */
-      explicit ComInterface(ComMessageBuffer &msg_buf) : msg_buffer(msg_buf){};
+      explicit ComInterface(std::unique_ptr<com::ComMessageBuffer> msg_buf) : msg_buffer(std::move(msg_buf)){};
 
       /** 
       * @brief Get the data packet object
@@ -47,10 +47,10 @@ namespace com {
       
     protected:
       /** 
-      * @brief Reference to an instance of a message buffer queue.
+      * @brief Unique pointer to an instance of a message buffer queue.
       * 
       */
-      ComMessageBuffer &msg_buffer;
+      std::unique_ptr<com::ComMessageBuffer> msg_buffer;
   };
 }
 
