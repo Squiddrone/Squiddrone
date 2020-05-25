@@ -46,7 +46,9 @@ package_add_test(imu_interface
 
 package_add_test(propulsion_hardware_config_type propulsion/propulsion_hardware_config_test.cpp)
 
-package_add_test(motor_builder propulsion/motorbuilder_test.cpp)
+package_add_test(motor_builder propulsion/motorbuilder_test.cpp
+    ${CMAKE_SOURCE_DIR}/src/propulsion/motor_builder.cpp
+)
 
 SETUP_ALLTESTS_TARGET(
     NAME all_tests                 

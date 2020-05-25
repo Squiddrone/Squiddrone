@@ -7,7 +7,8 @@
 namespace types{
 
   enum class MotorType: int{
-    LETODAR_2204
+    LETODAR_2204,
+    NONE
   };
 
   enum class EscType: int{
