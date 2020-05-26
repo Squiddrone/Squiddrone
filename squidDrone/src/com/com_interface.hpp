@@ -35,7 +35,7 @@ namespace com {
        * @brief Virtual destruktor. 
        *
        */
-      virtual ~ComInterface();
+      virtual ~ComInterface() = default;
 
       /** 
        * @brief Get the data packet object
