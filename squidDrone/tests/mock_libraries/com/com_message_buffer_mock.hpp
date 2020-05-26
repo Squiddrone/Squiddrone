@@ -11,6 +11,7 @@ namespace com
     public:
       ComMessageBuffer(){
         _data.fill(0xaa);
+        test_member = 0;
       };
       std::uint8_t put_data(std::array<std::uint8_t, 32> &data);
       std::array<std::uint8_t, 32> get_data();
