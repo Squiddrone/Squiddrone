@@ -27,25 +27,25 @@ namespace{
 }
 
 TEST_F(ComInterfaceTests, is_constructible_with_com_buffer){
-  auto com_buffer_ = std::make_unique<com::ComMessageBuffer>();
-  com_buffer_->test_member = 0xfa;
-  auto unit_under_test_ = std::make_unique<ConcreteComInterface>(std::move(com_buffer_));
-  ASSERT_EQ(0xfa, unit_under_test_->msg_buffer->test_member);
+  auto com_buffer = std::make_unique<com::ComMessageBuffer>();
+  com_buffer->test_member = 0xfa;
+  auto unit_under_test = std::make_unique<ConcreteComInterface>(std::move(com_buffer));
+  ASSERT_EQ(0xfa, unit_under_test->msg_buffer->test_member);
 }
 
 TEST_F(ComInterfaceTests, get_data_packet){
-  std::array<std::uint8_t, 32> data_compare_;
-  data_compare_.fill(0xaa);
-  auto com_buffer_ = std::make_unique<com::ComMessageBuffer>();
-  auto unit_under_test_ = std::make_unique<ConcreteComInterface>(std::move(com_buffer_));
-  ASSERT_EQ(data_compare_, unit_under_test_->get_data_packet());
+  std::array<std::uint8_t, 32> data_compare;
+  data_compare.fill(0xaa);
+  auto com_buffer = std::make_unique<com::ComMessageBuffer>();
+  auto unit_under_test = std::make_unique<ConcreteComInterface>(std::move(com_buffer));
+  ASSERT_EQ(data_compare, unit_under_test->get_data_packet());
 }
 
 TEST_F(ComInterfaceTests, put_data_packet){
-  std::array<std::uint8_t, 32> data_;
-  auto com_buffer_ = std::make_unique<com::ComMessageBuffer>();
-  auto unit_under_test_ = std::make_unique<ConcreteComInterface>(std::move(com_buffer_));
-  ASSERT_EQ(1, unit_under_test_->put_data_packet(1, data_));
+  std::array<std::uint8_t, 32> data;
+  auto com_buffer = std::make_unique<com::ComMessageBuffer>();
+  auto unit_under_test = std::make_unique<ConcreteComInterface>(std::move(com_buffer));
+  ASSERT_EQ(1, unit_under_test->put_data_packet(1, data));
 }
 
 int main(int argc, char **argv) {
