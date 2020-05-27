@@ -26,5 +26,20 @@ HAL_StatusTypeDef HAL_I2C_Master_Receive(I2C_HandleTypeDef *hi2c, uint16_t DevAd
 
 HAL_StatusTypeDef HAL_I2C_Master_Transmit(I2C_HandleTypeDef *hi2c, uint16_t DevAddress, uint8_t *pData, uint16_t Size, uint32_t Timeout)
 {
+  DevAddress = DevAddress >> 1; //revert shift to the left for easier comparison
+
+  if (DevAddress == 0x10) {
+    return HAL_OK;
+  }
+  else if (DevAddress == 0x11) {
+    return HAL_ERROR;
+  }
+  else if (DevAddress == 0x12) {
+    return HAL_TIMEOUT;
+  }
+  else if (DevAddress == 0x13) {
+    return HAL_BUSY;
+  }
+
   return HAL_ERROR;
 }
