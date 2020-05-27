@@ -15,6 +15,8 @@ typedef enum
   HAL_TIMEOUT  = 0x03U
 } HAL_StatusTypeDef;
 
+#define HAL_MAX_DELAY      0xFFFFFFFFU
+
 typedef struct __I2C_HandleTypeDef
 {
   int dummy;
