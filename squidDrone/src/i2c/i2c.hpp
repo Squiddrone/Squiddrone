@@ -12,8 +12,13 @@ namespace i2c {
       ~I2C() = default;
       explicit I2C(void): I2CInterface(){};
 
-      auto read(uint8_t address, uint16_t byte_size, int timeout=I2C_STANDARD_TIMEOUT) noexcept -> std::tuple<I2CStatus, std::vector<uint8_t>> override;
-      auto write(uint8_t address, const std::vector<uint8_t>& data, int timeout=I2C_STANDARD_TIMEOUT) noexcept -> I2CStatus override;
+      auto read(uint8_t address, uint16_t byte_size, uint32_t timeout=I2C_STANDARD_TIMEOUT) noexcept -> std::tuple<I2CStatus, std::vector<uint8_t>> override;
+      auto write(uint8_t address, const std::vector<uint8_t>& data, uint32_t timeout=I2C_STANDARD_TIMEOUT) noexcept -> I2CStatus override;
+    private:
+      auto check_for_valid_input_read(uint8_t address, uint16_t byte_size, uint32_t timeout) noexcept -> bool;
+      auto check_if_i2c_address_is_valid(uint8_t address) noexcept -> bool;
+      auto check_if_i2c_byte_size_is_valid(uint16_t byte_size) noexcept -> bool;
+      auto check_if_i2c_timeout_is_valid(uint32_t timeout) noexcept -> bool;
   };
 
 } // namespace i2c
