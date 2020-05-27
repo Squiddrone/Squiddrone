@@ -18,7 +18,20 @@ namespace i2c
     HAL_StatusTypeDef hal_status = HAL_I2C_Master_Receive(&hi2c2, address, buffer, byte_size, timeout);
 
     std::vector<uint8_t> data(buffer, buffer+byte_size);
-    
+    i2c_status = get_i2c_status(hal_status);
+
+    return {i2c_status, data};
+  }
+
+  auto I2C::check_for_valid_input_read(uint8_t address, uint16_t byte_size, uint32_t timeout) noexcept -> bool {
+    return check_if_i2c_address_is_valid(address) && 
+      check_if_i2c_byte_size_is_valid(byte_size) && 
+      check_if_i2c_timeout_is_valid(timeout);
+  }
+
+  auto I2C::get_i2c_status(HAL_StatusTypeDef hal_status) noexcept -> I2CStatus {
+    I2CStatus i2c_status;
+
     if (hal_status == HAL_OK) {
         i2c_status = I2CStatus::I2C_TRANSACTION_SUCCESSFUL;
       }
@@ -35,13 +48,7 @@ namespace i2c
       i2c_status = I2CStatus::I2C_TRANSACTION_FAILED;
     }
 
-    return {i2c_status, data};
-  }
-
-  auto I2C::check_for_valid_input_read(uint8_t address, uint16_t byte_size, uint32_t timeout) noexcept -> bool {
-    return check_if_i2c_address_is_valid(address) && 
-      check_if_i2c_byte_size_is_valid(byte_size) && 
-      check_if_i2c_timeout_is_valid(timeout);
+    return i2c_status;
   }
 
   auto I2C::write(uint8_t address, const std::vector<uint8_t>& data, uint32_t timeout) noexcept -> I2CStatus {
