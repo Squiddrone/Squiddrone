@@ -101,6 +101,86 @@ namespace{
 
     EXPECT_EQ(result_status, i2c::I2CStatus::I2C_PARAMETER_ERROR);
   }
+
+    TEST_F(I2CInterfaceTests, write_successful){
+    auto address = 0x10;
+    std::vector<uint8_t> data = {1, 2};
+    auto timeout = 2;
+    std::vector<uint8_t> result_data;
+    auto result_status = unit_under_test_->write(address, data, timeout);
+
+    EXPECT_EQ(result_status, i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL);
+  }
+
+  TEST_F(I2CInterfaceTests, write_failed){
+    auto address = 0x11;
+    std::vector<uint8_t> data = {1, 2};
+    auto timeout = 2;
+    std::vector<uint8_t> result_data;
+    auto result_status = unit_under_test_->write(address, data, timeout);
+
+    EXPECT_EQ(result_status, i2c::I2CStatus::I2C_TRANSACTION_FAILED);
+  }
+
+  TEST_F(I2CInterfaceTests, write_timeout){
+    auto address = 0x12;
+    std::vector<uint8_t> data = {1, 2};
+    auto timeout = 2;
+    std::vector<uint8_t> result_data;
+    auto result_status = unit_under_test_->write(address, data, timeout);
+
+    EXPECT_EQ(result_status, i2c::I2CStatus::I2C_TRANSACTION_TIMEOUT);
+  }
+
+  TEST_F(I2CInterfaceTests, write_busy){
+    auto address = 0x13;
+    std::vector<uint8_t> data = {1, 2};
+    auto timeout = 2;
+    std::vector<uint8_t> result_data;
+    auto result_status = unit_under_test_->write(address, data, timeout);
+
+    EXPECT_EQ(result_status, i2c::I2CStatus::I2C_TRANSACTION_BUSY);
+  }
+
+  TEST_F(I2CInterfaceTests, write_data_empty){
+    auto address = 0x10;
+    std::vector<uint8_t> data = {};
+    auto timeout = 2;
+    std::vector<uint8_t> result_data;
+    auto result_status = unit_under_test_->write(address, data, timeout);
+
+    EXPECT_EQ(result_status, i2c::I2CStatus::I2C_PARAMETER_ERROR);
+  }
+
+  TEST_F(I2CInterfaceTests, write_timeout_0){
+    auto address = 0x10;
+    std::vector<uint8_t> data = {1, 2};
+    auto timeout = 0;
+    std::vector<uint8_t> result_data;
+    auto result_status = unit_under_test_->write(address, data, timeout);
+
+    EXPECT_EQ(result_status, i2c::I2CStatus::I2C_PARAMETER_ERROR);
+  }
+
+  TEST_F(I2CInterfaceTests, write_address_out_of_range_0){
+    auto address = 0x0;
+    std::vector<uint8_t> data = {1, 2};
+    auto timeout = 2;
+    std::vector<uint8_t> result_data;
+    auto result_status = unit_under_test_->write(address, data, timeout);
+
+    EXPECT_EQ(result_status, i2c::I2CStatus::I2C_PARAMETER_ERROR);
+  }
+
+  TEST_F(I2CInterfaceTests, write_address_out_of_range_0x78){
+    auto address = 0x78;
+    std::vector<uint8_t> data = {1, 2};
+    auto timeout = 2;
+    std::vector<uint8_t> result_data;
+    auto result_status = unit_under_test_->write(address, data, timeout);
+
+    EXPECT_EQ(result_status, i2c::I2CStatus::I2C_PARAMETER_ERROR);
+  }
 }
 
 int main(int argc, char **argv) {
