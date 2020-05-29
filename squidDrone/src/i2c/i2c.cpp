@@ -95,7 +95,8 @@ namespace i2c
   }
 
   auto I2C::check_if_i2c_data_is_valid(const std::vector<uint8_t>& data) noexcept -> bool {
-    return (data.size() > 0 ? true : false);
+    constexpr uint8_t i2c_maximum_allowed_data_size_in_bytes = 32;
+    return ((data.size() > 0 && data.size() <= i2c_maximum_allowed_data_size_in_bytes )? true : false);
   }
 
 } // namespace i2c
