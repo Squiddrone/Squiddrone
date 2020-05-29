@@ -6,7 +6,7 @@
 #include <vector>
 #include <tuple>
 
-constexpr int I2C_STANDARD_TIMEOUT = 0xFFFFFFFFU; //taken from HAL_MAX_DELAY
+static constexpr int I2C_STANDARD_TIMEOUT = 0xFFFFFFFFU; //taken from HAL_MAX_DELAY
 
 namespace i2c {
 
