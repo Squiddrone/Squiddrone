@@ -23,6 +23,7 @@ namespace{
 
     EXPECT_EQ(result_status, i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL);
     EXPECT_THAT(result_data, testing::ElementsAre(1, 2, 3));
+    EXPECT_THAT(result_data.size(), 3);
   }
 
   TEST_F(I2CInterfaceTests, read_failed){
