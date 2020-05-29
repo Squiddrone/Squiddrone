@@ -75,8 +75,8 @@ namespace i2c
   }
 
   auto I2C::check_if_i2c_address_is_valid(uint8_t address) noexcept -> bool {
-    static constexpr uint8_t i2c_minimum_allowed_7bit_address = 0x08;
-    static constexpr uint8_t i2c_maximum_allowed_7bit_address = 0x77;
+    constexpr uint8_t i2c_minimum_allowed_7bit_address = 0x08;
+    constexpr uint8_t i2c_maximum_allowed_7bit_address = 0x77;
 
     if (address >= i2c_minimum_allowed_7bit_address && address <= i2c_maximum_allowed_7bit_address) {
       return true;
