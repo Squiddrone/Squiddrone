@@ -6,8 +6,6 @@
 #include <vector>
 #include <tuple>
 
-static constexpr int I2C_STANDARD_TIMEOUT_IN_MS = 200;
-
 namespace i2c {
 
   class I2CInterface {
@@ -17,6 +15,8 @@ namespace i2c {
 
       virtual auto read(uint8_t address, uint16_t byte_size, uint32_t timeout=I2C_STANDARD_TIMEOUT_IN_MS) noexcept -> std::tuple<I2CStatus, std::vector<uint8_t>> = 0;
       virtual auto write(uint8_t address, const std::vector<uint8_t>& data, uint32_t timeout=I2C_STANDARD_TIMEOUT_IN_MS) noexcept -> I2CStatus = 0;
+    protected:
+      static constexpr int I2C_STANDARD_TIMEOUT_IN_MS = 200;
   };
 
 } // namespace i2c
