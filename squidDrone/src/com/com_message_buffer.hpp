@@ -3,6 +3,7 @@
 
 #include <array>
 #include <queue>
+#include "com_types.hpp"
 
 namespace com {
   /** 
@@ -25,7 +26,7 @@ namespace com {
        * @return uint8_t Returns 0 on no error, otherwise negative value.
        * 
        */
-      std::int8_t put_data(std::array<std::uint8_t, 32> &data);
+      types::ComError put_data(std::array<std::uint8_t, 32> &data);
 
       /** 
        * @brief Retrieve data frame from queue buffer.
@@ -35,7 +36,7 @@ namespace com {
        */
       std::array<std::uint8_t, 32> get_data();
     
-    private:
+    protected:
       /** 
        * @brief Queue to hold the 32 byte long data frames. Queue shall be emptied on
        * each execution slice and the data frames shall be processed.
@@ -43,8 +44,16 @@ namespace com {
        */
       std::queue<std::array<std::uint8_t,32>> _data;
 
+      /**
+       * @brief Check if queue front entry matches data parameter
+       * 
+       * @param data Data to be checked against
+       * @return types::ComError COM_OK if ok, COM_BUFFER_IO_ERROR if not ok.
+       */
+      types::ComError check_data(std::array<std::uint8_t, 32> &data);
+
       // The maximum length for the queue.
-      static constexpr auto max_queue_len = 5;
+      const std::uint8_t max_queue_len = 5;
   };
 }
 
