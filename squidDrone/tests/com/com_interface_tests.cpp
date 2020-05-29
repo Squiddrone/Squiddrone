@@ -14,8 +14,8 @@ namespace{
         return msg_buffer->get_data();
       }
 
-      auto put_data_packet(std::uint8_t target_id, std::array<std::uint8_t, 32> &payload) const noexcept-> std::uint8_t{
-        return 1;
+      auto put_data_packet(std::uint8_t target_id, std::array<std::uint8_t, 32> &payload) const noexcept-> types::ComError{
+        return types::ComError::COM_OK;
       }
   };
 
@@ -45,7 +45,7 @@ TEST_F(ComInterfaceTests, put_data_packet){
   std::array<std::uint8_t, 32> data;
   auto com_buffer = std::make_unique<com::ComMessageBuffer>();
   auto unit_under_test = std::make_unique<ConcreteComInterface>(std::move(com_buffer));
-  ASSERT_EQ(1, unit_under_test->put_data_packet(1, data));
+  ASSERT_EQ(types::ComError::COM_OK, unit_under_test->put_data_packet(1, data));
 }
 
 int main(int argc, char **argv) {

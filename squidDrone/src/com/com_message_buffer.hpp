@@ -42,7 +42,7 @@ namespace com {
        * each execution slice and the data frames shall be processed.
        * 
        */
-      std::queue<std::array<std::uint8_t,32>> _data;
+      std::queue<std::array<std::uint8_t,32>> data_;
 
       /**
        * @brief Check if queue front entry matches data parameter
