@@ -6,11 +6,10 @@
 
 namespace com {
   /** 
-  * @class ComMessageBuffer
-  * @brief This class represents a queue style buffer for communication
-  * frames exchanged between drones.
-  * 
-  */
+    * @brief This class represents a queue style buffer for communication
+    * frames exchanged between drones.
+    * 
+    */
   class ComMessageBuffer {
     public:
       /** 
@@ -20,13 +19,13 @@ namespace com {
       ComMessageBuffer(){};
 
       /** 
-       * @brief Transfer data to queue buffer
+       * @brief Transfer data to queue buffer. 
        * 
        * @param data Reference to data frame. Must conform to data frame specifications.
-       * @return uint8_t Number of bytes put into the data queue.
+       * @return uint8_t Returns 0 on no error, otherwise negative value.
        * 
        */
-      uint8_t put_data(std::array<std::uint8_t, 32> &data);
+      std::int8_t put_data(std::array<std::uint8_t, 32> &data);
 
       /** 
        * @brief Retrieve data frame from queue buffer.
@@ -43,6 +42,9 @@ namespace com {
        * 
        */
       std::queue<std::array<std::uint8_t,32>> _data;
+
+      // The maximum length for the queue.
+      static constexpr auto max_queue_len = 5;
   };
 }
 
