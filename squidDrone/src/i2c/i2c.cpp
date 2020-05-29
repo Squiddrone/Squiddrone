@@ -88,11 +88,11 @@ namespace i2c
 
   auto I2C::check_if_i2c_amount_of_bytes_is_valid(uint16_t amount_of_bytes) noexcept -> bool {
     constexpr uint8_t i2c_maximum_allowed_data_size_in_bytes = 32;
-    return ((amount_of_bytes > 0 && amount_of_bytes <= i2c_maximum_allowed_data_size_in_bytes)  ? true : false);
+    return ((amount_of_bytes > 0 && amount_of_bytes <= i2c_maximum_allowed_data_size_in_bytes) ? true : false);
   }
 
   auto I2C::check_if_i2c_timeout_is_valid(uint32_t timeout) noexcept -> bool {
-    return ((timeout > 0 && timeout < HAL_MAX_DELAY)? true : false);
+    return ((timeout > 0 && timeout < HAL_MAX_DELAY) ? true : false);
   }
 } // namespace i2c
  
