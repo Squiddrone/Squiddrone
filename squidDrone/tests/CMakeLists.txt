@@ -51,6 +51,11 @@ package_add_test(com_interface
     ${CMAKE_SOURCE_DIR}/tests/mock_libraries/com/com_message_buffer_mock.cpp
 )
 
+package_add_test(com_message_buffer
+    com/com_message_buffer_tests.cpp
+    ${CMAKE_SOURCE_DIR}/src/com/com_message_buffer.cpp
+)
+
 SETUP_ALLTESTS_TARGET(
     NAME all_tests                 
     EXECUTABLE GTEST_COLOR=1 ctest --verbose -j ${n_cores}
