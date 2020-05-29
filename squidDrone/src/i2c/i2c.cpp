@@ -37,12 +37,12 @@ namespace i2c
 
   auto I2C::modify_address_for_i2c_7bit(uint8_t address) noexcept -> uint8_t {
     //because of 7 Bit addresses in I2C, one shift to the left
-    return address << 1;
+    return (uint8_t)(address << 1);
   }
 
   auto I2C::check_for_valid_input_read(uint8_t address, uint16_t byte_size, uint32_t timeout) noexcept -> bool {
     return check_if_i2c_address_is_valid(address) && 
-      check_if_i2c_byte_size_is_valid(byte_size) && 
+      check_if_i2c_amount_of_bytes_is_valid(byte_size) && 
       check_if_i2c_timeout_is_valid(timeout);
   }
 
@@ -70,7 +70,7 @@ namespace i2c
 
   auto I2C::check_for_valid_input_write(uint8_t address, const std::vector<uint8_t>& data, uint32_t timeout) noexcept -> bool {
     return check_if_i2c_address_is_valid(address) && 
-      check_if_i2c_data_is_valid(data) && 
+      check_if_i2c_amount_of_bytes_is_valid((uint16_t)data.size()) && 
       check_if_i2c_timeout_is_valid(timeout);
   }
 
@@ -86,17 +86,13 @@ namespace i2c
     }
   }
 
-  auto I2C::check_if_i2c_byte_size_is_valid(uint16_t byte_size) noexcept -> bool {
-    return (byte_size > 0 ? true : false);
+  auto I2C::check_if_i2c_amount_of_bytes_is_valid(uint16_t amount_of_bytes) noexcept -> bool {
+    constexpr uint8_t i2c_maximum_allowed_data_size_in_bytes = 32;
+    return ((amount_of_bytes > 0 && amount_of_bytes <= i2c_maximum_allowed_data_size_in_bytes)  ? true : false);
   }
 
   auto I2C::check_if_i2c_timeout_is_valid(uint32_t timeout) noexcept -> bool {
     return ((timeout > 0 && timeout < HAL_MAX_DELAY)? true : false);
   }
-
-  auto I2C::check_if_i2c_data_is_valid(const std::vector<uint8_t>& data) noexcept -> bool {
-    constexpr uint8_t i2c_maximum_allowed_data_size_in_bytes = 32;
-    return ((data.size() > 0 && data.size() <= i2c_maximum_allowed_data_size_in_bytes )? true : false);
-  }
-
 } // namespace i2c
+ 

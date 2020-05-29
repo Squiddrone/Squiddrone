@@ -20,9 +20,8 @@ namespace i2c {
       auto modify_address_for_i2c_7bit(uint8_t address) noexcept -> uint8_t;
       auto get_i2c_status(HAL_StatusTypeDef hal_status) noexcept -> I2CStatus;
       auto check_if_i2c_address_is_valid(uint8_t address) noexcept -> bool;
-      auto check_if_i2c_byte_size_is_valid(uint16_t byte_size) noexcept -> bool;
+      auto check_if_i2c_amount_of_bytes_is_valid(uint16_t amount_of_bytes) noexcept -> bool;
       auto check_if_i2c_timeout_is_valid(uint32_t timeout) noexcept -> bool;
-      auto check_if_i2c_data_is_valid(const std::vector<uint8_t>& data) noexcept -> bool;
   };
 
 } // namespace i2c
