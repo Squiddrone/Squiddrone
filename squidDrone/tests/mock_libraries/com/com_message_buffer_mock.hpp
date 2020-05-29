@@ -9,9 +9,8 @@ namespace com
 
   class ComMessageBuffer {
     public:
-      ComMessageBuffer(){
-        _data.fill(0xaa);
-        test_member = 0;
+      ComMessageBuffer(): test_member(0), data_({0}){
+        data_.fill(0xaa);
       };
       std::uint8_t put_data(std::array<std::uint8_t, 32> &data);
       std::array<std::uint8_t, 32> get_data();
@@ -19,7 +18,7 @@ namespace com
       std::uint8_t test_member;
 
     protected:
-      std::array<std::uint8_t,32> _data;
+      std::array<std::uint8_t,32> data_;
   };
 }
 

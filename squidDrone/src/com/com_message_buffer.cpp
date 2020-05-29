@@ -3,22 +3,22 @@
 
 namespace com {
   types::ComError ComMessageBuffer::put_data(std::array<std::uint8_t, 32> &data){
-    if(_data.size() > max_queue_len){
+    if(data_.size() > max_queue_len){
       return types::ComError::COM_BUFFER_OVERFLOW;
     }
-    _data.push(data);
+    data_.push(data);
     return check_data(data);
   }
 
   std::array<std::uint8_t, 32> ComMessageBuffer::get_data(){
     std::array<std::uint8_t, 32> queue_item;
-    queue_item = _data.front();
-    _data.pop();
+    queue_item = data_.front();
+    data_.pop();
     return queue_item;
   }
 
   types::ComError ComMessageBuffer::check_data(std::array<std::uint8_t, 32> &data){
-    if(_data.front() == data){
+    if(data_.front() == data){
       return types::ComError::COM_OK;
     }
     else {

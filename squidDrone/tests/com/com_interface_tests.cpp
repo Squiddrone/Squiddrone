@@ -4,18 +4,18 @@
 namespace{
   class ConcreteComInterface final: public com::ComInterface {
     private:
-      std::array<std::uint8_t, 32> ret_array = {0};
+      std::array<std::uint8_t, 32> ret_array_ = {0};
 
     public:
-      using com::ComInterface::msg_buffer;
+      using com::ComInterface::msg_buffer_;
       explicit ConcreteComInterface(std::unique_ptr<com::ComMessageBuffer> com_buf) : com::ComInterface(std::move(com_buf)){}
 
       auto get_data_packet() const noexcept -> std::array<std::uint8_t, 32>{
-        return msg_buffer->get_data();
+        return msg_buffer_->get_data();
       }
 
-      auto put_data_packet(std::uint8_t target_id, std::array<std::uint8_t, 32> &payload) const noexcept-> std::uint8_t{
-        return 1;
+      auto put_data_packet(std::uint8_t target_id, std::array<std::uint8_t, 32> &payload) const noexcept-> types::ComError{
+        return types::ComError::COM_OK;
       }
   };
 
@@ -30,7 +30,7 @@ TEST_F(ComInterfaceTests, is_constructible_with_com_buffer){
   auto com_buffer = std::make_unique<com::ComMessageBuffer>();
   com_buffer->test_member = 0xfa;
   auto unit_under_test = std::make_unique<ConcreteComInterface>(std::move(com_buffer));
-  ASSERT_EQ(0xfa, unit_under_test->msg_buffer->test_member);
+  ASSERT_EQ(0xfa, unit_under_test->msg_buffer_->test_member);
 }
 
 TEST_F(ComInterfaceTests, get_data_packet){
@@ -45,7 +45,7 @@ TEST_F(ComInterfaceTests, put_data_packet){
   std::array<std::uint8_t, 32> data;
   auto com_buffer = std::make_unique<com::ComMessageBuffer>();
   auto unit_under_test = std::make_unique<ConcreteComInterface>(std::move(com_buffer));
-  ASSERT_EQ(1, unit_under_test->put_data_packet(1, data));
+  ASSERT_EQ(types::ComError::COM_OK, unit_under_test->put_data_packet(1, data));
 }
 
 int main(int argc, char **argv) {

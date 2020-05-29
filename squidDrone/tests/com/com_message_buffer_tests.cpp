@@ -5,7 +5,7 @@ namespace{
   // Derived class for testing queue behaviour
   class ComMessageBufferTest: public com::ComMessageBuffer {
     public:
-      using com::ComMessageBuffer::_data;
+      using com::ComMessageBuffer::data_;
       using com::ComMessageBuffer::check_data;
       ComMessageBufferTest(){};
   };
@@ -31,12 +31,12 @@ TEST_F(ComMessageBufferTests, check_data){
 TEST_F(ComMessageBufferTests, put_data){
   auto com_buffer = std::make_unique<ComMessageBufferTest>();
   com_buffer->put_data(ref_data);
-  ASSERT_EQ(com_buffer->_data.front(),ref_data);
+  ASSERT_EQ(com_buffer->data_.front(),ref_data);
 }
 
 TEST_F(ComMessageBufferTests, get_data){
   auto com_buffer = std::make_unique<ComMessageBufferTest>();
-  com_buffer->_data.push(ref_data);
+  com_buffer->data_.push(ref_data);
   auto retrieved_data = com_buffer->get_data();
   ASSERT_EQ(ref_data,retrieved_data);
 }

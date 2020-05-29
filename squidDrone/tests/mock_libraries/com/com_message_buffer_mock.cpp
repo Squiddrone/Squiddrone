@@ -6,6 +6,6 @@ namespace com {
   }
 
   std::array<std::uint8_t, 32> ComMessageBuffer::get_data(){
-    return _data;
+    return data_;
   }
 }
