@@ -17,7 +17,7 @@ namespace com {
     return queue_item;
   }
 
-auto ComMessageBuffer::CheckData(std::array<std::uint8_t, 32> &data) const noexcept -> types::ComError{
+  auto ComMessageBuffer::CheckData(std::array<std::uint8_t, 32> &data) const noexcept -> types::ComError{
     if(data_.front() == data){
       return types::ComError::COM_OK;
     }
