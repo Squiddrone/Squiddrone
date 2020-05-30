@@ -5,6 +5,7 @@ namespace{
   // Derived class for testing queue behaviour
   class ComMessageBufferTest: public com::ComMessageBuffer {
     public:
+      using com::ComMessageBuffer::max_queue_len;
       using com::ComMessageBuffer::data_;
       using com::ComMessageBuffer::CheckData;
       ComMessageBufferTest(){};
@@ -39,6 +40,15 @@ TEST_F(ComMessageBufferTests, get_data){
   com_buffer->data_.push(ref_data);
   auto retrieved_data = com_buffer->GetData();
   ASSERT_EQ(ref_data,retrieved_data);
+}
+
+TEST_F(ComMessageBufferTests, buffer_overflow){
+  auto com_buffer = std::make_unique<ComMessageBufferTest>();
+  for (int n = 0; n <= com_buffer->max_queue_len; n++){
+    com_buffer->data_.push(ref_data);
+  }
+  auto rv = com_buffer->PutData(ref_data);
+  ASSERT_EQ(rv, types::ComError::COM_BUFFER_OVERFLOW);
 }
 
 int main(int argc, char **argv) {
