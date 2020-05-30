@@ -67,6 +67,7 @@ SETUP_ALLTESTS_TARGET(
         abstract_motor
         letodar_2204
         com_interface
+        com_message_buffer
 )
 
 if(CODE_COVERAGE)
