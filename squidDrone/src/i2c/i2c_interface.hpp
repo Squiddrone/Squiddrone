@@ -36,6 +36,7 @@ namespace i2c {
        * @return I2CStatus Status of I2C Interface
        */
       virtual auto Write(uint8_t address, const std::vector<uint8_t>& data, uint32_t timeout=I2C_STANDARD_TIMEOUT_IN_MS) noexcept -> I2CStatus = 0;
+    
     protected:
       /// @brief Standard timeout of I2C Interface in milliseconds
       static constexpr int I2C_STANDARD_TIMEOUT_IN_MS = 200;
