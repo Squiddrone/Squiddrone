@@ -8,6 +8,10 @@
 
 namespace i2c {
 
+  /**
+   * @brief Interface of I2C package
+   * 
+   */
   class I2CInterface {
     public:
       virtual ~I2CInterface() = default;
