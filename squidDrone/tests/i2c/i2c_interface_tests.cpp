@@ -19,7 +19,7 @@ namespace{
     auto timeout = 2;
     i2c::I2CStatus result_status;
     std::vector<uint8_t> result_data;
-    std::tie(result_status, result_data) = unit_under_test_->read(address, byte_size, timeout);
+    std::tie(result_status, result_data) = unit_under_test_->Read(address, byte_size, timeout);
 
     if (result_data.size() != byte_size) {
       EXPECT_THAT(result_data.size(), byte_size);
@@ -35,7 +35,7 @@ namespace{
     auto timeout = 2;
     i2c::I2CStatus result_status;
     std::vector<uint8_t> result_data;
-    std::tie(result_status, result_data) = unit_under_test_->read(address, byte_size, timeout);
+    std::tie(result_status, result_data) = unit_under_test_->Read(address, byte_size, timeout);
 
     EXPECT_EQ(result_status, i2c::I2CStatus::I2C_TRANSACTION_FAILED);
   }
@@ -46,7 +46,7 @@ namespace{
     auto timeout = 2;
     i2c::I2CStatus result_status;
     std::vector<uint8_t> result_data;
-    std::tie(result_status, result_data) = unit_under_test_->read(address, byte_size, timeout);
+    std::tie(result_status, result_data) = unit_under_test_->Read(address, byte_size, timeout);
 
     EXPECT_EQ(result_status, i2c::I2CStatus::I2C_TRANSACTION_TIMEOUT);
   }
@@ -57,7 +57,7 @@ namespace{
     auto timeout = 2;
     i2c::I2CStatus result_status;
     std::vector<uint8_t> result_data;
-    std::tie(result_status, result_data) = unit_under_test_->read(address, byte_size, timeout);
+    std::tie(result_status, result_data) = unit_under_test_->Read(address, byte_size, timeout);
 
     EXPECT_EQ(result_status, i2c::I2CStatus::I2C_TRANSACTION_BUSY);
   }
@@ -68,7 +68,7 @@ namespace{
     auto timeout = 2;
     i2c::I2CStatus result_status;
     std::vector<uint8_t> result_data;
-    std::tie(result_status, result_data) = unit_under_test_->read(address, byte_size, timeout);
+    std::tie(result_status, result_data) = unit_under_test_->Read(address, byte_size, timeout);
 
     EXPECT_EQ(result_status, i2c::I2CStatus::I2C_PARAMETER_ERROR);
   }
@@ -79,7 +79,7 @@ namespace{
     auto timeout = 0;
     i2c::I2CStatus result_status;
     std::vector<uint8_t> result_data;
-    std::tie(result_status, result_data) = unit_under_test_->read(address, byte_size, timeout);
+    std::tie(result_status, result_data) = unit_under_test_->Read(address, byte_size, timeout);
 
     EXPECT_EQ(result_status, i2c::I2CStatus::I2C_PARAMETER_ERROR);
   }
@@ -90,7 +90,7 @@ namespace{
     auto timeout = 2;
     i2c::I2CStatus result_status;
     std::vector<uint8_t> result_data;
-    std::tie(result_status, result_data) = unit_under_test_->read(address, byte_size, timeout);
+    std::tie(result_status, result_data) = unit_under_test_->Read(address, byte_size, timeout);
 
     EXPECT_EQ(result_status, i2c::I2CStatus::I2C_PARAMETER_ERROR);
   }
@@ -101,7 +101,7 @@ namespace{
     auto timeout = 2;
     i2c::I2CStatus result_status;
     std::vector<uint8_t> result_data;
-    std::tie(result_status, result_data) = unit_under_test_->read(address, byte_size, timeout);
+    std::tie(result_status, result_data) = unit_under_test_->Read(address, byte_size, timeout);
 
     EXPECT_EQ(result_status, i2c::I2CStatus::I2C_PARAMETER_ERROR);
   }
@@ -111,7 +111,7 @@ namespace{
     std::vector<uint8_t> data = {1, 2};
     auto timeout = 2;
     std::vector<uint8_t> result_data;
-    auto result_status = unit_under_test_->write(address, data, timeout);
+    auto result_status = unit_under_test_->Write(address, data, timeout);
 
     EXPECT_EQ(result_status, i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL);
   }
@@ -121,7 +121,7 @@ namespace{
     std::vector<uint8_t> data = {1, 2};
     auto timeout = 2;
     std::vector<uint8_t> result_data;
-    auto result_status = unit_under_test_->write(address, data, timeout);
+    auto result_status = unit_under_test_->Write(address, data, timeout);
 
     EXPECT_EQ(result_status, i2c::I2CStatus::I2C_TRANSACTION_FAILED);
   }
@@ -131,7 +131,7 @@ namespace{
     std::vector<uint8_t> data = {1, 2};
     auto timeout = 2;
     std::vector<uint8_t> result_data;
-    auto result_status = unit_under_test_->write(address, data, timeout);
+    auto result_status = unit_under_test_->Write(address, data, timeout);
 
     EXPECT_EQ(result_status, i2c::I2CStatus::I2C_TRANSACTION_TIMEOUT);
   }
@@ -141,7 +141,7 @@ namespace{
     std::vector<uint8_t> data = {1, 2};
     auto timeout = 2;
     std::vector<uint8_t> result_data;
-    auto result_status = unit_under_test_->write(address, data, timeout);
+    auto result_status = unit_under_test_->Write(address, data, timeout);
 
     EXPECT_EQ(result_status, i2c::I2CStatus::I2C_TRANSACTION_BUSY);
   }
@@ -151,7 +151,7 @@ namespace{
     std::vector<uint8_t> data = {};
     auto timeout = 2;
     std::vector<uint8_t> result_data;
-    auto result_status = unit_under_test_->write(address, data, timeout);
+    auto result_status = unit_under_test_->Write(address, data, timeout);
 
     EXPECT_EQ(result_status, i2c::I2CStatus::I2C_PARAMETER_ERROR);
   }
@@ -161,7 +161,7 @@ namespace{
     std::vector<uint8_t> data = {1, 2};
     auto timeout = 0;
     std::vector<uint8_t> result_data;
-    auto result_status = unit_under_test_->write(address, data, timeout);
+    auto result_status = unit_under_test_->Write(address, data, timeout);
 
     EXPECT_EQ(result_status, i2c::I2CStatus::I2C_PARAMETER_ERROR);
   }
@@ -171,7 +171,7 @@ namespace{
     std::vector<uint8_t> data = {1, 2};
     auto timeout = 2;
     std::vector<uint8_t> result_data;
-    auto result_status = unit_under_test_->write(address, data, timeout);
+    auto result_status = unit_under_test_->Write(address, data, timeout);
 
     EXPECT_EQ(result_status, i2c::I2CStatus::I2C_PARAMETER_ERROR);
   }
@@ -181,7 +181,7 @@ namespace{
     std::vector<uint8_t> data = {1, 2};
     auto timeout = 2;
     std::vector<uint8_t> result_data;
-    auto result_status = unit_under_test_->write(address, data, timeout);
+    auto result_status = unit_under_test_->Write(address, data, timeout);
 
     EXPECT_EQ(result_status, i2c::I2CStatus::I2C_PARAMETER_ERROR);
   }

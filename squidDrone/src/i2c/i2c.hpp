@@ -12,16 +12,16 @@ namespace i2c {
       ~I2C() = default;
       explicit I2C(void): I2CInterface(){};
 
-      auto read(uint8_t address, uint16_t byte_size, uint32_t timeout=I2C_STANDARD_TIMEOUT_IN_MS) noexcept -> std::tuple<I2CStatus, std::vector<uint8_t>> override;
-      auto write(uint8_t address, const std::vector<uint8_t>& data, uint32_t timeout=I2C_STANDARD_TIMEOUT_IN_MS) noexcept -> I2CStatus override;
+      auto Read(uint8_t address, uint16_t byte_size, uint32_t timeout=I2C_STANDARD_TIMEOUT_IN_MS) noexcept -> std::tuple<I2CStatus, std::vector<uint8_t>> override;
+      auto Write(uint8_t address, const std::vector<uint8_t>& data, uint32_t timeout=I2C_STANDARD_TIMEOUT_IN_MS) noexcept -> I2CStatus override;
     private:
-      auto check_for_valid_input_read(uint8_t address, uint16_t byte_size, uint32_t timeout) noexcept -> bool;
-      auto check_for_valid_input_write(uint8_t address, const std::vector<uint8_t>& data, uint32_t timeout) noexcept -> bool;
-      auto check_if_i2c_address_is_valid(uint8_t address) noexcept -> bool;
-      auto check_if_i2c_amount_of_bytes_is_valid(uint16_t amount_of_bytes) noexcept -> bool;
-      auto check_if_i2c_timeout_is_valid(uint32_t timeout) noexcept -> bool;
-      auto modify_address_for_i2c_7bit(uint8_t address) noexcept -> uint8_t;
-      auto get_i2c_status(HAL_StatusTypeDef hal_status) noexcept -> I2CStatus;
+      auto CheckForValidInputRead(uint8_t address, uint16_t byte_size, uint32_t timeout) noexcept -> bool;
+      auto CheckForValidInputWrite(uint8_t address, const std::vector<uint8_t>& data, uint32_t timeout) noexcept -> bool;
+      auto CheckIfI2CAddressIsValid(uint8_t address) noexcept -> bool;
+      auto CheckIfI2CAmountOfBytesIsValid(uint16_t amount_of_bytes) noexcept -> bool;
+      auto CheckIfI2CTimeoutIsValid(uint32_t timeout) noexcept -> bool;
+      auto ModifyAddressForI2C7Bit(uint8_t address) noexcept -> uint8_t;
+      auto GetI2CStatus(HAL_StatusTypeDef hal_status) noexcept -> I2CStatus;
   };
 
 } // namespace i2c
