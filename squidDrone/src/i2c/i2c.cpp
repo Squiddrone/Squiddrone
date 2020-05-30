@@ -52,9 +52,6 @@ namespace i2c
     if (hal_status == HAL_OK) {
         i2c_status = I2CStatus::I2C_TRANSACTION_SUCCESSFUL;
       }
-    else if (hal_status == HAL_ERROR) {
-        i2c_status = I2CStatus::I2C_TRANSACTION_FAILED;
-      }
     else if (hal_status == HAL_TIMEOUT) {
         i2c_status = I2CStatus::I2C_TRANSACTION_TIMEOUT;
       }
