@@ -6,7 +6,7 @@ namespace{
   class ComMessageBufferTest: public com::ComMessageBuffer {
     public:
       using com::ComMessageBuffer::data_;
-      using com::ComMessageBuffer::check_data;
+      using com::ComMessageBuffer::CheckData;
       ComMessageBufferTest(){};
   };
 
@@ -23,21 +23,21 @@ TEST_F(ComMessageBufferTests, check_data){
   auto com_buffer = std::make_unique<ComMessageBufferTest>();
   std::array<std::uint8_t, 32> false_data;
   false_data.fill(0xaa);
-  com_buffer->put_data(false_data);
-  auto rv = com_buffer->check_data(ref_data);
+  com_buffer->PutData(false_data);
+  auto rv = com_buffer->CheckData(ref_data);
   ASSERT_EQ(rv, types::ComError::COM_BUFFER_IO_ERROR);
 }
 
 TEST_F(ComMessageBufferTests, put_data){
   auto com_buffer = std::make_unique<ComMessageBufferTest>();
-  com_buffer->put_data(ref_data);
+  com_buffer->PutData(ref_data);
   ASSERT_EQ(com_buffer->data_.front(),ref_data);
 }
 
 TEST_F(ComMessageBufferTests, get_data){
   auto com_buffer = std::make_unique<ComMessageBufferTest>();
   com_buffer->data_.push(ref_data);
-  auto retrieved_data = com_buffer->get_data();
+  auto retrieved_data = com_buffer->GetData();
   ASSERT_EQ(ref_data,retrieved_data);
 }
 

@@ -3,6 +3,7 @@
 
 #include <queue>
 #include <array>
+#include "com_types.hpp"
 
 namespace com 
 {
@@ -12,8 +13,8 @@ namespace com
       ComMessageBuffer(): test_member(0), data_({0}){
         data_.fill(0xaa);
       };
-      std::uint8_t put_data(std::array<std::uint8_t, 32> &data);
-      std::array<std::uint8_t, 32> get_data();
+      auto PutData(std::array<std::uint8_t, 32> &data) const noexcept -> types::ComError;
+      auto GetData() const noexcept -> std::array<std::uint8_t, 32>;
 
       std::uint8_t test_member;
 

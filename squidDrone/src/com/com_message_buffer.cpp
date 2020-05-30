@@ -2,22 +2,22 @@
 #include "com_types.hpp"
 
 namespace com {
-  types::ComError ComMessageBuffer::put_data(std::array<std::uint8_t, 32> &data){
+  auto ComMessageBuffer::PutData(std::array<std::uint8_t, 32> &data) noexcept -> types::ComError{
     if(data_.size() > max_queue_len){
       return types::ComError::COM_BUFFER_OVERFLOW;
     }
     data_.push(data);
-    return check_data(data);
+    return CheckData(data);
   }
 
-  std::array<std::uint8_t, 32> ComMessageBuffer::get_data(){
+  auto ComMessageBuffer::GetData() noexcept -> std::array<std::uint8_t, 32>{
     std::array<std::uint8_t, 32> queue_item;
     queue_item = data_.front();
     data_.pop();
     return queue_item;
   }
 
-  types::ComError ComMessageBuffer::check_data(std::array<std::uint8_t, 32> &data){
+auto ComMessageBuffer::CheckData(std::array<std::uint8_t, 32> &data) const noexcept -> types::ComError{
     if(data_.front() == data){
       return types::ComError::COM_OK;
     }

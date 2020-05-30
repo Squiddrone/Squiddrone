@@ -10,11 +10,11 @@ namespace{
       using com::ComInterface::msg_buffer_;
       explicit ConcreteComInterface(std::unique_ptr<com::ComMessageBuffer> com_buf) : com::ComInterface(std::move(com_buf)){}
 
-      auto get_data_packet() const noexcept -> std::array<std::uint8_t, 32>{
-        return msg_buffer_->get_data();
+      auto GetDataPacket() const noexcept -> std::array<std::uint8_t, 32>{
+        return msg_buffer_->GetData();
       }
 
-      auto put_data_packet(std::uint8_t target_id, std::array<std::uint8_t, 32> &payload) const noexcept-> types::ComError{
+      auto PutDataPacket(std::uint8_t target_id, std::array<std::uint8_t, 32> &payload) const noexcept-> types::ComError{
         return types::ComError::COM_OK;
       }
   };
@@ -38,14 +38,14 @@ TEST_F(ComInterfaceTests, get_data_packet){
   data_compare.fill(0xaa);
   auto com_buffer = std::make_unique<com::ComMessageBuffer>();
   auto unit_under_test = std::make_unique<ConcreteComInterface>(std::move(com_buffer));
-  ASSERT_EQ(data_compare, unit_under_test->get_data_packet());
+  ASSERT_EQ(data_compare, unit_under_test->GetDataPacket());
 }
 
 TEST_F(ComInterfaceTests, put_data_packet){
   std::array<std::uint8_t, 32> data;
   auto com_buffer = std::make_unique<com::ComMessageBuffer>();
   auto unit_under_test = std::make_unique<ConcreteComInterface>(std::move(com_buffer));
-  ASSERT_EQ(types::ComError::COM_OK, unit_under_test->put_data_packet(1, data));
+  ASSERT_EQ(types::ComError::COM_OK, unit_under_test->PutDataPacket(1, data));
 }
 
 int main(int argc, char **argv) {

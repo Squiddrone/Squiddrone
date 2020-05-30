@@ -41,9 +41,9 @@ namespace com {
       /** 
        * @brief Get the data packet object
        * 
-       * @return decltype(array<std::uint8_t, 32>) 
+       * @return array<std::uint8_t, 32> Returns a dataframe array.
        */
-      virtual auto get_data_packet() const noexcept -> std::array<std::uint8_t, 32> = 0;
+      virtual auto GetDataPacket() const noexcept -> std::array<std::uint8_t, 32> = 0;
       
       /** 
        * @brief Transmit dataframe of max length 32 byte via the drones' wifi interface.
@@ -51,10 +51,10 @@ namespace com {
        * @param target_id target_id The wifi id of the receiver.
        * @param payload payload An array of bytes. Max length 32 bytes. Must conform to SquidDrone 
        * com protocol specification.
-       * @return decltype(types::ComError) COM_OK in case of successful transmission, error code in case something 
+       * @return types::ComError COM_OK in case of successful transmission, error code in case something 
        * went wrong.
        */
-      virtual auto put_data_packet(std::uint8_t target_id, std::array<std::uint8_t, 32> &payload) const noexcept
+      virtual auto PutDataPacket(std::uint8_t target_id, std::array<std::uint8_t, 32> &payload) const noexcept
       -> types::ComError = 0;
       
     protected:

@@ -23,10 +23,10 @@ namespace com {
        * @brief Transfer data to queue buffer. 
        * 
        * @param data Reference to data frame. Must conform to data frame specifications.
-       * @return uint8_t Returns 0 on no error, otherwise negative value.
+       * @return types::ComError COM_OK if ok, COM_BUFFER_IO_ERROR if not ok.
        * 
        */
-      types::ComError put_data(std::array<std::uint8_t, 32> &data);
+      auto PutData(std::array<std::uint8_t, 32> &data) noexcept -> types::ComError;
 
       /** 
        * @brief Retrieve data frame from queue buffer.
@@ -34,7 +34,7 @@ namespace com {
        * @return std::array<std::uint8_t, 32> 
        * 
        */
-      std::array<std::uint8_t, 32> get_data();
+      auto GetData() noexcept -> std::array<std::uint8_t, 32>;
     
     protected:
       /** 
@@ -50,10 +50,10 @@ namespace com {
        * @param data Data to be checked against
        * @return types::ComError COM_OK if ok, COM_BUFFER_IO_ERROR if not ok.
        */
-      types::ComError check_data(std::array<std::uint8_t, 32> &data);
+      auto CheckData(std::array<std::uint8_t, 32> &data) const noexcept -> types::ComError;
 
       // The maximum length for the queue.
-      const std::uint8_t max_queue_len = 5;
+      static constexpr std::uint8_t max_queue_len = 5;
   };
 }
 
