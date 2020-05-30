@@ -20,11 +20,6 @@ namespace i2c
     std::vector<uint8_t> data(buffer, buffer+byte_size);
     i2c_status = GetI2CStatus(hal_status);
 
-    if (data.size() != byte_size) {
-      i2c_status = I2CStatus::I2C_TRANSACTION_FAILED;
-      data.clear();
-    }
-
     return {i2c_status, data};
   }
 
