@@ -2,7 +2,7 @@
 #define SRC_I2C_INTERFACE_HPP_
 
 #include "i2c_status.hpp"
-#include <stdint.h>
+#include <cstdint>
 #include <vector>
 #include <tuple>
 
