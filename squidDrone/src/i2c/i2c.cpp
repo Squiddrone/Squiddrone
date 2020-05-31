@@ -37,7 +37,7 @@ namespace i2c
 
   auto I2C::ModifyAddressForI2C7Bit(std::uint8_t address) noexcept -> std::uint8_t {
     //because of 7 Bit addresses in I2C, one shift to the left
-    return (std::uint8_t)(address << 1);
+    return static_cast<std::uint8_t>(address << 1);
   }
 
   auto I2C::CheckForValidInputRead(std::uint8_t address, std::uint16_t byte_size, std::uint32_t timeout) noexcept -> bool {
@@ -67,7 +67,7 @@ namespace i2c
 
   auto I2C::CheckForValidInputWrite(std::uint8_t address, const std::vector<std::uint8_t>& data, std::uint32_t timeout) noexcept -> bool {
     return CheckIfI2CAddressIsValid(address) && 
-      CheckIfI2CAmountOfBytesIsValid((std::uint16_t)data.size()) && 
+      CheckIfI2CAmountOfBytesIsValid(static_cast<std::uint16_t>(data.size())) && 
       CheckIfI2CTimeoutIsValid(timeout);
   }
 
