@@ -75,21 +75,16 @@ namespace i2c
     constexpr std::uint8_t i2c_minimum_allowed_7bit_address = 0x08;
     constexpr std::uint8_t i2c_maximum_allowed_7bit_address = 0x77;
 
-    if (address >= i2c_minimum_allowed_7bit_address && address <= i2c_maximum_allowed_7bit_address) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    return (address >= i2c_minimum_allowed_7bit_address && address <= i2c_maximum_allowed_7bit_address);
   }
 
   auto I2C::CheckIfI2CAmountOfBytesIsValid(std::uint16_t amount_of_bytes) noexcept -> bool {
     constexpr std::uint8_t i2c_maximum_allowed_data_size_in_bytes = 32;
-    return ((amount_of_bytes > 0 && amount_of_bytes <= i2c_maximum_allowed_data_size_in_bytes) ? true : false);
+    return (amount_of_bytes > 0 && amount_of_bytes <= i2c_maximum_allowed_data_size_in_bytes);
   }
 
   auto I2C::CheckIfI2CTimeoutIsValid(std::uint32_t timeout) noexcept -> bool {
-    return ((timeout > 0 && timeout < HAL_MAX_DELAY) ? true : false);
+    return (timeout > 0 && timeout < HAL_MAX_DELAY);
   }
 } // namespace i2c
  
