@@ -23,7 +23,7 @@ namespace i2c {
        * @param address The address of the I2C Bus participant
        * @param byte_size Amount of Bytes to read
        * @param timeout Timeout in milliseconds
-       * @return std::tuple<I2CStatus, std::vector<uint8_t>> Status of I2C Interface and Data read as std::vector. Each element is a Byte read.
+       * @return std::tuple<#I2CStatus, std::vector<uint8_t>> Status of I2C Interface and Data read as std::vector. Each element is a Byte read.
        */
       virtual auto Read(std::uint8_t address, std::uint16_t byte_size, std::uint32_t timeout=I2C_STANDARD_TIMEOUT_IN_MS) noexcept -> std::tuple<I2CStatus, std::vector<std::uint8_t>> = 0;
       
@@ -33,7 +33,7 @@ namespace i2c {
        * @param address The address of the I2C Bus participant
        * @param data Data to write to I2C participant. std::vector with each element is one Byte.
        * @param timeout Timeout in milliseconds
-       * @return I2CStatus Status of I2C Interface
+       * @return #I2CStatus Status of I2C Interface
        */
       virtual auto Write(std::uint8_t address, const std::vector<std::uint8_t>& data, std::uint32_t timeout=I2C_STANDARD_TIMEOUT_IN_MS) noexcept -> I2CStatus = 0;
     
