@@ -22,7 +22,6 @@ namespace types{
     LITTLE_BEE_20_A
   };
 
-
 }
 
 #endif

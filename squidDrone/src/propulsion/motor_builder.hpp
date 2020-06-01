@@ -27,7 +27,17 @@ namespace propulsion{
        * @param motor_config The information by which it can be determined what Motor to build
        * @return const std::unique_ptr<Motor> A pointer to said Motor. Nullptr on error
        */
-      static auto Create(propulsion::PropulsionHardwareConfig& motor_config) -> std::unique_ptr<Motor>;
+      static auto Create(propulsion::PropulsionHardwareConfig& motor_config) noexcept -> std::unique_ptr<Motor>;
+
+    private:
+      /**
+       * @brief Check all non-enum motor config members for not allowed values
+       * 
+       * @param motor_config 
+       * @return true if motor config is valid
+       * @return false if motor config contains invalid members
+       */
+      static auto MotorConfigIsValid(propulsion::PropulsionHardwareConfig& motor_config) noexcept -> const bool;
   };
 }
 #endif

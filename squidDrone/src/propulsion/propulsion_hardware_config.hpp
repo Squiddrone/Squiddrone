@@ -28,7 +28,15 @@ namespace propulsion{
     /// A pointer to a HAL timer object. Simple pointer is used for future compatability with HAL
     TIM_HandleTypeDef* timer;
 
-    /// Channel as defined in HAL
+    /**
+     * @brief Channel as defined in HAL (see below)
+     *  TIM_CHANNEL_1 0x00000000U                          
+     *  TIM_CHANNEL_2 0x00000004U                          
+     *  TIM_CHANNEL_3 0x00000008U                        
+     *  TIM_CHANNEL_4 0x0000000CU                              
+     *  TIM_CHANNEL_5 0x00000010U                                       
+     *  TIM_CHANNEL_6 0x00000014U                                      
+     */
     std::uint32_t channel;
   };
 }
