@@ -35,6 +35,14 @@ namespace com {
        * 
        */
       auto GetData() noexcept -> std::array<std::uint8_t, 32>;
+
+      /**
+       * @brief Check if the buffer is empty.
+       * 
+       * @return true If buffer is empty returns true.
+       * @return false If buffer is not empty returns false.
+       */
+      auto BufferIsEmpty() const noexcept -> bool;
     
     protected:
       /** 

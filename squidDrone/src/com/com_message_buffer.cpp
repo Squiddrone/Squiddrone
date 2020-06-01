@@ -11,9 +11,15 @@ namespace com {
   }
 
   auto ComMessageBuffer::GetData() noexcept -> std::array<std::uint8_t, 32>{
-    std::array<std::uint8_t, 32> queue_item;
-    queue_item = data_.front();
-    data_.pop();
+    std::array<std::uint8_t, 32> queue_item = {0};
+    if(!data_.empty()){
+      queue_item = data_.front();
+      data_.pop();
+    }
     return queue_item;
   }
+
+  auto ComMessageBuffer::BufferIsEmpty() const noexcept -> bool{
+    return data_.empty();
+  };
 }
