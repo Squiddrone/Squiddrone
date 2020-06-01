@@ -16,6 +16,9 @@ namespace types {
       /// Buffer IO error i.e. faulty data in buffer
       COM_BUFFER_IO_ERROR
   };
+
+  // Fixed length for com message frames.
+  const std::uint8_t max_frame_length = 32;
 }
 
 #endif

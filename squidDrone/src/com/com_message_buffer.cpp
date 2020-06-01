@@ -7,7 +7,7 @@ namespace com {
       return types::ComError::COM_BUFFER_OVERFLOW;
     }
     data_.push(data);
-    return CheckData(data);
+    return types::ComError::COM_OK;
   }
 
   auto ComMessageBuffer::GetData() noexcept -> std::array<std::uint8_t, 32>{
@@ -15,14 +15,5 @@ namespace com {
     queue_item = data_.front();
     data_.pop();
     return queue_item;
-  }
-
-  auto ComMessageBuffer::CheckData(std::array<std::uint8_t, 32> &data) const noexcept -> types::ComError{
-    if(data_.front() == data){
-      return types::ComError::COM_OK;
-    }
-    else {
-      return types::ComError::COM_BUFFER_IO_ERROR;
-    }
   }
 }

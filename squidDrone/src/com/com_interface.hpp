@@ -15,7 +15,7 @@ namespace com {
   /**
    * @class ComInterface 
    * @brief This is a purely virtual class to act as
-   * a facade for the device specific implmentation.
+   * a facade for the device specific implementation.
    * 
    */
   class ComInterface {
@@ -26,9 +26,10 @@ namespace com {
        */
       ComInterface() = delete;
 
-      /** 
+      /**
        * @brief Construct a new Com Interface object
        * 
+       * @param msg_buf Pointer to an instance of a com message buffer object.
        */
       explicit ComInterface(std::unique_ptr<com::ComMessageBuffer> msg_buf) : msg_buffer_(std::move(msg_buf)){};
 

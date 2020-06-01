@@ -44,14 +44,6 @@ namespace com {
        */
       std::queue<std::array<std::uint8_t,32>> data_;
 
-      /**
-       * @brief Check if queue front entry matches data parameter
-       * 
-       * @param data Data to be checked against
-       * @return types::ComError COM_OK if ok, COM_BUFFER_IO_ERROR if not ok.
-       */
-      auto CheckData(std::array<std::uint8_t, 32> &data) const noexcept -> types::ComError;
-
       // The maximum length for the queue.
       static constexpr std::uint8_t max_queue_len = 5;
   };
