@@ -47,8 +47,8 @@ package_add_test(imu_interface
     ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/i2c_config.c
 )
 
-package_add_test(i2c_interface 
-    i2c/i2c_interface_tests.cpp
+package_add_test(i2c
+    i2c/i2c_tests.cpp
     ${CMAKE_SOURCE_DIR}/src/i2c/i2c.cpp
     ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/stm32g4xx_hal.c
     ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/i2c_config.c
@@ -64,7 +64,7 @@ SETUP_ALLTESTS_TARGET(
         imu_interface
         abstract_motor
         letodar_2204
-        i2c_interface
+        i2c
 )
 
 if(CODE_COVERAGE)
