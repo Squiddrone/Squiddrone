@@ -6,7 +6,6 @@
 namespace imu {
 
   /**
-   * @class InertialMeasurement 
    * @brief Concrete implementation of the Inertial Measurement Unit Interface.
    * 
    */

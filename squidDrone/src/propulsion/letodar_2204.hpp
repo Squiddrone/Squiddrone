@@ -6,7 +6,6 @@
 namespace propulsion{
   
   /**
-   * @class LeTodar2204
    * @brief The concrete implementation of the LeTodar2204 Motor
    * 
    */
