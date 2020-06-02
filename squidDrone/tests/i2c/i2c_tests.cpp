@@ -56,6 +56,13 @@ namespace{
     EXPECT_EQ(result_status, i2c::I2CStatus::I2C_PARAMETER_ERROR);
   }
 
+  TEST_F(I2CTests, read_byte_size_upper_boundary_plus_1){
+    byte_size = 33;
+    std::tie(result_status, result_data) = unit_under_test_->Read(address, byte_size, timeout);
+
+    EXPECT_EQ(result_status, i2c::I2CStatus::I2C_PARAMETER_ERROR);
+  }
+
   TEST_F(I2CTests, read_timeout_0){
     timeout = 0;
     std::tie(result_status, result_data) = unit_under_test_->Read(address, byte_size, timeout);
