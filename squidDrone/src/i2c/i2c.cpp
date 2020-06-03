@@ -46,20 +46,24 @@ namespace i2c
       CheckIfI2CTimeoutIsValid(timeout);
   }
 
-  auto I2C::GetI2CStatus(HAL_StatusTypeDef hal_status) noexcept -> I2CStatus {
+  auto I2C::GetI2CStatus(HAL_StatusTypeDef hal_status) noexcept -> I2CStatus
+  {
     I2CStatus i2c_status;
 
-    if (hal_status == HAL_OK) {
-        i2c_status = I2CStatus::I2C_TRANSACTION_SUCCESSFUL;
-      }
-    else if (hal_status == HAL_TIMEOUT) {
-        i2c_status = I2CStatus::I2C_TRANSACTION_TIMEOUT;
-      }
-    else if (hal_status == HAL_BUSY) {
-        i2c_status = I2CStatus::I2C_TRANSACTION_BUSY;
-      }
-    else {
+    switch (hal_status)
+    {
+    case HAL_OK:
+      i2c_status = I2CStatus::I2C_TRANSACTION_SUCCESSFUL;
+      break;
+    case HAL_TIMEOUT:
+      i2c_status = I2CStatus::I2C_TRANSACTION_TIMEOUT;
+      break;
+    case HAL_BUSY:
+      i2c_status = I2CStatus::I2C_TRANSACTION_BUSY;
+      break;
+    default:
       i2c_status = I2CStatus::I2C_TRANSACTION_FAILED;
+      break;
     }
 
     return i2c_status;
