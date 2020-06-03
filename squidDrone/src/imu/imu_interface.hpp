@@ -10,7 +10,6 @@
 namespace imu {
 
   /**
-   * @class InertialMeasurementInterface 
    * @brief The InertialMeasurementInterface provides an interface for the Inertial Measurement Unit.
    * 
    */

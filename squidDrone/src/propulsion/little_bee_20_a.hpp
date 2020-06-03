@@ -8,7 +8,6 @@
 
 namespace propulsion{
   /**
-   * @class LittleBee20A 
    * @brief The concrete class implementation of the abstract Esc class for
    * the Little Bee 20 a hardware.
    * 
