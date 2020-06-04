@@ -12,8 +12,7 @@
 
 namespace com {
 
-  /**
-   * @class ComInterface 
+  /** 
    * @brief This is a purely virtual class to act as
    * a facade for the device specific implementation.
    * 
@@ -42,9 +41,9 @@ namespace com {
       /** 
        * @brief Get the data packet object
        * 
-       * @return array<std::uint8_t, 32> Returns a dataframe array.
+       * @return types::com_msg_frame Returns a dataframe array.
        */
-      virtual auto GetDataPacket() const noexcept -> std::array<std::uint8_t, 32> = 0;
+      virtual auto GetDataPacket() const noexcept -> types::com_msg_frame = 0;
       
       /** 
        * @brief Transmit dataframe of max length 32 byte via the drones' wifi interface.
@@ -55,7 +54,7 @@ namespace com {
        * @return types::ComError COM_OK in case of successful transmission, error code in case something 
        * went wrong.
        */
-      virtual auto PutDataPacket(std::uint8_t target_id, std::array<std::uint8_t, 32> &payload) const noexcept
+      virtual auto PutDataPacket(std::uint8_t target_id, types::com_msg_frame &payload) const noexcept
       -> types::ComError = 0;
       
     protected:
