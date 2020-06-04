@@ -1,11 +1,22 @@
 #include <set>
 #include "motor_builder.hpp"
+#include "little_bee_20_a.hpp"
+#include "letodar_2204.hpp"
 
 namespace propulsion{ 
 
   auto MotorBuilder::Create(propulsion::PropulsionHardwareConfig& motor_config) noexcept -> std::unique_ptr<Motor>{
     if(MotorConfigIsValid(motor_config)){
-        /// good case
+      auto correct_esc = GetCorrectEsc(motor_config);
+      std::unique_ptr<Motor> correct_motor;
+      switch (motor_config.motor_type){
+      case types::MotorType::LETODAR_2204:
+        correct_motor = std::make_unique<LeTodar2204>(std::move(correct_esc));
+        break;
+      default:
+        break;
+      }
+      return correct_motor;
     }else{
       return nullptr;
     }
@@ -16,4 +27,18 @@ namespace propulsion{
     const bool channel_is_in_possible_channels = possible_channels.find(motor_config.channel) != possible_channels.end(); 
     return (channel_is_in_possible_channels && motor_config.timer != nullptr);
   }
+
+  auto MotorBuilder::GetCorrectEsc(propulsion::PropulsionHardwareConfig& config) noexcept -> std::unique_ptr<Esc>{
+    std::unique_ptr<Esc> esc;
+    switch (config.esc_type){
+      case types::EscType::LITTLE_BEE_20_A:
+        esc = std::make_unique<LittleBee20A>(config.timer, config.channel);
+        break;
+      default:
+        break;
+    }
+    return esc;
+  }
+
 }
+

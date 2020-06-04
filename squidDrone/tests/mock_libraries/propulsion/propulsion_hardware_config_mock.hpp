@@ -12,7 +12,8 @@ namespace types{
   };
 
   enum class EscType: int{
-    LITTLE_BEE_20_A
+    LITTLE_BEE_20_A,
+    NONE
   };
 
 }

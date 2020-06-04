@@ -38,6 +38,15 @@ namespace propulsion{
        * @return false if motor config contains invalid members
        */
       static auto MotorConfigIsValid(propulsion::PropulsionHardwareConfig& motor_config) noexcept -> const bool;
+
+      /**
+       * @brief Get the Correct Esc object from the enum config
+       * 
+       * @param config the config struct with information about the Esc and its parameters
+       * @return std::unique_ptr<Esc> pointer to ESC 
+       */
+      static auto GetCorrectEsc(propulsion::PropulsionHardwareConfig& config) noexcept -> std::unique_ptr<Esc>;
+
   };
 }
 #endif

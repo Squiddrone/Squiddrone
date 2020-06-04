@@ -77,5 +77,6 @@
     "mcu_settings.h": "c",
     "bit": "cpp",
     "clock_config.h": "c"
-  }
+  },
+  "cmake.configureOnOpen": true
 }

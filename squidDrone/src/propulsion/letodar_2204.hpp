@@ -1,7 +1,11 @@
 #ifndef SRC_PROPULSION_LETODAR_2204
 #define SRC_PROPULSION_LETODAR_2204
 
+#ifndef UNIT_TEST
 #include "motor.hpp"
+#else
+#include "motor_mock.hpp"
+#endif
 
 namespace propulsion{
   

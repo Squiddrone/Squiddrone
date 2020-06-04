@@ -21,7 +21,6 @@ namespace types{
     /// Little bee esc 20 a ESC with oneshot125 protocol
     LITTLE_BEE_20_A
   };
-
 }
 
 #endif
