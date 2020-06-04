@@ -23,18 +23,18 @@ namespace com {
        * @brief Transfer data to queue buffer. 
        * 
        * @param data Reference to data frame. Must conform to data frame specifications.
-       * @return types::ComError COM_OK if ok, COM_BUFFER_IO_ERROR if not ok.
+       * @return types::ComError COM_OK if ok, COM_BUFFER_OVERFLOW if not ok.
        * 
        */
-      auto PutData(std::array<std::uint8_t, 32> &data) noexcept -> types::ComError;
+      auto PutData(types::com_msg_frame &data) noexcept -> types::ComError;
 
       /** 
        * @brief Retrieve data frame from queue buffer.
        * 
-       * @return std::array<std::uint8_t, 32> 
+       * @return types::com_msg_frame 
        * 
        */
-      auto GetData() noexcept -> std::array<std::uint8_t, 32>;
+      auto GetData() noexcept -> types::com_msg_frame;
 
       /**
        * @brief Check if the buffer is empty.
@@ -44,16 +44,15 @@ namespace com {
        */
       auto BufferIsEmpty() const noexcept -> bool;
     
-    protected:
+    private:
       /** 
        * @brief Queue to hold the 32 byte long data frames. Queue shall be emptied on
        * each execution slice and the data frames shall be processed.
        * 
        */
-      std::queue<std::array<std::uint8_t,32>> data_;
+      std::queue<types::com_msg_frame> data_;
 
-      // The maximum length for the queue.
-      static constexpr std::uint8_t max_queue_len = 5;
+      
   };
 }
 
