@@ -9,7 +9,7 @@ namespace imu {
     public:
       Mpu9250() = delete;
       ~Mpu9250() = default;
-      explicit Mpu9250(std::unique_ptr<i2c::I2CHandler> i2c_handler): GenericInertialMeasurementUnit(std::move(i2c_handler)){}
+      explicit Mpu9250(std::unique_ptr<i2c::I2C> i2c_handler): GenericInertialMeasurementUnit(std::move(i2c_handler)){}
       void SetGyroscopeSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept override;
       auto GetGyroscopeSensitivity(void) noexcept -> types::GyroscopeSensitivity override;
       void SetAccelerometerSensitivity(types::AccelerometerSensitivity accelerometer_sensitivity) noexcept override;
