@@ -51,8 +51,7 @@ namespace com {
        * 
        */
       std::queue<types::com_msg_frame> data_;
-
-      
+ 
   };
 }
 
