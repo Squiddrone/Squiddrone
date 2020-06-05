@@ -18,13 +18,13 @@ namespace types {
   };
 
   /// Fixed depth for the com buffer.
-  static constexpr std::uint8_t max_queue_len = 5;
+  static constexpr std::uint8_t MAX_QUEUE_LENGTH = 5;
 
   /// Fixed length for com message frames.
-  static constexpr std::uint8_t max_frame_length = 32;
+  static constexpr std::uint8_t MAX_FRAME_LENGTH = 32;
 
   /// Type alias for com message frame datatype
-  using com_msg_frame = std::array<std::uint8_t, max_frame_length>;
+  using com_msg_frame = std::array<std::uint8_t, MAX_FRAME_LENGTH>;
 }
 
 #endif
