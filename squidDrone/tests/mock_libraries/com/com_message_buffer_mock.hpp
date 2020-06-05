@@ -13,13 +13,13 @@ namespace com
       ComMessageBuffer(): test_member(0), data_({0}){
         data_.fill(0xaa);
       };
-      auto PutData(std::array<std::uint8_t, 32> &data) const noexcept -> types::ComError;
-      auto GetData() const noexcept -> std::array<std::uint8_t, 32>;
+      auto PutData(types::com_msg_frame &data) const noexcept -> types::ComError;
+      auto GetData() const noexcept -> types::com_msg_frame;
 
       std::uint8_t test_member;
 
     protected:
-      std::array<std::uint8_t,32> data_;
+      types::com_msg_frame data_;
   };
 }
 
