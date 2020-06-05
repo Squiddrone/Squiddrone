@@ -3,7 +3,7 @@
 
 namespace com {
   auto ComMessageBuffer::PutData(types::com_msg_frame &data) noexcept -> types::ComError{
-    if(data_.size() > types::max_queue_len){
+    if(data_.size() > types::MAX_QUEUE_LENGTH){
       return types::ComError::COM_BUFFER_OVERFLOW;
     }
     data_.push(data);
