@@ -14,7 +14,6 @@
 namespace propulsion{
     
   /**
-   * @class Motor 
    * @brief This abstract class is the interface for implementing
    * specific motor types 
    * 

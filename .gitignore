@@ -99,10 +99,9 @@ local.properties
 *.pydevproject
 
 # CDT-specific (C/C++ Development Tooling)
-.cproject
-.mxproject
 *.launch
 *.ioc
+.mxproject
 
 # CDT- autotools
 .autotools
@@ -135,10 +134,6 @@ local.properties
 .cache-main
 .scala_dependencies
 .worksheet
-
-### Eclipse Patch ###
-# Eclipse Core
-.project
 
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
