@@ -49,7 +49,7 @@ TEST_F(ComMessageBufferTests, get_data_with_empty_queue){
 TEST_F(ComMessageBufferTests, buffer_is_empty){
   auto com_buffer = std::make_unique<com::ComMessageBuffer>();
   com_buffer->PutData(ref_data);
-  (void)com_buffer->GetData();
+  com_buffer->GetData();
   auto rv = com_buffer->BufferIsEmpty();
   ASSERT_EQ(rv, true);
 }

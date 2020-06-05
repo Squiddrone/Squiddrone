@@ -23,7 +23,7 @@ namespace com {
        * @brief Transfer data to queue buffer. 
        * 
        * @param data Reference to data frame. Must conform to data frame specifications.
-       * @return types::ComError COM_OK if ok, COM_BUFFER_OVERFLOW if not ok.
+       * @return types::ComError COM_OK if ok, COM_BUFFER_OVERFLOW if buffer is full.
        * 
        */
       auto PutData(types::com_msg_frame &data) noexcept -> types::ComError;
