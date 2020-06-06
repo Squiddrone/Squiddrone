@@ -18,5 +18,4 @@ class LeTodar2204 : public Motor {
   }
 };
 }  // namespace propulsion
-
 #endif
