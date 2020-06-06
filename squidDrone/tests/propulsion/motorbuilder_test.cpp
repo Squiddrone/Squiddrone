@@ -5,7 +5,7 @@
 #include "motor_builder.hpp"
 #include "motor_mock.hpp"
 #include "propulsion_hardware_config_mock.hpp"
-#include "stm32g4xx.h"
+#include "stm32g4xx_hal_tim.h"
 
 namespace {
 
@@ -16,7 +16,7 @@ class MotorBuilderTest : public ::testing::Test {
     config.motor_type = types::MotorType::LETODAR_2204;
     config.esc_type = types::EscType::LITTLE_BEE_20_A;
     config.timer = &timer;
-    config.channel = HAL_TIM_ACTIVE_CHANNEL_1;
+    config.channel = TIM_CHANNEL_2;
   }
 
   propulsion::PropulsionHardwareConfig config;
