@@ -12,7 +12,7 @@ namespace {
 class MotorBuilderTest : public ::testing::Test {
  protected:
   virtual void SetUp() {
-    timer.test_member = 0;
+    timer.test_member = 42;
     config.motor_type = types::MotorType::LETODAR_2204;
     config.esc_type = types::EscType::LITTLE_BEE_20_A;
     config.timer = &timer;
@@ -28,11 +28,18 @@ TEST_F(MotorBuilderTest, creates_correct_object) {
   ASSERT_EQ(motor_object->is_created_, true);
 }
 
-TEST_F(MotorBuilderTest, creates_nullpointer) {
+TEST_F(MotorBuilderTest, channel_is_not_in_allowed_channels) {
   config.channel = 666;
   auto motor_object = propulsion::MotorBuilder::Create(config);
   ASSERT_EQ(motor_object, nullptr);
 }
+
+TEST_F(MotorBuilderTest, timer_is_nullpointer) {
+  config.timer = nullptr;
+  auto motor_object = propulsion::MotorBuilder::Create(config);
+  ASSERT_EQ(motor_object, nullptr);
+}
+
 }  // namespace
 
 int main(int argc, char **argv) {

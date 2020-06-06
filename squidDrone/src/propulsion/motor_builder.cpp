@@ -14,18 +14,16 @@
 namespace propulsion {
 
 auto MotorBuilder::Create(propulsion::PropulsionHardwareConfig& motor_config) noexcept -> std::unique_ptr<Motor> {
+  std::unique_ptr<Motor> motor_pointer = nullptr;
   if (MotorConfigIsValid(motor_config)) {
     auto correct_esc = GetCorrectEsc(motor_config);
-    std::unique_ptr<Motor> correct_motor;
     switch (motor_config.motor_type) {
       case types::MotorType::LETODAR_2204:
-        correct_motor = std::make_unique<LeTodar2204>(std::move(correct_esc));
+        motor_pointer = std::make_unique<LeTodar2204>(std::move(correct_esc));
         break;
     }
-    return correct_motor;
-  } else {
-    return nullptr;
-  }
+  } 
+  return motor_pointer;
 }
 
 auto MotorBuilder::MotorConfigIsValid(propulsion::PropulsionHardwareConfig& motor_config) noexcept -> const bool {
