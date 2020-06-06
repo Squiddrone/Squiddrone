@@ -13,7 +13,7 @@ class LeTodar2204 : public Motor {
   auto GetCurrentSpeedInPercent() const noexcept -> const float override {
     return 1.0;
   }
-  virtual auto SetSpeedInPercent(const float speed) noexcept -> types::InputError override {
+  auto SetSpeedInPercent(const float speed) noexcept -> types::InputError override {
     return types::InputError::INPUT_CORRECT;
   }
 };
