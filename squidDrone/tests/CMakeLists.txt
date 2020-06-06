@@ -8,11 +8,14 @@ macro(package_add_test TESTNAME)
         PRIVATE 
             ${CMAKE_CURRENT_SOURCE_DIR}
             ${CMAKE_SOURCE_DIR}/src
+            ${CMAKE_SOURCE_DIR}/src/com
             ${CMAKE_SOURCE_DIR}/src/types
             ${CMAKE_SOURCE_DIR}/src/propulsion
             ${CMAKE_SOURCE_DIR}/src/imu
-            ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c
+            ${CMAKE_SOURCE_DIR}/src/i2c
+            ${CMAKE_SOURCE_DIR}/tests/mock_libraries/com
             ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu
+            ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c
             ${CMAKE_SOURCE_DIR}/tests/mock_libraries/propulsion
     )
     target_link_libraries(${TESTNAME} gtest gmock gtest_main)
@@ -40,8 +43,27 @@ package_add_test(letodar_2204 propulsion/letodar_2204_test.cpp
 package_add_test(imu_interface 
     imu/imu_interface_tests.cpp
     ${CMAKE_SOURCE_DIR}/src/imu/inertial_measurement.cpp
-    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/i2c_handler.cpp
+    ${CMAKE_SOURCE_DIR}/src/i2c/i2c.cpp
     ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu/mpu9250.cpp
+    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/stm32g4xx_hal.c
+    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/i2c_config.c
+)
+
+package_add_test(i2c
+    i2c/i2c_tests.cpp
+    ${CMAKE_SOURCE_DIR}/src/i2c/i2c.cpp
+    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/stm32g4xx_hal.c
+    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/i2c_config.c
+)
+
+package_add_test(com_interface
+    com/com_interface_tests.cpp
+    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/com/com_message_buffer_mock.cpp
+)
+
+package_add_test(com_message_buffer
+    com/com_message_buffer_tests.cpp
+    ${CMAKE_SOURCE_DIR}/src/com/com_message_buffer.cpp
 )
 
 package_add_test(propulsion_hardware_config_type propulsion/propulsion_hardware_config_test.cpp)
@@ -63,6 +85,9 @@ SETUP_ALLTESTS_TARGET(
         letodar_2204
         propulsion_hardware_config_type
         motor_builder
+        com_interface
+        com_message_buffer
+        i2c
 )
 
 if(CODE_COVERAGE)

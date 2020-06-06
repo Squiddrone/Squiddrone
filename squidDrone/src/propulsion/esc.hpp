@@ -7,7 +7,6 @@
 namespace propulsion{
 
   /**
-   * @class Esc 
    * @brief The abstract Esc provides a interface for concrete Esc's to implement
    * The Esc abstract interface dictates the methods which all concrete Esc's have to
    * implement. 
