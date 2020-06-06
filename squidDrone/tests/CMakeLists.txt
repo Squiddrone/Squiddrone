@@ -8,10 +8,12 @@ macro(package_add_test TESTNAME)
         PRIVATE 
             ${CMAKE_CURRENT_SOURCE_DIR}
             ${CMAKE_SOURCE_DIR}/src
+            ${CMAKE_SOURCE_DIR}/src/com
             ${CMAKE_SOURCE_DIR}/src/types
             ${CMAKE_SOURCE_DIR}/src/propulsion
             ${CMAKE_SOURCE_DIR}/src/imu
             ${CMAKE_SOURCE_DIR}/src/i2c
+            ${CMAKE_SOURCE_DIR}/tests/mock_libraries/com
             ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu
             ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c
             ${CMAKE_SOURCE_DIR}/tests/mock_libraries/propulsion
@@ -54,6 +56,16 @@ package_add_test(i2c
     ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/i2c_config.c
 )
 
+package_add_test(com_interface
+    com/com_interface_tests.cpp
+    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/com/com_message_buffer_mock.cpp
+)
+
+package_add_test(com_message_buffer
+    com/com_message_buffer_tests.cpp
+    ${CMAKE_SOURCE_DIR}/src/com/com_message_buffer.cpp
+)
+
 SETUP_ALLTESTS_TARGET(
     NAME all_tests                 
     EXECUTABLE GTEST_COLOR=1 ctest --verbose -j ${n_cores}
@@ -64,6 +76,8 @@ SETUP_ALLTESTS_TARGET(
         imu_interface
         abstract_motor
         letodar_2204
+        com_interface
+        com_message_buffer
         i2c
 )
 
