@@ -11,6 +11,8 @@ namespace propulsion{
       explicit Motor(std::unique_ptr<Esc> esc): esc_{std::move(esc)}, is_created_{true}{} 
       std::unique_ptr<Esc> esc_;
       bool is_created_ = false;
+      virtual auto GetCurrentSpeedInPercent() const noexcept -> const float = 0;
+      virtual auto SetSpeedInPercent(const float speed) noexcept -> types::InputError = 0;
   };
 }
 

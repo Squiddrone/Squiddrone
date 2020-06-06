@@ -1,8 +1,14 @@
 #include <set>
 #include "motor_builder.hpp"
+#include "stm32g4xx_hal_tim.h"
+
+#ifndef UNIT_TEST
 #include "little_bee_20_a.hpp"
 #include "letodar_2204.hpp"
-
+#else
+#include "little_bee_20_a_mock.hpp"
+#include "letodar_2204_mock.hpp"
+#endif
 namespace propulsion{ 
 
   auto MotorBuilder::Create(propulsion::PropulsionHardwareConfig& motor_config) noexcept -> std::unique_ptr<Motor>{
