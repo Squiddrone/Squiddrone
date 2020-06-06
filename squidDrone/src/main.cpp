@@ -12,11 +12,8 @@
 #include "gpio_config.h"
 #include "i2c_config.h"
 #include "mcu_settings.h"
-#include "motor_builder.hpp"
-#include "propulsion_hardware_config.hpp"
 #include "serial_config.h"
 #include "spi_config.h"
-
 #include "timer_config.h"
 
 int main() {
@@ -36,11 +33,6 @@ int main() {
   MX_TIM16_Init();
   MX_TIM17_Init();
 
-  propulsion::PropulsionHardwareConfig config{types::MotorType::LETODAR_2204, types::EscType::LITTLE_BEE_20_A, &htim2, TIM_CHANNEL_2};
-  auto correct_motor = propulsion::MotorBuilder::Create(config);
-
-  while (1) {
-    auto a = correct_motor->GetCurrentSpeedInPercent();
-  }
+  while (1) {}
   return 0;
 }
