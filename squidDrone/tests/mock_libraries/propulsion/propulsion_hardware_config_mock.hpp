@@ -7,12 +7,10 @@ namespace types {
 
 enum class MotorType : int {
   LETODAR_2204,
-  NONE
 };
 
 enum class EscType : int {
   LITTLE_BEE_20_A,
-  NONE
 };
 
 }  // namespace types

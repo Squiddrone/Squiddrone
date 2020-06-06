@@ -21,8 +21,6 @@ auto MotorBuilder::Create(propulsion::PropulsionHardwareConfig& motor_config) no
       case types::MotorType::LETODAR_2204:
         correct_motor = std::make_unique<LeTodar2204>(std::move(correct_esc));
         break;
-      default:
-        break;
     }
     return correct_motor;
   } else {
@@ -41,8 +39,6 @@ auto MotorBuilder::GetCorrectEsc(propulsion::PropulsionHardwareConfig& config) n
   switch (config.esc_type) {
     case types::EscType::LITTLE_BEE_20_A:
       esc = std::make_unique<LittleBee20A>(config.timer, config.channel);
-      break;
-    default:
       break;
   }
   return esc;

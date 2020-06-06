@@ -29,7 +29,7 @@ TEST_F(MotorBuilderTest, creates_correct_object) {
 }
 
 TEST_F(MotorBuilderTest, creates_nullpointer) {
-  config.motor_type = types::MotorType::NONE;
+  config.channel = 666;
   auto motor_object = propulsion::MotorBuilder::Create(config);
   ASSERT_EQ(motor_object, nullptr);
 }
