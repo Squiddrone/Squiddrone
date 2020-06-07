@@ -14,12 +14,17 @@ namespace {
     protected:
       std::unique_ptr<ConcreteSPIInterface> unit_under_test_;
   };
+}
 
-  TEST_F(SpiInterfaceTests, transfer){
-    auto pRx = std::make_unique<std::uint8_t>();
-    auto pTx = std::make_unique<std::uint8_t>();
-    unit_under_test_ = std::make_unique<ConcreteSPIInterface>();
-    auto rv = unit_under_test_->Transfer(std::move(pRx), std::move(pTx));
-    ASSERT_EQ(rv, spi::SPIStatus::SPI_TRANSACTION_SUCCESSFUL);
-  }
+TEST_F(SpiInterfaceTests, transfer){
+  auto pRx = std::make_unique<std::uint8_t>();
+  auto pTx = std::make_unique<std::uint8_t>();
+  unit_under_test_ = std::make_unique<ConcreteSPIInterface>();
+  auto rv = unit_under_test_->Transfer(std::move(pRx), std::move(pTx));
+  ASSERT_EQ(rv, spi::SPIStatus::SPI_TRANSACTION_SUCCESSFUL);
+}
+
+int main(int argc, char **argv) {
+::testing::InitGoogleTest(&argc, argv);
+return RUN_ALL_TESTS();
 }
