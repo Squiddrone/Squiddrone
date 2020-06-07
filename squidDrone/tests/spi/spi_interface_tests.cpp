@@ -23,3 +23,8 @@ namespace {
     ASSERT_EQ(rv, spi::SPIStatus::SPI_TRANSACTION_SUCCESSFUL);
   }
 }
+
+int main(int argc, char **argv) {
+::testing::InitGoogleTest(&argc, argv);
+return RUN_ALL_TESTS();
+}
