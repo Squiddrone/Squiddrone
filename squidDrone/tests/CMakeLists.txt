@@ -13,6 +13,7 @@ macro(package_add_test TESTNAME)
             ${CMAKE_SOURCE_DIR}/src/propulsion
             ${CMAKE_SOURCE_DIR}/src/imu
             ${CMAKE_SOURCE_DIR}/src/i2c
+            ${CMAKE_SOURCE_DIR}/src/spi
             ${CMAKE_SOURCE_DIR}/tests/mock_libraries/com
             ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu
             ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c
@@ -66,6 +67,10 @@ package_add_test(com_message_buffer
     ${CMAKE_SOURCE_DIR}/src/com/com_message_buffer.cpp
 )
 
+package_add_test(spi_interface
+    spi/spi_interface_tests.cpp
+)
+
 SETUP_ALLTESTS_TARGET(
     NAME all_tests                 
     EXECUTABLE GTEST_COLOR=1 ctest --verbose -j ${n_cores}
@@ -79,6 +84,7 @@ SETUP_ALLTESTS_TARGET(
         com_interface
         com_message_buffer
         i2c
+        spi_interface
 )
 
 if(CODE_COVERAGE)
