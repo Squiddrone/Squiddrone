@@ -26,7 +26,7 @@ struct PropulsionHardwareConfig{
   /// EscType enum defines the kind of esc used
   types::EscType esc_type;
 
-  /// A pointer to a HAL timer object. Simple pointer is used for future compatability with HAL
+  /// A pointer to a HAL timer object. Simple pointer is used for future compatibility with HAL
   TIM_HandleTypeDef* timer;
 
   /**

@@ -17,12 +17,14 @@ auto MotorBuilder::Create(propulsion::PropulsionHardwareConfig& motor_config) no
   std::unique_ptr<Motor> motor_pointer = nullptr;
   if (MotorConfigIsValid(motor_config)) {
     auto correct_esc = GetCorrectEsc(motor_config);
-    switch (motor_config.motor_type) {
-      case types::MotorType::LETODAR_2204:
-        motor_pointer = std::make_unique<LeTodar2204>(std::move(correct_esc));
-        break;
+    if (correct_esc){
+      switch (motor_config.motor_type) {
+        case types::MotorType::LETODAR_2204:
+          motor_pointer = std::make_unique<LeTodar2204>(std::move(correct_esc));
+          break;
+      }
     }
-  } 
+  }
   return motor_pointer;
 }
 
@@ -33,7 +35,7 @@ auto MotorBuilder::MotorConfigIsValid(propulsion::PropulsionHardwareConfig& moto
 }
 
 auto MotorBuilder::GetCorrectEsc(propulsion::PropulsionHardwareConfig& config) noexcept -> std::unique_ptr<Esc> {
-  std::unique_ptr<Esc> esc;
+  std::unique_ptr<Esc> esc = nullptr;
   switch (config.esc_type) {
     case types::EscType::LITTLE_BEE_20_A:
       esc = std::make_unique<LittleBee20A>(config.timer, config.channel);

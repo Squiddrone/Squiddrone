@@ -11,6 +11,7 @@ enum class MotorType : int {
 
 enum class EscType : int {
   LITTLE_BEE_20_A,
+  NONE
 };
 
 }  // namespace types

@@ -40,6 +40,12 @@ TEST_F(MotorBuilderTest, timer_is_nullpointer) {
   ASSERT_EQ(motor_object, nullptr);
 }
 
+TEST_F(MotorBuilderTest, esc_is_not_known){
+  config.esc_type = types::EscType::NONE;
+  auto motor_object = propulsion::MotorBuilder::Create(config);
+  ASSERT_EQ(motor_object, nullptr);
+}
+
 }  // namespace
 
 int main(int argc, char **argv) {
