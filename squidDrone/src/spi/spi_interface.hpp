@@ -7,22 +7,23 @@
 
 namespace spi {
 /**
-   * @brief Abstract interface class to access SPI peripheral.
-   * 
-   */
+  * @brief Abstract interface class to access SPI peripheral.
+  * 
+  */
 class SPIInterface {
  public:
   /**
-     * @brief Construct a new spi interface object. Default constructor.
-     * 
-     */
+    * @brief Construct a new spi interface object. Default constructor.
+    * 
+    */
   explicit SPIInterface() = default;
 
   /**
-     * @brief Destroy the spi interface object. Default destructor.
-     * 
-     */
+    * @brief Destroy the spi interface object. Default destructor.
+    * 
+    */
   virtual ~SPIInterface() = default;
+  
   /**
      * @brief Perform an SPI Tx/Rx transaction.
      * 
