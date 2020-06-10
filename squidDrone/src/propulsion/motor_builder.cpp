@@ -17,7 +17,7 @@ auto MotorBuilder::Create(propulsion::PropulsionHardwareConfig& motor_config) no
   std::unique_ptr<Motor> motor_pointer = nullptr;
   if (MotorConfigIsValid(motor_config)) {
     auto correct_esc = GetCorrectEsc(motor_config);
-    if (correct_esc){
+    if (correct_esc) {
       switch (motor_config.motor_type) {
         case types::MotorType::LETODAR_2204:
           motor_pointer = std::make_unique<LeTodar2204>(std::move(correct_esc));

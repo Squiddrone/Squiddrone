@@ -13,10 +13,10 @@ namespace propulsion {
  * 
  */
 struct PropulsionHardwareConfig{
-  /// Deleted default Ctor to forbid using this one
+  /// Deleted default constructor to forbid using this one
   PropulsionHardwareConfig() = delete;
 
-  /// Custom Ctor to correclty construct this type
+  /// Custom constructor to correclty construct this type
   PropulsionHardwareConfig(types::MotorType motor_type, types::EscType esc_type, TIM_HandleTypeDef* timer, std::uint32_t channel)
       : motor_type(motor_type), esc_type(esc_type), timer(timer), channel(channel) {}
 
