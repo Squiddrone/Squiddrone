@@ -26,11 +26,11 @@ class SPIInterface {
   /**
      * @brief Perform an SPI Tx/Rx transaction.
      * 
-     * @param pRxData Pointer to buffer for received data.
-     * @param pTxData Pointer to buffer holding the data to be transmitted.
+     * @param RxData Pointer to buffer for received data.
+     * @param TxData Pointer to buffer holding the data to be transmitted.
      * @return spi::SPIStatus Status information about the success of the transmission. See \ref SPIStatus for details.
      */
-  virtual auto Transfer(std::unique_ptr<std::uint8_t> pRxData, std::unique_ptr<std::uint8_t> pTxData) noexcept -> spi::SPIStatus = 0;
+  virtual auto Transfer(std::unique_ptr<std::uint8_t> RxData, std::unique_ptr<std::uint8_t> TxData) noexcept -> spi::SPIStatus = 0;
 };
 }  // namespace spi
 
