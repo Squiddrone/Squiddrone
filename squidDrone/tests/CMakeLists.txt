@@ -13,6 +13,7 @@ macro(package_add_test TESTNAME)
             ${CMAKE_SOURCE_DIR}/src/propulsion
             ${CMAKE_SOURCE_DIR}/src/imu
             ${CMAKE_SOURCE_DIR}/src/i2c
+            ${CMAKE_SOURCE_DIR}/src/spi
             ${CMAKE_SOURCE_DIR}/tests/mock_libraries/com
             ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu
             ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c
@@ -71,6 +72,8 @@ package_add_test(propulsion_hardware_config_type propulsion/propulsion_hardware_
 package_add_test(motor_builder propulsion/motorbuilder_test.cpp
     ${CMAKE_SOURCE_DIR}/src/propulsion/motor_builder.cpp
   
+package_add_test(spi_interface
+    spi/spi_interface_tests.cpp
 )
 
 SETUP_ALLTESTS_TARGET(
@@ -88,6 +91,7 @@ SETUP_ALLTESTS_TARGET(
         com_interface
         com_message_buffer
         i2c
+        spi_interface
 )
 
 if(CODE_COVERAGE)
