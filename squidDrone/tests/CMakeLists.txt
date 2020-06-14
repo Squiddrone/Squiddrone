@@ -67,6 +67,11 @@ package_add_test(com_message_buffer
     ${CMAKE_SOURCE_DIR}/src/com/com_message_buffer.cpp
 )
 
+package_add_test(propulsion_hardware_config_type propulsion/propulsion_hardware_config_test.cpp)
+
+package_add_test(motor_builder propulsion/motorbuilder_test.cpp
+    ${CMAKE_SOURCE_DIR}/src/propulsion/motor_builder.cpp
+  
 package_add_test(spi_interface
     spi/spi_interface_tests.cpp
 )
@@ -81,6 +86,8 @@ SETUP_ALLTESTS_TARGET(
         imu_interface
         abstract_motor
         letodar_2204
+        propulsion_hardware_config_type
+        motor_builder
         com_interface
         com_message_buffer
         i2c
