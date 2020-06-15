@@ -2,7 +2,6 @@
 
 set -euo pipefail
 
-cd squidDrone
 mkdir -p build && cd build
 
 # Configure
