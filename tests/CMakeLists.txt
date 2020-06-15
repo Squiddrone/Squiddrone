@@ -71,7 +71,8 @@ package_add_test(propulsion_hardware_config_type propulsion/propulsion_hardware_
 
 package_add_test(motor_builder propulsion/motorbuilder_test.cpp
     ${CMAKE_SOURCE_DIR}/src/propulsion/motor_builder.cpp
-  
+)
+
 package_add_test(spi_interface
     spi/spi_interface_tests.cpp
 )
