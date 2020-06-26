@@ -1,5 +1,5 @@
 {
-  "cmake.sourceDirectory": "${workspaceRoot}/squidDrone",
+  "cmake.sourceDirectory": "${workspaceRoot}",
   "editor.tokenColorCustomizations": {
     "textMateRules": [
       {
