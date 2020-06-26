@@ -9,7 +9,7 @@ services:
   - docker
 
 env:
-  - DOCKER_CONTAINER=thorshamster/squiddrone:1.1
+  - DOCKER_CONTAINER=thorshamster/squiddrone:1.2
 
 before_install:
   - docker pull ${DOCKER_CONTAINER}
