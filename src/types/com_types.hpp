@@ -5,9 +5,9 @@
 
 namespace types {
 /**
-   * @brief Enum class to contain error codes for COM module.
-   * 
-   */
+ * @brief Enum class to contain error codes for COM module.
+ * 
+ */
 enum class ComError : std::int8_t {
   /// No error
   COM_OK,

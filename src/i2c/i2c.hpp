@@ -9,9 +9,9 @@
 namespace i2c {
 
 /**
-   * @brief The concrete implementation of I2C Interface
-   * 
-   */
+ * @brief The concrete implementation of I2C Interface
+ * 
+ */
 class I2C final : public I2CInterface {
  public:
   ~I2C() = default;

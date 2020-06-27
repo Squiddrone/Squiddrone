@@ -4,9 +4,9 @@
 namespace i2c {
 
 /**
-   * @brief Status of I2C Interface
-   * 
-   */
+ * @brief Status of I2C Interface
+ * 
+ */
 enum class I2CStatus : int {
   /// I2C transaction was successful
   I2C_TRANSACTION_SUCCESSFUL,

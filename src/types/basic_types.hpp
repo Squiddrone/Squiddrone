@@ -6,12 +6,12 @@
 namespace types {
 
 /**
-   * @brief A 3 element type of variable datatype, which is meant to be used in the context of euclidean vectors
-   * @tparam ElementType The underlying datatype of each of the three elements.
-   *                     Underlying type needs to be arithmetic and trivial. 
-   *                     It also needs to be signed in order to allow negative values.
-   * 
-   */
+ * @brief A 3 element type of variable datatype, which is meant to be used in the context of euclidean vectors
+ * @tparam ElementType The underlying datatype of each of the three elements.
+ *                     Underlying type needs to be arithmetic and trivial. 
+ *                     It also needs to be signed in order to allow negative values.
+ * 
+ */
 template <typename ElementType>
 struct EuclideanVector {
   static_assert(std::is_arithmetic<ElementType>::value, "Type is not arithmetic");
