@@ -17,7 +17,7 @@ before_install:
 jobs:
   include:
     - stage: checks
-      script: ./check_styleguide.sh
+      script: ./check_styleguide.sh -r
     - stage: build
       script:
         - docker run --rm -v $(pwd):/usr/project ${DOCKER_CONTAINER} ./build.sh
