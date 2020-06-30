@@ -8,6 +8,8 @@ do
 case "${option}"
 in
 r) GIT_RESET=true;;
+*) echo "usage: $0 [-r]" >&2
+   exit 1 ;;
 esac
 done
 
