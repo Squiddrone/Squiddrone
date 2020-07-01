@@ -12,7 +12,7 @@ namespace propulsion {
  * @brief A type to accumulate all the info needed to build a Motor
  * 
  */
-struct PropulsionHardwareConfig{
+struct PropulsionHardwareConfig {
   /// Deleted default constructor to forbid using this one
   PropulsionHardwareConfig() = delete;
 

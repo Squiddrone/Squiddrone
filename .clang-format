@@ -2,3 +2,5 @@ Language: Cpp
 BasedOnStyle: Google
 IndentWidth: 2
 ColumnLimit: 0
+IncludeBlocks: Preserve
+
