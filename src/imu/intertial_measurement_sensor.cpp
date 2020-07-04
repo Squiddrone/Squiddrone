@@ -8,7 +8,6 @@ auto Get(void) noexcept -> types::EuclideanVector<float> {
 }
 
 auto Update(void) noexcept -> void {
-
 }
 
-}
+}  // namespace imu
