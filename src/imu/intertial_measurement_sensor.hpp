@@ -24,6 +24,10 @@ class InertialMeasurementSensor {
   std::unique_ptr<types::EuclideanVector<float>> sensor_values_;
   /// Holds the local reference to i2c handler
   std::unique_ptr<i2c::I2C> i2c_handler_;
+  /// I2C Address of specific sensor
+  uint8_t i2c_address_;
+  /// Register of value of specific sensor
+  uint8_t register_;
 };
 
 }  // namespace imu
