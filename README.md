@@ -1,8 +1,8 @@
 [![Build Status](https://travis-ci.com/Squiddrone/Squiddrone.svg?branch=dev)](https://travis-ci.com/Squiddrone/Squiddrone)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/88da9a5c932545adb22b885a39a1ae35)](https://www.codacy.com/manual/SquidSquad/Squiddrone?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=elheck/Squiddrone&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/88da9a5c932545adb22b885a39a1ae35)](https://www.codacy.com/manual/SquidSquad/Squiddrone?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Squiddrone/Squiddrone&amp;utm_campaign=Badge_Grade)
 [![CodeFactor](https://www.codefactor.io/repository/github/squiddrone/squiddrone/badge)](https://www.codefactor.io/repository/github/squiddrone/squiddrone)
-[![codecov](https://codecov.io/gh/elheck/Squiddrone/branch/dev/graph/badge.svg)](https://codecov.io/gh/Squiddrone/Squiddrone)
-[![badge](https://report.ci/status/elheck/Squiddrone/badge.svg?branch=dev)](https://report.ci/status/Squiddrone/Squiddrone?branch=dev)
+[![codecov](https://codecov.io/gh/Squiddrone/Squiddrone/branch/dev/graph/badge.svg)](https://codecov.io/gh/Squiddrone/Squiddrone)
+[![badge](https://report.ci/status/Squiddrone/Squiddrone/badge.svg?branch=dev)](https://report.ci/status/Squiddrone/Squiddrone?branch=dev)
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/Squiddrone/Squiddrone/tree/dev) 
 
 # Squiddrone
