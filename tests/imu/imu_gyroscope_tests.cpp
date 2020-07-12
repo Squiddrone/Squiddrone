@@ -16,8 +16,9 @@ class GyroscopeTests : public ::testing::Test {
   std::unique_ptr<imu::Gyroscope> unit_under_test_;
 };
 
-TEST_F(GyroscopeTests, gyroscope_test1) {
-  EXPECT_EQ(0, 1);
+TEST_F(GyroscopeTests, gyroscope_SetSensitivity) {
+  auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::GyroscopeSensitivity::FINEST);
+  EXPECT_EQ(gyroscope_sensitivity_return, types::HalError::WORKING);
 }
 
 }  // namespace

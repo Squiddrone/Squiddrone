@@ -3,6 +3,7 @@
 
 #include <memory>
 #include "basic_types.hpp"
+#include "error_types.hpp"
 #include "i2c.hpp"
 
 namespace imu {
