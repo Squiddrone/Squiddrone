@@ -16,8 +16,23 @@ class GyroscopeTests : public ::testing::Test {
   std::unique_ptr<imu::Gyroscope> unit_under_test_;
 };
 
-TEST_F(GyroscopeTests, gyroscope_SetSensitivity) {
+TEST_F(GyroscopeTests, gyroscope_SetSensitivity_finest) {
   auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::GyroscopeSensitivity::FINEST);
+  EXPECT_EQ(gyroscope_sensitivity_return, types::HalError::WORKING);
+}
+
+TEST_F(GyroscopeTests, gyroscope_SetSensitivity_finer) {
+  auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::GyroscopeSensitivity::FINER);
+  EXPECT_EQ(gyroscope_sensitivity_return, types::HalError::WORKING);
+}
+
+TEST_F(GyroscopeTests, gyroscope_SetSensitivity_rougher) {
+  auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::GyroscopeSensitivity::ROUGHER);
+  EXPECT_EQ(gyroscope_sensitivity_return, types::HalError::WORKING);
+}
+
+TEST_F(GyroscopeTests, gyroscope_SetSensitivity_roughest) {
+  auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::GyroscopeSensitivity::ROUGHEST);
   EXPECT_EQ(gyroscope_sensitivity_return, types::HalError::WORKING);
 }
 
