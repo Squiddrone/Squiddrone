@@ -18,7 +18,7 @@ class InertialMeasurementSensor {
   explicit InertialMeasurementSensor(std::unique_ptr<i2c::I2C> i2c_handler) : i2c_handler_(std::move(i2c_handler)){};
 
   auto Get(void) noexcept -> types::EuclideanVector<float>;
-  auto Update(void) noexcept -> void;
+  auto Update(void) noexcept -> types::HalError;
 
  protected:
   /// Holds the local reference to euclidean sensor values

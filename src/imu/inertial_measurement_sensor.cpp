@@ -7,7 +7,8 @@ auto Get(void) noexcept -> types::EuclideanVector<float> {
   return value;
 }
 
-auto Update(void) noexcept -> void {
+auto Update(void) noexcept -> types::HalError {
+  return types::HalError::PARAMETER_ERROR;
 }
 
 }  // namespace imu
