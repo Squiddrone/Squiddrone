@@ -1,4 +1,4 @@
-#include "intertial_measurement_sensor.hpp"
+#include "inertial_measurement_sensor.hpp"
 
 namespace imu {
 
