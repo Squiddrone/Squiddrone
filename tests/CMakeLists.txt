@@ -77,6 +77,15 @@ package_add_test(spi_interface
     spi/spi_interface_tests.cpp
 )
 
+package_add_test(imu_sensors
+    ${CMAKE_SOURCE_DIR}/src/i2c/i2c.cpp
+    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/stm32g4xx_hal.c
+    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/i2c_config.c
+    ${CMAKE_SOURCE_DIR}/src/imu/inertial_measurement_sensor.cpp
+    ${CMAKE_SOURCE_DIR}/src/imu/gyroscope.cpp
+    ${CMAKE_SOURCE_DIR}/tests/imu/imu_gyroscope_tests.cpp
+)
+
 SETUP_ALLTESTS_TARGET(
     NAME all_tests                 
     EXECUTABLE GTEST_COLOR=1 ctest --verbose -j ${n_cores}
@@ -85,6 +94,7 @@ SETUP_ALLTESTS_TARGET(
         abstract_esc
         concrete_esc_little_bee_20_a
         imu_interface
+        imu_sensors
         abstract_motor
         letodar_2204
         propulsion_hardware_config_type
