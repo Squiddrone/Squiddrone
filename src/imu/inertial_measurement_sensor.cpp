@@ -2,12 +2,12 @@
 
 namespace imu {
 
-auto Get(void) noexcept -> types::EuclideanVector<float> {
+auto InertialMeasurementSensor::Get(void) noexcept -> types::EuclideanVector<float> {
   types::EuclideanVector<float> value{0, 0, 0};
   return value;
 }
 
-auto Update(void) noexcept -> types::HalError {
+auto InertialMeasurementSensor::Update(void) noexcept -> types::HalError {
   return types::HalError::PARAMETER_ERROR;
 }
 

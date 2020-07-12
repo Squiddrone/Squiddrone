@@ -6,7 +6,7 @@
 
 namespace imu {
 
-class Gyroscope final : public InertialMeasurementSensor {
+class Gyroscope : public InertialMeasurementSensor {
  public:
   Gyroscope() = delete;
   ~Gyroscope() = default;

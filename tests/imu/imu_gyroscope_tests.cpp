@@ -21,6 +21,19 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity) {
   EXPECT_EQ(gyroscope_sensitivity_return, types::HalError::WORKING);
 }
 
+TEST_F(GyroscopeTests, gyroscope_Update) {
+  auto gyroscope_update_return = unit_under_test_->Update();
+  EXPECT_EQ(gyroscope_update_return, types::HalError::WORKING);
+}
+
+TEST_F(GyroscopeTests, gyroscope_Get) {
+  types::EuclideanVector<float> expected_value{1.5, 2.5, 3.5};
+  auto gyroscope_get_return = unit_under_test_->Get();
+  EXPECT_EQ(gyroscope_get_return.x, expected_value.x);
+  EXPECT_EQ(gyroscope_get_return.y, expected_value.y);
+  EXPECT_EQ(gyroscope_get_return.z, expected_value.z);
+}
+
 }  // namespace
 
 int main(int argc, char **argv) {
