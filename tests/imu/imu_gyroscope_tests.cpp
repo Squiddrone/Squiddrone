@@ -84,6 +84,18 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity_without_Init_first) {
   EXPECT_EQ(gyroscope_sensitivity_return, types::HalError::CONFIG_ERROR);
 }
 
+TEST_F(GyroscopeTests, gyroscope_SetSensitivity_GetSensitivity) {
+  unit_under_test_->Init(i2c_address_, register_);
+  auto set_sensitivity = types::GyroscopeSensitivity::ROUGHEST;
+  unit_under_test_->SetSensitivity(set_sensitivity);
+  auto gyroscope_get = unit_under_test_->GetSensitivity();
+  EXPECT_EQ(gyroscope_get, set_sensitivity);
+  set_sensitivity = types::GyroscopeSensitivity::FINEST;
+  unit_under_test_->SetSensitivity(set_sensitivity);
+  gyroscope_get = unit_under_test_->GetSensitivity();
+  EXPECT_EQ(gyroscope_get, set_sensitivity);
+}
+
 }  // namespace
 
 int main(int argc, char **argv) {

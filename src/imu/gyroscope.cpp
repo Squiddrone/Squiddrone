@@ -7,7 +7,7 @@ auto Gyroscope::SetSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity
   return types::HalError::CONFIG_ERROR;
 }
 
-auto Gyroscope::GetGyroscopeSensitivity(void) noexcept -> types::GyroscopeSensitivity {
+auto Gyroscope::GetSensitivity(void) noexcept -> types::GyroscopeSensitivity {
   return sensitivity_;
 }
 
