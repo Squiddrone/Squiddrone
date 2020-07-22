@@ -45,7 +45,7 @@ TEST_F(GyroscopeTests, gyroscope_Get_without_Update_first) {
   EXPECT_EQ(gyroscope_get_return.z, expected_value.z);
 }
 
-TEST_F(GyroscopeTests, gyroscope_Get_with_Update_first) {
+TEST_F(GyroscopeTests, gyroscope_full) {
   types::EuclideanVector<float> expected_value{1.5, 2.5, 3.5};
   unit_under_test_->Init(i2c_address_, register_);
   unit_under_test_->Update();
