@@ -77,7 +77,7 @@ package_add_test(spi_interface
     spi/spi_interface_tests.cpp
 )
 
-package_add_test(imu_sensors
+package_add_test(imu_sensors_gyroscope
     ${CMAKE_SOURCE_DIR}/src/i2c/i2c.cpp
     ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/stm32g4xx_hal.c
     ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/i2c_config.c
@@ -94,7 +94,7 @@ SETUP_ALLTESTS_TARGET(
         abstract_esc
         concrete_esc_little_bee_20_a
         imu_interface
-        imu_sensors
+        imu_sensors_gyroscope
         abstract_motor
         letodar_2204
         propulsion_hardware_config_type
