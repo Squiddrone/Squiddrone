@@ -56,23 +56,32 @@ TEST_F(GyroscopeTests, gyroscope_full) {
 }
 
 TEST_F(GyroscopeTests, gyroscope_SetSensitivity_finest) {
+  unit_under_test_->Init(i2c_address_, register_);
   auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::GyroscopeSensitivity::FINEST);
   EXPECT_EQ(gyroscope_sensitivity_return, types::HalError::WORKING);
 }
 
 TEST_F(GyroscopeTests, gyroscope_SetSensitivity_finer) {
+  unit_under_test_->Init(i2c_address_, register_);
   auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::GyroscopeSensitivity::FINER);
   EXPECT_EQ(gyroscope_sensitivity_return, types::HalError::WORKING);
 }
 
 TEST_F(GyroscopeTests, gyroscope_SetSensitivity_rougher) {
+  unit_under_test_->Init(i2c_address_, register_);
   auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::GyroscopeSensitivity::ROUGHER);
   EXPECT_EQ(gyroscope_sensitivity_return, types::HalError::WORKING);
 }
 
 TEST_F(GyroscopeTests, gyroscope_SetSensitivity_roughest) {
+  unit_under_test_->Init(i2c_address_, register_);
   auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::GyroscopeSensitivity::ROUGHEST);
   EXPECT_EQ(gyroscope_sensitivity_return, types::HalError::WORKING);
+}
+
+TEST_F(GyroscopeTests, gyroscope_SetSensitivity_without_Init_first) {
+  auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::GyroscopeSensitivity::ROUGHEST);
+  EXPECT_EQ(gyroscope_sensitivity_return, types::HalError::CONFIG_ERROR);
 }
 
 }  // namespace
