@@ -8,8 +8,7 @@ class GyroscopeTests : public ::testing::Test {
  protected:
   virtual void SetUp() {
     auto i2c_handler_ = std::make_unique<i2c::I2C>();
-    types::GyroscopeSensitivity sensitivity = types::GyroscopeSensitivity::FINEST;
-    unit_under_test_ = std::make_unique<imu::Gyroscope>(std::move(i2c_handler_), sensitivity);
+    unit_under_test_ = std::make_unique<imu::Gyroscope>(std::move(i2c_handler_));
   }
 
   std::unique_ptr<i2c::I2C> i2c_handler_;

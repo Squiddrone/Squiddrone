@@ -11,11 +11,11 @@ class Gyroscope : public InertialMeasurementSensor {
   Gyroscope() = delete;
   ~Gyroscope() = default;
 
-  explicit Gyroscope(std::unique_ptr<i2c::I2C> i2c_handler, types::GyroscopeSensitivity gyroscope_sensitivity) : InertialMeasurementSensor(std::move(i2c_handler)), sensitivity(gyroscope_sensitivity) {}
+  explicit Gyroscope(std::unique_ptr<i2c::I2C> i2c_handler) : InertialMeasurementSensor(std::move(i2c_handler)) {}
   auto SetSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> types::HalError;
 
  private:
-  types::GyroscopeSensitivity sensitivity;
+  types::GyroscopeSensitivity sensitivity = types::GyroscopeSensitivity::FINEST;
 };
 
 }  // namespace imu
