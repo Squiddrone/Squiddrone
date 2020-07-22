@@ -14,6 +14,8 @@ class GyroscopeTests : public ::testing::Test {
 
   std::unique_ptr<i2c::I2C> i2c_handler_;
   std::unique_ptr<imu::Gyroscope> unit_under_test_;
+  uint8_t i2c_address_ = 0x10;
+  uint8_t register_ = 0x20;
 };
 
 TEST_F(GyroscopeTests, gyroscope_SetSensitivity_finest) {
@@ -37,6 +39,7 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity_roughest) {
 }
 
 TEST_F(GyroscopeTests, gyroscope_Update) {
+  unit_under_test_->Init(i2c_address_, register_);
   auto gyroscope_update_return = unit_under_test_->Update();
   EXPECT_EQ(gyroscope_update_return, types::HalError::WORKING);
 }
