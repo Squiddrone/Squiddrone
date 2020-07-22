@@ -3,8 +3,12 @@
 namespace imu {
 
 auto Gyroscope::SetSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> types::HalError {
-  sensitivity = gyroscope_sensitivity;
+  sensitivity_ = gyroscope_sensitivity;
   return types::HalError::CONFIG_ERROR;
+}
+
+auto Gyroscope::GetGyroscopeSensitivity(void) noexcept -> types::GyroscopeSensitivity {
+  return sensitivity_;
 }
 
 }  // namespace imu
