@@ -23,7 +23,7 @@ class InertialMeasurementSensor {
 
  protected:
   /// Holds the local reference to euclidean sensor values
-  types::EuclideanVector<float> sensor_values_{0, 0, 0};
+  types::EuclideanVector<float> sensor_values_{-1, -1, -1};
   /// Holds the local reference to i2c handler
   std::unique_ptr<i2c::I2C> i2c_handler_;
   /// Holds value if Sensor was initialized correctly or not
