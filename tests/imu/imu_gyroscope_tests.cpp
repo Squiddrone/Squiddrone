@@ -17,26 +17,6 @@ class GyroscopeTests : public ::testing::Test {
   uint8_t register_ = 0x20;
 };
 
-TEST_F(GyroscopeTests, gyroscope_SetSensitivity_finest) {
-  auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::GyroscopeSensitivity::FINEST);
-  EXPECT_EQ(gyroscope_sensitivity_return, types::HalError::WORKING);
-}
-
-TEST_F(GyroscopeTests, gyroscope_SetSensitivity_finer) {
-  auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::GyroscopeSensitivity::FINER);
-  EXPECT_EQ(gyroscope_sensitivity_return, types::HalError::WORKING);
-}
-
-TEST_F(GyroscopeTests, gyroscope_SetSensitivity_rougher) {
-  auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::GyroscopeSensitivity::ROUGHER);
-  EXPECT_EQ(gyroscope_sensitivity_return, types::HalError::WORKING);
-}
-
-TEST_F(GyroscopeTests, gyroscope_SetSensitivity_roughest) {
-  auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::GyroscopeSensitivity::ROUGHEST);
-  EXPECT_EQ(gyroscope_sensitivity_return, types::HalError::WORKING);
-}
-
 TEST_F(GyroscopeTests, gyroscope_Update) {
   unit_under_test_->Init(i2c_address_, register_);
   auto gyroscope_update_return = unit_under_test_->Update();
@@ -73,6 +53,26 @@ TEST_F(GyroscopeTests, gyroscope_Get_with_Update_first) {
   EXPECT_EQ(gyroscope_get_return.x, expected_value.x);
   EXPECT_EQ(gyroscope_get_return.y, expected_value.y);
   EXPECT_EQ(gyroscope_get_return.z, expected_value.z);
+}
+
+TEST_F(GyroscopeTests, gyroscope_SetSensitivity_finest) {
+  auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::GyroscopeSensitivity::FINEST);
+  EXPECT_EQ(gyroscope_sensitivity_return, types::HalError::WORKING);
+}
+
+TEST_F(GyroscopeTests, gyroscope_SetSensitivity_finer) {
+  auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::GyroscopeSensitivity::FINER);
+  EXPECT_EQ(gyroscope_sensitivity_return, types::HalError::WORKING);
+}
+
+TEST_F(GyroscopeTests, gyroscope_SetSensitivity_rougher) {
+  auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::GyroscopeSensitivity::ROUGHER);
+  EXPECT_EQ(gyroscope_sensitivity_return, types::HalError::WORKING);
+}
+
+TEST_F(GyroscopeTests, gyroscope_SetSensitivity_roughest) {
+  auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::GyroscopeSensitivity::ROUGHEST);
+  EXPECT_EQ(gyroscope_sensitivity_return, types::HalError::WORKING);
 }
 
 }  // namespace
