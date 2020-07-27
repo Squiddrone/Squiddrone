@@ -3,6 +3,7 @@
 
 #include "gyroscope_sensitivity.hpp"
 #include "inertial_measurement_sensor.hpp"
+#include "mpu9255_registers.hpp"
 
 namespace imu {
 
