@@ -29,7 +29,7 @@ class InertialMeasurementSensor {
   /// Holds value if Sensor was initialized correctly or not
   bool initialized_ = false;
   /// I2C Address of specific sensor
-  uint8_t i2c_address_;
+  uint8_t i2c_address_ = 0;
 };
 
 }  // namespace imu
