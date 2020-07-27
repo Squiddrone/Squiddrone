@@ -17,7 +17,7 @@ class InertialMeasurementSensor {
 
   explicit InertialMeasurementSensor(std::unique_ptr<i2c::I2C> i2c_handler) : i2c_handler_(std::move(i2c_handler)){};
 
-  auto Init(uint8_t i2c_address) noexcept -> types::HalError;
+  auto Init(std::uint8_t i2c_address) noexcept -> types::HalError;
   auto Get(void) noexcept -> types::EuclideanVector<float>;
   auto Update(void) noexcept -> types::HalError;
 
@@ -29,7 +29,7 @@ class InertialMeasurementSensor {
   /// Holds value if Sensor was initialized correctly or not
   bool initialized_ = false;
   /// I2C Address of specific sensor
-  uint8_t i2c_address_ = 0;
+  std::uint8_t i2c_address_ = 0;
 };
 
 }  // namespace imu
