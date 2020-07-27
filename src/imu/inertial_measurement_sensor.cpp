@@ -2,7 +2,7 @@
 
 namespace imu {
 
-auto InertialMeasurementSensor::Init(uint8_t i2c_address, uint8_t register_address) noexcept -> types::HalError {
+auto InertialMeasurementSensor::Init(uint8_t i2c_address) noexcept -> types::HalError {
   initialized_ = false;
   return types::HalError::CONFIG_ERROR;
 }
