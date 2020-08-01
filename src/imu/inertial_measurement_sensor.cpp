@@ -2,11 +2,6 @@
 
 namespace imu {
 
-auto InertialMeasurementSensor::Init(std::uint8_t i2c_address) noexcept -> types::HalError {
-  initialized_ = false;
-  return types::HalError::CONFIG_ERROR;
-}
-
 auto InertialMeasurementSensor::Get(void) noexcept -> types::EuclideanVector<float> {
   return sensor_values_;
 }

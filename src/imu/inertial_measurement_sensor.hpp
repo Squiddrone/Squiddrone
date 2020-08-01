@@ -16,8 +16,6 @@ class InertialMeasurementSensor {
   virtual ~InertialMeasurementSensor() = default;
 
   explicit InertialMeasurementSensor(std::unique_ptr<i2c::I2C> i2c_handler) : i2c_handler_(std::move(i2c_handler)){};
-
-  auto Init(std::uint8_t i2c_address) noexcept -> types::HalError;
   auto Get(void) noexcept -> types::EuclideanVector<float>;
   auto Update(void) noexcept -> types::HalError;
 
