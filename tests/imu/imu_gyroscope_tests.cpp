@@ -16,6 +16,16 @@ class GyroscopeTests : public ::testing::Test {
   uint8_t i2c_address_ = 0x68;
 };
 
+TEST_F(GyroscopeTests, gyroscope_Init_working) {
+  auto gyroscope_init_return = unit_under_test_->Init(i2c_address_);
+  EXPECT_EQ(gyroscope_init_return, types::HalError::WORKING);
+}
+
+TEST_F(GyroscopeTests, gyroscope_Init_failed) {
+  auto gyroscope_init_return = unit_under_test_->Init(0);
+  EXPECT_EQ(gyroscope_init_return, types::HalError::CONFIG_ERROR);
+}
+
 TEST_F(GyroscopeTests, gyroscope_Update) {
   unit_under_test_->Init(i2c_address_);
   auto gyroscope_update_return = unit_under_test_->Update();
