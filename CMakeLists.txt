@@ -6,7 +6,6 @@ project(${APPLICATION_NAME} LANGUAGES CXX C ASM)
 #for debugging purposes turn this ON
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 
-option(GOOGLE_TESTS "Build the Unittests" OFF)
 option(CODE_COVERAGE "Enable coverage reporting" OFF)
 option(BUILD_DOC "Build documentation" OFF)
 
