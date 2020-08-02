@@ -16,6 +16,10 @@ auto Gyroscope::Init(std::uint8_t i2c_address) noexcept -> types::HalError {
   return types::HalError::WORKING;
 }
 
+auto Gyroscope::Get(void) noexcept -> types::EuclideanVector<float> {
+  return sensor_values_;
+}
+
 auto Gyroscope::SetSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> types::HalError {
   sensitivity_ = gyroscope_sensitivity;
   if (!initialized_)

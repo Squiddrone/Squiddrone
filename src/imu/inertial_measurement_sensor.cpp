@@ -2,10 +2,6 @@
 
 namespace imu {
 
-auto InertialMeasurementSensor::Get(void) noexcept -> types::EuclideanVector<float> {
-  return sensor_values_;
-}
-
 auto InertialMeasurementSensor::Update(void) noexcept -> types::HalError {
   if (!initialized_)
     return types::HalError::CONFIG_ERROR;
