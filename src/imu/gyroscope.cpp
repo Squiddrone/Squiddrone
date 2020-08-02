@@ -10,6 +10,9 @@ auto Gyroscope::Init(std::uint8_t i2c_address) noexcept -> types::HalError {
   }
 
   initialized_ = true;
+  sensor_values_.x = 0;
+  sensor_values_.y = 0;
+  sensor_values_.z = 0;
   return types::HalError::WORKING;
 }
 
