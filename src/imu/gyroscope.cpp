@@ -16,8 +16,21 @@ auto Gyroscope::Init(std::uint8_t i2c_address) noexcept -> types::HalError {
   return types::HalError::WORKING;
 }
 
-auto Gyroscope::Get(void) noexcept -> types::EuclideanVector<float> {
-  return sensor_values_;
+auto Gyroscope::Update(void) noexcept -> types::HalError {
+  if (!initialized_)
+    return types::HalError::CONFIG_ERROR;
+
+  types::HalError imu_status;
+  std::vector<uint8_t> data;
+  std::tie(imu_status, data) = ReadDataBytes(GYRO_XOUT_H, 6);
+
+  if (ImuConnectionSuccessful(imu_status)) {
+    sensor_values_.x = data.at(1) << 8 | data.at(0);
+    sensor_values_.y = data.at(3) << 8 | data.at(2);
+    sensor_values_.z = data.at(5) << 8 | data.at(4);
+  }
+
+  return types::HalError::WORKING;
 }
 
 auto Gyroscope::SetSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> types::HalError {

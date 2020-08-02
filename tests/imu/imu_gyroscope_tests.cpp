@@ -55,7 +55,7 @@ TEST_F(GyroscopeTests, gyroscope_Get_without_Update_first) {
 }
 
 TEST_F(GyroscopeTests, gyroscope_full) {
-  types::EuclideanVector<float> expected_value{1.5, 2.5, 3.5};
+  types::EuclideanVector<float> expected_value{15, 25, 35};
   unit_under_test_->Init(i2c_address_);
   unit_under_test_->Update();
   auto gyroscope_get_return = unit_under_test_->Get();

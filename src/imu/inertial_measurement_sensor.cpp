@@ -2,11 +2,8 @@
 
 namespace imu {
 
-auto InertialMeasurementSensor::Update(void) noexcept -> types::HalError {
-  if (!initialized_)
-    return types::HalError::CONFIG_ERROR;
-
-  return types::HalError::WORKING;
+auto InertialMeasurementSensor::Get(void) noexcept -> types::EuclideanVector<float> {
+  return sensor_values_;
 }
 
 auto InertialMeasurementSensor::Mpu9255Detected(void) noexcept -> bool {
@@ -23,6 +20,16 @@ auto InertialMeasurementSensor::Mpu9255Detected(void) noexcept -> bool {
     }
   }
   return who_i_am_correct;
+}
+
+auto InertialMeasurementSensor::ReadDataBytes(std::uint8_t read_from_register, std::uint16_t byte_size) noexcept -> std::pair<types::HalError, std::vector<std::uint8_t>> {
+  std::vector<uint8_t> data = {read_from_register};
+  types::HalError imu_status = Write(data);
+
+  if (ImuConnectionSuccessful(imu_status)) {
+    std::tie(imu_status, data) = Read(byte_size);
+  }
+  return {imu_status, data};
 }
 
 auto InertialMeasurementSensor::Read(std::uint16_t byte_size) noexcept -> std::pair<types::HalError, std::vector<std::uint8_t>> {

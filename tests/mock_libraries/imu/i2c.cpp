@@ -15,6 +15,10 @@ auto I2C::Read(std::uint8_t address, std::uint16_t byte_size, std::uint32_t time
       i2c_status = I2CStatus::I2C_TRANSACTION_SUCCESSFUL;
       data = {imu::WHO_AM_I_MPU9255_VALUE};
     }
+    if (unit_test_data.at(0) == imu::GYRO_XOUT_H) {
+      i2c_status = I2CStatus::I2C_TRANSACTION_SUCCESSFUL;
+      data = {15, 0, 25, 0, 35, 0};
+    }
   }
 
   return {i2c_status, data};
