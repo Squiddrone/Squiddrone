@@ -5,6 +5,7 @@
 #include "basic_types.hpp"
 #include "error_types.hpp"
 #include "i2c.hpp"
+#include "mpu9255_registers.hpp"
 
 namespace imu {
 
@@ -20,8 +21,10 @@ class InertialMeasurementSensor {
   auto Update(void) noexcept -> types::HalError;
 
  protected:
+  auto Mpu9255Detected(void) noexcept -> bool;
   auto Read(std::uint16_t byte_size) noexcept -> std::pair<types::HalError, std::vector<std::uint8_t>>;
   auto Write(const std::vector<std::uint8_t>& data) noexcept -> types::HalError;
+  auto ImuConnectionSuccessful(types::HalError imu_status) noexcept -> bool;
   /// Holds the local reference to euclidean sensor values
   types::EuclideanVector<float> sensor_values_{-1, -1, -1};
   /// Holds the local reference to i2c handler
