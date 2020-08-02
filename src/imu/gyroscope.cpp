@@ -9,7 +9,7 @@ auto Gyroscope::Init(std::uint8_t i2c_address) noexcept -> types::HalError {
     return types::HalError::CONFIG_ERROR;
   }
 
-  initialized_ = false;
+  initialized_ = true;
   return types::HalError::WORKING;
 }
 
