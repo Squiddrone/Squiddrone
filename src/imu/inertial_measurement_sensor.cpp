@@ -7,6 +7,9 @@ auto InertialMeasurementSensor::Get(void) noexcept -> types::EuclideanVector<flo
 }
 
 auto InertialMeasurementSensor::Update(void) noexcept -> types::HalError {
+  if (!initialized_)
+    return types::HalError::CONFIG_ERROR;
+
   return types::HalError::PARAMETER_ERROR;
 }
 
