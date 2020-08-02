@@ -10,7 +10,7 @@ auto InertialMeasurementSensor::Update(void) noexcept -> types::HalError {
   if (!initialized_)
     return types::HalError::CONFIG_ERROR;
 
-  return types::HalError::PARAMETER_ERROR;
+  return types::HalError::WORKING;
 }
 
 auto InertialMeasurementSensor::Mpu9255Detected(void) noexcept -> bool {
