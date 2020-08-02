@@ -10,7 +10,7 @@ auto InertialMeasurementSensor::Update(void) noexcept -> types::HalError {
   return types::HalError::PARAMETER_ERROR;
 }
 
-auto InertialMeasurementSensor::Read(std::uint16_t byte_size) noexcept -> std::tuple<types::HalError, std::vector<std::uint8_t>> {
+auto InertialMeasurementSensor::Read(std::uint16_t byte_size) noexcept -> std::pair<types::HalError, std::vector<std::uint8_t>> {
   i2c::I2CStatus i2c_status;
   std::vector<uint8_t> i2c_data;
   std::tie(i2c_status, i2c_data) = i2c_handler_->Read(i2c_address_, byte_size);

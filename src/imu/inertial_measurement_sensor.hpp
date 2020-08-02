@@ -20,7 +20,7 @@ class InertialMeasurementSensor {
   auto Update(void) noexcept -> types::HalError;
 
  protected:
-  auto Read(std::uint16_t byte_size) noexcept -> std::tuple<types::HalError, std::vector<std::uint8_t>>;
+  auto Read(std::uint16_t byte_size) noexcept -> std::pair<types::HalError, std::vector<std::uint8_t>>;
   auto Write(const std::vector<std::uint8_t>& data) noexcept -> types::HalError;
   /// Holds the local reference to euclidean sensor values
   types::EuclideanVector<float> sensor_values_{-1, -1, -1};
