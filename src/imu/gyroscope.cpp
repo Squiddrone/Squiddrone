@@ -18,7 +18,10 @@ auto Gyroscope::Init(std::uint8_t i2c_address) noexcept -> types::HalError {
 
 auto Gyroscope::SetSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> types::HalError {
   sensitivity_ = gyroscope_sensitivity;
-  return types::HalError::CONFIG_ERROR;
+  if (!initialized_)
+    return types::HalError::CONFIG_ERROR;
+
+  return types::HalError::WORKING;
 }
 
 auto Gyroscope::GetSensitivity(void) noexcept -> types::GyroscopeSensitivity {
