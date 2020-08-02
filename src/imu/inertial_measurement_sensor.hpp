@@ -19,9 +19,9 @@ class InertialMeasurementSensor {
   explicit InertialMeasurementSensor(std::unique_ptr<i2c::I2C> i2c_handler) : i2c_handler_(std::move(i2c_handler)){};
   auto Get(void) noexcept -> types::EuclideanVector<float>;
   auto Update(void) noexcept -> types::HalError;
+  auto Mpu9255Detected(void) noexcept -> bool;
 
  protected:
-  auto Mpu9255Detected(void) noexcept -> bool;
   auto Read(std::uint16_t byte_size) noexcept -> std::pair<types::HalError, std::vector<std::uint8_t>>;
   auto Write(const std::vector<std::uint8_t>& data) noexcept -> types::HalError;
   auto ImuConnectionSuccessful(types::HalError imu_status) noexcept -> bool;

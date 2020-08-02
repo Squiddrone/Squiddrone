@@ -5,16 +5,22 @@
  *      Author: aron
  */
 #include "stm32g4xx_hal.h"
-//
+
+#include <stdio.h>
+#include <string.h>
+#include <memory>
 #include "clock_config.h"
 #include "cordic_config.h"
 #include "crc_config.h"
 #include "fmac_config.h"
 #include "gpio_config.h"
+#include "gyroscope.hpp"
+#include "i2c.hpp"
 #include "i2c_config.h"
 #include "mcu_settings.h"
 #include "serial_config.h"
 #include "spi_config.h"
+
 #include "timer_config.h"
 
 int main() {
@@ -34,7 +40,23 @@ int main() {
   MX_TIM16_Init();
   MX_TIM17_Init();
 
+  uint8_t buf[25];
+
+  auto i2c_interface = std::make_unique<i2c::I2C>();
+
+  std::unique_ptr<imu::Gyroscope> gyroscope = std::make_unique<imu::Gyroscope>(std::move(i2c_interface));
+  gyroscope->Init(0x68);
+
   while (1) {
+    if (gyroscope->Mpu9255Detected()) {
+      strcpy((char*)buf, "Mpu9255 detected\r\n");
+    } else {
+      strcpy((char*)buf, "Mpu9255 not detected\r\n");
+    }
+
+    HAL_UART_Transmit(&huart2, buf, (uint16_t)strlen((char*)buf), HAL_MAX_DELAY);
+
+    HAL_Delay(500);
   }
   return 0;
 }
