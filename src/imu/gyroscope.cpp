@@ -4,9 +4,9 @@ namespace imu {
 
 auto Gyroscope::Init(std::uint8_t i2c_address) noexcept -> types::HalError {
   i2c_address_ = i2c_address;
+  initialized_ = false;
 
   if (!Mpu9255Detected()) {
-    initialized_ = false;
     return types::HalError::CONFIG_ERROR;
   }
 
@@ -14,6 +14,12 @@ auto Gyroscope::Init(std::uint8_t i2c_address) noexcept -> types::HalError {
   sensor_values_.x = 0;
   sensor_values_.y = 0;
   sensor_values_.z = 0;
+
+  if (!ImuConnectionSuccessful(SetSensitivity(sensitivity_))) {
+    initialized_ = true;
+    return types::HalError::CONFIG_ERROR;
+  }
+
   return types::HalError::WORKING;
 }
 
