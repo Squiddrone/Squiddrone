@@ -14,7 +14,7 @@ enum class GyroscopeSensitivity : int {
   FINER,
   /// Rougher sensitivity. For MPU9250: Full-Scale Range of +- 1000 °/s with a Sensitivity of 32.8 °/s
   ROUGHER,
-  /// Roughest sensitivity. For MPU9250: Full-Scale Range of +- 2000 °/s with a Sensitivity of 131 °/s
+  /// Roughest sensitivity. For MPU9250: Full-Scale Range of +- 2000 °/s with a Sensitivity of 16.4 °/s
   ROUGHEST
 };
 
