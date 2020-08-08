@@ -6,6 +6,7 @@ auto Gyroscope::Init(std::uint8_t i2c_address) noexcept -> types::HalError {
   i2c_address_ = i2c_address;
 
   if (!Mpu9255Detected()) {
+    initialized_ = false;
     return types::HalError::CONFIG_ERROR;
   }
 
@@ -34,10 +35,38 @@ auto Gyroscope::Update(void) noexcept -> types::HalError {
 }
 
 auto Gyroscope::SetSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> types::HalError {
-  sensitivity_ = gyroscope_sensitivity;
   if (!initialized_)
     return types::HalError::CONFIG_ERROR;
 
+  uint8_t gyro_fs_sel = 0;
+
+  if (gyroscope_sensitivity == types::GyroscopeSensitivity::FINEST) {
+    gyro_fs_sel = 0b00;  /// +- 250 dps full scale; 131 °/s sensitivity
+  } else if (gyroscope_sensitivity == types::GyroscopeSensitivity::FINER) {
+    gyro_fs_sel = 0b01;
+  } else if (gyroscope_sensitivity == types::GyroscopeSensitivity::ROUGHER) {
+    gyro_fs_sel = 0b10;
+  } else if (gyroscope_sensitivity == types::GyroscopeSensitivity::ROUGHEST) {
+    gyro_fs_sel = 0b11;  /// +- 2000 dps full scale; 16.4 °/s sensitivity
+  }
+
+  types::HalError imu_status;
+  std::vector<uint8_t> gyro_config;
+  std::tie(imu_status, gyro_config) = ReadDataBytes(GYRO_CONFIG, 1);
+
+  if (!ImuConnectionSuccessful(imu_status)) {
+    return types::HalError::CONFIG_ERROR;
+  }
+
+  uint8_t new_gyro_config = gyro_config.at(0) | gyro_fs_sel << 3;
+  std::vector<uint8_t> data = {GYRO_CONFIG, new_gyro_config};
+  imu_status = Write(data);
+
+  if (!ImuConnectionSuccessful(imu_status)) {
+    return types::HalError::CONFIG_ERROR;
+  }
+
+  sensitivity_ = gyroscope_sensitivity;
   return types::HalError::WORKING;
 }
 
