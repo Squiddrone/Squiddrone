@@ -16,7 +16,7 @@ auto Gyroscope::Init(std::uint8_t i2c_address) noexcept -> types::HalError {
   sensor_values_.z = 0;
 
   if (!ImuConnectionSuccessful(SetSensitivity(sensitivity_))) {
-    initialized_ = true;
+    initialized_ = false;
     return types::HalError::CONFIG_ERROR;
   }
 
