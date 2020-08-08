@@ -78,6 +78,7 @@
     "bit": "cpp",
     "clock_config.h": "c"
   },
+  "cmake.buildDirectory": "${workspaceFolder}/build_${buildKit}-${buildType}",
   "cmake.configureOnOpen": true,
   "editor.formatOnSave": true,
 }
