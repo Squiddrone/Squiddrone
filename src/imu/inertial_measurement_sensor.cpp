@@ -2,7 +2,7 @@
 
 namespace imu {
 
-auto InertialMeasurementSensor::Get(void) noexcept -> types::EuclideanVector<float> {
+auto InertialMeasurementSensor::Get(void) noexcept -> types::EuclideanVector<int16_t> {
   return sensor_values_;
 }
 
