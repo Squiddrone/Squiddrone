@@ -88,6 +88,19 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity_roughest) {
   EXPECT_EQ(gyroscope_sensitivity_return, types::HalError::WORKING);
 }
 
+TEST_F(GyroscopeTests, gyroscope_SetSensitivity_failes_stored_sensitivity_stays_same) {
+  unit_under_test_->Init(i2c_address_);
+  auto set_sensitivity = types::GyroscopeSensitivity::ROUGHEST;
+  auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(set_sensitivity);
+  auto gyroscope_get = unit_under_test_->GetSensitivity();
+  EXPECT_EQ(gyroscope_sensitivity_return, types::HalError::WORKING);
+  EXPECT_EQ(gyroscope_get, set_sensitivity);
+  unit_under_test_->Init(0);
+  gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::GyroscopeSensitivity::FINEST);
+  EXPECT_EQ(gyroscope_sensitivity_return, types::HalError::CONFIG_ERROR);
+  EXPECT_EQ(gyroscope_get, set_sensitivity);
+}
+
 TEST_F(GyroscopeTests, gyroscope_SetSensitivity_without_Init_first) {
   auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::GyroscopeSensitivity::ROUGHEST);
   EXPECT_EQ(gyroscope_sensitivity_return, types::HalError::CONFIG_ERROR);
