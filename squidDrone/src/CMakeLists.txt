@@ -4,6 +4,7 @@ add_subdirectory(propulsion)
 add_subdirectory(imu)
 add_subdirectory(i2c)
 add_subdirectory(com)
+add_subdirectory(spi)
 
 target_include_directories(${ELF_FILE}
     PRIVATE
