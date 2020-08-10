@@ -8,11 +8,12 @@ namespace spi {
 class SPI final : spi::SPIInterface {
  public:
   SPI() = delete;
-  explicit SPI(const std::uint8_t chip_select) : spi::SPIInterface(), chip_select_(chip_select){};
+  explicit SPI(const std::uint16_t chip_select) : spi::SPIInterface(), chip_select_(chip_select){};
+  virtual ~SPI() = default;
   auto Transfer(std::unique_ptr<std::uint8_t> RxData, std::unique_ptr<std::uint8_t> TxData) noexcept -> spi::SPIStatus override;
 
  private:
-  std::uint8_t chip_select_;
+  std::uint16_t chip_select_;
 };
 
 }  // namespace spi

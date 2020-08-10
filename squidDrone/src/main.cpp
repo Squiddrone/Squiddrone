@@ -4,6 +4,7 @@
  *  Created on: Oct 4, 2019
  *      Author: aron
  */
+
 #include "stm32g4xx_hal.h"
 #include "clock_config.h"
 #include "gpio_config.h"
@@ -15,9 +16,10 @@
 #include "spi_config.h"
 #include "timer_config.h"
 #include "mcu_settings.h"
+#include "com/com_message_buffer.hpp"
+#include "com/nrf24l01.hpp"
 
-
-int main(){
+int main() {
   HAL_Init();
   SystemClock_Config();
   MX_GPIO_Init();
@@ -34,8 +36,11 @@ int main(){
   MX_TIM16_Init();
   MX_TIM17_Init();
 
-  while(1){}
+  auto com_spi_handle = std::make_unique<spi::SPI>(CSCOM_Pin);
+  auto com_msg_buffer = std::make_unique<com::ComMessageBuffer>();
+  auto comsys = std::make_unique<com::NRF24L01>(std::move(com_spi_handle), std::move(com_msg_buffer));
+
+  while (1) {
+  }
   return 0;
 }
-
-

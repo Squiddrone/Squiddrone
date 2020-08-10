@@ -9,6 +9,7 @@
 #include "com_types.hpp"
 
 #include <array>
+#include <memory>
 
 namespace com {
 

@@ -18,6 +18,7 @@ namespace com {
        * 
        */
       ComMessageBuffer(){};
+      virtual ~ComMessageBuffer() = default;
 
       /** 
        * @brief Transfer data to queue buffer. 
