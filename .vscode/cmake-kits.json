@@ -1,10 +1,13 @@
 [
   {
     "name": "armgcc_toolchain",
-    "toolchainFile": "../squidDrone/cmake/gnu_arm_stm32_toolchain.cmake"
+    "toolchainFile": "${workspaceFolder}/cmake/gnu_arm_stm32_toolchain.cmake"
   },
   {
     "name": "unittest_toolchain",
-    "toolchainFile": "../squidDrone/cmake/gcc_linux_toolchain.cmake"
+    "toolchainFile": "${workspaceFolder}/cmake/gcc_linux_toolchain.cmake",
+    "cmakeSettings": {
+      "GOOGLE_TESTS": "ON"
+    }
   }
 ]

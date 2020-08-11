@@ -1,5 +1,5 @@
 {
-  "cmake.sourceDirectory": "${workspaceRoot}/squidDrone",
+  "cmake.sourceDirectory": "${workspaceRoot}",
   "editor.tokenColorCustomizations": {
     "textMateRules": [
       {
@@ -77,5 +77,8 @@
     "mcu_settings.h": "c",
     "bit": "cpp",
     "clock_config.h": "c"
-  }
+  },
+  "cmake.buildDirectory": "${workspaceFolder}/build_${buildKit}-${buildType}",
+  "cmake.configureOnOpen": true,
+  "editor.formatOnSave": true,
 }
