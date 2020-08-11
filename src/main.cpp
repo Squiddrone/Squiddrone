@@ -17,12 +17,9 @@
 #include "serial_config.h"
 #include "spi_config.h"
 #include "timer_config.h"
-<<<<<<< HEAD:squidDrone/src/main.cpp
 #include "mcu_settings.h"
 #include "com/com_message_buffer.hpp"
 #include "com/nrf24l01.hpp"
-=======
->>>>>>> dev:src/main.cpp
 
 int main() {
   HAL_Init();
@@ -41,13 +38,10 @@ int main() {
   MX_TIM16_Init();
   MX_TIM17_Init();
 
-<<<<<<< HEAD:squidDrone/src/main.cpp
   auto com_spi_handle = std::make_unique<spi::SPI>(CSCOM_Pin);
   auto com_msg_buffer = std::make_unique<com::ComMessageBuffer>();
   auto comsys = std::make_unique<com::NRF24L01>(std::move(com_spi_handle), std::move(com_msg_buffer));
 
-=======
->>>>>>> dev:src/main.cpp
   while (1) {
   }
   return 0;
