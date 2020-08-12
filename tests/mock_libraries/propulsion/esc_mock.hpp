@@ -13,9 +13,9 @@ class Esc {
     return 10;
   }
 
-  auto SetPulseDuration(int pulse_duration, int repetition_period) noexcept -> types::HalError;
+  auto SetPulseDuration(int pulse_duration, int repetition_period) noexcept -> types::DriverStatus;
 
-  types::HalError set_pulse_duration_return_value_ = types::HalError::WORKING;
+  types::DriverStatus set_pulse_duration_return_value_ = types::DriverStatus::OK;
 };
 }  // namespace propulsion
 

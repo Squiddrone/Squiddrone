@@ -37,12 +37,12 @@ class LeTodar2204 final : public Motor {
   /**
    * @brief Sets the speed to the ESC based on the values configured there
    * @param speed The speed to be set (between 0.0 and 100.0)
-   * @return types::InputError::INPUT_CORRECT if everything is working fine.
-   *         types::InputError::INPUT_OUT_OF_RANGE if speed exceeds lower and upper limits
-   *         types::InputError::INPUT_FAULTY if input caused the HAL to fail and throw an error.
+   * @return types::DriverStatus::OK if everything is working fine.
+   *         types::DriverStatus::INPUT_ERROR if speed exceeds lower and upper limits
+   *         types::DriverStatus::HAL_ERROR if input caused the HAL to fail and throw an error.
    * 
    */
-  auto SetSpeedInPercent(const float speed) noexcept -> types::InputError override;
+  auto SetSpeedInPercent(const float speed) noexcept -> types::DriverStatus override;
 
  private:
   static constexpr int REPETITION_TIME_IN_MS = 500;
