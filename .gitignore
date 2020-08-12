@@ -1,4 +1,3 @@
-
 # Created by https://www.gitignore.io/api/c,c++,eclipse
 # Edit at https://www.gitignore.io/?templates=c,c++,eclipse
 
@@ -144,7 +143,6 @@ local.properties
 
 Debug/
 Release/
-build/
-build_unittests/
+build*/
 
 # End of https://www.gitignore.io/api/c,c++,eclipse
