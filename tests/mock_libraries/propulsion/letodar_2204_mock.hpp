@@ -13,8 +13,8 @@ class LeTodar2204 : public Motor {
   auto GetCurrentSpeedInPercent() const noexcept -> const float override {
     return 1.0;
   }
-  auto SetSpeedInPercent(const float speed) noexcept -> types::InputError override {
-    return types::InputError::INPUT_CORRECT;
+  auto SetSpeedInPercent(const float speed) noexcept -> types::DriverStatus override {
+    return types::DriverStatus::OK;
   }
 };
 }  // namespace propulsion

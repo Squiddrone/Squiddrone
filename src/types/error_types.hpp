@@ -13,7 +13,8 @@ namespace types {
 enum class DriverStatus : int {
   OK,
   HAL_ERROR,
-  INPUT_ERROR
+  INPUT_ERROR,
+  TIMEOUT
 };
 
 /**

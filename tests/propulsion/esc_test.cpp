@@ -10,16 +10,16 @@ class ConcreteEsc final : public propulsion::Esc {
   using propulsion::Esc::timer_;
   explicit ConcreteEsc(TIM_HandleTypeDef* timer, std::uint32_t channel) : propulsion::Esc(timer, channel) {}
 
-  const auto GetMaxPulseDurationInMicroSeconds() const noexcept -> int override {
+  auto GetMaxPulseDurationInMicroSeconds() const noexcept -> const int override {
     return max_pulse_;
   }
 
-  const auto GetMinPulseDurationInMicroSeconds() const noexcept -> int override {
+  auto GetMinPulseDurationInMicroSeconds() const noexcept -> const int override {
     return min_pulse_;
   }
 
-  const auto SetPulseDuration(int pulse_duration, int repetition_period) noexcept -> decltype(types::HalError::WORKING) {
-    return types::HalError::PARAMETER_ERROR;
+  auto SetPulseDuration(int pulse_duration, int repetition_period) noexcept -> const decltype(types::DriverStatus::OK) {
+    return types::DriverStatus::HAL_ERROR;
   }
 
  private:
@@ -51,7 +51,7 @@ TEST(esc_test, get_min_pulse_duration) {
 TEST(esc_test, set_pulse_duration) {
   TIM_HandleTypeDef mock_timer;
   ConcreteEsc unit_under_test{&mock_timer, mock_channel};
-  ASSERT_EQ(types::HalError::PARAMETER_ERROR, unit_under_test.SetPulseDuration(1, 1));
+  ASSERT_EQ(types::DriverStatus::HAL_ERROR, unit_under_test.SetPulseDuration(1, 1));
 }
 
 }  // namespace

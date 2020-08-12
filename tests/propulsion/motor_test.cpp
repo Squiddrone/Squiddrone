@@ -16,9 +16,9 @@ class ConcreteMotor final : public propulsion::Motor {
     return static_cast<float>(10.1);
   }
 
-  auto SetSpeedInPercent(const float speed) noexcept -> types::InputError override {
+  auto SetSpeedInPercent(const float speed) noexcept -> types::DriverStatus override {
     speed_ = speed;
-    return types::InputError::INPUT_CORRECT;
+    return types::DriverStatus::OK;
   }
 };
 
@@ -40,7 +40,7 @@ TEST(motor_test, get_current_speed) {
 
 TEST(motor_test, set_current_speed_input_correct) {
   ConcreteMotor unit_under_test{};
-  ASSERT_EQ(types::InputError::INPUT_CORRECT, unit_under_test.SetSpeedInPercent(10.2));
+  ASSERT_EQ(types::DriverStatus::OK, unit_under_test.SetSpeedInPercent(10.2));
 }
 }  // namespace
 
