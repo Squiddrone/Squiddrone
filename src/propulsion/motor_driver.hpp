@@ -6,14 +6,15 @@
 #include "basic_types.hpp"
 #include "error_types.hpp"
 #include "motor.hpp"
+#include "propulsion_hardware_config.hpp"
 
 namespace propulsion {
 
 enum class MotorPosition : int {
   LEFT_FRONT = 0,
   RIGHT_FRONT = 1,
-  LEFT_BACK = 2,
-  RIGHT_BACK = 3
+  LEFT_REAR = 2,
+  RIGHT_REAR = 3
 };
 
 class MotorDriver {
@@ -49,6 +50,8 @@ class MotorDriver {
  private:
   static constexpr auto NUMBER_OF_MOTORS_ = 4;
   std::array<std::unique_ptr<Motor>, NUMBER_OF_MOTORS_> motors_;
+
+  auto InitializeMotor(MotorPosition position, PropulsionHardwareConfig &config) noexcept -> const types::DriverStatus;
 };
 
 }  // namespace propulsion
