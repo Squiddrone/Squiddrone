@@ -17,19 +17,6 @@ enum class DriverStatus : int {
   TIMEOUT
 };
 
-/**
- * @brief A hardware setup enum to identify hardware setup
- *  errors on abstraction levels above the HAL and 
- *  HAL interfacing classes
- * 
- */
-enum class HardwareSetupError : int {
-  // Setup worked flawlessly
-  HARDWARE_SETUP_CORRECT,
-  /// Hardware and/or HAL reports errors
-  HARDWARE_REPORTS_ERRORS
-};
-
 }  // namespace types
 
 #endif
