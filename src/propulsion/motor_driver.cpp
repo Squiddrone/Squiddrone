@@ -1,5 +1,7 @@
-#include "motor_driver.hpp"
+#include <cstdlib>
+
 #include "motor_builder.hpp"
+#include "motor_driver.hpp"
 #include "timer_config.h"
 
 namespace propulsion {
@@ -17,13 +19,12 @@ MotorDriver::MotorDriver() : motors_{} {
   InitializeMotor(MotorPosition::RIGHT_REAR, config_right_rear);
 }
 
-auto MotorDriver::InitializeMotor(MotorPosition position, PropulsionHardwareConfig &config) noexcept -> const types::DriverStatus {
+auto MotorDriver::InitializeMotor(MotorPosition position, PropulsionHardwareConfig &config) noexcept -> void {
   auto motor = MotorBuilder::Create(config);
   if (motor == nullptr) {
-    return types::DriverStatus::INPUT_ERROR;
+    std::abort();
   } else {
     motors_.at(static_cast<int>(position)) = std::move(motor);
-    return types::DriverStatus::OK;
   }
 }
 

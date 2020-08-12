@@ -51,7 +51,7 @@ class MotorDriver {
   static constexpr auto NUMBER_OF_MOTORS_ = 4;
   std::array<std::unique_ptr<Motor>, NUMBER_OF_MOTORS_> motors_;
 
-  auto InitializeMotor(MotorPosition position, PropulsionHardwareConfig &config) noexcept -> const types::DriverStatus;
+  auto InitializeMotor(MotorPosition position, PropulsionHardwareConfig &config) noexcept -> void;
 };
 
 }  // namespace propulsion
