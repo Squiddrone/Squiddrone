@@ -10,7 +10,7 @@ namespace types {
  *  of the software
  * 
  */
-enum class DriverError : int {
+enum class DriverStatus : int {
   OK,
   HAL_ERROR,
   INPUT_ERROR
