@@ -2,7 +2,7 @@
 
 namespace i2c {
 
-auto I2C::Read(std::uint8_t address, std::uint16_t byte_size, std::uint32_t timeout) noexcept -> std::tuple<types::DriverStatus, std::vector<std::uint8_t>> {
+auto I2C::Read(std::uint8_t address, std::uint16_t byte_size, std::uint32_t timeout) noexcept -> std::pair<types::DriverStatus, std::vector<std::uint8_t>> {
   types::DriverStatus i2c_status;
 
   if (!CheckForValidInputRead(address, byte_size, timeout)) {
