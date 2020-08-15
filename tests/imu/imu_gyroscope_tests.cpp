@@ -55,7 +55,7 @@ TEST_F(GyroscopeTests, gyroscope_Get_without_Update_first) {
 }
 
 TEST_F(GyroscopeTests, gyroscope_full) {
-  types::EuclideanVector<float> expected_value{1.5, 2.5, 3.5};
+  types::EuclideanVector<float> expected_value{15, 25, 35};
   unit_under_test_->Init(i2c_address_);
   unit_under_test_->Update();
   auto gyroscope_get_return = unit_under_test_->Get();
@@ -86,6 +86,19 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity_roughest) {
   unit_under_test_->Init(i2c_address_);
   auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::GyroscopeSensitivity::ROUGHEST);
   EXPECT_EQ(gyroscope_sensitivity_return, types::HalError::WORKING);
+}
+
+TEST_F(GyroscopeTests, gyroscope_SetSensitivity_failes_stored_sensitivity_stays_same) {
+  unit_under_test_->Init(i2c_address_);
+  auto set_sensitivity = types::GyroscopeSensitivity::ROUGHEST;
+  auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(set_sensitivity);
+  auto gyroscope_get = unit_under_test_->GetSensitivity();
+  EXPECT_EQ(gyroscope_sensitivity_return, types::HalError::WORKING);
+  EXPECT_EQ(gyroscope_get, set_sensitivity);
+  unit_under_test_->Init(0);
+  gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::GyroscopeSensitivity::FINEST);
+  EXPECT_EQ(gyroscope_sensitivity_return, types::HalError::CONFIG_ERROR);
+  EXPECT_EQ(gyroscope_get, set_sensitivity);
 }
 
 TEST_F(GyroscopeTests, gyroscope_SetSensitivity_without_Init_first) {

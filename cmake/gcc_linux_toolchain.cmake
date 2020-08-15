@@ -2,8 +2,6 @@ set(CMAKE_SYSTEM_NAME Generic)
 set(CMAKE_SYSTEM_VERSION 1)
 set(CMAKE_SYSTEM_PROCESSOR Linux)
 
-option(GOOGLE_TESTS "Build the Unittests" ON)
-
 set(CMAKE_C_COMPILER gcc)
 set(CMAKE_CXX_COMPILER g++)
 set(CMAKE_ASM_COMPILER gcc)
