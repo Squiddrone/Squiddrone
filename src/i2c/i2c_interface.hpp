@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <tuple>
 #include <vector>
-#include "i2c_status.hpp"
+#include "error_types.hpp"
 
 namespace i2c {
 
@@ -25,9 +25,9 @@ class I2CInterface {
    *                  Allowed range of Bytes is between 1 and 32.
    * @param timeout Timeout in milliseconds \n
    *                Allowed range of Timeout is between 1 and HAL_MAX_DELAY (0xFFFFFFFF, see stm32g4xx_hal_def.h).
-   * @return std::tuple<#I2CStatus, std::vector<uint8_t>> Status of I2C Interface and Data read as std::vector. Each element is a Byte read.
+   * @return std::tuple<#types::DriverStatus, std::vector<uint8_t>> Status of I2C Interface and Data read as std::vector. Each element is a Byte read.
    */
-  virtual auto Read(std::uint8_t address, std::uint16_t byte_size, std::uint32_t timeout = I2C_STANDARD_TIMEOUT_IN_MS) noexcept -> std::tuple<I2CStatus, std::vector<std::uint8_t>> = 0;
+  virtual auto Read(std::uint8_t address, std::uint16_t byte_size, std::uint32_t timeout = I2C_STANDARD_TIMEOUT_IN_MS) noexcept -> std::tuple<types::DriverStatus, std::vector<std::uint8_t>> = 0;
 
   /**
    * @brief Writes data to I2C participant
@@ -37,9 +37,9 @@ class I2CInterface {
    *             Allowed range of Bytes is between 1 and 32.
    * @param timeout Timeout in milliseconds \n
    *                Allowed range of Timeout is between 1 and HAL_MAX_DELAY (0xFFFFFFFF, see stm32g4xx_hal_def.h).
-   * @return #I2CStatus Status of I2C Interface
+   * @return #types::DriverStatus Status of I2C Interface
    */
-  virtual auto Write(std::uint8_t address, const std::vector<std::uint8_t>& data, std::uint32_t timeout = I2C_STANDARD_TIMEOUT_IN_MS) noexcept -> I2CStatus = 0;
+  virtual auto Write(std::uint8_t address, const std::vector<std::uint8_t>& data, std::uint32_t timeout = I2C_STANDARD_TIMEOUT_IN_MS) noexcept -> types::DriverStatus = 0;
 
  protected:
   /// @brief Standard timeout of I2C Interface in milliseconds

@@ -2,12 +2,12 @@
 
 namespace i2c {
 
-auto I2C::Read(std::uint8_t address, std::uint16_t byte_size, std::uint32_t timeout) noexcept -> std::tuple<I2CStatus, std::vector<std::uint8_t>> {
-  I2CStatus i2c_status;
+auto I2C::Read(std::uint8_t address, std::uint16_t byte_size, std::uint32_t timeout) noexcept -> std::tuple<types::DriverStatus, std::vector<std::uint8_t>> {
+  types::DriverStatus i2c_status;
 
   if (!CheckForValidInputRead(address, byte_size, timeout)) {
     std::vector<std::uint8_t> data;
-    i2c_status = I2CStatus::I2C_PARAMETER_ERROR;
+    i2c_status = types::DriverStatus::HAL_ERROR;
     return {i2c_status, data};
   }
 
@@ -22,9 +22,9 @@ auto I2C::Read(std::uint8_t address, std::uint16_t byte_size, std::uint32_t time
   return {i2c_status, data};
 }
 
-auto I2C::Write(std::uint8_t address, const std::vector<std::uint8_t>& data, std::uint32_t timeout) noexcept -> I2CStatus {
+auto I2C::Write(std::uint8_t address, const std::vector<std::uint8_t>& data, std::uint32_t timeout) noexcept -> types::DriverStatus {
   if (!CheckForValidInputWrite(address, data, timeout)) {
-    return I2CStatus::I2C_PARAMETER_ERROR;
+    return types::DriverStatus::INPUT_ERROR;
   }
 
   address = ModifyAddressForI2C7Bit(address);
@@ -46,21 +46,21 @@ auto I2C::CheckForValidInputRead(std::uint8_t address, std::uint16_t byte_size, 
          CheckIfI2CTimeoutIsValid(timeout);
 }
 
-auto I2C::GetI2CStatus(HAL_StatusTypeDef hal_status) noexcept -> I2CStatus {
-  I2CStatus i2c_status;
+auto I2C::GetI2CStatus(HAL_StatusTypeDef hal_status) noexcept -> types::DriverStatus {
+  types::DriverStatus i2c_status;
 
   switch (hal_status) {
     case HAL_OK:
-      i2c_status = I2CStatus::I2C_TRANSACTION_SUCCESSFUL;
+      i2c_status = types::DriverStatus::OK;
       break;
     case HAL_TIMEOUT:
-      i2c_status = I2CStatus::I2C_TRANSACTION_TIMEOUT;
+      i2c_status = types::DriverStatus::TIMEOUT;
       break;
     case HAL_BUSY:
-      i2c_status = I2CStatus::I2C_TRANSACTION_BUSY;
+      i2c_status = types::DriverStatus::HAL_ERROR;
       break;
     default:
-      i2c_status = I2CStatus::I2C_TRANSACTION_FAILED;
+      i2c_status = types::DriverStatus::HAL_ERROR;
       break;
   }
 
