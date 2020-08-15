@@ -45,17 +45,23 @@ int main() {
   auto i2c_interface = std::make_unique<i2c::I2C>();
 
   std::unique_ptr<imu::Gyroscope> gyroscope = std::make_unique<imu::Gyroscope>(std::move(i2c_interface));
-  gyroscope->Init(0x68);
+  if (gyroscope->Init(0x68) == types::HalError::WORKING) {
+    strcpy((char*)buf, "Init successfull\r\n");
+  } else {
+    strcpy((char*)buf, "Init failed\r\n");
+  }
+  HAL_UART_Transmit(&huart2, buf, (uint16_t)strlen((char*)buf), HAL_MAX_DELAY);
+
+  HAL_Delay(500);
 
   while (1) {
-    if (gyroscope->Mpu9255Detected()) {
-      strcpy((char*)buf, "Mpu9255 detected\r\n");
+    if (gyroscope->Update() == types::HalError::WORKING) {
+      auto gyro_sensor_values = gyroscope->Get();
+      sprintf((char*)buf, "%d %d %d\r\n", gyro_sensor_values.x, gyro_sensor_values.y, gyro_sensor_values.z);
     } else {
-      strcpy((char*)buf, "Mpu9255 not detected\r\n");
+      strcpy((char*)buf, "Update failed\r\n");
     }
-
     HAL_UART_Transmit(&huart2, buf, (uint16_t)strlen((char*)buf), HAL_MAX_DELAY);
-
     HAL_Delay(500);
   }
   return 0;
