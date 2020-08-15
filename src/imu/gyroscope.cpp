@@ -41,8 +41,9 @@ auto Gyroscope::Update(void) noexcept -> types::HalError {
 }
 
 auto Gyroscope::SetSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> types::HalError {
-  if (!initialized_)
+  if (!initialized_) {
     return types::HalError::CONFIG_ERROR;
+  }
 
   uint8_t gyro_fs_sel = 0;
 
