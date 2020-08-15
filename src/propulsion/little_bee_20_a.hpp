@@ -34,7 +34,7 @@ class LittleBee20A final : public Esc {
    * @return Oneshot 125 maximum pulse duration for full throttle
    * 
    */
-  const auto GetMaxPulseDurationInMicroSeconds() const noexcept -> int override {
+  auto GetMaxPulseDurationInMicroSeconds() const noexcept -> const int override {
     return ONESHOT_125_MAX_PULSE_DURATION_IN_US_;
   }
 
@@ -44,7 +44,7 @@ class LittleBee20A final : public Esc {
    * @return Oneshot 125 minimum pulse duration for no throttle
    * 
    */
-  const auto GetMinPulseDurationInMicroSeconds() const noexcept -> int override {
+  auto GetMinPulseDurationInMicroSeconds() const noexcept -> const int override {
     return ONESHOT_125_MIN_PULSE_DURATION_IN_US_;
   }
 
@@ -58,12 +58,12 @@ class LittleBee20A final : public Esc {
    *       ^-------------------^ repetition_period
    * @param pulse_duration The Oneshot125 pulse duration (125us - 250us)
    * @param repetition_period Time between pulses in microseconds (pulse_duration - 20ms)
-   * @return types::HalError::working if there is no error
-   *         types::HalError::parameter_error if new pulse duration didn't work
-   *         types::HalError::config_error if timer config didn't work
+   * @return types::DriverStatus::OK if there is no error
+   *         types::DriverStatus::INPUT_ERROR if new pulse duration didn't work
+   *         types::DriverStatus::HAL_ERROR if timer config didn't work
    * 
    */
-  const auto SetPulseDuration(int pulse_duration, int repetition_period) noexcept -> types::HalError override;
+  auto SetPulseDuration(int pulse_duration, int repetition_period) noexcept -> const types::DriverStatus override;
 
  private:
   static constexpr auto ONESHOT_125_MAX_PULSE_DURATION_IN_US_ = 250;
@@ -75,11 +75,11 @@ class LittleBee20A final : public Esc {
 
   /**
    * @brief Does the initial reconfiguration based on prescaler
-   * @return types::HalError::working if everything went fine
-   *         types::HalError::config_error if an error occured
+   * @return types::DriverStatus::OK if everything went fine
+   *         types::DriverStatus::HAL_ERROR if an error occured
    * 
    */
-  const auto ConfigureTimer() noexcept -> types::HalError;
+  const auto ConfigureTimer() noexcept -> types::DriverStatus;
 
   /**
    * @brief Set Oneshot125 pulse and period
@@ -88,11 +88,11 @@ class LittleBee20A final : public Esc {
    * __HAL_TIM_CALC_PULSE helps with calculation
    * @param period The actual period count for setting PWM period.
    * @param pulse The actual pulse PWM pulse count number.
-   * @return types::HalError::working if everything went fine
-   *         types::HalError::config_error if an error occured
+   * @return types::DriverStatus::OK if everything went fine
+   *         types::DriverStatus::HAL_ERROR if an error occured
    * 
    */
-  const auto SetPwm(std::uint32_t period, std::uint32_t pulse) const noexcept -> types::HalError;
+  const auto SetPwm(std::uint32_t period, std::uint32_t pulse) const noexcept -> types::DriverStatus;
 
   bool timer_is_configured_;
 };

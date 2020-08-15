@@ -44,23 +44,23 @@ class Esc {
    * @return Pulse duration in microseconds. 
    * 
    */
-  virtual const auto GetMaxPulseDurationInMicroSeconds() const noexcept -> int = 0;
+  virtual auto GetMaxPulseDurationInMicroSeconds() const noexcept -> const int = 0;
 
   /**
    * @brief Abstract method for returning the minimum pulse duration for the concrete ESC
    * @return Pulse duration in microseconds. 
    * 
    */
-  virtual const auto GetMinPulseDurationInMicroSeconds() const noexcept -> int = 0;
+  virtual auto GetMinPulseDurationInMicroSeconds() const noexcept -> const int = 0;
 
   /**
    * @brief Abstract method for setting the pulse duration based on the min and max values
    * @param pulse_duration Desired Pulse duration in microseconds
    * @param repetition_period Desired time until pulse is repeated
-   * @return A types::HalError type confirmation whether it was working or not
+   * @return A types::DriverStatus type confirmation whether it was working or not
    * 
    */
-  virtual const auto SetPulseDuration(int pulse_duration, int repetition_period) noexcept -> types::HalError = 0;
+  virtual auto SetPulseDuration(int pulse_duration, int repetition_period) noexcept -> const types::DriverStatus = 0;
 
  protected:
   /**
