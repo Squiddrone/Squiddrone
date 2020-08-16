@@ -59,8 +59,7 @@ auto Gyroscope::SaveNewGyroscopeSensitivity(types::GyroscopeSensitivity gyroscop
 
 auto Gyroscope::SendSensitivityRegisterData(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> void {
   std::uint8_t new_gyro_config = GetGyroscopeConfigRegisterDataForSensitivity(gyroscope_sensitivity);
-  std::vector<uint8_t> data = {GYRO_CONFIG, new_gyro_config};
-  Write(data);
+  Write({GYRO_CONFIG, new_gyro_config});
 }
 
 auto Gyroscope::GetGyroscopeConfigRegisterDataForSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> std::uint8_t {
