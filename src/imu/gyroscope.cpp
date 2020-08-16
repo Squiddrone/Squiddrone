@@ -26,14 +26,14 @@ auto Gyroscope::Update(void) noexcept -> types::HalError {
     return types::HalError::CONFIG_ERROR;
   }
 
-  std::vector<uint8_t> data;
-  data = ReadDataBytes(GYRO_XOUT_H, 6);
+  std::vector<uint8_t> measurement_values;
+  measurement_values = ReadDataBytes(GYRO_XOUT_H, 6);
 
   if (ImuConnectionSuccessful()) {
     SetSensorValues(
-        ConvertUint8BytesIntoInt16SensorValue(data.at(0), data.at(1)),
-        ConvertUint8BytesIntoInt16SensorValue(data.at(2), data.at(3)),
-        ConvertUint8BytesIntoInt16SensorValue(data.at(4), data.at(5)));
+        ConvertUint8BytesIntoInt16SensorValue(measurement_values.at(0), measurement_values.at(1)),
+        ConvertUint8BytesIntoInt16SensorValue(measurement_values.at(2), measurement_values.at(3)),
+        ConvertUint8BytesIntoInt16SensorValue(measurement_values.at(4), measurement_values.at(5)));
   }
 
   return types::HalError::WORKING;
