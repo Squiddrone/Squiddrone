@@ -7,14 +7,13 @@ auto InertialMeasurementSensor::Get(void) noexcept -> types::EuclideanVector<int
 }
 
 auto InertialMeasurementSensor::Mpu9255Detected(void) noexcept -> bool {
-  std::vector<uint8_t> data = {WHO_AM_I_MPU9255_REGISTER};
-  Write(data);
+  Write({WHO_AM_I_MPU9255_REGISTER});
 
   bool who_i_am_correct = false;
   if (ImuConnectionSuccessful()) {
-    data = Read(1);
+    std::vector<uint8_t> who_am_i_register_value = Read(1);
     if (ImuConnectionSuccessful()) {
-      if (data.at(0) == WHO_AM_I_MPU9255_VALUE) {
+      if (who_am_i_register_value.at(0) == WHO_AM_I_MPU9255_VALUE) {
         who_i_am_correct = true;
       }
     }
