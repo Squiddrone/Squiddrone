@@ -20,7 +20,7 @@ class Gyroscope : public InertialMeasurementSensor {
   auto SetSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> types::HalError;
 
  private:
-  auto GetGyroscopeConfigRegisterForSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> std::uint8_t;
+  auto GetGyroscopeConfigRegisterDataForSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> std::uint8_t;
 
   types::GyroscopeSensitivity sensitivity_ = types::GyroscopeSensitivity::FINEST;
 };

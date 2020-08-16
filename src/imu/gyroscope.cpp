@@ -44,7 +44,7 @@ auto Gyroscope::SetSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity
     imu_status_ = types::HalError::CONFIG_ERROR;
   }
 
-  std::uint8_t new_gyro_config = GetGyroscopeConfigRegisterForSensitivity(gyroscope_sensitivity);
+  std::uint8_t new_gyro_config = GetGyroscopeConfigRegisterDataForSensitivity(gyroscope_sensitivity);
   std::vector<uint8_t> data = {GYRO_CONFIG, new_gyro_config};
   Write(data);
 
@@ -55,7 +55,7 @@ auto Gyroscope::SetSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity
   return imu_status_;
 }
 
-auto Gyroscope::GetGyroscopeConfigRegisterForSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> std::uint8_t {
+auto Gyroscope::GetGyroscopeConfigRegisterDataForSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> std::uint8_t {
   std::uint8_t gyro_fs_sel = 0;
 
   if (gyroscope_sensitivity == types::GyroscopeSensitivity::FINEST) {
