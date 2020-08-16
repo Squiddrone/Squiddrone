@@ -45,7 +45,20 @@ auto Gyroscope::SetSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity
     return types::HalError::CONFIG_ERROR;
   }
 
-  uint8_t gyro_fs_sel = 0;
+  std::uint8_t new_gyro_config = GetGyroscopeConfigRegisterForSensitivity(gyroscope_sensitivity);
+  std::vector<uint8_t> data = {GYRO_CONFIG, new_gyro_config};
+  types::HalError imu_status = Write(data);
+
+  if (!ImuConnectionSuccessful(imu_status)) {
+    return types::HalError::CONFIG_ERROR;
+  }
+
+  sensitivity_ = gyroscope_sensitivity;
+  return types::HalError::WORKING;
+}
+
+auto Gyroscope::GetGyroscopeConfigRegisterForSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> std::uint8_t {
+  std::uint8_t gyro_fs_sel = 0;
 
   if (gyroscope_sensitivity == types::GyroscopeSensitivity::FINEST) {
     gyro_fs_sel = 0b00;  /// +- 250 dps full scale; 131 °/s sensitivity
@@ -61,20 +74,7 @@ auto Gyroscope::SetSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity
   std::vector<uint8_t> gyro_config;
   std::tie(imu_status, gyro_config) = ReadDataBytes(GYRO_CONFIG, 1);
 
-  if (!ImuConnectionSuccessful(imu_status)) {
-    return types::HalError::CONFIG_ERROR;
-  }
-
-  uint8_t new_gyro_config = gyro_config.at(0) | gyro_fs_sel << 3;
-  std::vector<uint8_t> data = {GYRO_CONFIG, new_gyro_config};
-  imu_status = Write(data);
-
-  if (!ImuConnectionSuccessful(imu_status)) {
-    return types::HalError::CONFIG_ERROR;
-  }
-
-  sensitivity_ = gyroscope_sensitivity;
-  return types::HalError::WORKING;
+  return static_cast<std::uint8_t>(gyro_config.at(0) | gyro_fs_sel << 3);
 }
 
 auto Gyroscope::GetSensitivity(void) noexcept -> types::GyroscopeSensitivity {
