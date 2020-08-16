@@ -22,13 +22,13 @@ auto InertialMeasurementSensor::Mpu9255Detected(void) noexcept -> bool {
 }
 
 auto InertialMeasurementSensor::ReadDataBytes(std::uint8_t read_from_register, std::uint16_t byte_size) noexcept -> std::vector<std::uint8_t> {
-  std::vector<uint8_t> data = {read_from_register};
-  Write(data);
+  Write({read_from_register});
 
+  std::vector<uint8_t> content_of_register = {0};
   if (ImuConnectionSuccessful()) {
-    data = Read(byte_size);
+    content_of_register = Read(byte_size);
   }
-  return data;
+  return content_of_register;
 }
 
 auto InertialMeasurementSensor::Read(std::uint16_t byte_size) noexcept -> std::vector<std::uint8_t> {
