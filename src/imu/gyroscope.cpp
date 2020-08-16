@@ -41,7 +41,7 @@ auto Gyroscope::Update(void) noexcept -> types::HalError {
 
 auto Gyroscope::SetSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> types::HalError {
   if (!IsInitialized()) {
-    imu_status_ = types::HalError::CONFIG_ERROR;
+    return types::HalError::CONFIG_ERROR;
   }
 
   SendSensitivityRegisterData(gyroscope_sensitivity);
