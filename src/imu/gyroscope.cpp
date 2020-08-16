@@ -10,15 +10,14 @@ auto Gyroscope::Init(std::uint8_t i2c_address) noexcept -> types::HalError {
     return types::HalError::CONFIG_ERROR;
   }
 
-  initialized_ = true;
   SetSensorValues(0, 0, 0);
 
-  SetSensitivity(sensitivity_);
+  SendSensitivityRegisterData(sensitivity_);
   if (!ImuConnectionSuccessful()) {
-    initialized_ = false;
     return types::HalError::CONFIG_ERROR;
   }
 
+  initialized_ = true;
   return types::HalError::WORKING;
 }
 
@@ -44,15 +43,19 @@ auto Gyroscope::SetSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity
     imu_status_ = types::HalError::CONFIG_ERROR;
   }
 
-  std::uint8_t new_gyro_config = GetGyroscopeConfigRegisterDataForSensitivity(gyroscope_sensitivity);
-  std::vector<uint8_t> data = {GYRO_CONFIG, new_gyro_config};
-  Write(data);
+  SendSensitivityRegisterData(gyroscope_sensitivity);
 
   if (ImuConnectionSuccessful()) {
     sensitivity_ = gyroscope_sensitivity;
   }
 
   return imu_status_;
+}
+
+auto Gyroscope::SendSensitivityRegisterData(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> void {
+  std::uint8_t new_gyro_config = GetGyroscopeConfigRegisterDataForSensitivity(gyroscope_sensitivity);
+  std::vector<uint8_t> data = {GYRO_CONFIG, new_gyro_config};
+  Write(data);
 }
 
 auto Gyroscope::GetGyroscopeConfigRegisterDataForSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> std::uint8_t {
