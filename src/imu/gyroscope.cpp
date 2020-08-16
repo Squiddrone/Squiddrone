@@ -24,7 +24,7 @@ auto Gyroscope::Init(std::uint8_t i2c_address) noexcept -> types::HalError {
 }
 
 auto Gyroscope::Update(void) noexcept -> types::HalError {
-  if (!initialized_)
+  if (!IsInitialized())
     return types::HalError::CONFIG_ERROR;
 
   std::vector<uint8_t> data;
@@ -40,7 +40,7 @@ auto Gyroscope::Update(void) noexcept -> types::HalError {
 }
 
 auto Gyroscope::SetSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> types::HalError {
-  if (!initialized_) {
+  if (!IsInitialized()) {
     imu_status_ = types::HalError::CONFIG_ERROR;
   }
 

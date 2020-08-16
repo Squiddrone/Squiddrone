@@ -68,4 +68,8 @@ auto InertialMeasurementSensor::ConvertUint8BytesIntoInt16SensorValue(std::uint8
   return static_cast<std::int16_t>(first_byte << 8 | second_byte);
 }
 
+auto InertialMeasurementSensor::IsInitialized(void) noexcept -> bool {
+  return initialized_;
+}
+
 }  // namespace imu
