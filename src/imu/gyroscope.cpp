@@ -60,13 +60,13 @@ auto Gyroscope::GetGyroscopeConfigRegisterForSensitivity(types::GyroscopeSensiti
   std::uint8_t gyro_fs_sel = 0;
 
   if (gyroscope_sensitivity == types::GyroscopeSensitivity::FINEST) {
-    gyro_fs_sel = 0b00;  /// +- 250 dps full scale; 131 °/s sensitivity
+    gyro_fs_sel = imu::GyroscopeSensitivityFSSelect::GYROSCOPE_FS_FINEST;
   } else if (gyroscope_sensitivity == types::GyroscopeSensitivity::FINER) {
-    gyro_fs_sel = 0b01;
+    gyro_fs_sel = imu::GyroscopeSensitivityFSSelect::GYROSCOPE_FS_FINER;
   } else if (gyroscope_sensitivity == types::GyroscopeSensitivity::ROUGHER) {
-    gyro_fs_sel = 0b10;
+    gyro_fs_sel = imu::GyroscopeSensitivityFSSelect::GYROSCOPE_FS_ROUGHER;
   } else if (gyroscope_sensitivity == types::GyroscopeSensitivity::ROUGHEST) {
-    gyro_fs_sel = 0b11;  /// +- 2000 dps full scale; 16.4 °/s sensitivity
+    gyro_fs_sel = imu::GyroscopeSensitivityFSSelect::GYROSCOPE_FS_ROUGHEST;
   }
 
   std::vector<uint8_t> gyro_config;

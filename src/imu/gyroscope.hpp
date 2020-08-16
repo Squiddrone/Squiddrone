@@ -25,6 +25,13 @@ class Gyroscope : public InertialMeasurementSensor {
   types::GyroscopeSensitivity sensitivity_ = types::GyroscopeSensitivity::FINEST;
 };
 
+enum GyroscopeSensitivityFSSelect : std::uint8_t {
+  GYROSCOPE_FS_FINEST,  /// +- 250 dps full scale; 131 °/s sensitivity
+  GYROSCOPE_FS_FINER,
+  GYROSCOPE_FS_ROUGHER,
+  GYROSCOPE_FS_ROUGHEST,  /// +- 2000 dps full scale; 16.4 °/s sensitivity
+};
+
 }  // namespace imu
 
 #endif
