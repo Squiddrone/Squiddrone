@@ -59,6 +59,10 @@ auto InertialMeasurementSensor::ImuConnectionSuccessful(void) noexcept -> bool {
   return imu_status_ == types::HalError::WORKING;
 }
 
+auto InertialMeasurementSensor::ImuConnectionFailed(void) noexcept -> bool {
+  return imu_status_ != types::HalError::WORKING;
+}
+
 auto InertialMeasurementSensor::SetI2CAdress(std::uint8_t i2c_address) noexcept -> void {
   i2c_address_ = i2c_address;
 }

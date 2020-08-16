@@ -25,6 +25,7 @@ class InertialMeasurementSensor {
   auto Write(const std::vector<std::uint8_t>& data) noexcept -> void;
   auto ReadDataBytes(std::uint8_t read_from_register, std::uint16_t byte_size) noexcept -> std::vector<std::uint8_t>;
   auto ImuConnectionSuccessful(void) noexcept -> bool;
+  auto ImuConnectionFailed(void) noexcept -> bool;
   auto SetI2CAdress(std::uint8_t i2c_address) noexcept -> void;
   auto ConvertUint8BytesIntoInt16SensorValue(std::uint8_t first_byte, std::uint8_t second_byte) noexcept -> std::int16_t;
   auto IsInitialized(void) noexcept -> bool;
