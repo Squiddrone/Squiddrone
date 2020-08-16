@@ -26,6 +26,7 @@ class InertialMeasurementSensor {
   auto ReadDataBytes(std::uint8_t read_from_register, std::uint16_t byte_size) noexcept -> std::pair<types::HalError, std::vector<std::uint8_t>>;
   auto ImuConnectionSuccessful(types::HalError imu_status) noexcept -> bool;
   auto SetI2CAdress(std::uint8_t i2c_address) noexcept -> void;
+  auto ConvertUint8BytesIntoInt16SensorValue(std::uint8_t first_byte, std::uint8_t second_byte) noexcept -> std::int16_t;
   /// Holds the local reference to euclidean sensor values
   types::EuclideanVector<int16_t> sensor_values_{-1, -1, -1};
   /// Holds the local reference to i2c handler

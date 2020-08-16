@@ -63,4 +63,8 @@ auto InertialMeasurementSensor::SetI2CAdress(std::uint8_t i2c_address) noexcept 
   i2c_address_ = i2c_address;
 }
 
+auto InertialMeasurementSensor::ConvertUint8BytesIntoInt16SensorValue(std::uint8_t first_byte, std::uint8_t second_byte) noexcept -> std::int16_t {
+  return static_cast<std::int16_t>(first_byte << 8 | second_byte);
+}
+
 }  // namespace imu
