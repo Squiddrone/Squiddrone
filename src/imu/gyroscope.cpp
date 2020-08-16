@@ -22,8 +22,9 @@ auto Gyroscope::Init(std::uint8_t i2c_address) noexcept -> types::HalError {
 }
 
 auto Gyroscope::Update(void) noexcept -> types::HalError {
-  if (!IsInitialized())
+  if (!IsInitialized()) {
     return types::HalError::CONFIG_ERROR;
+  }
 
   std::vector<uint8_t> data;
   data = ReadDataBytes(GYRO_XOUT_H, 6);
