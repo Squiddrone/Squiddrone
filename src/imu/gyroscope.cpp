@@ -3,7 +3,7 @@
 namespace imu {
 
 auto Gyroscope::Init(std::uint8_t i2c_address) noexcept -> types::HalError {
-  i2c_address_ = i2c_address;
+  SetI2CAdress(i2c_address);
   initialized_ = false;
 
   if (!Mpu9255Detected()) {
