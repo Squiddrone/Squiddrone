@@ -32,9 +32,9 @@ auto Gyroscope::Update(void) noexcept -> types::HalError {
   std::tie(imu_status, data) = ReadDataBytes(GYRO_XOUT_H, 6);
 
   if (ImuConnectionSuccessful(imu_status)) {
-    sensor_values_.x = (int16_t)data.at(0) << 8 | data.at(1);
-    sensor_values_.y = (int16_t)data.at(2) << 8 | data.at(3);
-    sensor_values_.z = (int16_t)data.at(4) << 8 | data.at(5);
+    sensor_values_.x = static_cast<std::int16_t>(data.at(0) << 8 | data.at(1));
+    sensor_values_.y = static_cast<std::int16_t>(data.at(2) << 8 | data.at(3));
+    sensor_values_.z = static_cast<std::int16_t>(data.at(4) << 8 | data.at(5));
   }
 
   return types::HalError::WORKING;
