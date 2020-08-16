@@ -46,10 +46,14 @@ auto Gyroscope::SetSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity
   SendSensitivityRegisterData(gyroscope_sensitivity);
 
   if (ImuConnectionSuccessful()) {
-    sensitivity_ = gyroscope_sensitivity;
+    SaveNewGyroscopeSensitivity(gyroscope_sensitivity);
   }
 
   return imu_status_;
+}
+
+auto Gyroscope::SaveNewGyroscopeSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> void {
+  sensitivity_ = gyroscope_sensitivity;
 }
 
 auto Gyroscope::SendSensitivityRegisterData(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> void {
