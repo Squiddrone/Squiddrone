@@ -48,11 +48,10 @@ auto Gyroscope::SetSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity
   std::vector<uint8_t> data = {GYRO_CONFIG, new_gyro_config};
   Write(data);
 
-  if (!ImuConnectionSuccessful()) {
-    return imu_status_;
+  if (ImuConnectionSuccessful()) {
+    sensitivity_ = gyroscope_sensitivity;
   }
 
-  sensitivity_ = gyroscope_sensitivity;
   return imu_status_;
 }
 
