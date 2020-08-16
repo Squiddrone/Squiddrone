@@ -28,8 +28,9 @@ class InertialMeasurementSensor {
   auto SetI2CAdress(std::uint8_t i2c_address) noexcept -> void;
   auto ConvertUint8BytesIntoInt16SensorValue(std::uint8_t first_byte, std::uint8_t second_byte) noexcept -> std::int16_t;
   auto IsInitialized(void) noexcept -> bool;
+  auto SetSensorValues(std::int16_t x, std::int16_t y, std::int16_t z) noexcept -> void;
   /// Holds the local reference to euclidean sensor values
-  types::EuclideanVector<int16_t> sensor_values_{-1, -1, -1};
+  types::EuclideanVector<std::int16_t> sensor_values_{-1, -1, -1};
   /// Holds the local reference to i2c handler
   std::unique_ptr<i2c::I2C> i2c_handler_;
   /// Holds value if Sensor was initialized correctly or not

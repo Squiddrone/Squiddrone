@@ -11,9 +11,7 @@ auto Gyroscope::Init(std::uint8_t i2c_address) noexcept -> types::HalError {
   }
 
   initialized_ = true;
-  sensor_values_.x = 0;
-  sensor_values_.y = 0;
-  sensor_values_.z = 0;
+  SetSensorValues(0, 0, 0);
 
   if (!ImuConnectionSuccessful()) {
     initialized_ = false;
@@ -31,9 +29,10 @@ auto Gyroscope::Update(void) noexcept -> types::HalError {
   data = ReadDataBytes(GYRO_XOUT_H, 6);
 
   if (ImuConnectionSuccessful()) {
-    sensor_values_.x = ConvertUint8BytesIntoInt16SensorValue(data.at(0), data.at(1));
-    sensor_values_.y = ConvertUint8BytesIntoInt16SensorValue(data.at(2), data.at(3));
-    sensor_values_.z = ConvertUint8BytesIntoInt16SensorValue(data.at(4), data.at(5));
+    SetSensorValues(
+        ConvertUint8BytesIntoInt16SensorValue(data.at(0), data.at(1)),
+        ConvertUint8BytesIntoInt16SensorValue(data.at(2), data.at(3)),
+        ConvertUint8BytesIntoInt16SensorValue(data.at(4), data.at(5)));
   }
 
   return types::HalError::WORKING;

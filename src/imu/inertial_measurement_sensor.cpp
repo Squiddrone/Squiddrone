@@ -72,4 +72,10 @@ auto InertialMeasurementSensor::IsInitialized(void) noexcept -> bool {
   return initialized_;
 }
 
+auto InertialMeasurementSensor::SetSensorValues(std::int16_t x, std::int16_t y, std::int16_t z) noexcept -> void {
+  sensor_values_.x = x;
+  sensor_values_.y = y;
+  sensor_values_.z = z;
+}
+
 }  // namespace imu
