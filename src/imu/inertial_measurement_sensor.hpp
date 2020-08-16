@@ -21,10 +21,10 @@ class InertialMeasurementSensor {
 
  protected:
   auto Mpu9255Detected(void) noexcept -> bool;
-  auto Read(std::uint16_t byte_size) noexcept -> std::pair<types::HalError, std::vector<std::uint8_t>>;
-  auto Write(const std::vector<std::uint8_t>& data) noexcept -> types::HalError;
-  auto ReadDataBytes(std::uint8_t read_from_register, std::uint16_t byte_size) noexcept -> std::pair<types::HalError, std::vector<std::uint8_t>>;
-  auto ImuConnectionSuccessful(types::HalError imu_status) noexcept -> bool;
+  auto Read(std::uint16_t byte_size) noexcept -> std::vector<std::uint8_t>;
+  auto Write(const std::vector<std::uint8_t>& data) noexcept -> void;
+  auto ReadDataBytes(std::uint8_t read_from_register, std::uint16_t byte_size) noexcept -> std::vector<std::uint8_t>;
+  auto ImuConnectionSuccessful(void) noexcept -> bool;
   auto SetI2CAdress(std::uint8_t i2c_address) noexcept -> void;
   auto ConvertUint8BytesIntoInt16SensorValue(std::uint8_t first_byte, std::uint8_t second_byte) noexcept -> std::int16_t;
 
@@ -36,6 +36,8 @@ class InertialMeasurementSensor {
   bool initialized_ = false;
   /// I2C Address of specific sensor
   std::uint8_t i2c_address_ = 0;
+  /// Status of last communication action of IMU sensor
+  types::HalError imu_status_ = types::HalError::CONFIG_ERROR;
 };
 
 }  // namespace imu

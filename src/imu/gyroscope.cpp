@@ -15,7 +15,7 @@ auto Gyroscope::Init(std::uint8_t i2c_address) noexcept -> types::HalError {
   sensor_values_.y = 0;
   sensor_values_.z = 0;
 
-  if (!ImuConnectionSuccessful(SetSensitivity(sensitivity_))) {
+  if (!ImuConnectionSuccessful()) {
     initialized_ = false;
     return types::HalError::CONFIG_ERROR;
   }
@@ -27,11 +27,10 @@ auto Gyroscope::Update(void) noexcept -> types::HalError {
   if (!initialized_)
     return types::HalError::CONFIG_ERROR;
 
-  types::HalError imu_status;
   std::vector<uint8_t> data;
-  std::tie(imu_status, data) = ReadDataBytes(GYRO_XOUT_H, 6);
+  data = ReadDataBytes(GYRO_XOUT_H, 6);
 
-  if (ImuConnectionSuccessful(imu_status)) {
+  if (ImuConnectionSuccessful()) {
     sensor_values_.x = ConvertUint8BytesIntoInt16SensorValue(data.at(0), data.at(1));
     sensor_values_.y = ConvertUint8BytesIntoInt16SensorValue(data.at(2), data.at(3));
     sensor_values_.z = ConvertUint8BytesIntoInt16SensorValue(data.at(4), data.at(5));
@@ -42,19 +41,19 @@ auto Gyroscope::Update(void) noexcept -> types::HalError {
 
 auto Gyroscope::SetSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> types::HalError {
   if (!initialized_) {
-    return types::HalError::CONFIG_ERROR;
+    imu_status_ = types::HalError::CONFIG_ERROR;
   }
 
   std::uint8_t new_gyro_config = GetGyroscopeConfigRegisterForSensitivity(gyroscope_sensitivity);
   std::vector<uint8_t> data = {GYRO_CONFIG, new_gyro_config};
-  types::HalError imu_status = Write(data);
+  Write(data);
 
-  if (!ImuConnectionSuccessful(imu_status)) {
-    return types::HalError::CONFIG_ERROR;
+  if (!ImuConnectionSuccessful()) {
+    return imu_status_;
   }
 
   sensitivity_ = gyroscope_sensitivity;
-  return types::HalError::WORKING;
+  return imu_status_;
 }
 
 auto Gyroscope::GetGyroscopeConfigRegisterForSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> std::uint8_t {
@@ -70,9 +69,8 @@ auto Gyroscope::GetGyroscopeConfigRegisterForSensitivity(types::GyroscopeSensiti
     gyro_fs_sel = 0b11;  /// +- 2000 dps full scale; 16.4 °/s sensitivity
   }
 
-  types::HalError imu_status;
   std::vector<uint8_t> gyro_config;
-  std::tie(imu_status, gyro_config) = ReadDataBytes(GYRO_CONFIG, 1);
+  gyro_config = ReadDataBytes(GYRO_CONFIG, 1);
 
   return static_cast<std::uint8_t>(gyro_config.at(0) | gyro_fs_sel << 3);
 }
