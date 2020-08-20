@@ -1,22 +1,27 @@
+#include <gmock/gmock.h>
 #include "gtest/gtest.h"
 #include "gyroscope.hpp"
-#include "i2c.hpp"
+#include "mock_i2c.hpp"
 
 namespace {
 
 class GyroscopeTests : public ::testing::Test {
  protected:
   virtual void SetUp() {
-    auto i2c_handler_ = std::make_unique<i2c::I2C>();
+    auto i2c_handler_ = std::make_unique<i2c::MOCKI2C>();
+    ON_CALL(*i2c_handler_, Read(0, 0, 0)).WillByDefault(::testing::Return(i2c::I2CStatus::I2C_TRANSACTION_FAILED, std::vector<std::uint8_t>()));
+
     unit_under_test_ = std::make_unique<imu::Gyroscope>(std::move(i2c_handler_));
   }
 
-  std::unique_ptr<i2c::I2C> i2c_handler_;
+  std::unique_ptr<i2c::MOCKI2C> i2c_handler_;
   std::unique_ptr<imu::Gyroscope> unit_under_test_;
   uint8_t i2c_address_ = 0x68;
 };
 
 TEST_F(GyroscopeTests, gyroscope_Init_working) {
+  //EXPECT_CALL(i2c_handler_, Read(0, 0, 0))
+  //    .Times(::testing::AtLeast(1));
   auto gyroscope_init_return = unit_under_test_->Init(i2c_address_);
   EXPECT_EQ(gyroscope_init_return, types::HalError::WORKING);
 }

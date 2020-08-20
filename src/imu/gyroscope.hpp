@@ -12,7 +12,7 @@ class Gyroscope : public InertialMeasurementSensor {
   Gyroscope() = delete;
   ~Gyroscope() = default;
 
-  explicit Gyroscope(std::unique_ptr<i2c::I2C> i2c_handler) : InertialMeasurementSensor(std::move(i2c_handler)){};
+  explicit Gyroscope(std::unique_ptr<i2c::I2CInterface> i2c_handler) : InertialMeasurementSensor(std::move(i2c_handler)){};
   auto Init(std::uint8_t i2c_address) noexcept -> types::HalError;
   auto Update(void) noexcept -> types::HalError;
 

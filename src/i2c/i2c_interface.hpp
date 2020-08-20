@@ -14,7 +14,7 @@ namespace i2c {
  */
 class I2CInterface {
  public:
-  virtual ~I2CInterface() = default;
+  virtual ~I2CInterface(){};
   explicit I2CInterface(void){};
 
   /**

@@ -16,7 +16,7 @@ class InertialMeasurementSensor {
    */
   virtual ~InertialMeasurementSensor() = default;
 
-  explicit InertialMeasurementSensor(std::unique_ptr<i2c::I2C> i2c_handler) : i2c_handler_(std::move(i2c_handler)){};
+  explicit InertialMeasurementSensor(std::unique_ptr<i2c::I2CInterface> i2c_handler) : i2c_handler_(std::move(i2c_handler)){};
   auto Get(void) noexcept -> types::EuclideanVector<int16_t>;
 
  protected:
@@ -33,7 +33,7 @@ class InertialMeasurementSensor {
   /// Holds the local reference to euclidean sensor values
   types::EuclideanVector<std::int16_t> sensor_values_{-1, -1, -1};
   /// Holds the local reference to i2c handler
-  std::unique_ptr<i2c::I2C> i2c_handler_;
+  std::unique_ptr<i2c::I2CInterface> i2c_handler_;
   /// Holds value if Sensor was initialized correctly or not
   bool initialized_ = false;
   /// I2C Address of specific sensor
