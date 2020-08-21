@@ -140,7 +140,7 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity_finest) {
   ConfigureUnitUnderTest();
 
   unit_under_test_->Init(i2c_address_);
-  auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::GyroscopeSensitivity::FINEST);
+  auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::ImuSensitivity::FINEST);
   EXPECT_EQ(gyroscope_sensitivity_return, types::DriverStatus::OK);
 }
 
@@ -156,7 +156,7 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity_finer) {
   ConfigureUnitUnderTest();
 
   unit_under_test_->Init(i2c_address_);
-  auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::GyroscopeSensitivity::FINER);
+  auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::ImuSensitivity::FINER);
   EXPECT_EQ(gyroscope_sensitivity_return, types::DriverStatus::OK);
 }
 
@@ -172,7 +172,7 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity_rougher) {
   ConfigureUnitUnderTest();
 
   unit_under_test_->Init(i2c_address_);
-  auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::GyroscopeSensitivity::ROUGHER);
+  auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::ImuSensitivity::ROUGHER);
   EXPECT_EQ(gyroscope_sensitivity_return, types::DriverStatus::OK);
 }
 
@@ -188,7 +188,7 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity_roughest) {
   ConfigureUnitUnderTest();
 
   unit_under_test_->Init(i2c_address_);
-  auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::GyroscopeSensitivity::ROUGHEST);
+  auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::ImuSensitivity::ROUGHEST);
   EXPECT_EQ(gyroscope_sensitivity_return, types::DriverStatus::OK);
 }
 
@@ -205,14 +205,14 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity_failes_stored_sensitivity_stays_
   ConfigureUnitUnderTest();
 
   unit_under_test_->Init(i2c_address_);
-  auto set_sensitivity = types::GyroscopeSensitivity::ROUGHEST;
+  auto set_sensitivity = types::ImuSensitivity::ROUGHEST;
   auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(set_sensitivity);
   auto gyroscope_get = unit_under_test_->GetSensitivity();
   EXPECT_EQ(gyroscope_sensitivity_return, types::DriverStatus::OK);
   EXPECT_EQ(gyroscope_get, set_sensitivity);
-  
+
   unit_under_test_->Init(0);
-  gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::GyroscopeSensitivity::FINEST);
+  gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::ImuSensitivity::FINEST);
   EXPECT_EQ(gyroscope_sensitivity_return, types::DriverStatus::HAL_ERROR);
   EXPECT_EQ(gyroscope_get, set_sensitivity);
 }
@@ -220,7 +220,7 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity_failes_stored_sensitivity_stays_
 TEST_F(GyroscopeTests, gyroscope_SetSensitivity_without_Init_first) {
   ConfigureUnitUnderTest();
 
-  auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::GyroscopeSensitivity::ROUGHEST);
+  auto gyroscope_sensitivity_return = unit_under_test_->SetSensitivity(types::ImuSensitivity::ROUGHEST);
   EXPECT_EQ(gyroscope_sensitivity_return, types::DriverStatus::HAL_ERROR);
 }
 
@@ -238,12 +238,12 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity_GetSensitivity) {
 
   unit_under_test_->Init(i2c_address_);
 
-  auto set_sensitivity = types::GyroscopeSensitivity::ROUGHEST;
+  auto set_sensitivity = types::ImuSensitivity::ROUGHEST;
   unit_under_test_->SetSensitivity(set_sensitivity);
   auto gyroscope_get = unit_under_test_->GetSensitivity();
   EXPECT_EQ(gyroscope_get, set_sensitivity);
 
-  set_sensitivity = types::GyroscopeSensitivity::FINEST;
+  set_sensitivity = types::ImuSensitivity::FINEST;
   unit_under_test_->SetSensitivity(set_sensitivity);
   gyroscope_get = unit_under_test_->GetSensitivity();
   EXPECT_EQ(gyroscope_get, set_sensitivity);

@@ -2,19 +2,19 @@
 
 namespace imu {
 
-void InertialMeasurement::SetGyroscopeSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept {
+void InertialMeasurement::SetGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept {
   imu_->SetGyroscopeSensitivity(gyroscope_sensitivity);
 }
 
-auto InertialMeasurement::GetGyroscopeSensitivity(void) noexcept -> types::GyroscopeSensitivity {
+auto InertialMeasurement::GetGyroscopeSensitivity(void) noexcept -> types::ImuSensitivity {
   return imu_->GetGyroscopeSensitivity();
 }
 
-void InertialMeasurement::SetAccelerometerSensitivity(types::AccelerometerSensitivity accelerometer_sensitivity) noexcept {
+void InertialMeasurement::SetAccelerometerSensitivity(types::ImuSensitivity accelerometer_sensitivity) noexcept {
   imu_->SetAccelerometerSensitivity(accelerometer_sensitivity);
 }
 
-auto InertialMeasurement::GetAccelerometerSensitivity(void) noexcept -> types::AccelerometerSensitivity {
+auto InertialMeasurement::GetAccelerometerSensitivity(void) noexcept -> types::ImuSensitivity {
   return imu_->GetAccelerometerSensitivity();
 }
 

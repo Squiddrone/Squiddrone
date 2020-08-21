@@ -1,7 +1,7 @@
 #ifndef SRC_GYROSCOPE_HPP_
 #define SRC_GYROSCOPE_HPP_
 
-#include "gyroscope_sensitivity.hpp"
+#include "imu_sensitivity.hpp"
 #include "inertial_measurement_sensor.hpp"
 #include "mpu9255_data.hpp"
 
@@ -16,15 +16,15 @@ class Gyroscope : public InertialMeasurementSensor {
   auto Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus;
   auto Update(void) noexcept -> types::DriverStatus;
 
-  auto GetSensitivity(void) noexcept -> types::GyroscopeSensitivity;
-  auto SetSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> types::DriverStatus;
+  auto GetSensitivity(void) noexcept -> types::ImuSensitivity;
+  auto SetSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept -> types::DriverStatus;
 
  private:
-  auto GetGyroscopeConfigRegisterDataForSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> std::uint8_t;
-  auto SendSensitivityRegisterData(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> void;
-  auto SaveNewGyroscopeSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> void;
+  auto GetGyroscopeConfigRegisterDataForSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept -> std::uint8_t;
+  auto SendSensitivityRegisterData(types::ImuSensitivity gyroscope_sensitivity) noexcept -> void;
+  auto SaveNewGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept -> void;
 
-  types::GyroscopeSensitivity sensitivity_ = types::GyroscopeSensitivity::FINEST;
+  types::ImuSensitivity sensitivity_ = types::ImuSensitivity::FINEST;
 };
 
 enum GyroscopeSensitivityFSSelect : std::uint8_t {

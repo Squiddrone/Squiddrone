@@ -39,7 +39,7 @@ auto Gyroscope::Update(void) noexcept -> types::DriverStatus {
   return types::DriverStatus::OK;
 }
 
-auto Gyroscope::SetSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> types::DriverStatus {
+auto Gyroscope::SetSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept -> types::DriverStatus {
   if (!IsInitialized()) {
     return types::DriverStatus::HAL_ERROR;
   }
@@ -53,25 +53,25 @@ auto Gyroscope::SetSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity
   return imu_status_;
 }
 
-auto Gyroscope::SaveNewGyroscopeSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> void {
+auto Gyroscope::SaveNewGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept -> void {
   sensitivity_ = gyroscope_sensitivity;
 }
 
-auto Gyroscope::SendSensitivityRegisterData(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> void {
+auto Gyroscope::SendSensitivityRegisterData(types::ImuSensitivity gyroscope_sensitivity) noexcept -> void {
   std::uint8_t new_gyro_config = GetGyroscopeConfigRegisterDataForSensitivity(gyroscope_sensitivity);
   Write({GYRO_CONFIG, new_gyro_config});
 }
 
-auto Gyroscope::GetGyroscopeConfigRegisterDataForSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> std::uint8_t {
+auto Gyroscope::GetGyroscopeConfigRegisterDataForSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept -> std::uint8_t {
   std::uint8_t gyro_fs_sel = 0;
 
-  if (gyroscope_sensitivity == types::GyroscopeSensitivity::FINEST) {
+  if (gyroscope_sensitivity == types::ImuSensitivity::FINEST) {
     gyro_fs_sel = imu::GyroscopeSensitivityFSSelect::GYROSCOPE_FS_FINEST;
-  } else if (gyroscope_sensitivity == types::GyroscopeSensitivity::FINER) {
+  } else if (gyroscope_sensitivity == types::ImuSensitivity::FINER) {
     gyro_fs_sel = imu::GyroscopeSensitivityFSSelect::GYROSCOPE_FS_FINER;
-  } else if (gyroscope_sensitivity == types::GyroscopeSensitivity::ROUGHER) {
+  } else if (gyroscope_sensitivity == types::ImuSensitivity::ROUGHER) {
     gyro_fs_sel = imu::GyroscopeSensitivityFSSelect::GYROSCOPE_FS_ROUGHER;
-  } else if (gyroscope_sensitivity == types::GyroscopeSensitivity::ROUGHEST) {
+  } else if (gyroscope_sensitivity == types::ImuSensitivity::ROUGHEST) {
     gyro_fs_sel = imu::GyroscopeSensitivityFSSelect::GYROSCOPE_FS_ROUGHEST;
   }
 
@@ -81,7 +81,7 @@ auto Gyroscope::GetGyroscopeConfigRegisterDataForSensitivity(types::GyroscopeSen
   return static_cast<std::uint8_t>(gyro_config.at(0) | gyro_fs_sel << 3);
 }
 
-auto Gyroscope::GetSensitivity(void) noexcept -> types::GyroscopeSensitivity {
+auto Gyroscope::GetSensitivity(void) noexcept -> types::ImuSensitivity {
   return sensitivity_;
 }
 
