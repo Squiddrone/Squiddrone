@@ -9,7 +9,8 @@ class GyroscopeTests : public ::testing::Test {
  protected:
   virtual void SetUp() {
     auto i2c_handler_ = std::make_unique<i2c::MOCKI2C>();
-    ON_CALL(*i2c_handler_, Read(0, 0, 0)).WillByDefault(::testing::Return(i2c::I2CStatus::I2C_TRANSACTION_FAILED, std::vector<std::uint8_t>()));
+    std::tuple<i2c::I2CStatus, std::vector<std::uint8_t>> return_value{i2c::I2CStatus::I2C_TRANSACTION_FAILED, std::vector<std::uint8_t>()};
+    ON_CALL(*i2c_handler_, Read(0, 0, 0)).WillByDefault(::testing::Return(return_value));
 
     unit_under_test_ = std::make_unique<imu::Gyroscope>(std::move(i2c_handler_));
   }
