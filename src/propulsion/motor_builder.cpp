@@ -40,6 +40,8 @@ auto MotorBuilder::GetCorrectEsc(propulsion::PropulsionHardwareConfig& config) n
     case types::EscType::LITTLE_BEE_20_A:
       esc = std::make_unique<LittleBee20A>(config.timer, config.channel);
       break;
+    default:
+      break;
   }
   return esc;
 }

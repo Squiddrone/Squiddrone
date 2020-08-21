@@ -85,7 +85,7 @@ package_add_test(imu_sensors_gyroscope
 
 SETUP_ALLTESTS_TARGET(
     NAME all_tests                 
-    EXECUTABLE GTEST_COLOR=1 ctest --verbose -j ${n_cores}
+    EXECUTABLE GTEST_COLOR=1 GTEST_SHUFFLE=1 ctest --verbose -j ${n_cores}
     DEPENDENCIES
         euclidean_vector
         abstract_esc
@@ -105,7 +105,7 @@ SETUP_ALLTESTS_TARGET(
 if(CODE_COVERAGE)
     SETUP_TARGET_FOR_COVERAGE_LCOV(
         NAME coverage                 
-        EXECUTABLE ctest -j ${n_cores} # Executable in PROJECT_BINARY_DIR
+        EXECUTABLE GTEST_SHUFFLE=1 ctest -j ${n_cores}
         DEPENDENCIES
             all_tests
     )
