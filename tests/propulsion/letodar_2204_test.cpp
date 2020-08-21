@@ -8,40 +8,49 @@ class Letodar2204Tests : public ::testing::Test {
  protected:
   Letodar2204Tests() {}
   virtual void SetUp() {
-    EXPECT_CALL(esc_, GetMaxPulseDurationInMicroSeconds()).Times(1).WillOnce(::testing::Return(1));
-    unit_under_test_ = std::make_unique<propulsion::LeTodar2204>(std::make_unique<MockEsc>(esc_));
+    ON_CALL(*esc_, GetMaxPulseDurationInMicroSeconds()).WillByDefault(::testing::Return(100));
+    ON_CALL(*esc_, GetMinPulseDurationInMicroSeconds()).WillByDefault(::testing::Return(10));
+    ON_CALL(*esc_, SetPulseDuration).WillByDefault(::testing::Return(types::DriverStatus::OK));
   }
 
-  MockEsc esc_;
+  virtual void ConfigureUnitUnderTest() {
+    unit_under_test_ = std::make_unique<propulsion::LeTodar2204>(std::move(esc_));
+  }
+
+  std::unique_ptr<MockEsc> esc_ = std::make_unique<MockEsc>();
   std::unique_ptr<propulsion::LeTodar2204> unit_under_test_;
 };
 
 TEST_F(Letodar2204Tests, get_current_speed_in_percent_works) {
+  ConfigureUnitUnderTest();
   auto current_speed = unit_under_test_->GetCurrentSpeedInPercent();
   ASSERT_FLOAT_EQ(0.0, current_speed);
 }
 
 TEST_F(Letodar2204Tests, set_speed_in_percent_lower_illegal_bounds) {
-  EXPECT_CALL(esc_, GetMaxPulseDurationInMicroSeconds()).Times(1).WillOnce(::testing::Return(1));
+  ConfigureUnitUnderTest();
   auto set_speed_return = unit_under_test_->SetSpeedInPercent(-1.0);
   ASSERT_EQ(types::DriverStatus::INPUT_ERROR, set_speed_return);
 }
 
-// // TEST_F(Letodar2204Tests, set_speed_in_percent_upper_illegal_bounds) {
-// //   auto set_speed_return = unit_under_test_->SetSpeedInPercent(100.1);
-// //   ASSERT_EQ(types::DriverStatus::INPUT_ERROR, set_speed_return);
-// // }
+TEST_F(Letodar2204Tests, set_speed_in_percent_upper_illegal_bounds) {
+  ConfigureUnitUnderTest();
+  auto set_speed_return = unit_under_test_->SetSpeedInPercent(100.1);
+  ASSERT_EQ(types::DriverStatus::INPUT_ERROR, set_speed_return);
+}
 
 TEST_F(Letodar2204Tests, set_speed_in_percent_legal_range) {
-  EXPECT_CALL(esc_, GetMaxPulseDurationInMicroSeconds()).Times(1).WillOnce(::testing::Return(1));
+  ConfigureUnitUnderTest();
   auto set_speed_return = unit_under_test_->SetSpeedInPercent(50.0);
   ASSERT_EQ(types::DriverStatus::OK, set_speed_return);
 }
 
-// TEST_F(Letodar2204Tests, set_speed_in_percent_hal_error_triggered) {
-//   auto set_speed_return = unit_under_test_->SetSpeedInPercent(50.0);
-//   ASSERT_EQ(types::DriverStatus::HAL_ERROR, set_speed_return);
-// }
+TEST_F(Letodar2204Tests, set_speed_in_percent_hal_error_triggered) {
+  EXPECT_CALL(*esc_, SetPulseDuration).WillOnce(::testing::Return(types::DriverStatus::HAL_ERROR));
+  ConfigureUnitUnderTest();
+  auto set_speed_return = unit_under_test_->SetSpeedInPercent(50.0);
+  ASSERT_EQ(types::DriverStatus::HAL_ERROR, set_speed_return);
+}
 }  // namespace
 
 int main(int argc, char **argv) {
