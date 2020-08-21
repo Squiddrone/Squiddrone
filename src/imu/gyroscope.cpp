@@ -27,7 +27,7 @@ auto Gyroscope::Update(void) noexcept -> types::DriverStatus {
   }
 
   std::vector<uint8_t> measurement_values;
-  measurement_values = ReadDataBytes(GYRO_XOUT_H, 6);
+  measurement_values = ReadDataBytes(SENSOR_DATA_REGISTER, 6);
 
   if (ImuConnectionSuccessful()) {
     SetSensorValues(
@@ -58,8 +58,8 @@ auto Gyroscope::SaveNewGyroscopeSensitivity(types::ImuSensitivity sensitivity) n
 }
 
 auto Gyroscope::SendSensitivityRegisterData(types::ImuSensitivity sensitivity) noexcept -> void {
-  std::uint8_t new_gyro_config = GetGyroscopeConfigRegisterDataForSensitivity(sensitivity);
-  Write({GYRO_CONFIG, new_gyro_config});
+  std::uint8_t new_config = GetGyroscopeConfigRegisterDataForSensitivity(sensitivity);
+  Write({CONFIG_REGISTER, new_config});
 }
 
 auto Gyroscope::GetGyroscopeConfigRegisterDataForSensitivity(types::ImuSensitivity sensitivity) noexcept -> std::uint8_t {
@@ -76,7 +76,7 @@ auto Gyroscope::GetGyroscopeConfigRegisterDataForSensitivity(types::ImuSensitivi
   }
 
   std::vector<uint8_t> config_data;
-  config_data = ReadDataBytes(GYRO_CONFIG, 1);
+  config_data = ReadDataBytes(CONFIG_REGISTER, 1);
 
   return static_cast<std::uint8_t>(config_data.at(0) | fs_sel << 3);
 }

@@ -25,6 +25,9 @@ class Gyroscope : public InertialMeasurementSensor {
   auto SaveNewGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept -> void;
 
   types::ImuSensitivity sensitivity_ = types::ImuSensitivity::FINEST;
+
+  static constexpr std::uint8_t SENSOR_DATA_REGISTER = GYRO_XOUT_H;
+  static constexpr std::uint8_t CONFIG_REGISTER = GYRO_CONFIG;
 };
 
 }  // namespace imu
