@@ -15,19 +15,22 @@ class GyroscopeTests : public ::testing::Test {
   }
   uint8_t i2c_address_ = 0x68;
   std::unique_ptr<i2c::MOCKI2C> i2c_handler_;
+
+  std::tuple<i2c::I2CStatus, std::vector<std::uint8_t>> answer_to_who_am_i{
+      i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL, {imu::WHO_AM_I_MPU9255_VALUE}};
+  std::tuple<i2c::I2CStatus, std::vector<std::uint8_t>> answer_to_gyro_config{
+      i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL, {0b11111111}};
+  std::tuple<i2c::I2CStatus, std::vector<std::uint8_t>> answer_to_update{
+      i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL, {0, 15, 0, 25, 0, 35}};
 };
 
 TEST_F(GyroscopeTests, gyroscope_Init_working) {
   EXPECT_CALL(*i2c_handler_, Write(_, _, _))
       .WillRepeatedly(Return(i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL));
 
-  std::tuple<i2c::I2CStatus, std::vector<std::uint8_t>> answer_who_am_i{
-      i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL, {imu::WHO_AM_I_MPU9255_VALUE}};
-  std::tuple<i2c::I2CStatus, std::vector<std::uint8_t>> answer_config{
-      i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL, {0b11111111}};
   EXPECT_CALL(*i2c_handler_, Read(_, _, _))
-      .WillOnce(Return(answer_who_am_i))
-      .WillOnce(Return(answer_config));
+      .WillOnce(Return(answer_to_who_am_i))
+      .WillOnce(Return(answer_to_gyro_config));
 
   std::unique_ptr<imu::Gyroscope> unit_under_test_ = std::make_unique<imu::Gyroscope>(std::move(i2c_handler_));
 
@@ -51,16 +54,10 @@ TEST_F(GyroscopeTests, gyroscope_Update) {
   EXPECT_CALL(*i2c_handler_, Write(_, _, _))
       .WillRepeatedly(Return(i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL));
 
-  std::tuple<i2c::I2CStatus, std::vector<std::uint8_t>> answer_who_am_i{
-      i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL, {imu::WHO_AM_I_MPU9255_VALUE}};
-  std::tuple<i2c::I2CStatus, std::vector<std::uint8_t>> answer_config{
-      i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL, {0b11111111}};
-  std::tuple<i2c::I2CStatus, std::vector<std::uint8_t>> answer_update{
-      i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL, {0, 15, 0, 25, 0, 35}};
   EXPECT_CALL(*i2c_handler_, Read(_, _, _))
-      .WillOnce(Return(answer_who_am_i))
-      .WillOnce(Return(answer_config))
-      .WillOnce(Return(answer_update));
+      .WillOnce(Return(answer_to_who_am_i))
+      .WillOnce(Return(answer_to_gyro_config))
+      .WillOnce(Return(answer_to_update));
 
   std::unique_ptr<imu::Gyroscope> unit_under_test_ = std::make_unique<imu::Gyroscope>(std::move(i2c_handler_));
 
@@ -91,13 +88,9 @@ TEST_F(GyroscopeTests, gyroscope_Get_without_Update_first) {
   EXPECT_CALL(*i2c_handler_, Write(_, _, _))
       .WillRepeatedly(Return(i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL));
 
-  std::tuple<i2c::I2CStatus, std::vector<std::uint8_t>> answer_who_am_i{
-      i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL, {imu::WHO_AM_I_MPU9255_VALUE}};
-  std::tuple<i2c::I2CStatus, std::vector<std::uint8_t>> answer_config{
-      i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL, {0b11111111}};
   EXPECT_CALL(*i2c_handler_, Read(_, _, _))
-      .WillOnce(Return(answer_who_am_i))
-      .WillOnce(Return(answer_config));
+      .WillOnce(Return(answer_to_who_am_i))
+      .WillOnce(Return(answer_to_gyro_config));
 
   std::unique_ptr<imu::Gyroscope> unit_under_test_ = std::make_unique<imu::Gyroscope>(std::move(i2c_handler_));
 
@@ -114,16 +107,10 @@ TEST_F(GyroscopeTests, gyroscope_full) {
   EXPECT_CALL(*i2c_handler_, Write(_, _, _))
       .WillRepeatedly(Return(i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL));
 
-  std::tuple<i2c::I2CStatus, std::vector<std::uint8_t>> answer_who_am_i{
-      i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL, {imu::WHO_AM_I_MPU9255_VALUE}};
-  std::tuple<i2c::I2CStatus, std::vector<std::uint8_t>> answer_config{
-      i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL, {0b11111111}};
-  std::tuple<i2c::I2CStatus, std::vector<std::uint8_t>> answer_update{
-      i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL, {0, 15, 0, 25, 0, 35}};
   EXPECT_CALL(*i2c_handler_, Read(_, _, _))
-      .WillOnce(Return(answer_who_am_i))
-      .WillOnce(Return(answer_config))
-      .WillOnce(Return(answer_update));
+      .WillOnce(Return(answer_to_who_am_i))
+      .WillOnce(Return(answer_to_gyro_config))
+      .WillOnce(Return(answer_to_update));
 
   std::unique_ptr<imu::Gyroscope> unit_under_test_ = std::make_unique<imu::Gyroscope>(std::move(i2c_handler_));
 
@@ -141,14 +128,10 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity_finest) {
   EXPECT_CALL(*i2c_handler_, Write(_, _, _))
       .WillRepeatedly(Return(i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL));
 
-  std::tuple<i2c::I2CStatus, std::vector<std::uint8_t>> answer_who_am_i{
-      i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL, {imu::WHO_AM_I_MPU9255_VALUE}};
-  std::tuple<i2c::I2CStatus, std::vector<std::uint8_t>> answer_config{
-      i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL, {0b11111111}};
   EXPECT_CALL(*i2c_handler_, Read(_, _, _))
-      .WillOnce(Return(answer_who_am_i))
-      .WillOnce(Return(answer_config))
-      .WillOnce(Return(answer_config));
+      .WillOnce(Return(answer_to_who_am_i))
+      .WillOnce(Return(answer_to_gyro_config))
+      .WillOnce(Return(answer_to_gyro_config));
 
   std::unique_ptr<imu::Gyroscope> unit_under_test_ = std::make_unique<imu::Gyroscope>(std::move(i2c_handler_));
 
@@ -161,14 +144,10 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity_finer) {
   EXPECT_CALL(*i2c_handler_, Write(_, _, _))
       .WillRepeatedly(Return(i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL));
 
-  std::tuple<i2c::I2CStatus, std::vector<std::uint8_t>> answer_who_am_i{
-      i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL, {imu::WHO_AM_I_MPU9255_VALUE}};
-  std::tuple<i2c::I2CStatus, std::vector<std::uint8_t>> answer_config{
-      i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL, {0b11111111}};
   EXPECT_CALL(*i2c_handler_, Read(_, _, _))
-      .WillOnce(Return(answer_who_am_i))
-      .WillOnce(Return(answer_config))
-      .WillOnce(Return(answer_config));
+      .WillOnce(Return(answer_to_who_am_i))
+      .WillOnce(Return(answer_to_gyro_config))
+      .WillOnce(Return(answer_to_gyro_config));
 
   std::unique_ptr<imu::Gyroscope> unit_under_test_ = std::make_unique<imu::Gyroscope>(std::move(i2c_handler_));
 
@@ -181,14 +160,10 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity_rougher) {
   EXPECT_CALL(*i2c_handler_, Write(_, _, _))
       .WillRepeatedly(Return(i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL));
 
-  std::tuple<i2c::I2CStatus, std::vector<std::uint8_t>> answer_who_am_i{
-      i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL, {imu::WHO_AM_I_MPU9255_VALUE}};
-  std::tuple<i2c::I2CStatus, std::vector<std::uint8_t>> answer_config{
-      i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL, {0b11111111}};
   EXPECT_CALL(*i2c_handler_, Read(_, _, _))
-      .WillOnce(Return(answer_who_am_i))
-      .WillOnce(Return(answer_config))
-      .WillOnce(Return(answer_config));
+      .WillOnce(Return(answer_to_who_am_i))
+      .WillOnce(Return(answer_to_gyro_config))
+      .WillOnce(Return(answer_to_gyro_config));
 
   std::unique_ptr<imu::Gyroscope> unit_under_test_ = std::make_unique<imu::Gyroscope>(std::move(i2c_handler_));
 
@@ -201,14 +176,10 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity_roughest) {
   EXPECT_CALL(*i2c_handler_, Write(_, _, _))
       .WillRepeatedly(Return(i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL));
 
-  std::tuple<i2c::I2CStatus, std::vector<std::uint8_t>> answer_who_am_i{
-      i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL, {imu::WHO_AM_I_MPU9255_VALUE}};
-  std::tuple<i2c::I2CStatus, std::vector<std::uint8_t>> answer_config{
-      i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL, {0b11111111}};
   EXPECT_CALL(*i2c_handler_, Read(_, _, _))
-      .WillOnce(Return(answer_who_am_i))
-      .WillOnce(Return(answer_config))
-      .WillOnce(Return(answer_config));
+      .WillOnce(Return(answer_to_who_am_i))
+      .WillOnce(Return(answer_to_gyro_config))
+      .WillOnce(Return(answer_to_gyro_config));
 
   std::unique_ptr<imu::Gyroscope> unit_under_test_ = std::make_unique<imu::Gyroscope>(std::move(i2c_handler_));
 
@@ -221,15 +192,11 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity_failes_stored_sensitivity_stays_
   EXPECT_CALL(*i2c_handler_, Write(_, _, _))
       .WillRepeatedly(Return(i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL));
 
-  std::tuple<i2c::I2CStatus, std::vector<std::uint8_t>> answer_who_am_i{
-      i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL, {imu::WHO_AM_I_MPU9255_VALUE}};
-  std::tuple<i2c::I2CStatus, std::vector<std::uint8_t>> answer_config{
-      i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL, {0b11111111}};
   EXPECT_CALL(*i2c_handler_, Read(_, _, _))
-      .WillOnce(Return(answer_who_am_i))
-      .WillOnce(Return(answer_config))
-      .WillOnce(Return(answer_config))
-      .WillOnce(Return(answer_config));
+      .WillOnce(Return(answer_to_who_am_i))
+      .WillOnce(Return(answer_to_gyro_config))
+      .WillOnce(Return(answer_to_gyro_config))
+      .WillOnce(Return(answer_to_gyro_config));
 
   std::unique_ptr<imu::Gyroscope> unit_under_test_ = std::make_unique<imu::Gyroscope>(std::move(i2c_handler_));
 
@@ -256,15 +223,11 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity_GetSensitivity) {
   EXPECT_CALL(*i2c_handler_, Write(_, _, _))
       .WillRepeatedly(Return(i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL));
 
-  std::tuple<i2c::I2CStatus, std::vector<std::uint8_t>> answer_who_am_i{
-      i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL, {imu::WHO_AM_I_MPU9255_VALUE}};
-  std::tuple<i2c::I2CStatus, std::vector<std::uint8_t>> answer_config{
-      i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL, {0b11111111}};
   EXPECT_CALL(*i2c_handler_, Read(_, _, _))
-      .WillOnce(Return(answer_who_am_i))
-      .WillOnce(Return(answer_config))
-      .WillOnce(Return(answer_config))
-      .WillOnce(Return(answer_config));
+      .WillOnce(Return(answer_to_who_am_i))
+      .WillOnce(Return(answer_to_gyro_config))
+      .WillOnce(Return(answer_to_gyro_config))
+      .WillOnce(Return(answer_to_gyro_config));
 
   std::unique_ptr<imu::Gyroscope> unit_under_test_ = std::make_unique<imu::Gyroscope>(std::move(i2c_handler_));
 
