@@ -9,7 +9,7 @@ class Letodar2204Tests : public ::testing::Test {
   Letodar2204Tests() {}
   virtual void SetUp() {
     EXPECT_CALL(esc_, GetMaxPulseDurationInMicroSeconds()).Times(1).WillOnce(::testing::Return(1));
-    unit_under_test_ = std::make_unique<propulsion::LeTodar2204>(std::unique_ptr<MockEsc>(esc_));
+    unit_under_test_ = std::make_unique<propulsion::LeTodar2204>(std::make_unique<MockEsc>(esc_));
   }
 
   MockEsc esc_;
@@ -22,6 +22,7 @@ TEST_F(Letodar2204Tests, get_current_speed_in_percent_works) {
 }
 
 TEST_F(Letodar2204Tests, set_speed_in_percent_lower_illegal_bounds) {
+  EXPECT_CALL(esc_, GetMaxPulseDurationInMicroSeconds()).Times(1).WillOnce(::testing::Return(1));
   auto set_speed_return = unit_under_test_->SetSpeedInPercent(-1.0);
   ASSERT_EQ(types::DriverStatus::INPUT_ERROR, set_speed_return);
 }
@@ -32,6 +33,7 @@ TEST_F(Letodar2204Tests, set_speed_in_percent_lower_illegal_bounds) {
 // // }
 
 TEST_F(Letodar2204Tests, set_speed_in_percent_legal_range) {
+  EXPECT_CALL(esc_, GetMaxPulseDurationInMicroSeconds()).Times(1).WillOnce(::testing::Return(1));
   auto set_speed_return = unit_under_test_->SetSpeedInPercent(50.0);
   ASSERT_EQ(types::DriverStatus::OK, set_speed_return);
 }
