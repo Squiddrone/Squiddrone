@@ -39,26 +39,26 @@ auto Gyroscope::Update(void) noexcept -> types::DriverStatus {
   return types::DriverStatus::OK;
 }
 
-auto Gyroscope::SetSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept -> types::DriverStatus {
+auto Gyroscope::SetSensitivity(types::ImuSensitivity sensitivity) noexcept -> types::DriverStatus {
   if (!IsInitialized()) {
     return types::DriverStatus::HAL_ERROR;
   }
 
-  SendSensitivityRegisterData(gyroscope_sensitivity);
+  SendSensitivityRegisterData(sensitivity);
 
   if (ImuConnectionSuccessful()) {
-    SaveNewGyroscopeSensitivity(gyroscope_sensitivity);
+    SaveNewGyroscopeSensitivity(sensitivity);
   }
 
   return imu_status_;
 }
 
-auto Gyroscope::SaveNewGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept -> void {
-  sensitivity_ = gyroscope_sensitivity;
+auto Gyroscope::SaveNewGyroscopeSensitivity(types::ImuSensitivity sensitivity) noexcept -> void {
+  sensitivity_ = sensitivity;
 }
 
-auto Gyroscope::SendSensitivityRegisterData(types::ImuSensitivity gyroscope_sensitivity) noexcept -> void {
-  std::uint8_t new_gyro_config = GetGyroscopeConfigRegisterDataForSensitivity(gyroscope_sensitivity);
+auto Gyroscope::SendSensitivityRegisterData(types::ImuSensitivity sensitivity) noexcept -> void {
+  std::uint8_t new_gyro_config = GetGyroscopeConfigRegisterDataForSensitivity(sensitivity);
   Write({GYRO_CONFIG, new_gyro_config});
 }
 
@@ -66,13 +66,13 @@ auto Gyroscope::GetGyroscopeConfigRegisterDataForSensitivity(types::ImuSensitivi
   std::uint8_t gyro_fs_sel = 0;
 
   if (gyroscope_sensitivity == types::ImuSensitivity::FINEST) {
-    gyro_fs_sel = imu::GyroscopeSensitivityFSSelect::GYROSCOPE_FS_FINEST;
+    gyro_fs_sel = imu::ImuSensitivityFSSelect::IMU_FS_FINEST;
   } else if (gyroscope_sensitivity == types::ImuSensitivity::FINER) {
-    gyro_fs_sel = imu::GyroscopeSensitivityFSSelect::GYROSCOPE_FS_FINER;
+    gyro_fs_sel = imu::ImuSensitivityFSSelect::IMU_FS_FINER;
   } else if (gyroscope_sensitivity == types::ImuSensitivity::ROUGHER) {
-    gyro_fs_sel = imu::GyroscopeSensitivityFSSelect::GYROSCOPE_FS_ROUGHER;
+    gyro_fs_sel = imu::ImuSensitivityFSSelect::IMU_FS_ROUGHER;
   } else if (gyroscope_sensitivity == types::ImuSensitivity::ROUGHEST) {
-    gyro_fs_sel = imu::GyroscopeSensitivityFSSelect::GYROSCOPE_FS_ROUGHEST;
+    gyro_fs_sel = imu::ImuSensitivityFSSelect::IMU_FS_ROUGHEST;
   }
 
   std::vector<uint8_t> gyro_config;

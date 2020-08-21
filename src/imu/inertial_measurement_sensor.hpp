@@ -42,6 +42,13 @@ class InertialMeasurementSensor {
   types::DriverStatus imu_status_ = types::DriverStatus::HAL_ERROR;
 };
 
+enum ImuSensitivityFSSelect : std::uint8_t {
+  IMU_FS_FINEST,
+  IMU_FS_FINER,
+  IMU_FS_ROUGHER,
+  IMU_FS_ROUGHEST,
+};
+
 }  // namespace imu
 
 #endif
