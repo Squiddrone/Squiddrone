@@ -62,23 +62,23 @@ auto Gyroscope::SendSensitivityRegisterData(types::ImuSensitivity sensitivity) n
   Write({GYRO_CONFIG, new_gyro_config});
 }
 
-auto Gyroscope::GetGyroscopeConfigRegisterDataForSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept -> std::uint8_t {
-  std::uint8_t gyro_fs_sel = 0;
+auto Gyroscope::GetGyroscopeConfigRegisterDataForSensitivity(types::ImuSensitivity sensitivity) noexcept -> std::uint8_t {
+  std::uint8_t fs_sel = 0;
 
-  if (gyroscope_sensitivity == types::ImuSensitivity::FINEST) {
-    gyro_fs_sel = imu::ImuSensitivityFSSelect::IMU_FS_FINEST;
-  } else if (gyroscope_sensitivity == types::ImuSensitivity::FINER) {
-    gyro_fs_sel = imu::ImuSensitivityFSSelect::IMU_FS_FINER;
-  } else if (gyroscope_sensitivity == types::ImuSensitivity::ROUGHER) {
-    gyro_fs_sel = imu::ImuSensitivityFSSelect::IMU_FS_ROUGHER;
-  } else if (gyroscope_sensitivity == types::ImuSensitivity::ROUGHEST) {
-    gyro_fs_sel = imu::ImuSensitivityFSSelect::IMU_FS_ROUGHEST;
+  if (sensitivity == types::ImuSensitivity::FINEST) {
+    fs_sel = imu::ImuSensitivityFSSelect::IMU_FS_FINEST;
+  } else if (sensitivity == types::ImuSensitivity::FINER) {
+    fs_sel = imu::ImuSensitivityFSSelect::IMU_FS_FINER;
+  } else if (sensitivity == types::ImuSensitivity::ROUGHER) {
+    fs_sel = imu::ImuSensitivityFSSelect::IMU_FS_ROUGHER;
+  } else if (sensitivity == types::ImuSensitivity::ROUGHEST) {
+    fs_sel = imu::ImuSensitivityFSSelect::IMU_FS_ROUGHEST;
   }
 
-  std::vector<uint8_t> gyro_config;
-  gyro_config = ReadDataBytes(GYRO_CONFIG, 1);
+  std::vector<uint8_t> config_data;
+  config_data = ReadDataBytes(GYRO_CONFIG, 1);
 
-  return static_cast<std::uint8_t>(gyro_config.at(0) | gyro_fs_sel << 3);
+  return static_cast<std::uint8_t>(config_data.at(0) | fs_sel << 3);
 }
 
 auto Gyroscope::GetSensitivity(void) noexcept -> types::ImuSensitivity {
