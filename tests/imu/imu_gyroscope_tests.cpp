@@ -244,6 +244,22 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity_GetSensitivity) {
   EXPECT_EQ(gyroscope_get, set_sensitivity);
 }
 
+TEST_F(GyroscopeTests, gyroscope_connection_failed_after_Mpu9255Detected) {
+  EXPECT_CALL(*i2c_handler_, Write(_, _, _))
+      .WillOnce(Return(i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL))
+      .WillOnce(Return(i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL))
+      .WillOnce(Return(i2c::I2CStatus::I2C_TRANSACTION_FAILED));
+
+  EXPECT_CALL(*i2c_handler_, Read(_, _, _))
+      .WillOnce(Return(answer_to_who_am_i))
+      .WillOnce(Return(answer_to_gyro_config));
+
+  ConfigureUnitUnderTest();
+
+  auto init_return = unit_under_test_->Init(i2c_address_);
+  EXPECT_EQ(init_return, types::HalError::CONFIG_ERROR);
+}
+
 }  // namespace
 
 int main(int argc, char **argv) {
