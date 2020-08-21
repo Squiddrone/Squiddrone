@@ -13,11 +13,11 @@ class Gyroscope : public InertialMeasurementSensor {
   ~Gyroscope() = default;
 
   explicit Gyroscope(std::unique_ptr<i2c::I2CInterface> i2c_handler) : InertialMeasurementSensor(std::move(i2c_handler)){};
-  auto Init(std::uint8_t i2c_address) noexcept -> types::HalError;
-  auto Update(void) noexcept -> types::HalError;
+  auto Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus;
+  auto Update(void) noexcept -> types::DriverStatus;
 
   auto GetSensitivity(void) noexcept -> types::GyroscopeSensitivity;
-  auto SetSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> types::HalError;
+  auto SetSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> types::DriverStatus;
 
  private:
   auto GetGyroscopeConfigRegisterDataForSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> std::uint8_t;

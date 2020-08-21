@@ -39,7 +39,7 @@ class InertialMeasurementSensor {
   /// I2C Address of specific sensor
   std::uint8_t i2c_address_ = 0;
   /// Status of last communication action of IMU sensor
-  types::HalError imu_status_ = types::HalError::CONFIG_ERROR;
+  types::DriverStatus imu_status_ = types::DriverStatus::HAL_ERROR;
 };
 
 }  // namespace imu

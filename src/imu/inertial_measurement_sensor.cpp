@@ -32,35 +32,35 @@ auto InertialMeasurementSensor::ReadDataBytes(std::uint8_t read_from_register, s
 }
 
 auto InertialMeasurementSensor::Read(std::uint16_t byte_size) noexcept -> std::vector<std::uint8_t> {
-  i2c::I2CStatus i2c_status;
+  types::DriverStatus i2c_status;
   std::vector<uint8_t> i2c_data;
   std::tie(i2c_status, i2c_data) = i2c_handler_->Read(i2c_address_, byte_size);
 
-  if (i2c_status == i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL && i2c_data.size() == byte_size) {
-    imu_status_ = types::HalError::WORKING;
+  if (i2c_status == types::DriverStatus::OK && i2c_data.size() == byte_size) {
+    imu_status_ = types::DriverStatus::OK;
   } else {
-    imu_status_ = types::HalError::CONFIG_ERROR;
+    imu_status_ = types::DriverStatus::HAL_ERROR;
   }
 
   return i2c_data;
 }
 
 auto InertialMeasurementSensor::Write(const std::vector<std::uint8_t>& data) noexcept -> void {
-  i2c::I2CStatus i2c_status = i2c_handler_->Write(i2c_address_, data);
+  types::DriverStatus i2c_status = i2c_handler_->Write(i2c_address_, data);
 
-  if (i2c_status == i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL) {
-    imu_status_ = types::HalError::WORKING;
+  if (i2c_status == types::DriverStatus::OK) {
+    imu_status_ = types::DriverStatus::OK;
   } else {
-    imu_status_ = types::HalError::CONFIG_ERROR;
+    imu_status_ = types::DriverStatus::HAL_ERROR;
   }
 }
 
 auto InertialMeasurementSensor::ImuConnectionSuccessful(void) noexcept -> bool {
-  return imu_status_ == types::HalError::WORKING;
+  return imu_status_ == types::DriverStatus::OK;
 }
 
 auto InertialMeasurementSensor::ImuConnectionFailed(void) noexcept -> bool {
-  return imu_status_ != types::HalError::WORKING;
+  return imu_status_ != types::DriverStatus::OK;
 }
 
 auto InertialMeasurementSensor::SetI2CAdress(std::uint8_t i2c_address) noexcept -> void {

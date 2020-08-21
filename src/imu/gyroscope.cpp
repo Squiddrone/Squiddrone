@@ -2,28 +2,28 @@
 
 namespace imu {
 
-auto Gyroscope::Init(std::uint8_t i2c_address) noexcept -> types::HalError {
+auto Gyroscope::Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus {
   SetI2CAdress(i2c_address);
   initialized_ = false;
 
   if (!Mpu9255Detected()) {
-    return types::HalError::CONFIG_ERROR;
+    return types::DriverStatus::HAL_ERROR;
   }
 
   SetSensorValues(0, 0, 0);
 
   SendSensitivityRegisterData(sensitivity_);
   if (ImuConnectionFailed()) {
-    return types::HalError::CONFIG_ERROR;
+    return types::DriverStatus::HAL_ERROR;
   }
 
   initialized_ = true;
-  return types::HalError::WORKING;
+  return types::DriverStatus::OK;
 }
 
-auto Gyroscope::Update(void) noexcept -> types::HalError {
+auto Gyroscope::Update(void) noexcept -> types::DriverStatus {
   if (!IsInitialized()) {
-    return types::HalError::CONFIG_ERROR;
+    return types::DriverStatus::HAL_ERROR;
   }
 
   std::vector<uint8_t> measurement_values;
@@ -36,12 +36,12 @@ auto Gyroscope::Update(void) noexcept -> types::HalError {
         ConvertUint8BytesIntoInt16SensorValue(measurement_values.at(4), measurement_values.at(5)));
   }
 
-  return types::HalError::WORKING;
+  return types::DriverStatus::OK;
 }
 
-auto Gyroscope::SetSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> types::HalError {
+auto Gyroscope::SetSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept -> types::DriverStatus {
   if (!IsInitialized()) {
-    return types::HalError::CONFIG_ERROR;
+    return types::DriverStatus::HAL_ERROR;
   }
 
   SendSensitivityRegisterData(gyroscope_sensitivity);
