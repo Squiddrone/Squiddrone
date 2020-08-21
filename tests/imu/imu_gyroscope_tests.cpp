@@ -24,6 +24,8 @@ class GyroscopeTests : public ::testing::Test {
       i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL, {0b11111111}};
   std::tuple<i2c::I2CStatus, std::vector<std::uint8_t>> answer_to_update{
       i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL, {0, 15, 0, 25, 0, 35}};
+  std::tuple<i2c::I2CStatus, std::vector<std::uint8_t>> answer_read_mismatch{
+      i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL, {0, 15}};
 };
 
 TEST_F(GyroscopeTests, gyroscope_Init_working) {
@@ -253,6 +255,19 @@ TEST_F(GyroscopeTests, gyroscope_connection_failed_after_Mpu9255Detected) {
   EXPECT_CALL(*i2c_handler_, Read(_, _, _))
       .WillOnce(Return(answer_to_who_am_i))
       .WillOnce(Return(answer_to_gyro_config));
+
+  ConfigureUnitUnderTest();
+
+  auto init_return = unit_under_test_->Init(i2c_address_);
+  EXPECT_EQ(init_return, types::HalError::CONFIG_ERROR);
+}
+
+TEST_F(GyroscopeTests, gyroscope_read_bytesize_mismatch) {
+  EXPECT_CALL(*i2c_handler_, Write(_, _, _))
+      .WillOnce(Return(i2c::I2CStatus::I2C_TRANSACTION_SUCCESSFUL));
+
+  EXPECT_CALL(*i2c_handler_, Read(_, _, _))
+      .WillOnce(Return(answer_read_mismatch));
 
   ConfigureUnitUnderTest();
 
