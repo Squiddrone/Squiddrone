@@ -47,22 +47,22 @@ auto Gyroscope::SetSensitivity(types::ImuSensitivity sensitivity) noexcept -> ty
   SendSensitivityRegisterData(sensitivity);
 
   if (ImuConnectionSuccessful()) {
-    SaveNewGyroscopeSensitivity(sensitivity);
+    SaveNewSensitivity(sensitivity);
   }
 
   return imu_status_;
 }
 
-auto Gyroscope::SaveNewGyroscopeSensitivity(types::ImuSensitivity sensitivity) noexcept -> void {
+auto Gyroscope::SaveNewSensitivity(types::ImuSensitivity sensitivity) noexcept -> void {
   sensitivity_ = sensitivity;
 }
 
 auto Gyroscope::SendSensitivityRegisterData(types::ImuSensitivity sensitivity) noexcept -> void {
-  std::uint8_t new_config = GetGyroscopeConfigRegisterDataForSensitivity(sensitivity);
+  std::uint8_t new_config = GetConfigRegisterDataForSensitivity(sensitivity);
   Write({CONFIG_REGISTER, new_config});
 }
 
-auto Gyroscope::GetGyroscopeConfigRegisterDataForSensitivity(types::ImuSensitivity sensitivity) noexcept -> std::uint8_t {
+auto Gyroscope::GetConfigRegisterDataForSensitivity(types::ImuSensitivity sensitivity) noexcept -> std::uint8_t {
   std::uint8_t fs_sel = 0;
 
   if (sensitivity == types::ImuSensitivity::FINEST) {

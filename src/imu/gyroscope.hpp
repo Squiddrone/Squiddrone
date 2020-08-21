@@ -17,12 +17,12 @@ class Gyroscope : public InertialMeasurementSensor {
   auto Update(void) noexcept -> types::DriverStatus;
 
   auto GetSensitivity(void) noexcept -> types::ImuSensitivity;
-  auto SetSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept -> types::DriverStatus;
+  auto SetSensitivity(types::ImuSensitivity sensitivity) noexcept -> types::DriverStatus;
 
  private:
-  auto GetGyroscopeConfigRegisterDataForSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept -> std::uint8_t;
-  auto SendSensitivityRegisterData(types::ImuSensitivity gyroscope_sensitivity) noexcept -> void;
-  auto SaveNewGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept -> void;
+  auto GetConfigRegisterDataForSensitivity(types::ImuSensitivity sensitivity) noexcept -> std::uint8_t;
+  auto SendSensitivityRegisterData(types::ImuSensitivity sensitivity) noexcept -> void;
+  auto SaveNewSensitivity(types::ImuSensitivity sensitivity) noexcept -> void;
 
   types::ImuSensitivity sensitivity_ = types::ImuSensitivity::FINEST;
 
