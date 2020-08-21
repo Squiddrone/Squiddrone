@@ -7,15 +7,19 @@
 namespace propulsion {
 class Esc {
  public:
-  virtual auto GetMaxPulseDurationInMicroSeconds() const noexcept -> decltype(auto) {
+  Esc() = default;
+  virtual ~Esc() {}
+  virtual auto GetMaxPulseDurationInMicroSeconds() const noexcept -> int {
     return 100;
   }
 
-  virtual auto GetMinPulseDurationInMicroSeconds() const noexcept -> decltype(auto) {
+  virtual auto GetMinPulseDurationInMicroSeconds() const noexcept -> int {
     return 10;
   }
 
-  auto SetPulseDuration(int pulse_duration, int repetition_period) noexcept -> types::DriverStatus;
+  virtual auto SetPulseDuration(int pulse_duration, int repetition_period) noexcept -> types::DriverStatus {
+    return types::DriverStatus::OK;
+  }
 
   types::DriverStatus set_pulse_duration_return_value_ = types::DriverStatus::OK;
 };
@@ -23,10 +27,10 @@ class Esc {
 class MockEsc : public propulsion::Esc {
  public:
   MockEsc() {}
-  MockEsc(MockEsc&) {}
-  MOCK_METHOD0(GetMaxPulseDurationInMicroSeconds, int());
-  MOCK_METHOD0(GetMinPulseDurationInMicroSeconds, int());
-  MOCK_METHOD2(SetPulseDuration, types::DriverStatus(int, int));
+  MockEsc(const MockEsc&) {}
+  MOCK_METHOD(int, GetMaxPulseDurationInMicroSeconds, (), (const, noexcept, override));
+  MOCK_METHOD(int, GetMinPulseDurationInMicroSeconds, (), (const, noexcept, override));
+  MOCK_METHOD(types::DriverStatus, SetPulseDuration, (int pulse_duration, int repetition_period), (noexcept, override));
 };
 
 #endif

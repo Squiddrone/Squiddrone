@@ -37,7 +37,6 @@ package_add_test(concrete_esc_little_bee_20_a
 package_add_test(abstract_motor propulsion/motor_test.cpp)
 package_add_test(letodar_2204 propulsion/letodar_2204_test.cpp
     ${CMAKE_SOURCE_DIR}/src/propulsion/letodar_2204.cpp
-    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/propulsion/esc_mock.cpp
 )
 
 
