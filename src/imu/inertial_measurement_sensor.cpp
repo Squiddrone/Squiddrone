@@ -34,14 +34,6 @@ auto InertialMeasurementSensor::ReadDataBytes(std::uint8_t read_from_register, s
   return content_of_register;
 }
 
-auto InertialMeasurementSensor::Read(std::uint16_t byte_size) noexcept -> std::vector<std::uint8_t> {
-  types::DriverStatus i2c_status;
-  std::vector<uint8_t> i2c_data;
-  std::tie(i2c_status, i2c_data) = i2c_handler_->Read(i2c_address_, byte_size);
-
-  return i2c_data;
-}
-
 auto InertialMeasurementSensor::Write(const std::vector<std::uint8_t>& data) noexcept -> void {
   types::DriverStatus i2c_status = i2c_handler_->Write(i2c_address_, data);
 
