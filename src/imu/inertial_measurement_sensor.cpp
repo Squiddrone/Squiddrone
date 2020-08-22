@@ -20,12 +20,17 @@ auto InertialMeasurementSensor::Mpu9255Detected(void) noexcept -> bool {
 }
 
 auto InertialMeasurementSensor::ReadDataBytes(std::uint8_t read_from_register, std::uint16_t byte_size) noexcept -> std::vector<std::uint8_t> {
-  Write({read_from_register});
+  types::DriverStatus i2c_status;
 
-  std::vector<uint8_t> content_of_register = {};
-  if (ImuConnectionSuccessful()) {
-    content_of_register = Read(byte_size);
+  std::vector<uint8_t> content_of_register;
+
+  std::tie(i2c_status, content_of_register) = i2c_handler_->ReadContentFromRegister(i2c_address_, read_from_register, byte_size);
+  if (i2c_status == types::DriverStatus::OK && content_of_register.size() == byte_size) {
+    imu_status_ = types::DriverStatus::OK;
+  } else {
+    imu_status_ = types::DriverStatus::HAL_ERROR;
   }
+
   return content_of_register;
 }
 
@@ -33,12 +38,6 @@ auto InertialMeasurementSensor::Read(std::uint16_t byte_size) noexcept -> std::v
   types::DriverStatus i2c_status;
   std::vector<uint8_t> i2c_data;
   std::tie(i2c_status, i2c_data) = i2c_handler_->Read(i2c_address_, byte_size);
-
-  if (i2c_status == types::DriverStatus::OK && i2c_data.size() == byte_size) {
-    imu_status_ = types::DriverStatus::OK;
-  } else {
-    imu_status_ = types::DriverStatus::HAL_ERROR;
-  }
 
   return i2c_data;
 }

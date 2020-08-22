@@ -11,6 +11,19 @@ namespace {
 
 class GyroscopeTests : public ::testing::Test {
  protected:
+  virtual void SetUp() {
+    ON_CALL(*i2c_handler_, Write(_, _, _))
+        .WillByDefault(Return(types::DriverStatus::OK));
+
+    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::WHO_AM_I_MPU9255_REGISTER, _, _))
+        .WillByDefault(Return(answer_to_who_am_i));
+    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::GYRO_CONFIG, _, _))
+        .WillByDefault(Return(answer_to_gyro_config));
+    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::GYRO_XOUT_H, _, _))
+        .WillByDefault(Return(answer_to_update));
+    ON_CALL(*i2c_handler_, ReadContentFromRegister(0, _, _, _))
+        .WillByDefault(Return(answer_invalid));
+  }
   virtual void ConfigureUnitUnderTest() {
     unit_under_test_ = std::make_unique<imu::Gyroscope>(std::move(i2c_handler_));
   }
@@ -27,16 +40,11 @@ class GyroscopeTests : public ::testing::Test {
       types::DriverStatus::OK, {0, 15, 0, 25, 0, 35}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_read_mismatch{
       types::DriverStatus::OK, {0, 15}};
+  std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_invalid{
+      types::DriverStatus::HAL_ERROR, {}};
 };
 
 TEST_F(GyroscopeTests, gyroscope_Init_OK) {
-  ON_CALL(*i2c_handler_, Write(_, _, _))
-      .WillByDefault(Return(types::DriverStatus::OK));
-
-  EXPECT_CALL(*i2c_handler_, Read(_, _, _))
-      .WillOnce(Return(answer_to_who_am_i))
-      .WillOnce(Return(answer_to_gyro_config));
-
   ConfigureUnitUnderTest();
 
   auto gyroscope_init_return = unit_under_test_->Init(i2c_address_);
@@ -56,14 +64,6 @@ TEST_F(GyroscopeTests, gyroscope_Init_failed) {
 }
 
 TEST_F(GyroscopeTests, gyroscope_Update) {
-  ON_CALL(*i2c_handler_, Write(_, _, _))
-      .WillByDefault(Return(types::DriverStatus::OK));
-
-  EXPECT_CALL(*i2c_handler_, Read(_, _, _))
-      .WillOnce(Return(answer_to_who_am_i))
-      .WillOnce(Return(answer_to_gyro_config))
-      .WillOnce(Return(answer_to_update));
-
   ConfigureUnitUnderTest();
 
   unit_under_test_->Init(i2c_address_);
@@ -90,13 +90,6 @@ TEST_F(GyroscopeTests, gyroscope_Get_without_Update_and_Init_first) {
 }
 
 TEST_F(GyroscopeTests, gyroscope_Get_without_Update_first) {
-  ON_CALL(*i2c_handler_, Write(_, _, _))
-      .WillByDefault(Return(types::DriverStatus::OK));
-
-  EXPECT_CALL(*i2c_handler_, Read(_, _, _))
-      .WillOnce(Return(answer_to_who_am_i))
-      .WillOnce(Return(answer_to_gyro_config));
-
   ConfigureUnitUnderTest();
 
   types::EuclideanVector<float> expected_value{0, 0, 0};
@@ -109,14 +102,6 @@ TEST_F(GyroscopeTests, gyroscope_Get_without_Update_first) {
 }
 
 TEST_F(GyroscopeTests, gyroscope_full) {
-  ON_CALL(*i2c_handler_, Write(_, _, _))
-      .WillByDefault(Return(types::DriverStatus::OK));
-
-  EXPECT_CALL(*i2c_handler_, Read(_, _, _))
-      .WillOnce(Return(answer_to_who_am_i))
-      .WillOnce(Return(answer_to_gyro_config))
-      .WillOnce(Return(answer_to_update));
-
   ConfigureUnitUnderTest();
 
   types::EuclideanVector<float> expected_value{15, 25, 35};
@@ -130,14 +115,6 @@ TEST_F(GyroscopeTests, gyroscope_full) {
 }
 
 TEST_F(GyroscopeTests, gyroscope_SetSensitivity_finest) {
-  ON_CALL(*i2c_handler_, Write(_, _, _))
-      .WillByDefault(Return(types::DriverStatus::OK));
-
-  EXPECT_CALL(*i2c_handler_, Read(_, _, _))
-      .WillOnce(Return(answer_to_who_am_i))
-      .WillOnce(Return(answer_to_gyro_config))
-      .WillOnce(Return(answer_to_gyro_config));
-
   ConfigureUnitUnderTest();
 
   unit_under_test_->Init(i2c_address_);
@@ -146,14 +123,6 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity_finest) {
 }
 
 TEST_F(GyroscopeTests, gyroscope_SetSensitivity_finer) {
-  ON_CALL(*i2c_handler_, Write(_, _, _))
-      .WillByDefault(Return(types::DriverStatus::OK));
-
-  EXPECT_CALL(*i2c_handler_, Read(_, _, _))
-      .WillOnce(Return(answer_to_who_am_i))
-      .WillOnce(Return(answer_to_gyro_config))
-      .WillOnce(Return(answer_to_gyro_config));
-
   ConfigureUnitUnderTest();
 
   unit_under_test_->Init(i2c_address_);
@@ -162,14 +131,6 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity_finer) {
 }
 
 TEST_F(GyroscopeTests, gyroscope_SetSensitivity_rougher) {
-  ON_CALL(*i2c_handler_, Write(_, _, _))
-      .WillByDefault(Return(types::DriverStatus::OK));
-
-  EXPECT_CALL(*i2c_handler_, Read(_, _, _))
-      .WillOnce(Return(answer_to_who_am_i))
-      .WillOnce(Return(answer_to_gyro_config))
-      .WillOnce(Return(answer_to_gyro_config));
-
   ConfigureUnitUnderTest();
 
   unit_under_test_->Init(i2c_address_);
@@ -178,14 +139,6 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity_rougher) {
 }
 
 TEST_F(GyroscopeTests, gyroscope_SetSensitivity_roughest) {
-  ON_CALL(*i2c_handler_, Write(_, _, _))
-      .WillByDefault(Return(types::DriverStatus::OK));
-
-  EXPECT_CALL(*i2c_handler_, Read(_, _, _))
-      .WillOnce(Return(answer_to_who_am_i))
-      .WillOnce(Return(answer_to_gyro_config))
-      .WillOnce(Return(answer_to_gyro_config));
-
   ConfigureUnitUnderTest();
 
   unit_under_test_->Init(i2c_address_);
@@ -194,15 +147,6 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity_roughest) {
 }
 
 TEST_F(GyroscopeTests, gyroscope_SetSensitivity_failes_stored_sensitivity_stays_same) {
-  ON_CALL(*i2c_handler_, Write(_, _, _))
-      .WillByDefault(Return(types::DriverStatus::OK));
-
-  EXPECT_CALL(*i2c_handler_, Read(_, _, _))
-      .WillOnce(Return(answer_to_who_am_i))
-      .WillOnce(Return(answer_to_gyro_config))
-      .WillOnce(Return(answer_to_gyro_config))
-      .WillOnce(Return(answer_to_gyro_config));
-
   ConfigureUnitUnderTest();
 
   unit_under_test_->Init(i2c_address_);
@@ -226,15 +170,6 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity_without_Init_first) {
 }
 
 TEST_F(GyroscopeTests, gyroscope_SetSensitivity_GetSensitivity) {
-  ON_CALL(*i2c_handler_, Write(_, _, _))
-      .WillByDefault(Return(types::DriverStatus::OK));
-
-  EXPECT_CALL(*i2c_handler_, Read(_, _, _))
-      .WillOnce(Return(answer_to_who_am_i))
-      .WillOnce(Return(answer_to_gyro_config))
-      .WillOnce(Return(answer_to_gyro_config))
-      .WillOnce(Return(answer_to_gyro_config));
-
   ConfigureUnitUnderTest();
 
   unit_under_test_->Init(i2c_address_);
@@ -252,12 +187,7 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity_GetSensitivity) {
 
 TEST_F(GyroscopeTests, gyroscope_connection_failed_after_Mpu9255Detected) {
   EXPECT_CALL(*i2c_handler_, Write(_, _, _))
-      .WillOnce(Return(types::DriverStatus::OK))
-      .WillOnce(Return(types::DriverStatus::OK))
       .WillOnce(Return(types::DriverStatus::HAL_ERROR));
-
-  ON_CALL(*i2c_handler_, Read(_, _, _))
-      .WillByDefault(Return(answer_to_who_am_i));
 
   ConfigureUnitUnderTest();
 
@@ -266,10 +196,7 @@ TEST_F(GyroscopeTests, gyroscope_connection_failed_after_Mpu9255Detected) {
 }
 
 TEST_F(GyroscopeTests, gyroscope_read_bytesize_mismatch) {
-  ON_CALL(*i2c_handler_, Write(_, _, _))
-      .WillByDefault(Return(types::DriverStatus::OK));
-
-  ON_CALL(*i2c_handler_, Read(_, 1, _))
+  ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::WHO_AM_I_MPU9255_REGISTER, _, _))
       .WillByDefault(Return(answer_read_mismatch));
 
   ConfigureUnitUnderTest();
