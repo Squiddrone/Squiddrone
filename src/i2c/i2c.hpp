@@ -18,6 +18,7 @@ class I2C final : public I2CInterface {
   explicit I2C(void) : I2CInterface(){};
 
   auto Read(std::uint8_t address, std::uint16_t byte_size, std::uint32_t timeout = I2C_STANDARD_TIMEOUT_IN_MS) noexcept -> std::pair<types::DriverStatus, std::vector<std::uint8_t>> override;
+  auto ReadContentFromRegister(std::uint8_t address, std::uint8_t register_, std::uint16_t byte_size, std::uint32_t timeout = I2C_STANDARD_TIMEOUT_IN_MS) noexcept -> std::pair<types::DriverStatus, std::vector<std::uint8_t>> override;
   auto Write(std::uint8_t address, const std::vector<std::uint8_t>& data, std::uint32_t timeout = I2C_STANDARD_TIMEOUT_IN_MS) noexcept -> types::DriverStatus override;
 
  private:

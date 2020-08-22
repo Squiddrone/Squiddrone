@@ -1,4 +1,5 @@
 #include "i2c.hpp"
+#include <memory>
 
 namespace i2c {
 
@@ -22,6 +23,21 @@ auto I2C::Read(std::uint8_t address, std::uint16_t byte_size, std::uint32_t time
   return {i2c_status, data};
 }
 
+auto I2C::ReadContentFromRegister(std::uint8_t address, std::uint8_t register_, std::uint16_t byte_size, std::uint32_t timeout) noexcept -> std::pair<types::DriverStatus, std::vector<std::uint8_t>> {
+  types::DriverStatus i2c_status;
+  std::vector<std::uint8_t> data;
+
+  i2c_status = Write(address, {register_}, timeout);
+  if (i2c_status != types::DriverStatus::OK) {
+    return {i2c_status, data};
+  }
+
+  std::vector<uint8_t> content_of_register = {};
+  std::tie(i2c_status, content_of_register) = Read(address, byte_size, timeout);
+
+  return {i2c_status, content_of_register};
+}
+
 auto I2C::Write(std::uint8_t address, const std::vector<std::uint8_t>& data, std::uint32_t timeout) noexcept -> types::DriverStatus {
   if (!CheckForValidInputWrite(address, data, timeout)) {
     return types::DriverStatus::INPUT_ERROR;
@@ -32,7 +48,6 @@ auto I2C::Write(std::uint8_t address, const std::vector<std::uint8_t>& data, std
   HAL_StatusTypeDef hal_status = HAL_I2C_Master_Transmit(&hi2c2, address, (std::uint8_t*)data.data(), (std::uint16_t)data.size(), timeout);
 
   return GetI2CStatus(hal_status);
-  ;
 }
 
 auto I2C::ModifyAddressForI2C7Bit(std::uint8_t address) noexcept -> std::uint8_t {
