@@ -4,6 +4,7 @@
 #include "mock_i2c.hpp"
 
 using ::testing::_;
+using ::testing::NiceMock;
 using ::testing::Return;
 
 namespace {
@@ -15,7 +16,7 @@ class GyroscopeTests : public ::testing::Test {
   }
 
   uint8_t i2c_address_ = 0x68;
-  std::unique_ptr<i2c::MOCKI2C> i2c_handler_ = std::make_unique<i2c::MOCKI2C>();
+  std::unique_ptr<i2c::MOCKI2C> i2c_handler_ = std::make_unique<NiceMock<i2c::MOCKI2C>>();
   std::unique_ptr<imu::Gyroscope> unit_under_test_;
 
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_who_am_i{
@@ -266,8 +267,8 @@ TEST_F(GyroscopeTests, gyroscope_connection_failed_after_Mpu9255Detected) {
 }
 
 TEST_F(GyroscopeTests, gyroscope_read_bytesize_mismatch) {
-  EXPECT_CALL(*i2c_handler_, Write(_, _, _))
-      .WillOnce(Return(types::DriverStatus::OK));
+  ON_CALL(*i2c_handler_, Write(_, _, _))
+      .WillByDefault(Return(types::DriverStatus::OK));
 
   EXPECT_CALL(*i2c_handler_, Read(_, _, _))
       .WillOnce(Return(answer_read_mismatch));
