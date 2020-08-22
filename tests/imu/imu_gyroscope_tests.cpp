@@ -257,8 +257,7 @@ TEST_F(GyroscopeTests, gyroscope_connection_failed_after_Mpu9255Detected) {
       .WillOnce(Return(types::DriverStatus::HAL_ERROR));
 
   ON_CALL(*i2c_handler_, Read(_, _, _))
-      .WillByDefault(Return(answer_to_who_am_i))
-      .WillByDefault(Return(answer_to_gyro_config));
+      .WillByDefault(Return(answer_to_who_am_i));
 
   ConfigureUnitUnderTest();
 
