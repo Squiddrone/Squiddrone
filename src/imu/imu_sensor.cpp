@@ -2,6 +2,38 @@
 
 namespace imu {
 
+auto InertialMeasurementSensor::Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus {
+  SetI2CAdress(i2c_address);
+  initialized_ = false;
+
+  if (!Mpu9255Detected()) {
+    return types::DriverStatus::HAL_ERROR;
+  }
+
+  SetSensorValues(0, 0, 0);
+
+  initialized_ = true;
+  return types::DriverStatus::OK;
+}
+
+auto InertialMeasurementSensor::Update(void) noexcept -> types::DriverStatus {
+  if (!IsInitialized()) {
+    return types::DriverStatus::HAL_ERROR;
+  }
+
+  std::vector<uint8_t> measurement_values;
+  measurement_values = ReadDataBytes(SENSOR_DATA_REGISTER, 6);
+
+  if (ImuConnectionSuccessful()) {
+    SetSensorValues(
+        ConvertUint8BytesIntoInt16SensorValue(measurement_values.at(0), measurement_values.at(1)),
+        ConvertUint8BytesIntoInt16SensorValue(measurement_values.at(2), measurement_values.at(3)),
+        ConvertUint8BytesIntoInt16SensorValue(measurement_values.at(4), measurement_values.at(5)));
+  }
+
+  return types::DriverStatus::OK;
+}
+
 auto InertialMeasurementSensor::Get(void) noexcept -> types::EuclideanVector<int16_t> {
   return sensor_values_;
 }

@@ -79,6 +79,7 @@ package_add_test(spi_interface
 
 package_add_test(imu_sensors_gyroscope
     ${CMAKE_SOURCE_DIR}/src/imu/imu_sensor.cpp
+    ${CMAKE_SOURCE_DIR}/src/imu/imu_sensor_with_sensitivity.cpp
     ${CMAKE_SOURCE_DIR}/src/imu/gyroscope.cpp
     ${CMAKE_SOURCE_DIR}/tests/imu/imu_gyroscope_tests.cpp
 )

@@ -15,6 +15,8 @@ class GyroscopeTests : public ::testing::Test {
     ON_CALL(*i2c_handler_, Write(_, _, _))
         .WillByDefault(Return(types::DriverStatus::OK));
 
+    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, _, _, _))
+        .WillByDefault(Return(answer_to_who_am_i));
     ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::WHO_AM_I_MPU9255_REGISTER, _, _))
         .WillByDefault(Return(answer_to_who_am_i));
     ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::GYRO_CONFIG, _, _))

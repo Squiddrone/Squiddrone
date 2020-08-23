@@ -18,6 +18,8 @@ class InertialMeasurementSensor {
 
   explicit InertialMeasurementSensor(std::unique_ptr<i2c::I2CInterface> i2c_handler) : i2c_handler_(std::move(i2c_handler)){};
   auto Get(void) noexcept -> types::EuclideanVector<int16_t>;
+  auto Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus;
+  auto Update(void) noexcept -> types::DriverStatus;
 
  protected:
   auto Mpu9255Detected(void) noexcept -> bool;
@@ -39,6 +41,8 @@ class InertialMeasurementSensor {
   std::uint8_t i2c_address_ = 0;
   /// Status of last communication action of IMU sensor
   types::DriverStatus imu_status_ = types::DriverStatus::HAL_ERROR;
+  std::uint8_t SENSOR_DATA_REGISTER = 0;
+  std::uint8_t CONFIG_REGISTER = 0;
 };
 
 enum ImuSensitivityFSSelect : std::uint8_t {
