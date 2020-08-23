@@ -81,7 +81,7 @@ TEST_F(GyroscopeTests, gyroscope_Update_without_Init_first) {
 TEST_F(GyroscopeTests, gyroscope_Get_without_Update_and_Init_first) {
   ConfigureUnitUnderTest();
 
-  types::EuclideanVector<float> expected_value{-1, -1, -1};
+  types::EuclideanVector<std::int16_t> expected_value{-1, -1, -1};
   auto gyroscope_get_return = unit_under_test_->Get();
 
   EXPECT_EQ(gyroscope_get_return.x, expected_value.x);
@@ -92,7 +92,7 @@ TEST_F(GyroscopeTests, gyroscope_Get_without_Update_and_Init_first) {
 TEST_F(GyroscopeTests, gyroscope_Get_without_Update_first) {
   ConfigureUnitUnderTest();
 
-  types::EuclideanVector<float> expected_value{0, 0, 0};
+  types::EuclideanVector<std::int16_t> expected_value{0, 0, 0};
   unit_under_test_->Init(i2c_address_);
   auto gyroscope_get_return = unit_under_test_->Get();
 
@@ -104,7 +104,7 @@ TEST_F(GyroscopeTests, gyroscope_Get_without_Update_first) {
 TEST_F(GyroscopeTests, gyroscope_full) {
   ConfigureUnitUnderTest();
 
-  types::EuclideanVector<float> expected_value{15, 25, 35};
+  types::EuclideanVector<std::int16_t> expected_value{15, 25, 35};
   unit_under_test_->Init(i2c_address_);
   unit_under_test_->Update();
   auto gyroscope_get_return = unit_under_test_->Get();
