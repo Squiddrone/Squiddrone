@@ -23,7 +23,7 @@ class InertialMeasurementSensor {
  protected:
   auto Mpu9255Detected(void) noexcept -> bool;
   auto Write(const std::vector<std::uint8_t>& data) noexcept -> void;
-  auto ReadDataBytes(std::uint8_t read_from_register, std::uint16_t byte_size) noexcept -> std::vector<std::uint8_t>;
+  auto ReadContentFromRegister(std::uint8_t read_from_register, std::uint16_t byte_size) noexcept -> std::vector<std::uint8_t>;
   auto ImuConnectionSuccessful(void) noexcept -> bool;
   auto ImuConnectionFailed(void) noexcept -> bool;
   auto SetI2CAdress(std::uint8_t i2c_address) noexcept -> void;

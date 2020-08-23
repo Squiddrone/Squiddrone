@@ -8,7 +8,7 @@ auto InertialMeasurementSensor::Update(void) noexcept -> types::DriverStatus {
   }
 
   std::vector<uint8_t> measurement_values;
-  measurement_values = ReadDataBytes(SENSOR_DATA_REGISTER, 6);
+  measurement_values = ReadContentFromRegister(SENSOR_DATA_REGISTER, 6);
 
   if (ImuConnectionSuccessful()) {
     SetSensorValues(
@@ -27,7 +27,7 @@ auto InertialMeasurementSensor::Get(void) noexcept -> types::EuclideanVector<int
 auto InertialMeasurementSensor::Mpu9255Detected(void) noexcept -> bool {
   bool who_i_am_correct = false;
 
-  std::vector<uint8_t> who_am_i_register_value = ReadDataBytes(WHO_AM_I_MPU9255_REGISTER, 1);
+  std::vector<uint8_t> who_am_i_register_value = ReadContentFromRegister(WHO_AM_I_MPU9255_REGISTER, 1);
   if (ImuConnectionSuccessful()) {
     if (who_am_i_register_value.at(0) == WHO_AM_I_MPU9255_VALUE) {
       who_i_am_correct = true;
@@ -37,7 +37,7 @@ auto InertialMeasurementSensor::Mpu9255Detected(void) noexcept -> bool {
   return who_i_am_correct;
 }
 
-auto InertialMeasurementSensor::ReadDataBytes(std::uint8_t read_from_register, std::uint16_t byte_size) noexcept -> std::vector<std::uint8_t> {
+auto InertialMeasurementSensor::ReadContentFromRegister(std::uint8_t read_from_register, std::uint16_t byte_size) noexcept -> std::vector<std::uint8_t> {
   types::DriverStatus i2c_status;
 
   std::vector<uint8_t> content_of_register;

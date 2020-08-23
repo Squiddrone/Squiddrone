@@ -23,8 +23,6 @@ class GyroscopeTests : public ::testing::Test {
         .WillByDefault(Return(answer_to_gyro_config));
     ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::GYRO_XOUT_H, _, _))
         .WillByDefault(Return(answer_to_update));
-    ON_CALL(*i2c_handler_, ReadContentFromRegister(0, _, _, _))
-        .WillByDefault(Return(answer_invalid));
   }
   virtual void ConfigureUnitUnderTest() {
     unit_under_test_ = std::make_unique<imu::Gyroscope>(std::move(i2c_handler_));
@@ -55,7 +53,7 @@ TEST_F(GyroscopeTests, gyroscope_Init_OK) {
 }
 
 TEST_F(GyroscopeTests, gyroscope_Init_failed) {
-  ON_CALL(*i2c_handler_, Write(_, _, _))
+  ON_CALL(*i2c_handler_, Write(0, _, _))
       .WillByDefault(Return(types::DriverStatus::HAL_ERROR));
 
   ConfigureUnitUnderTest();
@@ -149,6 +147,9 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity_roughest) {
 }
 
 TEST_F(GyroscopeTests, gyroscope_SetSensitivity_failes_stored_sensitivity_stays_same) {
+  ON_CALL(*i2c_handler_, ReadContentFromRegister(0, _, _, _))
+      .WillByDefault(Return(answer_invalid));
+
   ConfigureUnitUnderTest();
 
   unit_under_test_->Init(i2c_address_);

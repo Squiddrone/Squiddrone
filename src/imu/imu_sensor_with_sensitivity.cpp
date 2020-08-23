@@ -58,7 +58,7 @@ auto InertialMeasurementSensorWithSensitivity::GetConfigRegisterDataForSensitivi
   }
 
   std::vector<uint8_t> config_data;
-  config_data = ReadDataBytes(CONFIG_REGISTER, 1);
+  config_data = ReadContentFromRegister(CONFIG_REGISTER, 1);
 
   return static_cast<std::uint8_t>(config_data.at(0) | fs_sel << 3);
 }
