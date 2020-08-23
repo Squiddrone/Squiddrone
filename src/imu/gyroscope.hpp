@@ -2,7 +2,7 @@
 #define SRC_GYROSCOPE_HPP_
 
 #include "imu_sensitivity.hpp"
-#include "inertial_measurement_sensor.hpp"
+#include "imu_sensor.hpp"
 #include "mpu9255_data.hpp"
 
 namespace imu {

@@ -9,5 +9,6 @@ target_sources(${ELF_FILE}
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/inertial_measurement.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/gyroscope.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/inertial_measurement_sensor.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/imu_sensor.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/imu_sensor_with_sensitivity
 )
