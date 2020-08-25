@@ -79,7 +79,7 @@ package_add_test(spi_interface
 
 SETUP_ALLTESTS_TARGET(
     NAME all_tests                 
-    EXECUTABLE GTEST_COLOR=1 GTEST_SHUFFLE=1 ctest --verbose -j ${n_cores}
+    EXECUTABLE GTEST_COLOR=1 GTEST_REPEAT=3 GTEST_SHUFFLE=1 ctest --verbose -j ${n_cores}
     DEPENDENCIES
         euclidean_vector
         abstract_esc
