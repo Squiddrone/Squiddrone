@@ -58,7 +58,7 @@ auto InertialMeasurementSensorWithSensitivity::GetConfigRegisterDataForSensitivi
   std::vector<uint8_t> config_data;
   config_data = ReadContentFromRegister(CONFIG_REGISTER, 1);
 
-  return static_cast<std::uint8_t>(config_data.at(0) | fs_sel << 3);
+  return static_cast<std::uint8_t>(config_data.at(0) & (0b11100111 | (fs_sel << 3)));
 }
 
 auto InertialMeasurementSensorWithSensitivity::GetSensitivity(void) noexcept -> types::ImuSensitivity {
