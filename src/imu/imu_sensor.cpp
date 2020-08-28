@@ -38,7 +38,6 @@ auto InertialMeasurementSensor::Mpu9255Detected(void) noexcept -> bool {
 
 auto InertialMeasurementSensor::ReadContentFromRegister(std::uint8_t read_from_register, std::uint16_t byte_size) noexcept -> std::vector<std::uint8_t> {
   types::DriverStatus i2c_status;
-
   std::vector<uint8_t> content_of_register;
 
   std::tie(i2c_status, content_of_register) = i2c_handler_->ReadContentFromRegister(i2c_address_, read_from_register, byte_size);
@@ -52,13 +51,7 @@ auto InertialMeasurementSensor::ReadContentFromRegister(std::uint8_t read_from_r
 }
 
 auto InertialMeasurementSensor::Write(const std::vector<std::uint8_t>& data) noexcept -> void {
-  types::DriverStatus i2c_status = i2c_handler_->Write(i2c_address_, data);
-
-  if (i2c_status == types::DriverStatus::OK) {
-    imu_status_ = types::DriverStatus::OK;
-  } else {
-    imu_status_ = types::DriverStatus::HAL_ERROR;
-  }
+  imu_status_ = i2c_handler_->Write(i2c_address_, data);
 }
 
 auto InertialMeasurementSensor::ImuConnectionSuccessful(void) noexcept -> bool {
