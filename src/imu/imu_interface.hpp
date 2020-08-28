@@ -1,10 +1,9 @@
 #ifndef SRC_IMU_INTERFACE_HPP_
 #define SRC_IMU_INTERFACE_HPP_
 
-#include "accelerometer_sensitivity.hpp"
 #include "basic_types.hpp"
-#include "gyroscope_sensitivity.hpp"
 #include "i2c.hpp"
+#include "imu_sensitivity.hpp"
 #include "mpu9250.hpp"
 
 namespace imu {
@@ -38,27 +37,27 @@ class InertialMeasurementInterface {
    * @brief Used for setting of the gyroscopes sensitivity
    * 
    */
-  virtual void SetGyroscopeSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept = 0;
+  virtual void SetGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept = 0;
 
   /**
    * @brief Used for reading the gyroscopes sensitivity
-   * @return Gyroscopes sensitivity as types::GyroscopeSensitivity
+   * @return Gyroscopes sensitivity as types::ImuSensitivity
    * 
    */
-  virtual auto GetGyroscopeSensitivity(void) noexcept -> types::GyroscopeSensitivity = 0;
+  virtual auto GetGyroscopeSensitivity(void) noexcept -> types::ImuSensitivity = 0;
 
   /**
    * @brief Used for setting of the accelerometers sensitivity
    * 
    */
-  virtual void SetAccelerometerSensitivity(types::AccelerometerSensitivity accelerometer_sensitivity) noexcept = 0;
+  virtual void SetAccelerometerSensitivity(types::ImuSensitivity accelerometer_sensitivity) noexcept = 0;
 
   /**
    * @brief Used for reading the accelerometers sensitivity
-   * @return accelerometers sensitivity as types::AccelerometerSensitivity
+   * @return accelerometers sensitivity as types::ImuSensitivity
    * 
    */
-  virtual auto GetAccelerometerSensitivity(void) noexcept -> types::AccelerometerSensitivity = 0;
+  virtual auto GetAccelerometerSensitivity(void) noexcept -> types::ImuSensitivity = 0;
 
   /**
    * @brief Used for reading the gyroscopes measured values

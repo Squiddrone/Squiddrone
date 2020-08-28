@@ -1,13 +1,14 @@
 #include "i2c.hpp"
+#include <memory>
 
 namespace i2c {
 
-auto I2C::Read(std::uint8_t address, std::uint16_t byte_size, std::uint32_t timeout) noexcept -> std::tuple<I2CStatus, std::vector<std::uint8_t>> {
-  I2CStatus i2c_status;
+auto I2C::Read(std::uint8_t address, std::uint16_t byte_size, std::uint32_t timeout) noexcept -> std::pair<types::DriverStatus, std::vector<std::uint8_t>> {
+  types::DriverStatus i2c_status;
 
   if (!CheckForValidInputRead(address, byte_size, timeout)) {
     std::vector<std::uint8_t> data;
-    i2c_status = I2CStatus::I2C_PARAMETER_ERROR;
+    i2c_status = types::DriverStatus::HAL_ERROR;
     return {i2c_status, data};
   }
 
@@ -22,9 +23,24 @@ auto I2C::Read(std::uint8_t address, std::uint16_t byte_size, std::uint32_t time
   return {i2c_status, data};
 }
 
-auto I2C::Write(std::uint8_t address, const std::vector<std::uint8_t>& data, std::uint32_t timeout) noexcept -> I2CStatus {
+auto I2C::ReadContentFromRegister(std::uint8_t address, std::uint8_t register_, std::uint16_t byte_size, std::uint32_t timeout) noexcept -> std::pair<types::DriverStatus, std::vector<std::uint8_t>> {
+  types::DriverStatus i2c_status;
+  std::vector<std::uint8_t> data;
+
+  i2c_status = Write(address, {register_}, timeout);
+  if (i2c_status != types::DriverStatus::OK) {
+    return {i2c_status, data};
+  }
+
+  std::vector<uint8_t> content_of_register = {};
+  std::tie(i2c_status, content_of_register) = Read(address, byte_size, timeout);
+
+  return {i2c_status, content_of_register};
+}
+
+auto I2C::Write(std::uint8_t address, const std::vector<std::uint8_t>& data, std::uint32_t timeout) noexcept -> types::DriverStatus {
   if (!CheckForValidInputWrite(address, data, timeout)) {
-    return I2CStatus::I2C_PARAMETER_ERROR;
+    return types::DriverStatus::INPUT_ERROR;
   }
 
   address = ModifyAddressForI2C7Bit(address);
@@ -32,7 +48,6 @@ auto I2C::Write(std::uint8_t address, const std::vector<std::uint8_t>& data, std
   HAL_StatusTypeDef hal_status = HAL_I2C_Master_Transmit(&hi2c2, address, (std::uint8_t*)data.data(), (std::uint16_t)data.size(), timeout);
 
   return GetI2CStatus(hal_status);
-  ;
 }
 
 auto I2C::ModifyAddressForI2C7Bit(std::uint8_t address) noexcept -> std::uint8_t {
@@ -46,21 +61,21 @@ auto I2C::CheckForValidInputRead(std::uint8_t address, std::uint16_t byte_size, 
          CheckIfI2CTimeoutIsValid(timeout);
 }
 
-auto I2C::GetI2CStatus(HAL_StatusTypeDef hal_status) noexcept -> I2CStatus {
-  I2CStatus i2c_status;
+auto I2C::GetI2CStatus(HAL_StatusTypeDef hal_status) noexcept -> types::DriverStatus {
+  types::DriverStatus i2c_status;
 
   switch (hal_status) {
     case HAL_OK:
-      i2c_status = I2CStatus::I2C_TRANSACTION_SUCCESSFUL;
+      i2c_status = types::DriverStatus::OK;
       break;
     case HAL_TIMEOUT:
-      i2c_status = I2CStatus::I2C_TRANSACTION_TIMEOUT;
+      i2c_status = types::DriverStatus::TIMEOUT;
       break;
     case HAL_BUSY:
-      i2c_status = I2CStatus::I2C_TRANSACTION_BUSY;
+      i2c_status = types::DriverStatus::HAL_ERROR;
       break;
     default:
-      i2c_status = I2CStatus::I2C_TRANSACTION_FAILED;
+      i2c_status = types::DriverStatus::HAL_ERROR;
       break;
   }
 

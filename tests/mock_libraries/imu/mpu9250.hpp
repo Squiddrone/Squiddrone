@@ -10,10 +10,10 @@ class Mpu9250 final : public GenericInertialMeasurementUnit {
   Mpu9250() = delete;
   ~Mpu9250() = default;
   explicit Mpu9250(std::unique_ptr<i2c::I2C> i2c_handler) : GenericInertialMeasurementUnit(std::move(i2c_handler)) {}
-  void SetGyroscopeSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept override;
-  auto GetGyroscopeSensitivity(void) noexcept -> types::GyroscopeSensitivity override;
-  void SetAccelerometerSensitivity(types::AccelerometerSensitivity accelerometer_sensitivity) noexcept override;
-  auto GetAccelerometerSensitivity(void) noexcept -> types::AccelerometerSensitivity override;
+  void SetGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept override;
+  auto GetGyroscopeSensitivity(void) noexcept -> types::ImuSensitivity override;
+  void SetAccelerometerSensitivity(types::ImuSensitivity accelerometer_sensitivity) noexcept override;
+  auto GetAccelerometerSensitivity(void) noexcept -> types::ImuSensitivity override;
   auto GetGyroscope(void) noexcept -> types::EuclideanVector<float> override;
   auto GetAccelerometer(void) noexcept -> types::EuclideanVector<float> override;
   auto GetMagnetometer(void) noexcept -> types::EuclideanVector<float> override;

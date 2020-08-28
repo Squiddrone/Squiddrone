@@ -78,15 +78,15 @@ package_add_test(spi_interface
 )
 
 package_add_test(imu_sensors_gyroscope
-    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu/i2c.cpp
-    ${CMAKE_SOURCE_DIR}/src/imu/inertial_measurement_sensor.cpp
+    ${CMAKE_SOURCE_DIR}/src/imu/imu_sensor.cpp
+    ${CMAKE_SOURCE_DIR}/src/imu/imu_sensor_with_sensitivity.cpp
     ${CMAKE_SOURCE_DIR}/src/imu/gyroscope.cpp
     ${CMAKE_SOURCE_DIR}/tests/imu/imu_gyroscope_tests.cpp
 )
 
 SETUP_ALLTESTS_TARGET(
     NAME all_tests                 
-    EXECUTABLE GTEST_COLOR=1 ctest --verbose -j ${n_cores}
+    EXECUTABLE GTEST_COLOR=1 GTEST_REPEAT=3 GTEST_SHUFFLE=1 ctest --verbose -j ${n_cores}
     DEPENDENCIES
         euclidean_vector
         abstract_esc
@@ -106,7 +106,7 @@ SETUP_ALLTESTS_TARGET(
 if(CODE_COVERAGE)
     SETUP_TARGET_FOR_COVERAGE_LCOV(
         NAME coverage                 
-        EXECUTABLE ctest -j ${n_cores} # Executable in PROJECT_BINARY_DIR
+        EXECUTABLE GTEST_SHUFFLE=1 ctest -j ${n_cores}
         DEPENDENCIES
             all_tests
     )
