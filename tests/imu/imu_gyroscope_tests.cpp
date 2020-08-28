@@ -24,6 +24,7 @@ class GyroscopeTests : public ::testing::Test {
     ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::GYRO_XOUT_H, _, _))
         .WillByDefault(Return(answer_to_update));
   }
+
   virtual void ConfigureUnitUnderTest() {
     unit_under_test_ = std::make_unique<imu::Gyroscope>(std::move(i2c_handler_));
   }
