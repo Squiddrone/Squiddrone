@@ -11,9 +11,6 @@ namespace imu {
 
 class InertialMeasurementSensor {
  public:
-  /**
-   * @brief The default destructor is sufficent
-   */
   virtual ~InertialMeasurementSensor() = default;
 
   explicit InertialMeasurementSensor(std::unique_ptr<i2c::I2CInterface> i2c_handler) : i2c_handler_(std::move(i2c_handler)){};
