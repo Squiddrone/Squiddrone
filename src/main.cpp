@@ -45,7 +45,7 @@ int main() {
   auto i2c_interface = std::make_unique<i2c::I2C>();
 
   std::unique_ptr<imu::Gyroscope> gyroscope = std::make_unique<imu::Gyroscope>(std::move(i2c_interface));
-  if (gyroscope->Init(0x68) == types::HalError::WORKING) {
+  if (gyroscope->Init(0x68) == types::DriverStatus::OK) {
     strcpy((char*)buf, "Init successfull\r\n");
   } else {
     strcpy((char*)buf, "Init failed\r\n");
@@ -55,7 +55,7 @@ int main() {
   HAL_Delay(500);
 
   while (1) {
-    if (gyroscope->Update() == types::HalError::WORKING) {
+    if (gyroscope->Update() == types::DriverStatus::OK) {
       auto gyro_sensor_values = gyroscope->Get();
       sprintf((char*)buf, "%d %d %d\r\n", gyro_sensor_values.x, gyro_sensor_values.y, gyro_sensor_values.z);
     } else {
