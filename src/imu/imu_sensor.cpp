@@ -3,9 +3,8 @@
 namespace imu {
 
 auto InertialMeasurementSensor::Update(void) noexcept -> types::DriverStatus {
-  if (!IsInitialized()) {
+  if (!IsInitialized())
     return types::DriverStatus::HAL_ERROR;
-  }
 
   std::vector<uint8_t> measurement_values;
   measurement_values = ReadContentFromRegister(SENSOR_DATA_REGISTER, 6);
