@@ -6,16 +6,14 @@ auto InertialMeasurementSensorWithSensitivity::Init(std::uint8_t i2c_address) no
   SetI2CAdress(i2c_address);
   initialized_ = false;
 
-  if (!Mpu9255Detected()) {
+  if (!Mpu9255Detected())
     return types::DriverStatus::HAL_ERROR;
-  }
 
   SetSensorValues(0, 0, 0);
 
   SendSensitivityRegisterData(sensitivity_);
-  if (ImuConnectionFailed()) {
+  if (ImuConnectionFailed())
     return types::DriverStatus::HAL_ERROR;
-  }
 
   initialized_ = true;
   return types::DriverStatus::OK;
