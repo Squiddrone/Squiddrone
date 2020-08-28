@@ -116,8 +116,8 @@ TEST_F(GyroscopeTests, gyroscope_full) {
 }
 
 TEST_F(GyroscopeTests, gyroscope_SetSensitivity_finest) {
-  const std::vector<std::uint8_t> expected_data{imu::GYRO_CONFIG, 0b11100111};
-  EXPECT_CALL(*i2c_handler_, Write(i2c_address_, expected_data, _))
+  const std::vector<std::uint8_t> expected_data_finest{imu::GYRO_CONFIG, 0b11100111};
+  EXPECT_CALL(*i2c_handler_, Write(i2c_address_, expected_data_finest, _))
       .WillOnce(Return(types::DriverStatus::OK))
       .WillOnce(Return(types::DriverStatus::OK));
 
@@ -129,6 +129,14 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity_finest) {
 }
 
 TEST_F(GyroscopeTests, gyroscope_SetSensitivity_finer) {
+  const std::vector<std::uint8_t> expected_data_finest{imu::GYRO_CONFIG, 0b11100111};
+  const std::vector<std::uint8_t> expected_data_finer{imu::GYRO_CONFIG, 0b11101111};
+
+  EXPECT_CALL(*i2c_handler_, Write(i2c_address_, expected_data_finest, _))
+      .WillOnce(Return(types::DriverStatus::OK));
+  EXPECT_CALL(*i2c_handler_, Write(i2c_address_, expected_data_finer, _))
+      .WillOnce(Return(types::DriverStatus::OK));
+
   ConfigureUnitUnderTest();
 
   unit_under_test_->Init(i2c_address_);
@@ -137,6 +145,14 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity_finer) {
 }
 
 TEST_F(GyroscopeTests, gyroscope_SetSensitivity_rougher) {
+  const std::vector<std::uint8_t> expected_data_finest{imu::GYRO_CONFIG, 0b11100111};
+  const std::vector<std::uint8_t> expected_data_rougher{imu::GYRO_CONFIG, 0b11110111};
+
+  EXPECT_CALL(*i2c_handler_, Write(i2c_address_, expected_data_finest, _))
+      .WillOnce(Return(types::DriverStatus::OK));
+  EXPECT_CALL(*i2c_handler_, Write(i2c_address_, expected_data_rougher, _))
+      .WillOnce(Return(types::DriverStatus::OK));
+
   ConfigureUnitUnderTest();
 
   unit_under_test_->Init(i2c_address_);
@@ -145,6 +161,14 @@ TEST_F(GyroscopeTests, gyroscope_SetSensitivity_rougher) {
 }
 
 TEST_F(GyroscopeTests, gyroscope_SetSensitivity_roughest) {
+  const std::vector<std::uint8_t> expected_data_finest{imu::GYRO_CONFIG, 0b11100111};
+  const std::vector<std::uint8_t> expected_data_roughest{imu::GYRO_CONFIG, 0b11111111};
+
+  EXPECT_CALL(*i2c_handler_, Write(i2c_address_, expected_data_finest, _))
+      .WillOnce(Return(types::DriverStatus::OK));
+  EXPECT_CALL(*i2c_handler_, Write(i2c_address_, expected_data_roughest, _))
+      .WillOnce(Return(types::DriverStatus::OK));
+
   ConfigureUnitUnderTest();
 
   unit_under_test_->Init(i2c_address_);
