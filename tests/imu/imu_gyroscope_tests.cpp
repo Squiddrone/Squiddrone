@@ -116,6 +116,11 @@ TEST_F(GyroscopeTests, gyroscope_full) {
 }
 
 TEST_F(GyroscopeTests, gyroscope_SetSensitivity_finest) {
+  const std::vector<std::uint8_t> expected_data{imu::GYRO_CONFIG, 0b11100111};
+  EXPECT_CALL(*i2c_handler_, Write(i2c_address_, expected_data, _))
+      .WillOnce(Return(types::DriverStatus::OK))
+      .WillOnce(Return(types::DriverStatus::OK));
+
   ConfigureUnitUnderTest();
 
   unit_under_test_->Init(i2c_address_);
@@ -211,7 +216,7 @@ TEST_F(GyroscopeTests, gyroscope_read_bytesize_mismatch) {
 
 }  // namespace
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
