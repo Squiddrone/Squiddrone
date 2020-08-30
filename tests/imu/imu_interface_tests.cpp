@@ -10,10 +10,7 @@ namespace {
 class ImuInterfaceTests : public ::testing::Test {
  protected:
   virtual void SetUp() {
-    i2c_handler_ = std::make_unique<i2c::MOCKI2C>();
-    mock_mpu9255_ = std::make_unique<imu::MOCKMPU9255>();
-    unit_under_test_ = std::make_unique<imu::InertialMeasurement>(std::move(i2c_handler_));
-    unit_under_test_->SetImuSeam(std::move(mock_mpu9255_));
+
   }
 
   virtual void ConfigureUnitUnderTest() {
