@@ -89,7 +89,6 @@ SETUP_ALLTESTS_TARGET(
         concrete_esc_little_bee_20_a
         imu_interface
         imu_sensors_gyroscope
-        abstract_motor
         letodar_2204
         propulsion_hardware_config_type
         motor_builder
