@@ -34,4 +34,8 @@ auto InertialMeasurement::GetTemperature(void) noexcept -> int {
   return imu_->GetTemperature();
 }
 
+auto InertialMeasurement::SetImuSeam(std::unique_ptr<imu::GenericInertialMeasurementUnit> imu) noexcept -> void {
+  imu_ = std::move(imu);
+}
+
 }  // namespace imu
