@@ -1,17 +1,30 @@
+#include <gmock/gmock.h>
 #include "gtest/gtest.h"
-#include "i2c.hpp"
+#include "imu_interface.hpp"
 #include "inertial_measurement.hpp"
+#include "mock_i2c.hpp"
+#include "mock_mpu9255.hpp"
 
 namespace {
 
 class ImuInterfaceTests : public ::testing::Test {
  protected:
   virtual void SetUp() {
-    auto i2c_handler_ = std::make_unique<i2c::I2C>();
+    i2c_handler_ = std::make_unique<i2c::MOCKI2C>();
+    mock_mpu9255_ = std::make_unique<imu::MOCKMPU9255>();
     unit_under_test_ = std::make_unique<imu::InertialMeasurement>(std::move(i2c_handler_));
+    unit_under_test_->SetImuSeam(std::move(mock_mpu9255_));
   }
 
-  std::unique_ptr<i2c::I2C> i2c_handler_;
+  virtual void ConfigureUnitUnderTest() {
+    i2c_handler_ = std::make_unique<i2c::MOCKI2C>();
+    mock_mpu9255_ = std::make_unique<imu::MOCKMPU9255>();
+    unit_under_test_ = std::make_unique<imu::InertialMeasurement>(std::move(i2c_handler_));
+    unit_under_test_->SetImuSeam(std::move(mock_mpu9255_));
+  }
+
+  std::unique_ptr<i2c::MOCKI2C> i2c_handler_;
+  std::unique_ptr<imu::MOCKMPU9255> mock_mpu9255_;
   std::unique_ptr<imu::InertialMeasurement> unit_under_test_;
 };
 
