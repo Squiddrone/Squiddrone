@@ -6,7 +6,8 @@ auto InertialMeasurementSensor::Update(void) noexcept -> types::DriverStatus {
   if (!IsInitialized())
     return types::DriverStatus::HAL_ERROR;
 
-  std::vector<uint8_t> measurement_values = ReadContentFromRegister(SENSOR_DATA_REGISTER, 6);
+  const std::uint16_t REGISTER_DATA_LENGTH = 6;
+  std::vector<uint8_t> measurement_values = ReadContentFromRegister(SENSOR_DATA_REGISTER, REGISTER_DATA_LENGTH);
 
   if (ImuConnectionSuccessful()) {
     SetSensorValues(
