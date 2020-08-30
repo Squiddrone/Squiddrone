@@ -4,7 +4,7 @@
 #include "basic_types.hpp"
 #include "i2c.hpp"
 #include "imu_sensitivity.hpp"
-#include "mpu9250.hpp"
+#include "mpu9255.hpp"
 
 namespace imu {
 
@@ -31,7 +31,7 @@ class InertialMeasurementInterface {
    * @param  i2c_handler Unique pointer to I2C Handler defined by hal driver 
    * 
    */
-  explicit InertialMeasurementInterface(std::unique_ptr<i2c::I2C> i2c_handler, std::unique_ptr<imu::GenericInertialMeasurementUnit> imu) : imu_(std::move(imu)){};
+  explicit InertialMeasurementInterface(std::unique_ptr<i2c::I2CInterface> i2c_handler, std::unique_ptr<imu::GenericInertialMeasurementUnit> imu) : imu_(std::move(imu)){};
 
   /**
    * @brief Used for setting of the gyroscopes sensitivity
@@ -86,6 +86,8 @@ class InertialMeasurementInterface {
    * 
    */
   virtual auto GetTemperature(void) noexcept -> int = 0;
+
+  virtual auto SetImuSeam(std::unique_ptr<imu::GenericInertialMeasurementUnit> imu) noexcept -> void = 0;
 
  protected:
   /// Holds the local reference to generic imu
