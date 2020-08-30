@@ -5,7 +5,6 @@
 #include "mock_i2c.hpp"
 #include "mock_mpu9255.hpp"
 
-using ::testing::_;
 using ::testing::NiceMock;
 using ::testing::Return;
 
