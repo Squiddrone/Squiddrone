@@ -3,21 +3,24 @@
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
 
+using ::testing::NiceMock;
+using ::testing::Return;
+
 namespace {
 class Letodar2204Tests : public ::testing::Test {
  protected:
   Letodar2204Tests() {}
   virtual void SetUp() {
-    ON_CALL(*esc_, GetMaxPulseDurationInMicroSeconds()).WillByDefault(::testing::Return(100));
-    ON_CALL(*esc_, GetMinPulseDurationInMicroSeconds()).WillByDefault(::testing::Return(10));
-    ON_CALL(*esc_, SetPulseDuration).WillByDefault(::testing::Return(types::DriverStatus::OK));
+    ON_CALL(*esc_, GetMaxPulseDurationInMicroSeconds()).WillByDefault(Return(100));
+    ON_CALL(*esc_, GetMinPulseDurationInMicroSeconds()).WillByDefault(Return(10));
+    ON_CALL(*esc_, SetPulseDuration).WillByDefault(Return(types::DriverStatus::OK));
   }
 
   virtual void ConfigureUnitUnderTest() {
     unit_under_test_ = std::make_unique<propulsion::LeTodar2204>(std::move(esc_));
   }
 
-  std::unique_ptr<MockEsc> esc_ = std::make_unique<MockEsc>();
+  std::unique_ptr<MockEsc> esc_ = std::make_unique<NiceMock<MockEsc>>();
   std::unique_ptr<propulsion::LeTodar2204> unit_under_test_;
 };
 
@@ -46,7 +49,7 @@ TEST_F(Letodar2204Tests, set_speed_in_percent_legal_range) {
 }
 
 TEST_F(Letodar2204Tests, set_speed_in_percent_hal_error_triggered) {
-  EXPECT_CALL(*esc_, SetPulseDuration).WillOnce(::testing::Return(types::DriverStatus::HAL_ERROR));
+  EXPECT_CALL(*esc_, SetPulseDuration).WillOnce(Return(types::DriverStatus::HAL_ERROR));
   ConfigureUnitUnderTest();
   auto set_speed_return = unit_under_test_->SetSpeedInPercent(50.0);
   ASSERT_EQ(types::DriverStatus::HAL_ERROR, set_speed_return);

@@ -3,7 +3,6 @@
 
 #include "gtest/gtest.h"
 #include "motor_builder.hpp"
-#include "motor_mock.hpp"
 #include "propulsion_hardware_config_mock.hpp"
 #include "stm32g4xx_hal_tim.h"
 

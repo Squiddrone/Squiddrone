@@ -27,11 +27,11 @@ endmacro()
 
 package_add_test(euclidean_vector types/euclidean_vector_test.cpp)
 
-#package_add_test(concrete_esc_little_bee_20_a 
- #   propulsion/little_bee_20_a_test.cpp 
-  #  ${CMAKE_SOURCE_DIR}/src/propulsion/little_bee_20_a.cpp
-   # ${CMAKE_SOURCE_DIR}/tests/mock_libraries/propulsion/stm32g4xx_hal_tim.c
-#)
+package_add_test(concrete_esc_little_bee_20_a 
+    propulsion/little_bee_20_a_test.cpp 
+    ${CMAKE_SOURCE_DIR}/src/propulsion/little_bee_20_a.cpp
+    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/propulsion/stm32g4xx_hal_tim.c
+)
 
 package_add_test(letodar_2204 propulsion/letodar_2204_test.cpp
     ${CMAKE_SOURCE_DIR}/src/propulsion/letodar_2204.cpp
@@ -66,9 +66,9 @@ package_add_test(com_message_buffer
 
 package_add_test(propulsion_hardware_config_type propulsion/propulsion_hardware_config_test.cpp)
 
-#package_add_test(motor_builder propulsion/motorbuilder_test.cpp
-#    ${CMAKE_SOURCE_DIR}/src/propulsion/motor_builder.cpp
-#)
+package_add_test(motor_builder propulsion/motorbuilder_test.cpp
+    ${CMAKE_SOURCE_DIR}/src/propulsion/motor_builder.cpp
+)
 
 package_add_test(spi_interface
     spi/spi_interface_tests.cpp
@@ -79,11 +79,11 @@ SETUP_ALLTESTS_TARGET(
     EXECUTABLE GTEST_COLOR=1 GTEST_SHUFFLE=1 ctest --verbose -j ${n_cores}
     DEPENDENCIES
         euclidean_vector
-#        concrete_esc_little_bee_20_a
+        concrete_esc_little_bee_20_a
         imu_interface
-#        letodar_2204
-#        propulsion_hardware_config_type
-#        motor_builder
+        letodar_2204
+        propulsion_hardware_config_type
+        motor_builder
         com_interface
         com_message_buffer
         i2c
