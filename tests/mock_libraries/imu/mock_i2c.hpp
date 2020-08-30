@@ -1,3 +1,6 @@
+#ifndef MOCK_i2C_HPP_
+#define MOCK_i2C_HPP_
+
 #include <gmock/gmock.h>
 #include <memory>
 #include "i2c_interface.hpp"
@@ -11,3 +14,5 @@ class MOCKI2C : public I2CInterface {
   MOCK_METHOD(types::DriverStatus, Write, (std::uint8_t address, const std::vector<std::uint8_t>& data, std::uint32_t timeout), (noexcept));
 };
 }  // namespace i2c
+
+#endif
