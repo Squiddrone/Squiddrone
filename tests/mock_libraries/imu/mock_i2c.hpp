@@ -1,6 +1,5 @@
 #include <gmock/gmock.h>
 #include <memory>
-#include <tuple>
 #include "i2c_interface.hpp"
 
 namespace i2c {
