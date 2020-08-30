@@ -10,7 +10,7 @@ namespace propulsion {
 
 class MotorMock : public Motor {
  public:
-  MotorMock(std::unique_ptr<propulsion::Esc>) : Motor(nullptr) {}
+  explicit MotorMock(std::unique_ptr<propulsion::Esc>) : Motor(nullptr) {}
   MOCK_METHOD(const float, GetCurrentSpeedInPercent, (), (const, noexcept, override));
   MOCK_METHOD(types::DriverStatus, SetSpeedInPercent, (const float), (noexcept, override));
 };
