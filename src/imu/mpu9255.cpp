@@ -19,22 +19,22 @@ auto Mpu9255::GetAccelerometerSensitivity(void) noexcept -> types::ImuSensitivit
 }
 
 auto Mpu9255::GetGyroscope(void) noexcept -> types::EuclideanVector<float> {
-  types::EuclideanVector<float> value{1.5, 2.5, 3.5};
+  types::EuclideanVector<float> value{0, 0, 0};
   return value;
 }
 
 auto Mpu9255::GetAccelerometer(void) noexcept -> types::EuclideanVector<float> {
-  types::EuclideanVector<float> value{4.5, 5.5, 6.5};
+  types::EuclideanVector<float> value{0, 0, 0};
   return value;
 }
 
 auto Mpu9255::GetMagnetometer(void) noexcept -> types::EuclideanVector<float> {
-  types::EuclideanVector<float> value{7.5, 8.5, 9.5};
+  types::EuclideanVector<float> value{0, 0, 0};
   return value;
 }
 
 auto Mpu9255::GetTemperature(void) noexcept -> int {
-  return 17;
+  return 0;
 }
 
 }  // namespace imu
