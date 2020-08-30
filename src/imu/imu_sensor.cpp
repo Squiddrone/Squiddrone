@@ -24,16 +24,16 @@ auto InertialMeasurementSensor::Get(void) noexcept -> types::EuclideanVector<int
 }
 
 auto InertialMeasurementSensor::Mpu9255Detected(void) noexcept -> bool {
-  bool who_i_am_correct = false;
+  bool who_am_i_correct = false;
 
   std::vector<uint8_t> who_am_i_register_value = ReadContentFromRegister(WHO_AM_I_MPU9255_REGISTER, 1);
   if (ImuConnectionSuccessful()) {
     if (who_am_i_register_value.at(0) == WHO_AM_I_MPU9255_VALUE) {
-      who_i_am_correct = true;
+      who_am_i_correct = true;
     }
   }
 
-  return who_i_am_correct;
+  return who_am_i_correct;
 }
 
 auto InertialMeasurementSensor::ReadContentFromRegister(std::uint8_t read_from_register, std::uint16_t byte_size) noexcept -> std::vector<std::uint8_t> {
