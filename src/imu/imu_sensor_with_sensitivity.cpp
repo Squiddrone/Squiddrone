@@ -43,22 +43,22 @@ auto InertialMeasurementSensorWithSensitivity::SendSensitivityRegisterData(types
 }
 
 auto InertialMeasurementSensorWithSensitivity::GetConfigRegisterDataForSensitivity(types::ImuSensitivity sensitivity) noexcept -> std::uint8_t {
-  std::uint8_t fs_sel = 0;
+  std::uint8_t full_scale_select = 0;
 
   if (sensitivity == types::ImuSensitivity::FINEST) {
-    fs_sel = imu::ImuSensitivityFSSelect::IMU_FS_FINEST;
+    full_scale_select = imu::ImuSensitivityFSSelect::IMU_FS_FINEST;
   } else if (sensitivity == types::ImuSensitivity::FINER) {
-    fs_sel = imu::ImuSensitivityFSSelect::IMU_FS_FINER;
+    full_scale_select = imu::ImuSensitivityFSSelect::IMU_FS_FINER;
   } else if (sensitivity == types::ImuSensitivity::ROUGHER) {
-    fs_sel = imu::ImuSensitivityFSSelect::IMU_FS_ROUGHER;
+    full_scale_select = imu::ImuSensitivityFSSelect::IMU_FS_ROUGHER;
   } else if (sensitivity == types::ImuSensitivity::ROUGHEST) {
-    fs_sel = imu::ImuSensitivityFSSelect::IMU_FS_ROUGHEST;
+    full_scale_select = imu::ImuSensitivityFSSelect::IMU_FS_ROUGHEST;
   }
 
   std::vector<uint8_t> config_data;
   config_data = ReadContentFromRegister(CONFIG_REGISTER, 1);
 
-  return static_cast<std::uint8_t>(config_data.at(0) & (0b11100111 | (fs_sel << 3)));
+  return static_cast<std::uint8_t>(config_data.at(0) & (0b11100111 | (full_scale_select << 3)));
 }
 
 auto InertialMeasurementSensorWithSensitivity::GetSensitivity(void) noexcept -> types::ImuSensitivity {
