@@ -29,7 +29,7 @@ class ImuInterfaceTests : public ::testing::Test {
 
   virtual void ConfigureUnitUnderTest() {
     unit_under_test_ = std::make_unique<imu::InertialMeasurement>(std::move(i2c_handler_));
-    unit_under_test_->SetImuSeam(std::move(mock_mpu9255_));
+    unit_under_test_->UnitTestSetImuSeam(std::move(mock_mpu9255_));
   }
 
   std::unique_ptr<i2c::MOCKI2C> i2c_handler_ = std::make_unique<NiceMock<i2c::MOCKI2C>>();

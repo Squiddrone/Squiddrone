@@ -87,7 +87,7 @@ class InertialMeasurementInterface {
    */
   virtual auto GetTemperature(void) noexcept -> int = 0;
 
-  virtual auto SetImuSeam(std::unique_ptr<imu::GenericInertialMeasurementUnit> imu) noexcept -> void = 0;
+  virtual auto UnitTestSetImuSeam(std::unique_ptr<imu::GenericInertialMeasurementUnit> imu) noexcept -> void = 0;
 
  protected:
   /// Holds the local reference to generic imu

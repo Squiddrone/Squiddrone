@@ -29,7 +29,7 @@ class InertialMeasurement final : public InertialMeasurementInterface {
   auto GetAccelerometer(void) noexcept -> types::EuclideanVector<float> override;
   auto GetMagnetometer(void) noexcept -> types::EuclideanVector<float> override;
   auto GetTemperature(void) noexcept -> int override;
-  auto SetImuSeam(std::unique_ptr<imu::GenericInertialMeasurementUnit> imu) noexcept -> void override;
+  auto UnitTestSetImuSeam(std::unique_ptr<imu::GenericInertialMeasurementUnit> imu) noexcept -> void override;
 };
 
 }  // namespace imu
