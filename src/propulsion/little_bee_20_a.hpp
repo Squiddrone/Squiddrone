@@ -79,7 +79,7 @@ class LittleBee20A final : public Esc {
    *         types::DriverStatus::HAL_ERROR if an error occured
    * 
    */
-  const auto ConfigureTimer() noexcept -> types::DriverStatus;
+  auto ConfigureTimer() noexcept -> const types::DriverStatus;
 
   /**
    * @brief Set Oneshot125 pulse and period
@@ -92,7 +92,7 @@ class LittleBee20A final : public Esc {
    *         types::DriverStatus::HAL_ERROR if an error occured
    * 
    */
-  const auto SetPwm(std::uint32_t period, std::uint32_t pulse) const noexcept -> types::DriverStatus;
+  auto SetPwm(std::uint32_t period, std::uint32_t pulse) const noexcept -> const types::DriverStatus;
 
   bool timer_is_configured_;
 };

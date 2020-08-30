@@ -16,69 +16,69 @@ class ImuInterfaceTests : public ::testing::Test {
 };
 
 TEST_F(ImuInterfaceTests, interface_set_gyroscope_sensitivity_finest) {
-  auto sensitivity = types::GyroscopeSensitivity::FINEST;
+  auto sensitivity = types::ImuSensitivity::FINEST;
   unit_under_test_->SetGyroscopeSensitivity(sensitivity);
   auto gyroscope_sensitivity_return = unit_under_test_->GetGyroscopeSensitivity();
   EXPECT_EQ(gyroscope_sensitivity_return, sensitivity);
 }
 
 TEST_F(ImuInterfaceTests, interface_set_gyroscope_sensitivity_finer) {
-  auto sensitivity = types::GyroscopeSensitivity::FINER;
+  auto sensitivity = types::ImuSensitivity::FINER;
   unit_under_test_->SetGyroscopeSensitivity(sensitivity);
   auto gyroscope_sensitivity_return = unit_under_test_->GetGyroscopeSensitivity();
   EXPECT_EQ(gyroscope_sensitivity_return, sensitivity);
 }
 
 TEST_F(ImuInterfaceTests, interface_set_gyroscope_sensitivity_rougher) {
-  auto sensitivity = types::GyroscopeSensitivity::ROUGHER;
+  auto sensitivity = types::ImuSensitivity::ROUGHER;
   unit_under_test_->SetGyroscopeSensitivity(sensitivity);
   auto gyroscope_sensitivity_return = unit_under_test_->GetGyroscopeSensitivity();
   EXPECT_EQ(gyroscope_sensitivity_return, sensitivity);
 }
 
 TEST_F(ImuInterfaceTests, interface_set_gyroscope_sensitivity_roughest) {
-  auto sensitivity = types::GyroscopeSensitivity::ROUGHEST;
+  auto sensitivity = types::ImuSensitivity::ROUGHEST;
   unit_under_test_->SetGyroscopeSensitivity(sensitivity);
   auto gyroscope_sensitivity_return = unit_under_test_->GetGyroscopeSensitivity();
   EXPECT_EQ(gyroscope_sensitivity_return, sensitivity);
 }
 
 TEST_F(ImuInterfaceTests, interface_get_gyroscope_sensitivity_default) {
-  auto sensitivity = types::GyroscopeSensitivity::FINEST;
+  auto sensitivity = types::ImuSensitivity::FINEST;
   auto gyroscope_sensitivity_return = unit_under_test_->GetGyroscopeSensitivity();
   EXPECT_EQ(gyroscope_sensitivity_return, sensitivity);
 }
 
 TEST_F(ImuInterfaceTests, interface_set_accelerometer_sensitivity_finest) {
-  auto sensitivity = types::AccelerometerSensitivity::FINEST;
+  auto sensitivity = types::ImuSensitivity::FINEST;
   unit_under_test_->SetAccelerometerSensitivity(sensitivity);
   auto accelerometer_sensitivity_return = unit_under_test_->GetAccelerometerSensitivity();
   EXPECT_EQ(accelerometer_sensitivity_return, sensitivity);
 }
 
 TEST_F(ImuInterfaceTests, interface_set_accelerometer_sensitivity_finer) {
-  auto sensitivity = types::AccelerometerSensitivity::FINER;
+  auto sensitivity = types::ImuSensitivity::FINER;
   unit_under_test_->SetAccelerometerSensitivity(sensitivity);
   auto accelerometer_sensitivity_return = unit_under_test_->GetAccelerometerSensitivity();
   EXPECT_EQ(accelerometer_sensitivity_return, sensitivity);
 }
 
 TEST_F(ImuInterfaceTests, interface_set_accelerometer_sensitivity_rougher) {
-  auto sensitivity = types::AccelerometerSensitivity::ROUGHER;
+  auto sensitivity = types::ImuSensitivity::ROUGHER;
   unit_under_test_->SetAccelerometerSensitivity(sensitivity);
   auto accelerometer_sensitivity_return = unit_under_test_->GetAccelerometerSensitivity();
   EXPECT_EQ(accelerometer_sensitivity_return, sensitivity);
 }
 
 TEST_F(ImuInterfaceTests, interface_set_accelerometer_sensitivity_roughest) {
-  auto sensitivity = types::AccelerometerSensitivity::ROUGHEST;
+  auto sensitivity = types::ImuSensitivity::ROUGHEST;
   unit_under_test_->SetAccelerometerSensitivity(sensitivity);
   auto accelerometer_sensitivity_return = unit_under_test_->GetAccelerometerSensitivity();
   EXPECT_EQ(accelerometer_sensitivity_return, sensitivity);
 }
 
 TEST_F(ImuInterfaceTests, interface_get_accelerometer_sensitivity_default) {
-  auto sensitivity = types::AccelerometerSensitivity::FINEST;
+  auto sensitivity = types::ImuSensitivity::FINEST;
   auto accelerometer_sensitivity_return = unit_under_test_->GetAccelerometerSensitivity();
   EXPECT_EQ(accelerometer_sensitivity_return, sensitivity);
 }

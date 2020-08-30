@@ -12,9 +12,10 @@ class I2CTests : public ::testing::Test {
 
   std::unique_ptr<i2c::I2C> unit_under_test_;
 
-  uint8_t address = 0x10;
-  uint16_t byte_size = 3;
-  uint32_t timeout = 2;
+  std::uint8_t address = 0x10;
+  std::uint16_t byte_size = 3;
+  std::uint32_t timeout = 2;
+  std::uint8_t register_ = 0x10;
   std::vector<uint8_t> data = {1, 2};
 
   types::DriverStatus result_status;
@@ -138,6 +139,37 @@ TEST_F(I2CTests, write_address_out_of_range_0x78) {
 
   EXPECT_EQ(result_status, types::DriverStatus::INPUT_ERROR);
 }
+
+TEST_F(I2CTests, read_register_content_OK) {
+  address = 0x14;
+  types::DriverStatus result_status;
+  std::vector<uint8_t> content_of_register;
+  std::tie(result_status, content_of_register) = unit_under_test_->ReadContentFromRegister(address, register_, 4, timeout);
+
+  EXPECT_EQ(result_status, types::DriverStatus::OK);
+  EXPECT_THAT(content_of_register, testing::ElementsAre(5, 5, 6, 7));
+}
+
+TEST_F(I2CTests, read_register_content_wrong_address) {
+  address = 0x78;
+
+  types::DriverStatus result_status;
+  std::vector<uint8_t> content_of_register;
+  std::tie(result_status, content_of_register) = unit_under_test_->ReadContentFromRegister(address, register_, 1, timeout);
+
+  EXPECT_EQ(result_status, types::DriverStatus::INPUT_ERROR);
+}
+
+TEST_F(I2CTests, read_register_content_invalid_register) {
+  address = 0x15;
+  register_ = 0x15;
+  types::DriverStatus result_status;
+  std::vector<uint8_t> content_of_register;
+  std::tie(result_status, content_of_register) = unit_under_test_->ReadContentFromRegister(address, register_, 1, timeout);
+
+  EXPECT_EQ(result_status, types::DriverStatus::HAL_ERROR);
+}
+
 }  // namespace
 
 int main(int argc, char **argv) {
