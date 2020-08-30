@@ -10,6 +10,7 @@ namespace imu {
 
 class GenericInertialMeasurementUnit {
  public:
+  GenericInertialMeasurementUnit() = delete;
   virtual ~GenericInertialMeasurementUnit() = default;
   explicit GenericInertialMeasurementUnit(std::unique_ptr<i2c::I2CInterface> i2c_handler) : i2c_handler_(std::move(i2c_handler)) {}
   virtual void SetGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept = 0;
