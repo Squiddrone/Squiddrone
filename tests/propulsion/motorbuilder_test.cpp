@@ -1,7 +1,9 @@
 #include <memory>
+#include <type_traits>
 #include <utility>
 
 #include "gtest/gtest.h"
+#include "letodar_2204_mock.hpp"
 #include "motor_builder.hpp"
 #include "propulsion_hardware_config_mock.hpp"
 #include "stm32g4xx_hal_tim.h"
@@ -22,9 +24,11 @@ class MotorBuilderTest : public ::testing::Test {
   TIM_HandleTypeDef timer;
 };
 
+//The dynamic upcast is used as a way of having the python function instanceof
 TEST_F(MotorBuilderTest, creates_correct_object) {
   auto motor_object = propulsion::MotorBuilder::Create(config);
-  ASSERT_EQ(motor_object->is_created_, true);
+  auto upcast_object_pointer = dynamic_cast<propulsion::Motor *>(motor_object.get());
+  ASSERT_TRUE(upcast_object_pointer != nullptr);
 }
 
 TEST_F(MotorBuilderTest, channel_is_not_in_allowed_channels) {
