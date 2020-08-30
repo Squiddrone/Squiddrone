@@ -80,6 +80,11 @@ package_add_test(imu_sensors_gyroscope
     ${CMAKE_SOURCE_DIR}/tests/imu/imu_gyroscope_tests.cpp
 )
 
+package_add_test(imu_mpu9255
+    ${CMAKE_SOURCE_DIR}/src/imu/mpu9255.cpp
+    ${CMAKE_SOURCE_DIR}/tests/imu/imu_mpu9255_tests.cpp
+)
+
 SETUP_ALLTESTS_TARGET(
     NAME all_tests                 
     EXECUTABLE GTEST_COLOR=1 GTEST_REPEAT=3 GTEST_SHUFFLE=1 ctest --verbose -j ${n_cores}
@@ -97,6 +102,7 @@ SETUP_ALLTESTS_TARGET(
         com_message_buffer
         i2c
         spi_interface
+        imu_mpu9255
 )
 
 if(CODE_COVERAGE)
