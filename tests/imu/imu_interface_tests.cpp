@@ -19,11 +19,11 @@ class ImuInterfaceTests : public ::testing::Test {
     ON_CALL(*mock_mpu9255_, GetAccelerometerSensitivity)
         .WillByDefault(Return(types::ImuSensitivity::FINEST));
     ON_CALL(*mock_mpu9255_, GetGyroscope)
-        .WillByDefault(Return(gyroscope));
+        .WillByDefault(Return(sensor_values_gyroscope));
     ON_CALL(*mock_mpu9255_, GetAccelerometer)
-        .WillByDefault(Return(gyroscope));
+        .WillByDefault(Return(sensor_values_accelerometer));
     ON_CALL(*mock_mpu9255_, GetMagnetometer)
-        .WillByDefault(Return(gyroscope));
+        .WillByDefault(Return(sensor_values_magnetometer));
     ON_CALL(*mock_mpu9255_, GetTemperature)
         .WillByDefault(Return(17));
   }
@@ -34,12 +34,17 @@ class ImuInterfaceTests : public ::testing::Test {
   }
 
   std::unique_ptr<i2c::MOCKI2C> i2c_handler_ = std::make_unique<NiceMock<i2c::MOCKI2C>>();
-  std::unique_ptr<imu::MOCKMPU9255> mock_mpu9255_ = std::make_unique<imu::MOCKMPU9255>();
+  std::unique_ptr<imu::MOCKMPU9255> mock_mpu9255_ = std::make_unique<NiceMock<imu::MOCKMPU9255>>();
   std::unique_ptr<imu::InertialMeasurement> unit_under_test_;
-  types::EuclideanVector<float> gyroscope{1.5, 2.5, 3.5};
+  types::EuclideanVector<float> sensor_values_gyroscope{1.5, 2.5, 3.5};
+  types::EuclideanVector<float> sensor_values_accelerometer{4.5, 5.5, 6.5};
+  types::EuclideanVector<float> sensor_values_magnetometer{7.5, 8.5, 9.5};
 };
 
 TEST_F(ImuInterfaceTests, interface_set_gyroscope_sensitivity_finest) {
+  ON_CALL(*mock_mpu9255_, GetGyroscopeSensitivity)
+      .WillByDefault(Return(types::ImuSensitivity::FINEST));
+
   ConfigureUnitUnderTest();
 
   auto sensitivity = types::ImuSensitivity::FINEST;
@@ -49,6 +54,9 @@ TEST_F(ImuInterfaceTests, interface_set_gyroscope_sensitivity_finest) {
 }
 
 TEST_F(ImuInterfaceTests, interface_set_gyroscope_sensitivity_finer) {
+  ON_CALL(*mock_mpu9255_, GetGyroscopeSensitivity)
+      .WillByDefault(Return(types::ImuSensitivity::FINER));
+
   ConfigureUnitUnderTest();
 
   auto sensitivity = types::ImuSensitivity::FINER;
@@ -58,6 +66,9 @@ TEST_F(ImuInterfaceTests, interface_set_gyroscope_sensitivity_finer) {
 }
 
 TEST_F(ImuInterfaceTests, interface_set_gyroscope_sensitivity_rougher) {
+  ON_CALL(*mock_mpu9255_, GetGyroscopeSensitivity)
+      .WillByDefault(Return(types::ImuSensitivity::ROUGHER));
+
   ConfigureUnitUnderTest();
 
   auto sensitivity = types::ImuSensitivity::ROUGHER;
@@ -67,6 +78,9 @@ TEST_F(ImuInterfaceTests, interface_set_gyroscope_sensitivity_rougher) {
 }
 
 TEST_F(ImuInterfaceTests, interface_set_gyroscope_sensitivity_roughest) {
+  ON_CALL(*mock_mpu9255_, GetGyroscopeSensitivity)
+      .WillByDefault(Return(types::ImuSensitivity::ROUGHEST));
+
   ConfigureUnitUnderTest();
 
   auto sensitivity = types::ImuSensitivity::ROUGHEST;
@@ -84,6 +98,9 @@ TEST_F(ImuInterfaceTests, interface_get_gyroscope_sensitivity_default) {
 }
 
 TEST_F(ImuInterfaceTests, interface_set_accelerometer_sensitivity_finest) {
+  ON_CALL(*mock_mpu9255_, GetAccelerometerSensitivity)
+      .WillByDefault(Return(types::ImuSensitivity::FINEST));
+
   ConfigureUnitUnderTest();
 
   auto sensitivity = types::ImuSensitivity::FINEST;
@@ -93,6 +110,9 @@ TEST_F(ImuInterfaceTests, interface_set_accelerometer_sensitivity_finest) {
 }
 
 TEST_F(ImuInterfaceTests, interface_set_accelerometer_sensitivity_finer) {
+  ON_CALL(*mock_mpu9255_, GetAccelerometerSensitivity)
+      .WillByDefault(Return(types::ImuSensitivity::FINER));
+
   ConfigureUnitUnderTest();
 
   auto sensitivity = types::ImuSensitivity::FINER;
@@ -102,6 +122,9 @@ TEST_F(ImuInterfaceTests, interface_set_accelerometer_sensitivity_finer) {
 }
 
 TEST_F(ImuInterfaceTests, interface_set_accelerometer_sensitivity_rougher) {
+  ON_CALL(*mock_mpu9255_, GetAccelerometerSensitivity)
+      .WillByDefault(Return(types::ImuSensitivity::ROUGHER));
+
   ConfigureUnitUnderTest();
 
   auto sensitivity = types::ImuSensitivity::ROUGHER;
@@ -111,6 +134,9 @@ TEST_F(ImuInterfaceTests, interface_set_accelerometer_sensitivity_rougher) {
 }
 
 TEST_F(ImuInterfaceTests, interface_set_accelerometer_sensitivity_roughest) {
+  ON_CALL(*mock_mpu9255_, GetAccelerometerSensitivity)
+      .WillByDefault(Return(types::ImuSensitivity::ROUGHEST));
+
   ConfigureUnitUnderTest();
 
   auto sensitivity = types::ImuSensitivity::ROUGHEST;
