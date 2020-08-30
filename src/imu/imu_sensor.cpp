@@ -59,7 +59,7 @@ auto InertialMeasurementSensor::ImuConnectionSuccessful(void) noexcept -> bool {
 }
 
 auto InertialMeasurementSensor::ImuConnectionFailed(void) noexcept -> bool {
-  return imu_status_ != types::DriverStatus::OK;
+  return !ImuConnectionSuccessful();
 }
 
 auto InertialMeasurementSensor::SetI2CAdress(std::uint8_t i2c_address) noexcept -> void {
