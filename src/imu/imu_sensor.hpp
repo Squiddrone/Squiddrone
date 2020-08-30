@@ -27,6 +27,8 @@ class InertialMeasurementSensor {
   auto ConvertUint8BytesIntoInt16SensorValue(std::uint8_t first_byte, std::uint8_t second_byte) noexcept -> std::int16_t;
   auto IsInitialized(void) noexcept -> bool;
   auto SetSensorValues(std::int16_t x, std::int16_t y, std::int16_t z) noexcept -> void;
+  auto SetBit(std::uint8_t byte, std::uint8_t bit_number) noexcept -> std::uint8_t;
+  auto ClearBit(std::uint8_t byte, std::uint8_t bit_number) noexcept -> std::uint8_t;
 
   types::EuclideanVector<std::int16_t> sensor_values_{-1, -1, -1};
   std::unique_ptr<i2c::I2CInterface> i2c_handler_;
@@ -35,13 +37,6 @@ class InertialMeasurementSensor {
   types::DriverStatus imu_status_ = types::DriverStatus::HAL_ERROR;
   std::uint8_t SENSOR_DATA_REGISTER = 0;
   std::uint8_t CONFIG_REGISTER = 0;
-};
-
-enum ImuSensitivityFSSelect : std::uint8_t {
-  IMU_FS_FINEST,
-  IMU_FS_FINER,
-  IMU_FS_ROUGHER,
-  IMU_FS_ROUGHEST,
 };
 
 }  // namespace imu

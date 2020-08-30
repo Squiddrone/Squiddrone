@@ -80,4 +80,12 @@ auto InertialMeasurementSensor::SetSensorValues(std::int16_t x, std::int16_t y, 
   sensor_values_.z = z;
 }
 
+auto InertialMeasurementSensor::SetBit(std::uint8_t byte, std::uint8_t bit_number) noexcept -> std::uint8_t {
+  return byte | 1 << bit_number;
+}
+
+auto InertialMeasurementSensor::ClearBit(std::uint8_t byte, std::uint8_t bit_number) noexcept -> std::uint8_t {
+  return byte & ~SetBit(0, bit_number);
+}
+
 }  // namespace imu
