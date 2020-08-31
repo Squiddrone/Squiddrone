@@ -62,6 +62,20 @@ TEST_F(UtilityByteTests, byte_init_0_set_three_bits) {
   EXPECT_EQ(0b00101001, unit_under_test_->Get());
 }
 
+TEST_F(UtilityByteTests, byte_init_0_set_three_bits_clear_one) {
+  unit_under_test_ = std::make_unique<utilities::Byte>(0);
+
+  unit_under_test_->SetBit(0);
+  unit_under_test_->SetBit(3);
+  unit_under_test_->SetBit(5);
+
+  EXPECT_EQ(0b00101001, unit_under_test_->Get());
+
+  unit_under_test_->ClearBit(3);
+
+  EXPECT_EQ(0b00100001, unit_under_test_->Get());
+}
+
 }  // namespace
 
 int main(int argc, char** argv) {

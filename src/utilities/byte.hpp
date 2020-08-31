@@ -13,8 +13,11 @@ class Byte {
   Byte(std::uint8_t byte) : byte_(byte){};
   auto Get(void) noexcept -> std::uint8_t;
   auto SetBit(std::uint8_t bit_number_between_0_and_7) noexcept -> void;
+  auto ClearBit(std::uint8_t bit_number_between_0_and_7) noexcept -> void;
 
  private:
+  auto SetBitInByte(std::uint8_t byte, std::uint8_t bit_number_between_0_and_7) noexcept -> std::uint8_t;
+
   std::uint8_t byte_ = 0;
 };
 
