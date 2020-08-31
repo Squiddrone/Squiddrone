@@ -11,8 +11,8 @@ class Letodar2204Tests : public ::testing::Test {
  protected:
   Letodar2204Tests() {}
   virtual void SetUp() {
-    ON_CALL(*esc_, GetMaxPulseDurationInMicroSeconds()).WillByDefault(Return(100));
-    ON_CALL(*esc_, GetMinPulseDurationInMicroSeconds()).WillByDefault(Return(10));
+    ON_CALL(*esc_, GetMaxPulseDurationInMicroSeconds).WillByDefault(Return(100));
+    ON_CALL(*esc_, GetMinPulseDurationInMicroSeconds).WillByDefault(Return(10));
     ON_CALL(*esc_, SetPulseDuration).WillByDefault(Return(types::DriverStatus::OK));
   }
 
