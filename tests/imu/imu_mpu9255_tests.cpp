@@ -18,7 +18,7 @@ class Mpu9255Tests : public ::testing::Test {
     unit_under_test_ = std::make_unique<imu::Mpu9255>(std::move(i2c_handler_));
   }
 
-  std::unique_ptr<i2c::MOCKI2C> i2c_handler_ = std::make_unique<NiceMock<i2c::MOCKI2C>>();
+  std::unique_ptr<i2c::MockI2C> i2c_handler_ = std::make_unique<NiceMock<i2c::MockI2C>>();
   std::unique_ptr<imu::Mpu9255> unit_under_test_;
 };
 

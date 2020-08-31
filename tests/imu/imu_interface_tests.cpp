@@ -32,7 +32,7 @@ class ImuInterfaceTests : public ::testing::Test {
     unit_under_test_->UnitTestSetImuSeam(std::move(mock_mpu9255_));
   }
 
-  std::unique_ptr<i2c::MOCKI2C> i2c_handler_ = std::make_unique<NiceMock<i2c::MOCKI2C>>();
+  std::unique_ptr<i2c::MockI2C> i2c_handler_ = std::make_unique<NiceMock<i2c::MockI2C>>();
   std::unique_ptr<imu::MOCKMPU9255> mock_mpu9255_ = std::make_unique<NiceMock<imu::MOCKMPU9255>>();
   std::unique_ptr<imu::InertialMeasurement> unit_under_test_;
   types::EuclideanVector<float> sensor_values_gyroscope{1.5, 2.5, 3.5};
