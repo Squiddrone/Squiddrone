@@ -26,7 +26,6 @@ macro(package_add_test TESTNAME)
 endmacro()
 
 package_add_test(euclidean_vector types/euclidean_vector_test.cpp)
-package_add_test(abstract_esc propulsion/esc_test.cpp)
 
 package_add_test(concrete_esc_little_bee_20_a 
     propulsion/little_bee_20_a_test.cpp 
@@ -34,10 +33,8 @@ package_add_test(concrete_esc_little_bee_20_a
     ${CMAKE_SOURCE_DIR}/tests/mock_libraries/propulsion/stm32g4xx_hal_tim.c
 )
 
-package_add_test(abstract_motor propulsion/motor_test.cpp)
 package_add_test(letodar_2204 propulsion/letodar_2204_test.cpp
     ${CMAKE_SOURCE_DIR}/src/propulsion/letodar_2204.cpp
-    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/propulsion/esc_mock.cpp
 )
 
 package_add_test(imu_interface 
@@ -90,11 +87,9 @@ SETUP_ALLTESTS_TARGET(
     EXECUTABLE GTEST_COLOR=1 GTEST_REPEAT=3 GTEST_SHUFFLE=1 ctest --verbose -j ${n_cores}
     DEPENDENCIES
         euclidean_vector
-        abstract_esc
         concrete_esc_little_bee_20_a
         imu_interface
         imu_sensors_gyroscope
-        abstract_motor
         letodar_2204
         propulsion_hardware_config_type
         motor_builder
