@@ -7,10 +7,10 @@ namespace utilities {
 
 class Byte {
  public:
+  Byte() = delete;
   ~Byte() = default;
 
-  Byte(){};
-  Byte(std::uint8_t byte) : byte_(byte){};
+  explicit Byte(std::uint8_t byte) : byte_(byte){};
   auto Get(void) noexcept -> std::uint8_t;
   auto SetBit(std::uint8_t bit_number_between_0_and_7) noexcept -> void;
   auto ClearBit(std::uint8_t bit_number_between_0_and_7) noexcept -> void;
