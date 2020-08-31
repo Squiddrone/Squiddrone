@@ -2,7 +2,7 @@
 
 namespace utilities {
 
-auto Byte::Get(void) noexcept -> std ::uint8_t {
+auto Byte::Get(void) noexcept -> std::uint8_t {
   return byte_;
 }
 

@@ -11,7 +11,7 @@ class Byte {
 
   Byte(){};
   Byte(std::uint8_t byte) : byte_(byte){};
-  auto Get(void) noexcept -> std ::uint8_t;
+  auto Get(void) noexcept -> std::uint8_t;
 
  private:
   std::uint8_t byte_ = 0;
