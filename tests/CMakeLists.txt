@@ -40,14 +40,10 @@ package_add_test(letodar_2204 propulsion/letodar_2204_test.cpp
     ${CMAKE_SOURCE_DIR}/tests/mock_libraries/propulsion/esc_mock.cpp
 )
 
-
 package_add_test(imu_interface 
     imu/imu_interface_tests.cpp
     ${CMAKE_SOURCE_DIR}/src/imu/inertial_measurement.cpp
-    ${CMAKE_SOURCE_DIR}/src/i2c/i2c.cpp
-    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu/mpu9250.cpp
-    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/stm32g4xx_hal.c
-    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/i2c_config.c
+    ${CMAKE_SOURCE_DIR}/src/imu/mpu9255.cpp
 )
 
 package_add_test(i2c
@@ -84,6 +80,11 @@ package_add_test(imu_sensors_gyroscope
     ${CMAKE_SOURCE_DIR}/tests/imu/imu_gyroscope_tests.cpp
 )
 
+package_add_test(imu_mpu9255
+    ${CMAKE_SOURCE_DIR}/src/imu/mpu9255.cpp
+    ${CMAKE_SOURCE_DIR}/tests/imu/imu_mpu9255_tests.cpp
+)
+
 SETUP_ALLTESTS_TARGET(
     NAME all_tests                 
     EXECUTABLE GTEST_COLOR=1 GTEST_REPEAT=3 GTEST_SHUFFLE=1 ctest --verbose -j ${n_cores}
@@ -101,6 +102,7 @@ SETUP_ALLTESTS_TARGET(
         com_message_buffer
         i2c
         spi_interface
+        imu_mpu9255
 )
 
 if(CODE_COVERAGE)

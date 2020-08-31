@@ -1,15 +1,15 @@
-#ifndef SRC_MPU9250_HPP_
-#define SRC_MPU9250_HPP_
+#ifndef SRC_MPU9255_HPP_
+#define SRC_MPU9255_HPP_
 
 #include "generic_imu.hpp"
 
 namespace imu {
 
-class Mpu9250 final : public GenericInertialMeasurementUnit {
+class Mpu9255 final : public GenericInertialMeasurementUnit {
  public:
-  Mpu9250() = delete;
-  ~Mpu9250() = default;
-  explicit Mpu9250(std::unique_ptr<i2c::I2C> i2c_handler) : GenericInertialMeasurementUnit(std::move(i2c_handler)) {}
+  Mpu9255() = delete;
+  virtual ~Mpu9255() = default;
+  explicit Mpu9255(std::unique_ptr<i2c::I2CInterface> i2c_handler) : GenericInertialMeasurementUnit(std::move(i2c_handler)) {}
   void SetGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept override;
   auto GetGyroscopeSensitivity(void) noexcept -> types::ImuSensitivity override;
   void SetAccelerometerSensitivity(types::ImuSensitivity accelerometer_sensitivity) noexcept override;

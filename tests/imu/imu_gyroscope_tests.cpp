@@ -30,7 +30,7 @@ class GyroscopeTests : public ::testing::Test {
   }
 
   uint8_t i2c_address_ = 0x68;
-  std::unique_ptr<i2c::MOCKI2C> i2c_handler_ = std::make_unique<NiceMock<i2c::MOCKI2C>>();
+  std::unique_ptr<i2c::MockI2C> i2c_handler_ = std::make_unique<NiceMock<i2c::MockI2C>>();
   std::unique_ptr<imu::Gyroscope> unit_under_test_;
 
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_who_am_i{
