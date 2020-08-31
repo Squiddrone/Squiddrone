@@ -87,6 +87,11 @@ class InertialMeasurementInterface {
    */
   virtual auto GetTemperature(void) noexcept -> int = 0;
 
+  /**
+  * @brief Only used for Unittests, to be able to inject a Mock Object
+  * 
+  * @param imu Unique Pointer to Mock Object
+  */
   virtual auto UnitTestSetImuSeam(std::unique_ptr<imu::GenericInertialMeasurementUnit> imu) noexcept -> void = 0;
 
  protected:
