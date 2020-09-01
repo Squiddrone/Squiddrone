@@ -1,4 +1,5 @@
 #include "imu_sensor_with_sensitivity.hpp"
+#include "utilities/byte.hpp"
 
 namespace imu {
 
@@ -43,23 +44,23 @@ auto InertialMeasurementSensorWithSensitivity::SendSensitivityRegisterData(types
 }
 
 auto InertialMeasurementSensorWithSensitivity::GetConfigRegisterDataForSensitivity(types::ImuSensitivity sensitivity) noexcept -> std::uint8_t {
-  std::uint8_t config_data = ReadContentFromRegister(CONFIG_REGISTER, 1).at(0);
+  utilities::Byte config_data(ReadContentFromRegister(CONFIG_REGISTER, 1).at(0));
 
   if (sensitivity == types::ImuSensitivity::FINEST) {
-    config_data = ClearBit(config_data, 3);
-    config_data = ClearBit(config_data, 4);
+    config_data.ClearBit(3);
+    config_data.ClearBit(4);
   } else if (sensitivity == types::ImuSensitivity::FINER) {
-    config_data = SetBit(config_data, 3);
-    config_data = ClearBit(config_data, 4);
+    config_data.SetBit(3);
+    config_data.ClearBit(4);
   } else if (sensitivity == types::ImuSensitivity::ROUGHER) {
-    config_data = ClearBit(config_data, 3);
-    config_data = SetBit(config_data, 4);
+    config_data.ClearBit(3);
+    config_data.SetBit(4);
   } else if (sensitivity == types::ImuSensitivity::ROUGHEST) {
-    config_data = SetBit(config_data, 3);
-    config_data = SetBit(config_data, 4);
+    config_data.SetBit(3);
+    config_data.SetBit(4);
   }
 
-  return config_data;
+  return config_data.Get();
 }
 
 auto InertialMeasurementSensorWithSensitivity::GetSensitivity(void) noexcept -> types::ImuSensitivity {

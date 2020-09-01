@@ -14,6 +14,7 @@ macro(package_add_test TESTNAME)
             ${CMAKE_SOURCE_DIR}/src/imu
             ${CMAKE_SOURCE_DIR}/src/i2c
             ${CMAKE_SOURCE_DIR}/src/spi
+            ${CMAKE_SOURCE_DIR}/src/utilities
             ${CMAKE_SOURCE_DIR}/tests/mock_libraries/com
             ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu
             ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c
@@ -75,6 +76,10 @@ package_add_test(imu_sensors_gyroscope
     ${CMAKE_SOURCE_DIR}/src/imu/imu_sensor_with_sensitivity.cpp
     ${CMAKE_SOURCE_DIR}/src/imu/gyroscope.cpp
     ${CMAKE_SOURCE_DIR}/tests/imu/imu_gyroscope_tests.cpp
+)
+
+package_add_test(utilities_byte
+    ${CMAKE_SOURCE_DIR}/tests/utilities/utilities_byte_tests.cpp
 )
 
 package_add_test(imu_mpu9255
