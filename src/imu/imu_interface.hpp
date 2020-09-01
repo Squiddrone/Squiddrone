@@ -1,11 +1,10 @@
 #ifndef SRC_IMU_INTERFACE_HPP_
 #define SRC_IMU_INTERFACE_HPP_
 
-#include "accelerometer_sensitivity.hpp"
 #include "basic_types.hpp"
-#include "gyroscope_sensitivity.hpp"
 #include "i2c.hpp"
-#include "mpu9250.hpp"
+#include "imu_sensitivity.hpp"
+#include "mpu9255.hpp"
 
 namespace imu {
 
@@ -32,33 +31,33 @@ class InertialMeasurementInterface {
    * @param  i2c_handler Unique pointer to I2C Handler defined by hal driver 
    * 
    */
-  explicit InertialMeasurementInterface(std::unique_ptr<i2c::I2C> i2c_handler, std::unique_ptr<imu::GenericInertialMeasurementUnit> imu) : imu_(std::move(imu)){};
+  explicit InertialMeasurementInterface(std::unique_ptr<i2c::I2CInterface> i2c_handler, std::unique_ptr<imu::GenericInertialMeasurementUnit> imu) : imu_(std::move(imu)){};
 
   /**
    * @brief Used for setting of the gyroscopes sensitivity
    * 
    */
-  virtual void SetGyroscopeSensitivity(types::GyroscopeSensitivity gyroscope_sensitivity) noexcept = 0;
+  virtual void SetGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept = 0;
 
   /**
    * @brief Used for reading the gyroscopes sensitivity
-   * @return Gyroscopes sensitivity as types::GyroscopeSensitivity
+   * @return Gyroscopes sensitivity as types::ImuSensitivity
    * 
    */
-  virtual auto GetGyroscopeSensitivity(void) noexcept -> types::GyroscopeSensitivity = 0;
+  virtual auto GetGyroscopeSensitivity(void) noexcept -> types::ImuSensitivity = 0;
 
   /**
    * @brief Used for setting of the accelerometers sensitivity
    * 
    */
-  virtual void SetAccelerometerSensitivity(types::AccelerometerSensitivity accelerometer_sensitivity) noexcept = 0;
+  virtual void SetAccelerometerSensitivity(types::ImuSensitivity accelerometer_sensitivity) noexcept = 0;
 
   /**
    * @brief Used for reading the accelerometers sensitivity
-   * @return accelerometers sensitivity as types::AccelerometerSensitivity
+   * @return accelerometers sensitivity as types::ImuSensitivity
    * 
    */
-  virtual auto GetAccelerometerSensitivity(void) noexcept -> types::AccelerometerSensitivity = 0;
+  virtual auto GetAccelerometerSensitivity(void) noexcept -> types::ImuSensitivity = 0;
 
   /**
    * @brief Used for reading the gyroscopes measured values
@@ -87,6 +86,13 @@ class InertialMeasurementInterface {
    * 
    */
   virtual auto GetTemperature(void) noexcept -> int = 0;
+
+  /**
+  * @brief Only used for Unittests, to be able to inject a Mock Object
+  * 
+  * @param imu Unique Pointer to Mock Object
+  */
+  virtual auto UnitTestSetImuSeam(std::unique_ptr<imu::GenericInertialMeasurementUnit> imu) noexcept -> void = 0;
 
  protected:
   /// Holds the local reference to generic imu

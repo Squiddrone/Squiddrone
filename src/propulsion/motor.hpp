@@ -54,10 +54,10 @@ class Motor {
   /**
    * @brief Handles setting rotational speed of the motor via the Esc
    * @param speed Speed in percent that should be reached by this motor
-   * @return A types::InputError to indicate whether it is faulty or not
+   * @return A types::DriverStatus to indicate whether it is faulty or not
    * 
    */
-  virtual auto SetSpeedInPercent(const float speed) noexcept -> types::InputError = 0;
+  virtual auto SetSpeedInPercent(const float speed) noexcept -> types::DriverStatus = 0;
 
  protected:
   /// Holds the local reference to a concrete ESC object

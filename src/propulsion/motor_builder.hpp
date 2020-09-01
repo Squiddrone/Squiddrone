@@ -2,12 +2,10 @@
 #define SRC_PROPULSION_MOTOR_BUILDER_HPP_
 
 #include <memory>
-
-#ifndef UNIT_TEST
 #include "motor.hpp"
+#ifndef UNIT_TEST
 #include "propulsion_hardware_config.hpp"
 #else
-#include "motor_mock.hpp"
 #include "propulsion_hardware_config_mock.hpp"
 #endif
 
