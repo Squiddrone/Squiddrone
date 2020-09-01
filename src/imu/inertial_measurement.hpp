@@ -20,7 +20,7 @@ class InertialMeasurement final : public InertialMeasurementInterface {
    * @param  i2c_handler Unique pointer to I2C Handler defined by hal driver 
    * 
    */
-  explicit InertialMeasurement(std::unique_ptr<i2c::I2C> i2c_handler) : InertialMeasurementInterface(std::move(i2c_handler), std::make_unique<imu::Mpu9250>(std::move(i2c_handler))) {}
+  explicit InertialMeasurement(std::unique_ptr<i2c::I2CInterface> i2c_handler) : InertialMeasurementInterface(std::move(i2c_handler), std::make_unique<imu::Mpu9255>(std::move(i2c_handler))) {}
   void SetGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept override;
   auto GetGyroscopeSensitivity(void) noexcept -> types::ImuSensitivity override;
   void SetAccelerometerSensitivity(types::ImuSensitivity accelerometer_sensitivity) noexcept override;
@@ -29,6 +29,7 @@ class InertialMeasurement final : public InertialMeasurementInterface {
   auto GetAccelerometer(void) noexcept -> types::EuclideanVector<float> override;
   auto GetMagnetometer(void) noexcept -> types::EuclideanVector<float> override;
   auto GetTemperature(void) noexcept -> int override;
+  auto UnitTestSetImuSeam(std::unique_ptr<imu::GenericInertialMeasurementUnit> imu) noexcept -> void override;
 };
 
 }  // namespace imu
