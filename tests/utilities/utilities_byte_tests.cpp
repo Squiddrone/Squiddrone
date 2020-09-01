@@ -79,6 +79,25 @@ TEST_F(UtilityByteTests, byte_init_0_set_bit_9) {
   EXPECT_EQ(0b00001000, unit_under_test_->Get());
 }
 
+TEST_F(UtilityByteTests, byte_init_0_set_same_bit_twice) {
+  unit_under_test_ = std::make_unique<utilities::Byte>(0);
+
+  unit_under_test_->SetBit(3);
+  unit_under_test_->SetBit(3);
+
+  EXPECT_EQ(0b00001000, unit_under_test_->Get());
+}
+
+TEST_F(UtilityByteTests, byte_init_0_clear_same_bit_twice) {
+  unit_under_test_ = std::make_unique<utilities::Byte>(0);
+
+  unit_under_test_->SetBit(3);
+  unit_under_test_->ClearBit(3);
+  unit_under_test_->ClearBit(3);
+
+  EXPECT_EQ(0b00000000, unit_under_test_->Get());
+}
+
 }  // namespace
 
 int main(int argc, char** argv) {
