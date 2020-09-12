@@ -8,6 +8,8 @@ auto NRF24L01::GetDataPacket() const noexcept -> types::com_msg_frame {
 
 auto NRF24L01::PutDataPacket(std::uint8_t target_id,
                              types::com_msg_frame &payload) const noexcept -> types::ComError {
+  std::vector<std::uint8_t> miso_data;
+  spi_->Transfer(miso_data, payload);
   return types::ComError::COM_OK;
 }
 

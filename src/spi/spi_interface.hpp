@@ -1,7 +1,8 @@
 #ifndef SRC_SPI_SPI_INTERFACE_HPP_
 #define SRC_SPI_SPI_INTERFACE_HPP_
 
-#include <memory>
+#include <cstdint>
+#include <vector>
 
 #include "spi_status.hpp"
 
@@ -31,7 +32,7 @@ class SPIInterface {
    * @param TxData Pointer to buffer holding the data to be transmitted.
    * @return spi::SPIStatus Status information about the success of the transmission. See \ref SPIStatus for details.
    */
-  virtual auto Transfer(std::unique_ptr<std::uint8_t> RxData, std::unique_ptr<std::uint8_t> TxData) noexcept -> spi::SPIStatus = 0;
+  virtual auto Transfer(std::vector<std::uint8_t> &RxData, std::vector<std::uint8_t> &TxData) noexcept -> spi::SPIStatus = 0;
 };
 }  // namespace spi
 
