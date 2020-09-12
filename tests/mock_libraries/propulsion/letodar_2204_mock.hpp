@@ -2,20 +2,19 @@
 #define TESTS_MOCK_LIBRARIES_PROPULSION_LETODAR_2204_MOCK_HPP_
 
 #include <memory>
-
-#include "little_bee_20_a_mock.hpp"
-#include "motor_mock.hpp"
+#include "esc_mock.hpp"
+#include "gmock/gmock.h"
+#include "motor.hpp"
 
 namespace propulsion {
-class LeTodar2204 : public Motor {
+
+class MotorMock : public Motor {
  public:
-  explicit LeTodar2204(std::unique_ptr<Esc> esc) : Motor{std::move(esc)} {}
-  auto GetCurrentSpeedInPercent() const noexcept -> const float override {
-    return 1.0;
-  }
-  auto SetSpeedInPercent(const float speed) noexcept -> types::InputError override {
-    return types::InputError::INPUT_CORRECT;
-  }
+  explicit MotorMock(std::unique_ptr<propulsion::Esc>) : Motor(nullptr) {}
+  MOCK_METHOD(const float, GetCurrentSpeedInPercent, (), (const, noexcept, override));
+  MOCK_METHOD(types::DriverStatus, SetSpeedInPercent, (const float), (noexcept, override));
 };
+
+using LeTodar2204 = MotorMock;
 }  // namespace propulsion
 #endif
