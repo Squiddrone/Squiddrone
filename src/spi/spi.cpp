@@ -1,5 +1,9 @@
 #include "spi.hpp"
+#include <spi_types.hpp>
+
+#include <array>
 #include "stm32g4xx.h"
+
 //preserve include order
 #include "spi_config.h"
 
@@ -8,11 +12,14 @@ auto SPI::Transfer(std::vector<uint8_t> &RxData, std::vector<uint8_t> &TxData) n
   HAL_StatusTypeDef transmit_receive_ret_value = HAL_ERROR;
   spi::SPIStatus return_value = spi::SPIStatus::SPI_HAL_ERROR;
   uint16_t transmit_size = static_cast<uint16_t>(TxData.size());
+
+  std::array<uint32_t, types::SPI_MISO_BUFFER_SIZE> rx_data;
+
   transmit_receive_ret_value = HAL_SPI_TransmitReceive(&hspi1,
-                                                       TxData.data(),
-                                                       RxData.data(),
+                                                       reinterpret_cast<uint8_t *>(TxData.data()),
+                                                       reinterpret_cast<uint8_t *>(rx_data.data()),
                                                        transmit_size,
-                                                       0);
+                                                       100);
   if (transmit_receive_ret_value == HAL_OK) {
     return_value = spi::SPIStatus::SPI_TRANSACTION_SUCCESSFUL;
   }
