@@ -8,16 +8,17 @@
 #include "spi_config.h"
 
 namespace spi {
-auto SPI::Transfer(std::vector<uint8_t> &RxData, std::vector<uint8_t> &TxData) noexcept -> spi::SPIStatus {
+auto SPI::Transfer(std::vector<uint8_t> &miso_data_buffer, std::vector<uint8_t> &mosi_data_buffer) noexcept -> spi::SPIStatus {
   HAL_StatusTypeDef transmit_receive_ret_value = HAL_ERROR;
   spi::SPIStatus return_value = spi::SPIStatus::SPI_HAL_ERROR;
-  uint16_t transmit_size = static_cast<uint16_t>(TxData.size());
 
-  std::array<uint32_t, types::SPI_MISO_BUFFER_SIZE> rx_data;
+  uint16_t transmit_size = static_cast<uint16_t>(mosi_data_buffer.size());
+
+  miso_data_buffer.resize(transmit_size);
 
   transmit_receive_ret_value = HAL_SPI_TransmitReceive(&hspi1,
-                                                       reinterpret_cast<uint8_t *>(TxData.data()),
-                                                       reinterpret_cast<uint8_t *>(rx_data.data()),
+                                                       reinterpret_cast<uint8_t *>(mosi_data_buffer.data()),
+                                                       reinterpret_cast<uint8_t *>(miso_data_buffer.data()),
                                                        transmit_size,
                                                        100);
   if (transmit_receive_ret_value == HAL_OK) {
