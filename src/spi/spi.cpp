@@ -39,7 +39,7 @@ auto SPI::Transfer(std::vector<uint8_t> &miso_data_buffer, std::vector<uint8_t> 
 
 auto SPI::IsBufferSizeExceedingLimits(std::uint16_t buffer_size) -> bool {
   bool return_value = false;
-  if (buffer_size > SPI_MISO_BUFFER_SIZE) {
+  if (buffer_size > SPI_TRANSACTION_BUFFER_SIZE_LIMIT) {
     return_value = true;
   }
   return return_value;

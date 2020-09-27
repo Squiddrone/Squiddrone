@@ -5,9 +5,14 @@
 
 namespace spi {
 
-static constexpr std::uint8_t SPI_MISO_BUFFER_SIZE = 64;
+///Maximum buffer size allowed for SPI Transaction
+static constexpr std::uint8_t SPI_TRANSACTION_BUFFER_SIZE_LIMIT = 64;
 static constexpr std::uint8_t SPI_HAL_TX_RX_TIMEOUT = 100;
 
+/**
+ * @brief Concrete implementation of the SPI interface.
+ * 
+ */
 class SPI final : spi::SPIInterface {
  public:
   SPI() = delete;
