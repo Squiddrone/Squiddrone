@@ -4,7 +4,7 @@
 #include <cinttypes>
 
 namespace types {
-static constexpr std::uint8_t SPI_MISO_BUFFER_SIZE = 64;
-}
+
+}  // namespace types
 
 #endif

@@ -5,6 +5,9 @@
 
 namespace spi {
 
+static constexpr std::uint8_t SPI_MISO_BUFFER_SIZE = 64;
+static constexpr std::uint8_t SPI_HAL_TX_RX_TIMEOUT = 100;
+
 class SPI final : spi::SPIInterface {
  public:
   SPI() = delete;
@@ -15,6 +18,8 @@ class SPI final : spi::SPIInterface {
 
  private:
   std::uint16_t chip_select_;
+
+  auto IsBufferSizeExceedingLimits(std::uint16_t buffer_size) -> bool;
 };
 
 }  // namespace spi
