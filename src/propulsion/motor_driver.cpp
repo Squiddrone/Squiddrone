@@ -1,6 +1,10 @@
 #include <cstdlib>
 
+#ifndef UNIT_TEST
 #include "motor_builder.hpp"
+#else
+#include "motor_builder_mock.hpp"
+#endif
 #include "motor_driver.hpp"
 #include "timer_config.h"
 

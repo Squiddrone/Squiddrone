@@ -4,13 +4,8 @@
 #include <array>
 #include <memory>
 #include "error_types.hpp"
-#include "propulsion_hardware_config.hpp"
-
-#ifndef UNIT_TEST
 #include "motor.hpp"
-#else
-#include "motor_mock.hpp"
-#endif
+#include "propulsion_hardware_config.hpp"
 
 namespace propulsion {
 
