@@ -29,7 +29,7 @@ auto LittleBee20A::SetPulseDuration(int pulse_duration, int repetition_period) n
   return error_state;
 }
 
-const auto LittleBee20A::ConfigureTimer() noexcept -> types::DriverStatus {
+auto LittleBee20A::ConfigureTimer() noexcept -> const types::DriverStatus {
   if (HAL_TIM_PWM_Stop(timer_, channel_) != HAL_OK) {
     return types::DriverStatus::HAL_ERROR;
   }
@@ -43,7 +43,7 @@ const auto LittleBee20A::ConfigureTimer() noexcept -> types::DriverStatus {
   return types::DriverStatus::OK;
 }
 
-const auto LittleBee20A::SetPwm(std::uint32_t period, std::uint32_t pulse) const noexcept -> types::DriverStatus {
+auto LittleBee20A::SetPwm(std::uint32_t period, std::uint32_t pulse) const noexcept -> const types::DriverStatus {
   if (HAL_TIM_PWM_Stop(timer_, channel_) != HAL_OK) {
     return types::DriverStatus::HAL_ERROR;
   }
