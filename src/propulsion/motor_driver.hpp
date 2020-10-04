@@ -3,10 +3,14 @@
 
 #include <array>
 #include <memory>
-#include "basic_types.hpp"
 #include "error_types.hpp"
-#include "motor.hpp"
 #include "propulsion_hardware_config.hpp"
+
+#ifndef UNIT_TEST
+#include "motor.hpp"
+#else
+#include "motor_mock.hpp"
+#endif
 
 namespace propulsion {
 
@@ -32,16 +36,22 @@ class MotorDriver {
   ~MotorDriver() = default;
 
   /**
-   * @brief Applies an euclidean vector to the current state of the motors
    * 
-   * @param thrust_vector An euclidean vector of float where each coordinate is between -1.0 and +1.0
-   * @return const types::DriverStatus if an error occured in applying a thrust vector, DriverStatus::OK if everything
-   * is alright
+   * @brief Apply speed to all motors
+   * 
+   * @param which_motor is the chosen motor position
+   * @param speed speed between 0 and 100%
+   * 
+   * @return  DriverStatus::OK on success
+   *          DriverStatus::INPUT_ERROR if speed was wrong
+   *          DriverStatus::HAL_ERROR if Motor object reports problem
    */
-  auto ApplyThrustVector(types::EuclideanVector<float> thrust_vector) const noexcept -> const types::DriverStatus;
+  auto SetMotorSpeed(const MotorPosition which_motor, const float speed) const noexcept -> const types::DriverStatus;
+
+  auto GetMotorSpeed(const MotorPosition which_motor) const noexcept -> std::pair<float, types::DriverStatus>;
 
   /**
-   * @brief Arm all ESCs
+   * @brief Arm all ESCs (blocking)
    * 
    * @return const types::DriverStatus 
    */

@@ -28,4 +28,24 @@ auto MotorDriver::InitializeMotor(MotorPosition position, PropulsionHardwareConf
   }
 }
 
+auto MotorDriver::SetMotorSpeed(const MotorPosition which_motor, const float speed) const noexcept -> const types::DriverStatus {
+  const float min_speed = 0;
+  const float max_speed = 100;
+  if (speed < min_speed || speed > max_speed) {
+    return types::DriverStatus::INPUT_ERROR;
+  } else {
+    auto status = motors_.at(static_cast<int>(which_motor))->SetSpeedInPercent(speed);
+    if (status != types::DriverStatus::OK) {
+      return types::DriverStatus::HAL_ERROR;
+    } else {
+      return types::DriverStatus::OK;
+    }
+  }
+}
+
+auto MotorDriver::GetMotorSpeed(const MotorPosition which_motor) const noexcept -> std::pair<float, types::DriverStatus> {
+  auto speed = motors_.at(static_cast<int>(which_motor))->GetCurrentSpeedInPercent();
+  return std::pair<float, types::DriverStatus>{speed, types::DriverStatus::OK};
+}
+
 }  // namespace propulsion

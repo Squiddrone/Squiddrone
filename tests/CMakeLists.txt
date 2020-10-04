@@ -73,7 +73,7 @@ package_add_test(motor_builder propulsion/motorbuilder_test.cpp
     ${CMAKE_SOURCE_DIR}/src/propulsion/motor_builder.cpp
 )
 
-package_add_test(motor_driver propulsion/motor_driver.cpp
+package_add_test(motor_driver propulsion/motor_driver_test.cpp
     ${CMAKE_SOURCE_DIR}/src/propulsion/motor_driver.cpp
 )
 
