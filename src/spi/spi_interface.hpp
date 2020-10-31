@@ -33,6 +33,15 @@ class SPIInterface {
    * @return spi::SPIStatus Status information about the success of the transmission. See \ref SPIStatus for details.
    */
   virtual auto Transfer(std::vector<std::uint8_t> &miso_data_buffer, std::vector<std::uint8_t> &mosi_data_buffer) noexcept -> spi::SPIStatus = 0;
+
+ private:
+  /**
+   * @brief Set the Chip select GPIO pin.
+   * 
+   * @param pin_high_or_low The desired pin state. High or low.
+   * @return std::bool Returns true if pin has been set successfully
+   */
+  virtual auto SetGPIOPin(std::uint8_t pin_high_or_low) -> std::uint8_t;
 };
 }  // namespace spi
 
