@@ -22,10 +22,10 @@ enum class PinSetting : bool {
 };
 
 //Data structure to hold the chip select GPIO information
-typedef struct {
+using CSPin = struct {
   GPIO_TypeDef *peripheral;
   uint16_t gpio_pin;
-} CSPin;
+};
 
 /**
  * @brief Concrete implementation of the SPI interface.
