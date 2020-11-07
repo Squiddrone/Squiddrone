@@ -20,7 +20,7 @@ class MotorBuilder final : public AbstractMotorBuilder {
   MotorBuilder() = default;
   ~MotorBuilder() = default;
 
-  auto Create(propulsion::PropulsionHardwareConfig& motor_config) noexcept -> std::unique_ptr<Motor>;
+  auto Create(propulsion::PropulsionHardwareConfig& motor_config) noexcept -> std::unique_ptr<Motor> override;
 
  private:
   /**
