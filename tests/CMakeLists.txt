@@ -2,89 +2,178 @@
 include(AddGoogleTest)
 include(BundleAllTests)
 
-macro(package_add_test TESTNAME)
-    add_executable(${TESTNAME} ${ARGN})
-    target_include_directories(${TESTNAME} 
-        PRIVATE 
-            ${CMAKE_CURRENT_SOURCE_DIR}
-            ${CMAKE_SOURCE_DIR}/src
-            ${CMAKE_SOURCE_DIR}/src/com
-            ${CMAKE_SOURCE_DIR}/src/types
-            ${CMAKE_SOURCE_DIR}/src/propulsion
-            ${CMAKE_SOURCE_DIR}/src/imu
-            ${CMAKE_SOURCE_DIR}/src/i2c
-            ${CMAKE_SOURCE_DIR}/src/spi
-            ${CMAKE_SOURCE_DIR}/src/utilities
-            ${CMAKE_SOURCE_DIR}/tests/mock_libraries/com
-            ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu
-            ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c
-            ${CMAKE_SOURCE_DIR}/tests/mock_libraries/propulsion
+function(add_testpackage)
+    set(options)
+    set(oneValueArgs TEST_NAME)
+    set(multiValueArgs SOURCES TEST_INCLUDE_DIRECTORIES)
+    cmake_parse_arguments(
+        TESTPACKAGE "${options}" "${oneValueArgs}"
+        "${multiValueArgs}" ${ARGN} 
     )
-    target_link_libraries(${TESTNAME} gtest gmock gtest_main)
-    add_test(NAME ${TESTNAME} COMMAND ${TESTNAME} --gtest_output=xml:${TESTNAME}.xml)
-    set_target_properties(${TESTNAME} PROPERTIES FOLDER "tests")
-    target_compile_definitions(${TESTNAME} PRIVATE UNIT_TEST STM32G431xx)
-endmacro()
 
-package_add_test(euclidean_vector types/euclidean_vector_test.cpp)
+    message("Name:" ${TESTPACKAGE_TEST_NAME})
+    message("Sources:" ${TESTPACKAGE_SOURCES})
+    message("Directories:" ${TESTPACKAGE_INCLUDE_DIRECTORIES})
 
-package_add_test(concrete_esc_little_bee_20_a 
-    propulsion/little_bee_20_a_test.cpp 
-    ${CMAKE_SOURCE_DIR}/src/propulsion/little_bee_20_a.cpp
-    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/propulsion/stm32g4xx_hal_tim.c
+    add_executable(${TESTPACKAGE_TEST_NAME} ${TESTPACKAGE_SOURCES})
+    target_include_directories(${TESTPACKAGE_TEST_NAME} 
+        PRIVATE
+            ${TESTPACKAGE_TEST_INCLUDE_DIRECTORIES}
+    )
+    target_link_libraries(${TESTPACKAGE_TEST_NAME} gtest gmock gtest_main)
+    add_test(NAME ${TESTPACKAGE_TEST_NAME} COMMAND ${TESTPACKAGE_TEST_NAME} --gtest_output=xml:${TESTPACKAGE_TEST_NAME}.xml)
+    set_target_properties(${TESTPACKAGE_TEST_NAME} PROPERTIES FOLDER "tests")
+    target_compile_definitions(${TESTPACKAGE_TEST_NAME} PRIVATE UNIT_TEST STM32G431xx)
+endfunction()
+
+add_testpackage(TEST_NAME 
+                    euclidean_vector 
+                SOURCES 
+                    types/euclidean_vector_test.cpp 
+                TEST_INCLUDE_DIRECTORIES 
+                    ${CMAKE_SOURCE_DIR}/src/types
 )
 
-package_add_test(letodar_2204 propulsion/letodar_2204_test.cpp
-    ${CMAKE_SOURCE_DIR}/src/propulsion/letodar_2204.cpp
+add_testpackage(TEST_NAME 
+                    concrete_esc_little_bee_20_a 
+                SOURCES 
+                    propulsion/little_bee_20_a_test.cpp 
+                    ${CMAKE_SOURCE_DIR}/src/propulsion/little_bee_20_a.cpp
+                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/propulsion/stm32g4xx_hal_tim.c
+                TEST_INCLUDE_DIRECTORIES
+                    ${CMAKE_SOURCE_DIR}/src
+                    ${CMAKE_SOURCE_DIR}/src/propulsion
+                    ${CMAKE_SOURCE_DIR}/src/types
+                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/propulsion
 )
 
-package_add_test(imu_interface 
-    imu/imu_interface_tests.cpp
-    ${CMAKE_SOURCE_DIR}/src/imu/inertial_measurement.cpp
-    ${CMAKE_SOURCE_DIR}/src/imu/mpu9255.cpp
+add_testpackage(TEST_NAME 
+                    letodar_2204 
+                SOURCES 
+                    propulsion/letodar_2204_test.cpp
+                    ${CMAKE_SOURCE_DIR}/src/propulsion/letodar_2204.cpp
+                TEST_INCLUDE_DIRECTORIES 
+                    ${CMAKE_SOURCE_DIR}/src/types
+                    ${CMAKE_SOURCE_DIR}/src/propulsion
+                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/propulsion
 )
 
-package_add_test(i2c
-    i2c/i2c_tests.cpp
-    ${CMAKE_SOURCE_DIR}/src/i2c/i2c.cpp
-    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/stm32g4xx_hal.c
-    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/i2c_config.c
+add_testpackage(TEST_NAME 
+                    imu_interface 
+                SOURCES 
+                    imu/imu_interface_tests.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/inertial_measurement.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/mpu9255.cpp
+                TEST_INCLUDE_DIRECTORIES 
+                    ${CMAKE_SOURCE_DIR}/src/imu
+                    ${CMAKE_SOURCE_DIR}/src/types
+                    ${CMAKE_SOURCE_DIR}/src/i2c
+                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu
+                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c
 )
 
-package_add_test(com_interface
-    com/com_interface_tests.cpp
-    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/com/com_message_buffer_mock.cpp
+add_testpackage(TEST_NAME 
+                    i2c 
+                SOURCES 
+                    ${CMAKE_SOURCE_DIR}/src/i2c/i2c.cpp
+                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/stm32g4xx_hal.c
+                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/i2c_config.c
+                TEST_INCLUDE_DIRECTORIES 
+                    ${CMAKE_SOURCE_DIR}/src/i2c
+                    ${CMAKE_SOURCE_DIR}/src/types
+                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c
 )
 
-package_add_test(com_message_buffer
-    com/com_message_buffer_tests.cpp
-    ${CMAKE_SOURCE_DIR}/src/com/com_message_buffer.cpp
+add_testpackage(TEST_NAME 
+                    com_interface 
+                SOURCES 
+                    com/com_interface_tests.cpp
+                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/com/com_message_buffer_mock.cpp
+                TEST_INCLUDE_DIRECTORIES 
+                    ${CMAKE_SOURCE_DIR}/src/com
+                    ${CMAKE_SOURCE_DIR}/src/types
+                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/com
 )
 
-package_add_test(propulsion_hardware_config_type propulsion/propulsion_hardware_config_test.cpp)
-
-package_add_test(motor_builder propulsion/motorbuilder_test.cpp
-    ${CMAKE_SOURCE_DIR}/src/propulsion/motor_builder.cpp
+add_testpackage(TEST_NAME 
+                    com_message_buffer 
+                SOURCES 
+                    com/com_message_buffer_tests.cpp
+                    ${CMAKE_SOURCE_DIR}/src/com/com_message_buffer.cpp
+                TEST_INCLUDE_DIRECTORIES 
+                    ${CMAKE_SOURCE_DIR}/src/com
+                    ${CMAKE_SOURCE_DIR}/src/types
+                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/com
 )
 
-package_add_test(spi_interface
-    spi/spi_interface_tests.cpp
+add_testpackage(TEST_NAME 
+                    propulsion_hardware_config_type 
+                SOURCES 
+                    propulsion/propulsion_hardware_config_test.cpp
+                TEST_INCLUDE_DIRECTORIES 
+                    ${CMAKE_SOURCE_DIR}/src/propulsion
+                    ${CMAKE_SOURCE_DIR}/src/types
+                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/propulsion
 )
 
-package_add_test(imu_sensors_gyroscope
-    ${CMAKE_SOURCE_DIR}/src/imu/imu_sensor.cpp
-    ${CMAKE_SOURCE_DIR}/src/imu/imu_sensor_with_sensitivity.cpp
-    ${CMAKE_SOURCE_DIR}/src/imu/gyroscope.cpp
-    ${CMAKE_SOURCE_DIR}/tests/imu/imu_gyroscope_tests.cpp
+add_testpackage(TEST_NAME 
+                    motor_builder 
+                SOURCES 
+                    propulsion/motorbuilder_test.cpp
+                    ${CMAKE_SOURCE_DIR}/src/propulsion/motor_builder.cpp
+                TEST_INCLUDE_DIRECTORIES 
+                    ${CMAKE_SOURCE_DIR}/src/propulsion
+                    ${CMAKE_SOURCE_DIR}/src/types
+                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/propulsion
 )
 
-package_add_test(utilities_byte
-    ${CMAKE_SOURCE_DIR}/tests/utilities/utilities_byte_tests.cpp
+add_testpackage(TEST_NAME 
+                    spi_interface
+                SOURCES 
+                    spi/spi_interface_tests.cpp
+                TEST_INCLUDE_DIRECTORIES 
+                    ${CMAKE_SOURCE_DIR}/src/spi
+                    ${CMAKE_SOURCE_DIR}/src/types
 )
 
-package_add_test(imu_mpu9255
-    ${CMAKE_SOURCE_DIR}/src/imu/mpu9255.cpp
-    ${CMAKE_SOURCE_DIR}/tests/imu/imu_mpu9255_tests.cpp
+add_testpackage(TEST_NAME 
+                    imu_sensors_gyroscope
+                SOURCES 
+                    ${CMAKE_SOURCE_DIR}/src/imu/imu_sensor.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/imu_sensor_with_sensitivity.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/gyroscope.cpp
+                    ${CMAKE_SOURCE_DIR}/tests/imu/imu_gyroscope_tests.cpp
+                TEST_INCLUDE_DIRECTORIES 
+                    ${CMAKE_SOURCE_DIR}/src
+                    ${CMAKE_SOURCE_DIR}/src/imu
+                    ${CMAKE_SOURCE_DIR}/src/types
+                    ${CMAKE_SOURCE_DIR}/src/i2c
+                    ${CMAKE_SOURCE_DIR}/src/utilities
+                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu
+                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c
+)
+
+add_testpackage(TEST_NAME 
+                    utilities_byte
+                SOURCES 
+                    ${CMAKE_SOURCE_DIR}/tests/utilities/utilities_byte_tests.cpp
+                TEST_INCLUDE_DIRECTORIES 
+                    ${CMAKE_SOURCE_DIR}/src
+)
+
+add_testpackage(TEST_NAME 
+                    imu_mpu9255
+                SOURCES 
+                    ${CMAKE_SOURCE_DIR}/src/imu/mpu9255.cpp
+                    ${CMAKE_SOURCE_DIR}/tests/imu/imu_mpu9255_tests.cpp
+                TEST_INCLUDE_DIRECTORIES 
+                    ${CMAKE_SOURCE_DIR}/src
+                    ${CMAKE_SOURCE_DIR}/src/imu
+                    ${CMAKE_SOURCE_DIR}/src/types
+                    ${CMAKE_SOURCE_DIR}/src/i2c
+                    ${CMAKE_SOURCE_DIR}/src/utilities
+                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu
+                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c
 )
 
 SETUP_ALLTESTS_TARGET(
@@ -102,6 +191,7 @@ SETUP_ALLTESTS_TARGET(
         com_message_buffer
         i2c
         spi_interface
+        utilities_byte
         imu_mpu9255
 )
 
