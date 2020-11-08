@@ -22,30 +22,31 @@ class MotorBuilderTest : public ::testing::Test {
 
   propulsion::PropulsionHardwareConfig config;
   TIM_HandleTypeDef timer;
+  propulsion::MotorBuilder unit_under_test = propulsion::MotorBuilder();
 };
 
 //The dynamic upcast is used as a way of having the python function instanceof
 TEST_F(MotorBuilderTest, creates_correct_object) {
-  auto motor_object = propulsion::MotorBuilder::Create(config);
+  auto motor_object = unit_under_test.Create(config);
   auto upcast_object_pointer = dynamic_cast<propulsion::Motor *>(motor_object.get());
   ASSERT_TRUE(upcast_object_pointer != nullptr);
 }
 
 TEST_F(MotorBuilderTest, channel_is_not_in_allowed_channels) {
   config.channel = 666;
-  auto motor_object = propulsion::MotorBuilder::Create(config);
+  auto motor_object = unit_under_test.Create(config);
   ASSERT_EQ(motor_object, nullptr);
 }
 
 TEST_F(MotorBuilderTest, timer_is_nullpointer) {
   config.timer = nullptr;
-  auto motor_object = propulsion::MotorBuilder::Create(config);
+  auto motor_object = unit_under_test.Create(config);
   ASSERT_EQ(motor_object, nullptr);
 }
 
 TEST_F(MotorBuilderTest, esc_is_not_known) {
   config.esc_type = types::EscType::NONE;
-  auto motor_object = propulsion::MotorBuilder::Create(config);
+  auto motor_object = unit_under_test.Create(config);
   ASSERT_EQ(motor_object, nullptr);
 }
 
