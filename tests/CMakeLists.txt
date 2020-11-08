@@ -11,10 +11,6 @@ function(add_testpackage)
         "${multiValueArgs}" ${ARGN} 
     )
 
-    message("Name:" ${TESTPACKAGE_TEST_NAME})
-    message("Sources:" ${TESTPACKAGE_SOURCES})
-    message("Directories:" ${TESTPACKAGE_INCLUDE_DIRECTORIES})
-
     add_executable(${TESTPACKAGE_TEST_NAME} ${TESTPACKAGE_SOURCES})
     target_include_directories(${TESTPACKAGE_TEST_NAME} 
         PRIVATE
