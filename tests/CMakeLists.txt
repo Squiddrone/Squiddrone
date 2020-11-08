@@ -144,7 +144,6 @@ add_testpackage(TEST_NAME
                     ${CMAKE_SOURCE_DIR}/src/imu
                     ${CMAKE_SOURCE_DIR}/src/types
                     ${CMAKE_SOURCE_DIR}/src/i2c
-                    ${CMAKE_SOURCE_DIR}/src/utilities
                     ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu
                     ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c
 )
@@ -163,11 +162,9 @@ add_testpackage(TEST_NAME
                     ${CMAKE_SOURCE_DIR}/src/imu/mpu9255.cpp
                     ${CMAKE_SOURCE_DIR}/tests/imu/imu_mpu9255_tests.cpp
                 TEST_INCLUDE_DIRECTORIES 
-                    ${CMAKE_SOURCE_DIR}/src
                     ${CMAKE_SOURCE_DIR}/src/imu
                     ${CMAKE_SOURCE_DIR}/src/types
                     ${CMAKE_SOURCE_DIR}/src/i2c
-                    ${CMAKE_SOURCE_DIR}/src/utilities
                     ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu
                     ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c
 )
