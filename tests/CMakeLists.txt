@@ -71,6 +71,7 @@ add_testpackage(TEST_NAME
 add_testpackage(TEST_NAME 
                     i2c 
                 SOURCES 
+                    i2c/i2c_tests.cpp
                     ${CMAKE_SOURCE_DIR}/src/i2c/i2c.cpp
                     ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/stm32g4xx_hal.c
                     ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/i2c_config.c
