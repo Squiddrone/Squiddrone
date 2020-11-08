@@ -22,6 +22,12 @@ TEST_F(SPITests, exceeding_buffer_size_limit) {
   EXPECT_EQ(rv, spi::SPIStatus::SPI_BUFFER_SIZE_LIMIT_EXCEEDED);
 }
 
+TEST_F(SPITests, successful_spi_transfer) {
+  hspi1.mock_return_value = HAL_StatusTypeDef::HAL_OK;
+  spi::SPIStatus rv = unit_under_test_->Transfer(miso_buffer, mosi_buffer);
+  EXPECT_EQ(rv, spi::SPIStatus::SPI_TRANSACTION_SUCCESSFUL);
+}
+
 TEST_F(SPITests, unsuccessful_spi_transfer) {
   hspi1.mock_return_value = HAL_StatusTypeDef::HAL_TIMEOUT;
   spi::SPIStatus rv = unit_under_test_->Transfer(miso_buffer, mosi_buffer);
