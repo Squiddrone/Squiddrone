@@ -81,27 +81,27 @@ add_testpackage(TEST_NAME
                     ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c
 )
 
-add_testpackage(TEST_NAME 
-                    com_interface 
-                SOURCES 
-                    com/com_interface_tests.cpp
-                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/com/com_message_buffer_mock.cpp
-                TEST_INCLUDE_DIRECTORIES 
-                    ${CMAKE_SOURCE_DIR}/src/com
-                    ${CMAKE_SOURCE_DIR}/src/types
-                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/com
-)
+#add_testpackage(TEST_NAME 
+#                    com_interface 
+#                SOURCES 
+#                    com/com_interface_tests.cpp
+#                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/com/com_message_buffer_mock.cpp
+#                TEST_INCLUDE_DIRECTORIES 
+#                    ${CMAKE_SOURCE_DIR}/src/com
+#                    ${CMAKE_SOURCE_DIR}/src/types
+#                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/com
+#)
 
-add_testpackage(TEST_NAME 
-                    com_message_buffer 
-                SOURCES 
-                    com/com_message_buffer_tests.cpp
-                    ${CMAKE_SOURCE_DIR}/src/com/com_message_buffer.cpp
-                TEST_INCLUDE_DIRECTORIES 
-                    ${CMAKE_SOURCE_DIR}/src/com
-                    ${CMAKE_SOURCE_DIR}/src/types
-                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/com
-)
+#add_testpackage(TEST_NAME 
+#                    com_message_buffer 
+#                SOURCES 
+#                    com/com_message_buffer_tests.cpp
+#                    ${CMAKE_SOURCE_DIR}/src/com/com_message_buffer.cpp
+#                TEST_INCLUDE_DIRECTORIES 
+#                    ${CMAKE_SOURCE_DIR}/src/com
+#                    ${CMAKE_SOURCE_DIR}/src/types
+#                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/com
+#)
 
 add_testpackage(TEST_NAME 
                     propulsion_hardware_config_type 
@@ -131,6 +131,20 @@ add_testpackage(TEST_NAME
                 TEST_INCLUDE_DIRECTORIES 
                     ${CMAKE_SOURCE_DIR}/src/spi
                     ${CMAKE_SOURCE_DIR}/src/types
+)
+
+add_testpackage(TEST_NAME 
+                    spi
+                SOURCES 
+                    spi/spi_tests.cpp
+                    ${CMAKE_SOURCE_DIR}/src/spi/spi.cpp
+                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/spi/gpio_config.c
+                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/spi/spi_config.c
+                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/spi/stm32g4xx_hal.c
+                TEST_INCLUDE_DIRECTORIES 
+                    ${CMAKE_SOURCE_DIR}/src/spi
+                    ${CMAKE_SOURCE_DIR}/src/types
+                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/spi
 )
 
 add_testpackage(TEST_NAME 
@@ -181,8 +195,8 @@ SETUP_ALLTESTS_TARGET(
         letodar_2204
         propulsion_hardware_config_type
         motor_builder
-        com_interface
-        com_message_buffer
+        #com_interface
+        #com_message_buffer
         i2c
         spi_interface
         utilities_byte
