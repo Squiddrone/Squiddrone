@@ -5,8 +5,8 @@ namespace {
 class ConcreteSPIInterface final : public spi::SPIInterface {
  public:
   explicit ConcreteSPIInterface() : spi::SPIInterface(){};
-  auto Transfer(std::vector<std::uint8_t> &RxData, std::vector<std::uint8_t> &TxData) noexcept -> spi::SPIStatus override {
-    return spi::SPIStatus::SPI_TRANSACTION_SUCCESSFUL;
+  auto Transfer(std::vector<std::uint8_t> &RxData, std::vector<std::uint8_t> &TxData) noexcept -> types::SPIStatus override {
+    return types::SPIStatus::SPI_TRANSACTION_SUCCESSFUL;
   };
 };
 
@@ -20,7 +20,7 @@ TEST_F(SpiInterfaceTests, transfer) {
   auto Tx = std::vector<std::uint8_t>();
   unit_under_test_ = std::make_unique<ConcreteSPIInterface>();
   auto rv = unit_under_test_->Transfer(Rx, Tx);
-  ASSERT_EQ(rv, spi::SPIStatus::SPI_TRANSACTION_SUCCESSFUL);
+  ASSERT_EQ(rv, types::SPIStatus::SPI_TRANSACTION_SUCCESSFUL);
 }
 }  // namespace
 

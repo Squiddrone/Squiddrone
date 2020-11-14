@@ -18,26 +18,26 @@ class SPITests : public ::testing::Test {
 
 TEST_F(SPITests, exceeding_buffer_size_limit) {
   std::vector<uint8_t> too_large_buffer(65);
-  spi::SPIStatus rv = unit_under_test_->Transfer(miso_buffer, too_large_buffer);
-  EXPECT_EQ(rv, spi::SPIStatus::SPI_BUFFER_SIZE_LIMIT_EXCEEDED);
+  types::SPIStatus rv = unit_under_test_->Transfer(miso_buffer, too_large_buffer);
+  EXPECT_EQ(rv, types::SPIStatus::SPI_BUFFER_SIZE_LIMIT_EXCEEDED);
 }
 
 TEST_F(SPITests, successful_spi_transfer) {
   hspi1.mock_return_value = HAL_StatusTypeDef::HAL_OK;
-  spi::SPIStatus rv = unit_under_test_->Transfer(miso_buffer, mosi_buffer);
-  EXPECT_EQ(rv, spi::SPIStatus::SPI_TRANSACTION_SUCCESSFUL);
+  types::SPIStatus rv = unit_under_test_->Transfer(miso_buffer, mosi_buffer);
+  EXPECT_EQ(rv, types::SPIStatus::SPI_TRANSACTION_SUCCESSFUL);
 }
 
 TEST_F(SPITests, unsuccessful_spi_transfer) {
   hspi1.mock_return_value = HAL_StatusTypeDef::HAL_TIMEOUT;
-  spi::SPIStatus rv = unit_under_test_->Transfer(miso_buffer, mosi_buffer);
-  EXPECT_EQ(rv, spi::SPIStatus::SPI_TRANSACTION_FAILED);
+  types::SPIStatus rv = unit_under_test_->Transfer(miso_buffer, mosi_buffer);
+  EXPECT_EQ(rv, types::SPIStatus::SPI_TRANSACTION_FAILED);
 }
 
 TEST_F(SPITests, spi_hal_error) {
   hspi1.mock_return_value = HAL_StatusTypeDef::HAL_ERROR;
-  spi::SPIStatus rv = unit_under_test_->Transfer(miso_buffer, mosi_buffer);
-  EXPECT_EQ(rv, spi::SPIStatus::SPI_HAL_ERROR);
+  types::SPIStatus rv = unit_under_test_->Transfer(miso_buffer, mosi_buffer);
+  EXPECT_EQ(rv, types::SPIStatus::SPI_HAL_ERROR);
 }
 
 }  // namespace
