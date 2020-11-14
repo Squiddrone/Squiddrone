@@ -11,17 +11,22 @@
 
 namespace spi {
 
-///Maximum buffer size allowed for SPI Transaction
 static constexpr std::uint8_t SPI_TRANSACTION_BUFFER_SIZE_LIMIT = 64;
 static constexpr std::uint8_t SPI_HAL_TX_RX_TIMEOUT = 100;
 
-//Valid values for chip select pin setting
+/**
+ * @brief Valid values for chip select pin setting
+ * 
+ */
 enum class PinSetting : bool {
   HIGH = true,
   LOW = false
 };
 
-//Data structure to hold the chip select GPIO information
+/**
+ * @brief Data structure to hold the chip select GPIO information
+ * 
+ */
 typedef struct CSPinDefinition {
   GPIO_TypeDef *peripheral;
   uint16_t gpio_pin;
@@ -37,7 +42,7 @@ class SPI final : spi::SPIInterface {
   explicit SPI(const CSPin chip_select) : spi::SPIInterface(), chip_select_(chip_select){};
   virtual ~SPI() = default;
 
-  auto Transfer(std::vector<uint8_t> &miso_data_buffer, std::vector<uint8_t> &mosi_data_buffer) noexcept -> spi::SPIStatus override;
+  auto Transfer(std::vector<uint8_t> &miso_data_buffer, std::vector<uint8_t> &mosi_data_buffer) noexcept -> types::SPIStatus override;
 
  private:
   CSPin chip_select_;
@@ -54,10 +59,10 @@ class SPI final : spi::SPIInterface {
   /**
    * @brief Set the Chip select GPIO pin.
    * 
-   * @param pin_high_or_low The desired pin state. High or low.
+   * @param pin_state The desired pin state. High or low.
    * @return void
    */
-  auto SetChipSelectPin(PinSetting pin_high_or_low) noexcept -> void;
+  auto SetChipSelectPin(PinSetting pin_state) noexcept -> void;
 };
 
 }  // namespace spi
