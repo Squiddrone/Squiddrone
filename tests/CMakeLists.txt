@@ -199,6 +199,7 @@ SETUP_ALLTESTS_TARGET(
         #com_message_buffer
         i2c
         spi_interface
+        spi
         utilities_byte
         imu_mpu9255
 )
