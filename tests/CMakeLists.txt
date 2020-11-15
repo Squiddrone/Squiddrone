@@ -170,30 +170,9 @@ add_testpackage(TEST_NAME
                     ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c
 )
 
-SETUP_ALLTESTS_TARGET(
-    NAME all_tests                 
-    EXECUTABLE GTEST_COLOR=1 GTEST_REPEAT=3 GTEST_SHUFFLE=1 ctest --verbose -j ${n_cores}
-    DEPENDENCIES
-        euclidean_vector
-        concrete_esc_little_bee_20_a
-        imu_interface
-        imu_sensors_gyroscope
-        letodar_2204
-        propulsion_hardware_config_type
-        motor_builder
-        com_interface
-        com_message_buffer
-        i2c
-        spi_interface
-        utilities_byte
-        imu_mpu9255
-)
-
 if(CODE_COVERAGE)
     SETUP_TARGET_FOR_COVERAGE_LCOV(
         NAME coverage                 
-        EXECUTABLE GTEST_SHUFFLE=1 ctest -j ${n_cores}
-        DEPENDENCIES
-            all_tests
+        EXECUTABLE GTEST_COLOR=1 GTEST_REPEAT=3 GTEST_SHUFFLE=1 ctest -j ${n_cores}
     )
 endif(CODE_COVERAGE)
