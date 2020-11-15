@@ -35,12 +35,12 @@ add_testpackage(TEST_NAME
                 SOURCES 
                     propulsion/little_bee_20_a_test.cpp 
                     ${CMAKE_SOURCE_DIR}/src/propulsion/little_bee_20_a.cpp
-                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/propulsion/stm32g4xx_hal_tim.c
+                    ${CMAKE_SOURCE_DIR}/tests/propulsion/mock_libraries/stm32g4xx_hal_tim.c
                 TEST_INCLUDE_DIRECTORIES
                     ${CMAKE_SOURCE_DIR}/src
                     ${CMAKE_SOURCE_DIR}/src/propulsion
                     ${CMAKE_SOURCE_DIR}/src/types
-                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/propulsion
+                    ${CMAKE_SOURCE_DIR}/tests/propulsion/mock_libraries
 )
 
 add_testpackage(TEST_NAME 
@@ -51,7 +51,7 @@ add_testpackage(TEST_NAME
                 TEST_INCLUDE_DIRECTORIES 
                     ${CMAKE_SOURCE_DIR}/src/types
                     ${CMAKE_SOURCE_DIR}/src/propulsion
-                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/propulsion
+                    ${CMAKE_SOURCE_DIR}/tests/propulsion/mock_libraries
 )
 
 add_testpackage(TEST_NAME 
@@ -64,8 +64,8 @@ add_testpackage(TEST_NAME
                     ${CMAKE_SOURCE_DIR}/src/imu
                     ${CMAKE_SOURCE_DIR}/src/types
                     ${CMAKE_SOURCE_DIR}/src/i2c
-                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu
-                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c
+                    ${CMAKE_SOURCE_DIR}/tests/imu/mock_libraries
+                    ${CMAKE_SOURCE_DIR}/tests/i2c/mock_libraries
 )
 
 add_testpackage(TEST_NAME 
@@ -73,23 +73,23 @@ add_testpackage(TEST_NAME
                 SOURCES 
                     i2c/i2c_tests.cpp
                     ${CMAKE_SOURCE_DIR}/src/i2c/i2c.cpp
-                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/stm32g4xx_hal.c
-                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c/i2c_config.c
+                    ${CMAKE_SOURCE_DIR}/tests/i2c/mock_libraries/stm32g4xx_hal.c
+                    ${CMAKE_SOURCE_DIR}/tests/i2c/mock_libraries/i2c_config.c
                 TEST_INCLUDE_DIRECTORIES 
                     ${CMAKE_SOURCE_DIR}/src/i2c
                     ${CMAKE_SOURCE_DIR}/src/types
-                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c
+                    ${CMAKE_SOURCE_DIR}/tests/i2c/mock_libraries
 )
 
 add_testpackage(TEST_NAME 
                     com_interface 
                 SOURCES 
                     com/com_interface_tests.cpp
-                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/com/com_message_buffer_mock.cpp
+                    ${CMAKE_SOURCE_DIR}/tests/com/mock_libraries/com_message_buffer_mock.cpp
                 TEST_INCLUDE_DIRECTORIES 
                     ${CMAKE_SOURCE_DIR}/src/com
                     ${CMAKE_SOURCE_DIR}/src/types
-                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/com
+                    ${CMAKE_SOURCE_DIR}/tests/com/mock_libraries
 )
 
 add_testpackage(TEST_NAME 
@@ -100,7 +100,7 @@ add_testpackage(TEST_NAME
                 TEST_INCLUDE_DIRECTORIES 
                     ${CMAKE_SOURCE_DIR}/src/com
                     ${CMAKE_SOURCE_DIR}/src/types
-                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/com
+                    ${CMAKE_SOURCE_DIR}/tests/com/mock_libraries
 )
 
 add_testpackage(TEST_NAME 
@@ -110,7 +110,7 @@ add_testpackage(TEST_NAME
                 TEST_INCLUDE_DIRECTORIES 
                     ${CMAKE_SOURCE_DIR}/src/propulsion
                     ${CMAKE_SOURCE_DIR}/src/types
-                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/propulsion
+                    ${CMAKE_SOURCE_DIR}/tests/propulsion/mock_libraries
 )
 
 add_testpackage(TEST_NAME 
@@ -121,7 +121,7 @@ add_testpackage(TEST_NAME
                 TEST_INCLUDE_DIRECTORIES 
                     ${CMAKE_SOURCE_DIR}/src/propulsion
                     ${CMAKE_SOURCE_DIR}/src/types
-                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/propulsion
+                    ${CMAKE_SOURCE_DIR}/tests/propulsion/mock_libraries
 )
 
 add_testpackage(TEST_NAME 
@@ -145,8 +145,8 @@ add_testpackage(TEST_NAME
                     ${CMAKE_SOURCE_DIR}/src/imu
                     ${CMAKE_SOURCE_DIR}/src/types
                     ${CMAKE_SOURCE_DIR}/src/i2c
-                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu
-                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c
+                    ${CMAKE_SOURCE_DIR}/tests/imu/mock_libraries
+                    ${CMAKE_SOURCE_DIR}/tests/i2c/mock_libraries
 )
 
 add_testpackage(TEST_NAME 
@@ -166,8 +166,8 @@ add_testpackage(TEST_NAME
                     ${CMAKE_SOURCE_DIR}/src/imu
                     ${CMAKE_SOURCE_DIR}/src/types
                     ${CMAKE_SOURCE_DIR}/src/i2c
-                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu
-                    ${CMAKE_SOURCE_DIR}/tests/mock_libraries/i2c
+                    ${CMAKE_SOURCE_DIR}/tests/imu/mock_libraries
+                    ${CMAKE_SOURCE_DIR}/tests/i2c/mock_libraries
 )
 
 if(CODE_COVERAGE)
