@@ -1,6 +1,5 @@
 
 include(AddGoogleTest)
-include(BundleAllTests)
 
 function(add_testpackage)
     set(options)
