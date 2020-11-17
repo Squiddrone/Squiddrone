@@ -1,42 +1,48 @@
 #include "spi.hpp"
 
 namespace spi {
-auto SPI::Transfer(std::vector<uint8_t> &miso_data_buffer, std::vector<uint8_t> &mosi_data_buffer) noexcept -> types::SPIStatus {
+auto SPI::Transfer(std::vector<uint8_t> &mosi_data_buffer, std::vector<uint8_t> &miso_data_buffer) noexcept -> types::DriverStatus {
   HAL_StatusTypeDef transmit_receive_ret_value = HAL_ERROR;
-  types::SPIStatus return_value = types::SPIStatus::SPI_HAL_ERROR;
+  types::DriverStatus return_value = types::DriverStatus::HAL_ERROR;
 
-  uint8_t transmit_size = static_cast<uint8_t>(mosi_data_buffer.size());
-
-  if (IsBufferSizeExceedingLimits(transmit_size)) {
-    return types::SPIStatus::SPI_BUFFER_SIZE_LIMIT_EXCEEDED;
+  if (IsMisoBufferTooSmall(mosi_data_buffer, miso_data_buffer)) {
+    return types::DriverStatus::INPUT_ERROR;
   }
 
-  miso_data_buffer.resize(transmit_size);
+  uint8_t transaction_length = static_cast<uint8_t>(miso_data_buffer.size());
+
+  if (IsTransactionLengthExceedingLimits(transaction_length)) {
+    return types::DriverStatus::INPUT_ERROR;
+  }
 
   SetChipSelectPin(PinSetting::HIGH);
 
   transmit_receive_ret_value = HAL_SPI_TransmitReceive(&hspi1,
                                                        reinterpret_cast<uint8_t *>(mosi_data_buffer.data()),
                                                        reinterpret_cast<uint8_t *>(miso_data_buffer.data()),
-                                                       transmit_size,
-                                                       SPI_HAL_TX_RX_TIMEOUT);
+                                                       transaction_length,
+                                                       types::SPI_HAL_TX_RX_TIMEOUT);
 
   SetChipSelectPin(PinSetting::LOW);
 
   if (transmit_receive_ret_value == HAL_OK) {
-    return_value = types::SPIStatus::SPI_TRANSACTION_SUCCESSFUL;
+    return_value = types::DriverStatus::OK;
   }
   if (transmit_receive_ret_value == HAL_TIMEOUT) {
-    return_value = types::SPIStatus::SPI_TRANSACTION_FAILED;
+    return_value = types::DriverStatus::TIMEOUT;
   }
   if (transmit_receive_ret_value == HAL_ERROR) {
-    return_value = types::SPIStatus::SPI_HAL_ERROR;
+    return_value = types::DriverStatus::HAL_ERROR;
   }
   return return_value;
 }
 
-auto SPI::IsBufferSizeExceedingLimits(std::uint8_t buffer_size) noexcept -> bool {
-  return buffer_size > SPI_TRANSACTION_BUFFER_SIZE_LIMIT;
+auto SPI::IsTransactionLengthExceedingLimits(std::uint8_t transaction_length) noexcept -> bool {
+  return transaction_length > types::SPI_TRANSACTION_LENGTH_LIMIT;
+}
+
+auto SPI::IsMisoBufferTooSmall(std::vector<uint8_t> &mosi_buffer, std::vector<uint8_t> &miso_buffer) noexcept -> bool {
+  return miso_buffer.size() < mosi_buffer.size();
 }
 
 auto SPI::SetChipSelectPin(PinSetting pin_setting) noexcept -> void {

@@ -2,7 +2,6 @@
 #define SRC_SPI_SPI_HPP_
 
 #include <array>
-#include <spi_types.hpp>
 #include "spi_interface.hpp"
 #include "stm32g4xx_hal.h"
 
@@ -10,9 +9,6 @@
 #include "spi_config.h"
 
 namespace spi {
-
-static constexpr std::uint8_t SPI_TRANSACTION_BUFFER_SIZE_LIMIT = 64;
-static constexpr std::uint8_t SPI_HAL_TX_RX_TIMEOUT = 100;
 
 /**
  * @brief Valid values for chip select pin setting
@@ -42,19 +38,29 @@ class SPI final : spi::SPIInterface {
   explicit SPI(const CSPin chip_select) : spi::SPIInterface(), chip_select_(chip_select){};
   virtual ~SPI() = default;
 
-  auto Transfer(std::vector<uint8_t> &miso_data_buffer, std::vector<uint8_t> &mosi_data_buffer) noexcept -> types::SPIStatus override;
+  auto Transfer(std::vector<uint8_t> &mosi_data_buffer, std::vector<uint8_t> &miso_data_buffer) noexcept -> types::DriverStatus override;
 
  private:
   CSPin chip_select_;
 
   /**
-   * @brief Check if buffer size is exceeding maximuzm size.
+   * @brief Check if transcaction length is exceeding maximuzm size.
    * 
-   * @param buffer_size Buffer size in bytes.
-   * @return true Buffer size is exceeding limits.
-   * @return false Buffer size is within limits.
+   * @param transaction_length Transaction length in bytes.
+   * @return true Transaction length is exceeding limits.
+   * @return false Transaction length is within limits.
    */
-  auto IsBufferSizeExceedingLimits(std::uint8_t buffer_size) noexcept -> bool;
+  auto IsTransactionLengthExceedingLimits(std::uint8_t transaction_length) noexcept -> bool;
+
+  /**
+   * @brief Check if miso buffer is smaller than the mosi buffer.
+   * 
+   * @param mosi_buffer Reference to the mosi buffer.
+   * @param miso_buffer Reference to the miso buffer
+   * @return true Miso buffer is too small
+   * @return false Miso buffer is large enough.
+   */
+  auto IsMisoBufferTooSmall(std::vector<uint8_t> &mosi_buffer, std::vector<uint8_t> &miso_buffer) noexcept -> bool;
 
   /**
    * @brief Set the Chip select GPIO pin.
