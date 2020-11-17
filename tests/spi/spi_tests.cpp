@@ -40,8 +40,8 @@ TEST_F(SPITests, miso_buffer_too_small) {
   hspi1.mock_return_value = HAL_StatusTypeDef::HAL_OK;
   std::vector<uint8_t> mosi_buffer(5);
   std::vector<uint8_t> small_miso_buffer(0);
-  types::DriverStatus rv = unit_under_test_->Transfer(miso_buffer, small_miso_buffer);
-  EXPECT_EQ(rv, types::DriverStatus::OK);
+  types::DriverStatus rv = unit_under_test_->Transfer(mosi_buffer, small_miso_buffer);
+  EXPECT_EQ(rv, types::DriverStatus::INPUT_ERROR);
 }
 
 TEST_F(SPITests, successful_spi_transfer) {
