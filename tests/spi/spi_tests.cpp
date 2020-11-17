@@ -18,40 +18,54 @@ class SPITests : public ::testing::Test {
 
 TEST_F(SPITests, exceeding_buffer_size_limit) {
   std::vector<uint8_t> too_large_buffer(65);
-  types::SPIStatus rv = unit_under_test_->Transfer(miso_buffer, too_large_buffer);
-  EXPECT_EQ(rv, types::SPIStatus::SPI_BUFFER_SIZE_LIMIT_EXCEEDED);
+  types::DriverStatus rv = unit_under_test_->Transfer(mosi_buffer, too_large_buffer);
+  EXPECT_EQ(rv, types::DriverStatus::INPUT_ERROR);
 }
 
 TEST_F(SPITests, buffer_size_limit_at_maximum) {
   hspi1.mock_return_value = HAL_StatusTypeDef::HAL_OK;
-  std::vector<uint8_t> mosi_buffer(64);
-  types::SPIStatus rv = unit_under_test_->Transfer(miso_buffer, mosi_buffer);
-  EXPECT_EQ(rv, types::SPIStatus::SPI_TRANSACTION_SUCCESSFUL);
+  std::vector<uint8_t> miso_buffer(64);
+  types::DriverStatus rv = unit_under_test_->Transfer(mosi_buffer, miso_buffer);
+  EXPECT_EQ(rv, types::DriverStatus::OK);
 }
 
 TEST_F(SPITests, buffer_size_limit_zero) {
   hspi1.mock_return_value = HAL_StatusTypeDef::HAL_OK;
   std::vector<uint8_t> zero_size_buffer(0);
-  types::SPIStatus rv = unit_under_test_->Transfer(miso_buffer, zero_size_buffer);
-  EXPECT_EQ(rv, types::SPIStatus::SPI_TRANSACTION_SUCCESSFUL);
+  types::DriverStatus rv = unit_under_test_->Transfer(zero_size_buffer, miso_buffer);
+  EXPECT_EQ(rv, types::DriverStatus::OK);
+}
+
+TEST_F(SPITests, miso_buffer_too_small) {
+  hspi1.mock_return_value = HAL_StatusTypeDef::HAL_OK;
+  std::vector<uint8_t> mosi_buffer(5);
+  std::vector<uint8_t> small_miso_buffer(0);
+  types::DriverStatus rv = unit_under_test_->Transfer(miso_buffer, small_miso_buffer);
+  EXPECT_EQ(rv, types::DriverStatus::OK);
 }
 
 TEST_F(SPITests, successful_spi_transfer) {
   hspi1.mock_return_value = HAL_StatusTypeDef::HAL_OK;
-  types::SPIStatus rv = unit_under_test_->Transfer(miso_buffer, mosi_buffer);
-  EXPECT_EQ(rv, types::SPIStatus::SPI_TRANSACTION_SUCCESSFUL);
+  types::DriverStatus rv = unit_under_test_->Transfer(miso_buffer, mosi_buffer);
+  EXPECT_EQ(rv, types::DriverStatus::OK);
 }
 
-TEST_F(SPITests, unsuccessful_spi_transfer) {
+TEST_F(SPITests, timeout_during_spi_transfer) {
   hspi1.mock_return_value = HAL_StatusTypeDef::HAL_TIMEOUT;
-  types::SPIStatus rv = unit_under_test_->Transfer(miso_buffer, mosi_buffer);
-  EXPECT_EQ(rv, types::SPIStatus::SPI_TRANSACTION_FAILED);
+  types::DriverStatus rv = unit_under_test_->Transfer(miso_buffer, mosi_buffer);
+  EXPECT_EQ(rv, types::DriverStatus::TIMEOUT);
 }
 
 TEST_F(SPITests, spi_hal_error) {
   hspi1.mock_return_value = HAL_StatusTypeDef::HAL_ERROR;
-  types::SPIStatus rv = unit_under_test_->Transfer(miso_buffer, mosi_buffer);
-  EXPECT_EQ(rv, types::SPIStatus::SPI_HAL_ERROR);
+  types::DriverStatus rv = unit_under_test_->Transfer(miso_buffer, mosi_buffer);
+  EXPECT_EQ(rv, types::DriverStatus::HAL_ERROR);
+}
+
+TEST_F(SPITests, spi_hal_busy) {
+  hspi1.mock_return_value = HAL_StatusTypeDef::HAL_BUSY;
+  types::DriverStatus rv = unit_under_test_->Transfer(miso_buffer, mosi_buffer);
+  EXPECT_EQ(rv, types::DriverStatus::HAL_ERROR);
 }
 
 }  // namespace
