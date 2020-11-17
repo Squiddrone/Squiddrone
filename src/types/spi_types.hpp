@@ -4,20 +4,10 @@
 #include <cinttypes>
 
 namespace types {
-/**
- * @brief Enum class of type inf for spi status return values.
- * 
- */
-enum class SPIStatus : int {
-  ///SPI transaction was successful.
-  SPI_TRANSACTION_SUCCESSFUL,
-  ///SPI transaction failed.
-  SPI_TRANSACTION_FAILED,
-  ///Hal signaled an error.
-  SPI_HAL_ERROR,
-  ///Data buffer size exceeding limit
-  SPI_BUFFER_SIZE_LIMIT_EXCEEDED
-};
+
+static constexpr std::uint8_t SPI_TRANSACTION_LENGTH_LIMIT = 64;
+static constexpr std::uint8_t SPI_HAL_TX_RX_TIMEOUT = 100;
+
 }  // namespace types
 
 #endif
