@@ -44,7 +44,7 @@ class SPI final : spi::SPIInterface {
   CSPin chip_select_;
 
   /**
-   * @brief Check if transcaction length is exceeding maximuzm size.
+   * @brief Check if transaction length is exceeding maximum size.
    * 
    * @param transaction_length Transaction length in bytes.
    * @return true Transaction length is exceeding limits.
