@@ -4,9 +4,11 @@
  *  Created on: Oct 4, 2019
  *      Author: aron
  */
+
 #include "stm32g4xx_hal.h"
 //
 #include "clock_config.h"
+#include "com/com_message_buffer.hpp"
 #include "cordic_config.h"
 #include "crc_config.h"
 #include "fmac_config.h"
