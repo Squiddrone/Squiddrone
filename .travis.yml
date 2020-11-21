@@ -23,6 +23,7 @@ jobs:
         - docker run --rm -v $(pwd):/usr/project ${DOCKER_CONTAINER} ./build.sh
       after_script:
         - docker run --rm -v $(pwd):/usr/project ${DOCKER_CONTAINER} ./build_unittests.sh
+        - docker run --rm -v $(pwd):/usr/project ${DOCKER_CONTAINER} ./run_all_unittests.sh
         - docker run --rm -v $(pwd):/usr/project ${DOCKER_CONTAINER} ./generate_coverage.sh
         - report_ci_env=`bash <report_ci_env`
         - docker run $report_ci_env --env TRAVIS_BUILD_DIR=/usr/project/ --rm -v $(pwd):/usr/project ${DOCKER_CONTAINER} ./upload_report_ci.sh

@@ -13,6 +13,6 @@ add_subdirectory(utilities)
 if(CODE_COVERAGE)
     SETUP_TARGET_FOR_COVERAGE_LCOV(
         NAME coverage                 
-        EXECUTABLE GTEST_COLOR=1 GTEST_REPEAT=3 GTEST_SHUFFLE=1 ctest -j ${n_cores}
+        EXECUTABLE ctest
     )
 endif(CODE_COVERAGE)
