@@ -89,7 +89,7 @@ if env.get("GITHUB_ACTIONS") == "true":
     # https://help.github.com/en/actions/configuring-and-managing-workflows/using-environment-variables
     service = "github-actions"
 
-    build_id = env.get("GITHUB_ACTION")
+    build_id = env.get("GITHUB_RUN_ID")
     commit = env.get("GITHUB_SHA")
     slug = env.get("GITHUB_REPOSITORY")
     account_name = env.get("GITHUB_ACTOR")
