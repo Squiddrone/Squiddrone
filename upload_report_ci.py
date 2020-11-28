@@ -110,6 +110,7 @@ if not commit:
     commit = subprocess.check_output(["/bin/git", "rev-parse", "HEAD"]).decode().replace('\n', '')  # nosec
 
 print(BColors.OKBLUE + "    Commit hash: " + commit + BColors.ENDC)
+print(BColors.OKBLUE + "    Build ID: " + build_id + BColors.ENDC)
 
 if not root_dir:
     root_dir = subprocess.check_output(["/bin/git", "rev-parse", "--show-toplevel"]).decode().replace('\n', '')  # nosec
