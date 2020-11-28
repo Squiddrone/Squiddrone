@@ -97,6 +97,13 @@ if env.get("GITHUB_ACTIONS") == "true":
     branch = env.get("GITHUB_REF")
     if branch:
         branch = os.path.basename(branch)
+        
+    print(BColors.OKBLUE + "    Build ID: " + build_id + BColors.ENDC)
+    print(BColors.OKBLUE + "    commit: " + commit + BColors.ENDC)
+    print(BColors.OKBLUE + "    slug: " + slug + BColors.ENDC)
+    print(BColors.OKBLUE + "    account_name: " + account_name + BColors.ENDC)
+    print(BColors.OKBLUE + "    root_dir: " + root_dir + BColors.ENDC)
+    print(BColors.OKBLUE + "    branch: " + branch + BColors.ENDC)
 
 else:
     print(BColors.HEADER + "    No CI detected." + BColors.ENDC)
