@@ -1,4 +1,4 @@
 #!/bin/bash
 
 # Upload to Report.CI
-curl -s https://report.ci/upload.py | python - --include='*.xml' --framework=gtest
+python3 upload_report_ci.py --include='*.xml' --framework=gtest
