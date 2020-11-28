@@ -499,5 +499,9 @@ try:
 
 except Exception as e:
     print(BColors.FAIL + 'Publishing failed: {0}'.format(e) + BColors.ENDC)
+    print(BColors.FAIL + 'url: {}'.format(url) + BColors.ENDC)
+    print(BColors.FAIL + 'owner: {}'.format(owner) + BColors.ENDC)
+    print(BColors.FAIL + 'repo: {}'.format(repo) + BColors.ENDC)
+    print(BColors.FAIL + 'ch_id: {}'.format(ch_id) + BColors.ENDC)
     print(e)
     exit(1)
