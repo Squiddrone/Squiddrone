@@ -11,7 +11,7 @@ add_testpackage(TEST_NAME
 
 add_testpackage(TEST_NAME 
                     com_message_buffer 
-                    SOURCES 
+                SOURCES 
                     com_message_buffer_tests.cpp
                     ${CMAKE_SOURCE_DIR}/src/com/com_message_buffer.cpp
                 TEST_INCLUDE_DIRECTORIES 
