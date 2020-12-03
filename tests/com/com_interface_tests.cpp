@@ -50,7 +50,6 @@ TEST_F(ComInterfaceTests, get_data_packet) {
 
 TEST_F(ComInterfaceTests, put_data_packet) {
   types::com_msg_frame data;
-  auto com_buffer = std::make_unique<com::ComMessageBuffer>();
   auto unit_under_test = std::make_unique<ConcreteComInterface>(std::move(com_buffer_));
   ASSERT_EQ(types::ComError::COM_OK, unit_under_test->PutDataPacket(1, data));
 }
