@@ -2,7 +2,7 @@
 include(AddGoogleTest)
 include(AddTestPackage)
 
-#add_subdirectory(com)
+add_subdirectory(com)
 add_subdirectory(i2c)
 add_subdirectory(imu)
 add_subdirectory(propulsion)
