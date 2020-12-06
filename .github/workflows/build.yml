@@ -1,0 +1,67 @@
+name: Build and Test
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Build - ${{ github.event_name }}
+    runs-on: ubuntu-latest
+    container:
+      image: thorshamster/squiddrone:1.2
+      volumes:
+      - /home/runner/work:/usr/project
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build
+        run: ./build.sh
+
+      - name: Upload Artifact
+        if: success()
+        uses: actions/upload-artifact@v2
+        with:
+          name: SquidDrone.bin
+          path: ${{ github.workspace }}/build/SquidDrone.bin
+          retention-days: 5
+
+      - name: Install rsync. Necessary for Deployment.
+        run: apt-get update && apt-get install -y rsync
+        if: success() && github.ref == 'refs/heads/master'
+
+      - name: Deploy
+        if: success() && github.ref == 'refs/heads/master'
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: ./build/doc_doxygen/html
+          CLEAN: true
+
+  test:
+    name: Test - ${{ github.event_name }}
+    runs-on: ubuntu-latest
+    container:
+      image: thorshamster/squiddrone:1.2
+      volumes:
+      - /home/runner/work:/usr/project
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run Styleguide Checks
+        run: ./check_styleguide.sh -r
+
+      - name: Build Unittest
+        run: ./build_unittests.sh
+
+      - name: Run all Unittest
+        run: ./run_all_unittests.sh
+
+      - name: Generate Coverage
+        run: ./generate_coverage.sh
+
+      - name: Upload to CodeCov
+        uses: codecov/codecov-action@v1
