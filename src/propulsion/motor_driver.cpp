@@ -6,6 +6,7 @@
 #include "motor_builder_mock.hpp"
 #endif
 #include "motor_driver.hpp"
+#include "stm32g4xx_hal.h"
 #include "timer_config.h"
 
 namespace propulsion {
@@ -24,7 +25,8 @@ MotorDriver::MotorDriver() : motors_{} {
 }
 
 auto MotorDriver::InitializeMotor(MotorPosition position, PropulsionHardwareConfig &config) noexcept -> void {
-  auto motor = MotorBuilder::Create(config);
+  auto builder = MotorBuilder();
+  auto motor = builder.Create(config);
   if (motor == nullptr) {
     std::abort();
   } else {
@@ -50,6 +52,10 @@ auto MotorDriver::SetMotorSpeed(const MotorPosition which_motor, const float spe
 auto MotorDriver::GetMotorSpeed(const MotorPosition which_motor) const noexcept -> std::pair<float, types::DriverStatus> {
   auto speed = motors_.at(static_cast<int>(which_motor))->GetCurrentSpeedInPercent();
   return std::pair<float, types::DriverStatus>{speed, types::DriverStatus::OK};
+}
+
+auto MotorDriver::ArmEsc() const noexcept -> const types::DriverStatus {
+  HAL_Delay(100);
 }
 
 }  // namespace propulsion

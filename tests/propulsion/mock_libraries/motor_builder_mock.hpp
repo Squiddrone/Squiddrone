@@ -1,19 +1,16 @@
 #ifndef TEST_MOCK_LIBRARIES_PROPULSION_MOTOR_BUILDER_MOCK_HPP_
 #define TEST_MOCK_LIBRARIES_PROPULSION_MOTOR_BUILDER_MOCK_HPP_
 
+#include <memory>
+#include "abstract_motor_builder.hpp"
+#include "gmock/gmock.h"
+#include "gtest/gtest.h"
 #include "motor.hpp"
-#include "propulsion_hardware_config.hpp"
+#include "propulsion_hardware_config_mock.hpp"
 
-namespace propulsion {
-
-/// For now a naive mock, because static methods are death of testability
-class MotorBuilder {
+class MockMotorBuilder : public propulsion::AbstractMotorBuilder {
  public:
-  static auto Create(propulsion::PropulsionHardwareConfig& motor_config) noexcept -> std::unique_ptr<Motor> {
-    return nullptr;
-  }
+  MOCK_METHOD(std::unique_ptr<propulsion::Motor>, Create, (propulsion::PropulsionHardwareConfig & motor_config), (noexcept, override));
 };
-
-}  // namespace propulsion
 
 #endif
