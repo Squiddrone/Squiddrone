@@ -3,9 +3,15 @@
 
 #include <array>
 #include <memory>
+#include "abstract_motor_builder.hpp"
 #include "error_types.hpp"
 #include "motor.hpp"
+
+#ifndef UNIT_TEST
 #include "propulsion_hardware_config.hpp"
+#else
+#include "propulsion_hardware_config_mock.hpp"
+#endif
 
 namespace propulsion {
 
@@ -23,9 +29,11 @@ class MotorDriver {
    * Hardfaults if something doesn't work.
    * 
    * Hardware configuration is hardcoded and not dynamic for now.
-   * 
+   * @param builder the builder object which can buil the motors
    */
-  MotorDriver();
+  MotorDriver(std::unique_ptr<AbstractMotorBuilder> builder);
+
+  MotorDriver() = delete;
 
   /// The default destructor is enough
   ~MotorDriver() = default;
@@ -53,6 +61,7 @@ class MotorDriver {
   auto ArmEsc() const noexcept -> const types::DriverStatus;
 
  private:
+  std::unique_ptr<AbstractMotorBuilder> motor_builder_;
   static constexpr auto NUMBER_OF_MOTORS_ = 4;
   std::array<std::unique_ptr<Motor>, NUMBER_OF_MOTORS_> motors_;
 

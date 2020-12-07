@@ -1,17 +1,11 @@
-#include <cstdlib>
-
-#ifndef UNIT_TEST
-#include "motor_builder.hpp"
-#else
-#include "motor_builder_mock.hpp"
-#endif
 #include "motor_driver.hpp"
+#include <cstdlib>
 #include "stm32g4xx_hal.h"
 #include "timer_config.h"
 
 namespace propulsion {
 
-MotorDriver::MotorDriver() : motors_{} {
+MotorDriver::MotorDriver(std::unique_ptr<AbstractMotorBuilder> builder) : motor_builder_(std::move(builder)), motors_{} {
   auto motor_type = types::MotorType::LETODAR_2204;
   auto esc_type = types::EscType::LITTLE_BEE_20_A;
   PropulsionHardwareConfig config_left_front{motor_type, esc_type, &htim2, TIM_CHANNEL_1};
@@ -25,8 +19,7 @@ MotorDriver::MotorDriver() : motors_{} {
 }
 
 auto MotorDriver::InitializeMotor(MotorPosition position, PropulsionHardwareConfig &config) noexcept -> void {
-  auto builder = MotorBuilder();
-  auto motor = builder.Create(config);
+  auto motor = motor_builder_->Create(config);
   if (motor == nullptr) {
     std::abort();
   } else {
@@ -55,7 +48,7 @@ auto MotorDriver::GetMotorSpeed(const MotorPosition which_motor) const noexcept 
 }
 
 auto MotorDriver::ArmEsc() const noexcept -> const types::DriverStatus {
-  HAL_Delay(100);
+  HAL_Delay(100);  // this must go.
 }
 
 }  // namespace propulsion
