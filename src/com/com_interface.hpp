@@ -7,6 +7,7 @@
 #include "com_message_buffer_mock.hpp"
 #endif
 #include "com_types.hpp"
+#include "error_types.hpp"
 
 #include <memory>
 

@@ -8,6 +8,7 @@ namespace reg {
 
 /// configuration register
 namespace config {
+const std::uint8_t REG_ADDR = 0x0;
 const std::uint8_t MASK_RX_DR = 6;
 const std::uint8_t MASK_TX_DS = 5;
 const std::uint8_t MASK_MAX_RT = 4;
@@ -19,6 +20,7 @@ const std::uint8_t PRIM_RX = 0;
 
 /// enable enhanced shock burst auto acknowledgement
 namespace en_aa {
+const std::uint8_t REG_ADDR = 0x1;
 const std::uint8_t ENAA_P5 = 5;
 const std::uint8_t ENAA_P4 = 4;
 const std::uint8_t ENAA_P3 = 3;
@@ -29,6 +31,7 @@ const std::uint8_t ENAA_P0 = 0;
 
 /// enable RX data pipes
 namespace en_rxaddr {
+const std::uint8_t REG_ADDR = 0x2;
 const std::uint8_t ERX_P5 = 5;
 const std::uint8_t ERX_P4 = 4;
 const std::uint8_t ERX_P3 = 3;
@@ -39,6 +42,7 @@ const std::uint8_t ERX_P0 = 1;
 
 /// setup of address widths
 namespace setup_aw {
+const std::uint8_t REG_ADDR = 0x3;
 const std::uint8_t AW_3BYTES = 0x1;
 const std::uint8_t AW_4BYTES = 0x2;
 const std::uint8_t AW_5BYTES = 0x3;
@@ -46,6 +50,7 @@ const std::uint8_t AW_5BYTES = 0x3;
 
 /// setup of automatic retransmission
 namespace setup_retr {
+const std::uint8_t REG_ADDR = 0x4;
 // auto retransmis delay 250-4000 us
 const std::uint8_t ARD250 = 0x00;
 const std::uint8_t ARD500 = 0x10;
@@ -82,6 +87,110 @@ const std::uint8_t ARC13 = 0xd;
 const std::uint8_t ARC14 = 0xe;
 const std::uint8_t ARC15 = 0xf;
 }  // namespace setup_retr
+
+namespace rf_ch {
+const std::uint8_t REG_ADDR = 0x5;
+}  // namespace rf_ch
+
+namespace rf_setup {
+const std::uint8_t REG_ADDR = 0x6;
+const std::uint8_t PLL_LOCK = 4;
+const std::uint8_t RF_DR = 3;
+const std::uint8_t RF_PWR = 1;
+const std::uint8_t RF_PWR_18dBm = 0x0;
+const std::uint8_t RF_PWR_12dBm = 0x1;
+const std::uint8_t RF_PWR_6dBm = 0x2;
+const std::uint8_t RF_PWR_0dBm = 0x3;
+const std::uint8_t LNA_HCURR = 0;
+}  // namespace rf_setup
+
+namespace status {
+const std::uint8_t REG_ADDR = 0x7;
+const std::uint8_t RX_DR = 6;
+const std::uint8_t TX_DS = 5;
+const std::uint8_t MAX_RT = 4;
+const std::uint8_t RX_P_NO = 1;
+const std::uint8_t RX_P_NO_0 = 0b0;
+const std::uint8_t RX_P_NO_1 = 0b1;
+const std::uint8_t RX_P_NO_2 = 0b10;
+const std::uint8_t RX_P_NO_3 = 0b11;
+const std::uint8_t RX_P_NO_4 = 0b100;
+const std::uint8_t RX_P_NO_5 = 0b101;
+const std::uint8_t RX_FIFO_EMPTY = 0b111;
+const std::uint8_t TX_FULL = 0;
+}  // namespace status
+
+namespace observe_tx {
+const std::uint8_t REG_ADDR = 0x8;
+const std::uint8_t PLOS_CNT = 4;
+const std::uint8_t ARC_CNT = 0;
+}  // namespace observe_tx
+
+namespace cd {
+const std::uint8_t REG_ADDR = 0x9;
+const std::uint8_t CD = 0;
+}  // namespace cd
+
+namespace rx_addr_p0 {
+const std::uint8_t REG_ADDR = 0x0a;
+}  // namespace rx_addr_p0
+
+namespace rx_addr_p1 {
+const std::uint8_t REG_ADDR = 0x0b;
+}  // namespace rx_addr_p1
+
+namespace rx_addr_p2 {
+const std::uint8_t REG_ADDR = 0x0c;
+}  // namespace rx_addr_p2
+
+namespace rx_addr_p3 {
+const std::uint8_t REG_ADDR = 0x0d;
+}  // namespace rx_addr_p3
+
+namespace rx_addr_p4 {
+const std::uint8_t REG_ADDR = 0x0e;
+}  // namespace rx_addr_p4
+
+namespace rx_addr_p5 {
+const std::uint8_t REG_ADDR = 0x0f;
+}  // namespace rx_addr_p5
+
+namespace tx_addr {
+const std::uint8_t REG_ADDR = 0x10;
+}  // namespace tx_addr
+
+namespace rx_pw_p0 {
+const std::uint8_t REG_ADDR = 0x11;
+}  // namespace rx_pw_p0
+
+namespace rx_pw_p1 {
+const std::uint8_t REG_ADDR = 0x12;
+}  // namespace rx_pw_p1
+
+namespace rx_pw_p2 {
+const std::uint8_t REG_ADDR = 0x13;
+}  // namespace rx_pw_p2
+
+namespace rx_pw_p3 {
+const std::uint8_t REG_ADDR = 0x14;
+}  // namespace rx_pw_p3
+
+namespace rx_pw_p4 {
+const std::uint8_t REG_ADDR = 0x15;
+}  // namespace rx_pw_p4
+
+namespace rx_pw_p5 {
+const std::uint8_t REG_ADDR = 0x16;
+}  // namespace rx_pw_p5
+
+namespace fifo_status {
+const std::uint8_t REG_ADDR = 0x17;
+const std::uint8_t TX_REUSE = 6;
+const std::uint8_t TX_FULL = 5;
+const std::uint8_t TX_EMPTY = 4;
+const std::uint8_t RX_FULL = 1;
+const std::uint8_t RX_EMPTY = 0;
+}  // namespace fifo_status
 
 }  // namespace reg
 }  // namespace com

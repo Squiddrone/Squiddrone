@@ -26,7 +26,7 @@ class Byte {
 
   auto SetHighNibble(std::uint8_t value_between_0_and_15) noexcept -> void {
     byte_ &= 0x0f;
-    byte_ |= (value_between_0_and_15 << 4);
+    byte_ |= static_cast<std::uint8_t>(value_between_0_and_15 << 4);
   }
 
   auto SetLowNibble(std::uint8_t value_between_0_and_15) noexcept -> void {
