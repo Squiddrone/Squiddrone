@@ -1,7 +1,7 @@
 #ifndef SRC_COM_COM_NRF24L01_REG_HPP_
 #define SRC_COM_COM_NRF24L01_REG_HPP_
 
-#include <cstdint>std::
+#include <cstdint>
 
 namespace com {
 namespace reg {
