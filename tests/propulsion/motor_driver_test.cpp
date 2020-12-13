@@ -7,13 +7,16 @@
 #include "motor_builder_mock.hpp"
 
 using ::testing::NiceMock;
+using ::testing::Return;
 
 namespace {
 class MotorDriverTest : public ::testing::Test {
  protected:
   virtual void SetUp() override {
     ON_CALL(*builder_, Create).WillByDefault([](propulsion::PropulsionHardwareConfig &) {
-      return std::make_unique<propulsion::MotorMock>();
+      std::unique_ptr<NiceMock<propulsion::MotorMock>> motor = std::make_unique<NiceMock<propulsion::MotorMock>>();
+      ON_CALL(*motor, SetSpeedInPercent).WillByDefault(Return(types::DriverStatus::OK));
+      return motor;
     });
     unit_under_test_ = std::make_unique<propulsion::MotorDriver>(std::move(builder_));
   }
