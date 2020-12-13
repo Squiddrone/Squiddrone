@@ -28,8 +28,8 @@ auto MotorDriver::InitializeMotor(MotorPosition position, PropulsionHardwareConf
 }
 
 auto MotorDriver::SetMotorSpeed(const MotorPosition which_motor, const float speed) const noexcept -> const types::DriverStatus {
-  const float min_speed = 0;
-  const float max_speed = 100;
+  const float min_speed = 0.0;
+  const float max_speed = 100.0;
   if (speed < min_speed || speed > max_speed) {
     return types::DriverStatus::INPUT_ERROR;
   } else {
@@ -43,8 +43,14 @@ auto MotorDriver::SetMotorSpeed(const MotorPosition which_motor, const float spe
 }
 
 auto MotorDriver::GetMotorSpeed(const MotorPosition which_motor) const noexcept -> std::pair<float, types::DriverStatus> {
+  constexpr float minimum_speed_in_percent = 0.0;
+  constexpr float maximum_speed_in_percent = 100.0;
   auto speed = motors_.at(static_cast<int>(which_motor))->GetCurrentSpeedInPercent();
-  return std::pair<float, types::DriverStatus>{speed, types::DriverStatus::OK};
+  if (speed < minimum_speed_in_percent or speed > maximum_speed_in_percent) {
+    return std::pair<float, types::DriverStatus>(-1, types::DriverStatus::HAL_ERROR);
+  } else {
+    return std::pair<float, types::DriverStatus>{speed, types::DriverStatus::OK};
+  }
 }
 
 auto MotorDriver::ArmEsc() const noexcept -> const types::DriverStatus {

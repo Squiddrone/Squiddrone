@@ -38,6 +38,7 @@ class AbstractMotorDriver {
    * @param which_motor is the chosen motor position
    * 
    * @return  std::pair<speed, DriverStatus::OK> indicates success and returns speed
+   *          std::pair<-1, DriverStatus::HAL_ERROR> indicates an error and returns an invalid speed
    */
   virtual auto GetMotorSpeed(const MotorPosition which_motor) const noexcept -> std::pair<float, types::DriverStatus> = 0;
 

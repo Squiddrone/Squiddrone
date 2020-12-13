@@ -12,8 +12,6 @@ class MockMotorBuilder : public propulsion::AbstractMotorBuilder {
  public:
   MockMotorBuilder() : propulsion::AbstractMotorBuilder() {}
   MOCK_METHOD(std::unique_ptr<propulsion::Motor>, Create, (propulsion::PropulsionHardwareConfig & motor_config), (noexcept, override));
-  MOCK_METHOD((std::pair<float, types::DriverStatus>), GetMotorSpeed, (const MotorPosition which_motor), (const, noexcept, override));
-  MOCK_METHOD(const types::DriverStatus, ArmEsc, (), (const, noexcept, override));
 };
 
 namespace propulsion {
