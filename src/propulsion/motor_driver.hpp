@@ -4,6 +4,7 @@
 #include <array>
 #include <memory>
 #include "abstract_motor_builder.hpp"
+#include "abstract_motor_driver.hpp"
 #include "error_types.hpp"
 #include "motor.hpp"
 
@@ -15,14 +16,7 @@
 
 namespace propulsion {
 
-enum class MotorPosition : int {
-  LEFT_FRONT = 0,
-  RIGHT_FRONT = 1,
-  LEFT_REAR = 2,
-  RIGHT_REAR = 3
-};
-
-class MotorDriver {
+class MotorDriver : public AbstractMotorDriver {
  public:
   /**
    * @brief Construct a new Motor Driver object and initialize all Motors and ESCs.
@@ -38,27 +32,11 @@ class MotorDriver {
   /// The default destructor is enough
   ~MotorDriver() = default;
 
-  /**
-   * 
-   * @brief Apply speed to all motors
-   * 
-   * @param which_motor is the chosen motor position
-   * @param speed speed between 0 and 100%
-   * 
-   * @return  DriverStatus::OK on success
-   *          DriverStatus::INPUT_ERROR if speed was wrong
-   *          DriverStatus::HAL_ERROR if Motor object reports problem
-   */
-  auto SetMotorSpeed(const MotorPosition which_motor, const float speed) const noexcept -> const types::DriverStatus;
+  auto SetMotorSpeed(const MotorPosition which_motor, const float speed) const noexcept -> const types::DriverStatus override;
 
-  auto GetMotorSpeed(const MotorPosition which_motor) const noexcept -> std::pair<float, types::DriverStatus>;
+  auto GetMotorSpeed(const MotorPosition which_motor) const noexcept -> std::pair<float, types::DriverStatus> override;
 
-  /**
-   * @brief Arm all ESCs (blocking)
-   * 
-   * @return const types::DriverStatus 
-   */
-  auto ArmEsc() const noexcept -> const types::DriverStatus;
+  auto ArmEsc() const noexcept -> const types::DriverStatus override;
 
  private:
   std::unique_ptr<AbstractMotorBuilder> motor_builder_;

@@ -5,7 +5,7 @@
 
 namespace propulsion {
 
-MotorDriver::MotorDriver(std::unique_ptr<AbstractMotorBuilder> builder) : motor_builder_(std::move(builder)), motors_{} {
+MotorDriver::MotorDriver(std::unique_ptr<AbstractMotorBuilder> builder) : AbstractMotorDriver(), motor_builder_(std::move(builder)), motors_{} {
   auto motor_type = types::MotorType::LETODAR_2204;
   auto esc_type = types::EscType::LITTLE_BEE_20_A;
   PropulsionHardwareConfig config_left_front{motor_type, esc_type, &htim2, TIM_CHANNEL_1};
