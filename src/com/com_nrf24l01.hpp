@@ -25,12 +25,18 @@ class NRF24L01 final : public ComInterface {
  private:
   spi::CSPin cs_pin_;
   spi::SPI spi_{cs_pin_};
-  auto SetConfigBit(std::uint8_t register_addr, std::uint8_t bit_value) noexcept -> void;
+  auto SetConfigBit(std::uint8_t register_addr, std::uint8_t bit_value) const noexcept -> void;
   auto EnableTxMode() const noexcept -> types::DriverStatus;
   auto EnableRxMode() const noexcept -> types::DriverStatus;
   auto SetTxAddress(std::uint64_t tx_addr) const noexcept -> types::DriverStatus;
   auto SetPayloadData() const noexcept -> types::DriverStatus;
-  auto SetRxAddress(std::uint8_t pipe_no, std::uint64_t rx_addr) const noexcept -> types::DriverStatus;
+  auto EnableRxAddress(DataPipe pipe_no) const noexcept -> types::DriverStatus;
+  auto SetRxAddress(DataPipe pipe_no, std::uint64_t rx_addr) const noexcept -> types::DriverStatus;
+  auto EnableAutoAck(DataPipe pipe_no) const noexcept -> types::DriverStatus;
+  auto EnableCRC() const noexcept -> types::DriverStatus;
+  auto SetCRCEncodingScheme(CRCEncodingScheme encoding_scheme) const noexcept -> types::DriverStatus;
+  auto PowerUp() const noexcept -> types::DriverStatus;
+  auto PowerDown() const noexcept -> types::DriverStatus;
 };
 }  // namespace com
 

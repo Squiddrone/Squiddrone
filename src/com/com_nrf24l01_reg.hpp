@@ -4,8 +4,22 @@
 #include <cstdint>
 
 namespace com {
-namespace reg {
 
+enum class CRCEncodingScheme : std::uint8_t {
+  one_byte,
+  two_bytes
+};
+
+enum class DataPipe : std::uint8_t {
+  data_pipe_0,
+  data_pipe_1,
+  data_pipe_2,
+  data_pipe_3,
+  data_pipe_4,
+  data_pipe_5
+};
+
+namespace reg {
 /// configuration register
 namespace config {
 const std::uint8_t REG_ADDR = 0x0;

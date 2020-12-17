@@ -19,6 +19,8 @@
 #include "spi_config.h"
 #include "timer_config.h"
 
+#include "com_nrf24l01.hpp"
+
 int main() {
   HAL_Init();
   SystemClock_Config();
@@ -35,6 +37,11 @@ int main() {
   MX_TIM4_Init();
   MX_TIM16_Init();
   MX_TIM17_Init();
+
+  spi::CSPinDefinition com_cs_pin = {.peripheral = GPIOA, .gpio_pin = CSCOM_Pin};
+
+  auto com_buffer = std::make_unique<com::ComMessageBuffer>();
+  auto com_device = std::make_unique<com::NRF24L01>(std::move(com_buffer), com_cs_pin);
 
   while (1) {
   }
