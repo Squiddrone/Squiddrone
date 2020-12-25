@@ -2,6 +2,7 @@
 #define SRC_PROPULSION_MOTOR_DRIVER_HPP_
 
 #include <array>
+#include <cstdint>
 #include <memory>
 #include "abstract_motor_builder.hpp"
 #include "abstract_motor_driver.hpp"
@@ -36,15 +37,16 @@ class MotorDriver : public AbstractMotorDriver {
 
   auto GetMotorSpeed(const MotorPosition which_motor) const noexcept -> std::pair<float, types::DriverStatus> override;
 
-  auto ArmEsc() const noexcept -> const types::DriverStatus override;
+  auto ArmEscs() const noexcept -> const types::DriverStatus override;
 
  private:
   std::unique_ptr<AbstractMotorBuilder> motor_builder_;
   static constexpr auto NUMBER_OF_MOTORS_ = 4;
+  static constexpr std::uint32_t DELAY_TIME_MS_ = 1000;
   std::array<std::unique_ptr<Motor>, NUMBER_OF_MOTORS_> motors_;
 
   auto InitializeMotor(MotorPosition position, PropulsionHardwareConfig &config) noexcept -> void;
+  auto SetSpeedForAllMotors(const float speed) const noexcept -> const types::DriverStatus;
 };
-
 }  // namespace propulsion
 #endif

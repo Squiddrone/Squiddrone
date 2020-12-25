@@ -48,7 +48,7 @@ class AbstractMotorDriver {
    * @return const types::DriverStatus::OK on success
    *         const types::DriverStatus::HAL_ERROR if ESCs could not be armed
    */
-  virtual auto ArmEsc() const noexcept -> const types::DriverStatus = 0;
+  virtual auto ArmEscs() const noexcept -> const types::DriverStatus = 0;
 };
 
 }  // namespace propulsion

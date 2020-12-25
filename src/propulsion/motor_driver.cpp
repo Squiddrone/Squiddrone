@@ -53,8 +53,35 @@ auto MotorDriver::GetMotorSpeed(const MotorPosition which_motor) const noexcept 
   }
 }
 
-auto MotorDriver::ArmEsc() const noexcept -> const types::DriverStatus {
-  HAL_Delay(100);  // this must go.
+auto MotorDriver::ArmEscs() const noexcept -> const types::DriverStatus {
+  constexpr float max_speed = 100.0;
+  constexpr float min_speed = 0.0;
+
+  auto status = SetSpeedForAllMotors(min_speed);
+  if (status != types::DriverStatus::OK) {
+    return status;
+  }
+  HAL_Delay(DELAY_TIME_MS_);
+  status = SetSpeedForAllMotors(max_speed);
+  if (status != types::DriverStatus::OK) {
+    return status;
+  }
+  HAL_Delay(DELAY_TIME_MS_);
+  status = SetSpeedForAllMotors(min_speed);
+  if (status != types::DriverStatus::OK) {
+    return status;
+  }
+  return types::DriverStatus::OK;
+}
+
+auto MotorDriver::SetSpeedForAllMotors(const float speed) const noexcept -> const types::DriverStatus {
+  for (auto &&motor : motors_) {
+    auto status = motor->SetSpeedInPercent(speed);
+    if (status != types::DriverStatus::OK) {
+      return status;
+    }
+  }
+  return types::DriverStatus::OK;
 }
 
 }  // namespace propulsion
