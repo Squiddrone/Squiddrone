@@ -26,7 +26,7 @@ class MotorDriver : public AbstractMotorDriver {
    * Hardware configuration is hardcoded and not dynamic for now.
    * @param builder the builder object which can buil the motors
    */
-  MotorDriver(std::unique_ptr<AbstractMotorBuilder> builder);
+  explicit MotorDriver(std::unique_ptr<AbstractMotorBuilder> builder);
 
   MotorDriver() = delete;
 
