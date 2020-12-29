@@ -34,6 +34,12 @@ class InertialMeasurementInterface {
   explicit InertialMeasurementInterface(std::unique_ptr<i2c::I2CInterface> i2c_handler, std::unique_ptr<imu::GenericInertialMeasurementUnit> imu) : imu_(std::move(imu)){};
 
   /**
+   * @brief Used for Initialization of complete Inertial Measurement Unit
+   * 
+   */
+  virtual auto Init(void) noexcept -> types::DriverStatus = 0;
+
+  /**
    * @brief Used for setting of the gyroscopes sensitivity
    * 
    */

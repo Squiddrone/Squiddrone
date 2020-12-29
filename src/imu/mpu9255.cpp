@@ -2,6 +2,12 @@
 
 namespace imu {
 
+auto Mpu9255::Init(void) noexcept -> types::DriverStatus {
+  // gyroscope_ = std::make_unique<imu::Gyroscope>(std::move(i2c_handler_));
+  // return gyroscope_->Init(WHO_AM_I_MPU9255_ADDRESS);
+  return types::DriverStatus::OK;
+}
+
 auto Mpu9255::SetGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept -> void {
   gyroscope_sensitivity_ = gyroscope_sensitivity;
 }

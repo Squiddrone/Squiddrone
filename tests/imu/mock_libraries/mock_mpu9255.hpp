@@ -11,6 +11,7 @@ namespace imu {
 class MockMpu9255 : public GenericInertialMeasurementUnit {
  public:
   MockMpu9255() : GenericInertialMeasurementUnit(std::move(std::make_unique<i2c::MockI2C>())) {}
+  MOCK_METHOD(types::DriverStatus, Init, (), (noexcept));
   MOCK_METHOD(void, SetGyroscopeSensitivity, (types::ImuSensitivity gyroscope_sensitivity), (noexcept));
   MOCK_METHOD(types::ImuSensitivity, GetGyroscopeSensitivity, (), (noexcept));
   MOCK_METHOD(void, SetAccelerometerSensitivity, (types::ImuSensitivity accelerometer_sensitivity), (noexcept));

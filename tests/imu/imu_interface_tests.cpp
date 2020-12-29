@@ -40,6 +40,16 @@ class ImuInterfaceTests : public ::testing::Test {
   types::EuclideanVector<float> sensor_values_magnetometer{7.5, 8.5, 9.5};
 };
 
+TEST_F(ImuInterfaceTests, interface_Init) {
+  ON_CALL(*mock_mpu9255_, Init)
+      .WillByDefault(Return(types::DriverStatus::OK));
+
+  ConfigureUnitUnderTest();
+
+  unit_under_test_->Init();
+  EXPECT_EQ(unit_under_test_->Init(), types::DriverStatus::OK);
+}
+
 TEST_F(ImuInterfaceTests, interface_set_gyroscope_sensitivity_finest) {
   ON_CALL(*mock_mpu9255_, GetGyroscopeSensitivity)
       .WillByDefault(Return(types::ImuSensitivity::FINEST));
