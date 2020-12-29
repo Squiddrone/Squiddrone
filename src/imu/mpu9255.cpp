@@ -3,9 +3,12 @@
 namespace imu {
 
 auto Mpu9255::Init(void) noexcept -> types::DriverStatus {
-  // gyroscope_ = std::make_unique<imu::Gyroscope>(std::move(i2c_handler_));
-  // return gyroscope_->Init(WHO_AM_I_MPU9255_ADDRESS);
-  return types::DriverStatus::OK;
+  if (gyroscope_ == NULL) {
+    gyroscope_ = std::make_unique<imu::Gyroscope>(std::move(i2c_handler_));
+  }
+
+  //return gyroscope_->Init(WHO_AM_I_MPU9255_ADDRESS);
+  return types::DriverStatus::INPUT_ERROR;
 }
 
 auto Mpu9255::SetGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept -> void {
@@ -41,6 +44,10 @@ auto Mpu9255::GetMagnetometer(void) noexcept -> types::EuclideanVector<float> {
 
 auto Mpu9255::GetTemperature(void) noexcept -> int {
   return 0;
+}
+
+auto Mpu9255::UnitTestSetGyroscope(std::unique_ptr<imu::InertialMeasurementSensorWithSensitivity> gyroscope) -> void {
+  gyroscope_ = std::move(gyroscope);
 }
 
 }  // namespace imu

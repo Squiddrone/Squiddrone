@@ -1,5 +1,6 @@
 #include <gmock/gmock.h>
 #include "gtest/gtest.h"
+#include "mock_gyroscope.hpp"
 #include "mock_i2c.hpp"
 #include "mpu9255.hpp"
 
@@ -16,11 +17,22 @@ class Mpu9255Tests : public ::testing::Test {
 
   virtual void ConfigureUnitUnderTest() {
     unit_under_test_ = std::make_unique<imu::Mpu9255>(std::move(i2c_handler_));
+    unit_under_test_->UnitTestSetGyroscope(std::move(mock_gyroscope_));
   }
 
   std::unique_ptr<i2c::MockI2C> i2c_handler_ = std::make_unique<NiceMock<i2c::MockI2C>>();
   std::unique_ptr<imu::Mpu9255> unit_under_test_;
+  std::unique_ptr<imu::MockGyroscope> mock_gyroscope_ = std::make_unique<NiceMock<imu::MockGyroscope>>();
 };
+
+TEST_F(Mpu9255Tests, mpu9255_Init) {
+  ON_CALL(*mock_gyroscope_, Init)
+      .WillByDefault(Return(types::DriverStatus::OK));
+
+  ConfigureUnitUnderTest();
+
+  EXPECT_EQ(unit_under_test_->Init(), types::DriverStatus::OK);
+}
 
 TEST_F(Mpu9255Tests, mpu9255_SetGyroscopeSensitivity) {
   ConfigureUnitUnderTest();

@@ -28,7 +28,7 @@ class GenericInertialMeasurementUnit {
   types::ImuSensitivity gyroscope_sensitivity_ = types::ImuSensitivity::FINEST;
   types::ImuSensitivity accelerometer_sensitivity_ = types::ImuSensitivity::FINEST;
   std::unique_ptr<i2c::I2CInterface> i2c_handler_;
-  std::unique_ptr<imu::Gyroscope> gyroscope_;
+  std::unique_ptr<imu::InertialMeasurementSensorWithSensitivity> gyroscope_ = NULL;
 };
 
 }  // namespace imu
