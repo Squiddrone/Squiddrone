@@ -46,7 +46,6 @@ TEST_F(ImuInterfaceTests, interface_Init) {
 
   ConfigureUnitUnderTest();
 
-  unit_under_test_->Init();
   EXPECT_EQ(unit_under_test_->Init(), types::DriverStatus::OK);
 }
 
