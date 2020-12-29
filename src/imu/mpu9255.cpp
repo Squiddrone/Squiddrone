@@ -2,7 +2,7 @@
 
 namespace imu {
 
-void Mpu9255::SetGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept {
+auto Mpu9255::SetGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept -> void {
   gyroscope_sensitivity_ = gyroscope_sensitivity;
 }
 
@@ -10,7 +10,7 @@ auto Mpu9255::GetGyroscopeSensitivity(void) noexcept -> types::ImuSensitivity {
   return gyroscope_sensitivity_;
 }
 
-void Mpu9255::SetAccelerometerSensitivity(types::ImuSensitivity accelerometer_sensitivity) noexcept {
+auto Mpu9255::SetAccelerometerSensitivity(types::ImuSensitivity accelerometer_sensitivity) noexcept -> void {
   accelerometer_sensitivity_ = accelerometer_sensitivity;
 }
 
