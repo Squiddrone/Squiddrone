@@ -3,9 +3,9 @@
 
 #include <memory>
 #include "basic_types.hpp"
+#include "gyroscope.hpp"
 #include "i2c.hpp"
 #include "imu_sensitivity.hpp"
-#include "gyroscope.hpp"
 
 namespace imu {
 
