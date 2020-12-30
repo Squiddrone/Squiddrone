@@ -8,7 +8,6 @@ add_testpackage(TEST_NAME
                     ${CMAKE_SOURCE_DIR}/src/imu/imu_sensor.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/imu_sensor_with_sensitivity.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/gyroscope.cpp
-                    ${CMAKE_SOURCE_DIR}/src/imu/mpu9255.cpp
                 TEST_INCLUDE_DIRECTORIES
                     ${CMAKE_SOURCE_DIR}/src 
                     ${CMAKE_SOURCE_DIR}/src/imu
