@@ -19,6 +19,10 @@ enum class PinSetting : bool {
   INACTIVE = false
 };
 
+/**
+ * @brief Chip select active state setting
+ * 
+ */
 enum class CSActiveState : uint8_t {
   ACTIVE_LOW = 0,
   ACTIVE_HIGH
