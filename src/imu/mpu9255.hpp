@@ -2,6 +2,8 @@
 #define SRC_MPU9255_HPP_
 
 #include "generic_imu.hpp"
+#include "gyroscope.hpp"
+#include "gyroscope_virtual_interface.hpp"
 
 namespace imu {
 
@@ -20,6 +22,9 @@ class Mpu9255 final : public GenericInertialMeasurementUnit {
   auto GetMagnetometer(void) noexcept -> types::EuclideanVector<float> override;
   auto GetTemperature(void) noexcept -> int override;
   auto UnitTestSetGyroscope(std::unique_ptr<imu::GyroscopeInterface> gyroscope) -> void;
+
+ protected:
+  std::unique_ptr<imu::GyroscopeInterface> gyroscope_ = NULL;
 };
 
 }  // namespace imu
