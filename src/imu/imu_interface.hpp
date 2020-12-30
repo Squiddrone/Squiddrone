@@ -40,6 +40,12 @@ class InertialMeasurementInterface {
   virtual auto Init(void) noexcept -> types::DriverStatus = 0;
 
   /**
+   * @brief Used to update all sensors from Inertial Measurement Unit
+   * 
+   */
+  virtual auto Update(void) noexcept -> types::DriverStatus = 0;
+
+  /**
    * @brief Used for setting of the gyroscopes sensitivity
    * 
    */

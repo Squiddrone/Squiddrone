@@ -6,6 +6,10 @@ auto InertialMeasurement::Init(void) noexcept -> types::DriverStatus {
   return imu_->Init();
 }
 
+auto InertialMeasurement::Update(void) noexcept -> types::DriverStatus {
+  return imu_->Update();
+}
+
 void InertialMeasurement::SetGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept {
   imu_->SetGyroscopeSensitivity(gyroscope_sensitivity);
 }

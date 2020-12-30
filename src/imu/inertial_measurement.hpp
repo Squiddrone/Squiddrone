@@ -22,6 +22,7 @@ class InertialMeasurement final : public InertialMeasurementInterface {
    */
   explicit InertialMeasurement(std::shared_ptr<i2c::I2CInterface> i2c_handler) : InertialMeasurementInterface(i2c_handler, std::make_unique<imu::Mpu9255>(i2c_handler)) {}
   auto Init(void) noexcept -> types::DriverStatus override;
+  auto Update(void) noexcept -> types::DriverStatus override;
   void SetGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept override;
   auto GetGyroscopeSensitivity(void) noexcept -> types::ImuSensitivity override;
   void SetAccelerometerSensitivity(types::ImuSensitivity accelerometer_sensitivity) noexcept override;

@@ -49,6 +49,15 @@ TEST_F(ImuInterfaceTests, interface_Init) {
   EXPECT_EQ(unit_under_test_->Init(), types::DriverStatus::OK);
 }
 
+TEST_F(ImuInterfaceTests, interface_Update) {
+  ON_CALL(*mock_mpu9255_, Update)
+      .WillByDefault(Return(types::DriverStatus::OK));
+
+  ConfigureUnitUnderTest();
+
+  EXPECT_EQ(unit_under_test_->Update(), types::DriverStatus::OK);
+}
+
 TEST_F(ImuInterfaceTests, interface_set_gyroscope_sensitivity_finest) {
   ON_CALL(*mock_mpu9255_, GetGyroscopeSensitivity)
       .WillByDefault(Return(types::ImuSensitivity::FINEST));
