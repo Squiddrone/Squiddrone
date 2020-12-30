@@ -14,6 +14,7 @@ class MockGyroscope : public GyroscopeInterface {
   MOCK_METHOD(types::DriverStatus, Init, (std::uint8_t i2c_address), (noexcept));
   MOCK_METHOD(types::ImuSensitivity, GetSensitivity, (), (noexcept));
   MOCK_METHOD(types::DriverStatus, SetSensitivity, (types::ImuSensitivity sensitivity), (noexcept));
+  MOCK_METHOD(types::EuclideanVector<std::int16_t>, Get, (), (noexcept));
 };
 }  // namespace imu
 
