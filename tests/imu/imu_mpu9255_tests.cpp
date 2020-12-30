@@ -82,6 +82,8 @@ TEST_F(Mpu9255Tests, mpu9255_GetGyroscope) {
 
   ConfigureUnitUnderTest();
 
+  unit_under_test_->Init();
+
   auto gyroscope_return = unit_under_test_->GetGyroscope();
 
   EXPECT_EQ(gyroscope_return.x, sensor_values_gyroscope.x);
