@@ -70,21 +70,21 @@ class InertialMeasurementInterface {
    * @return Vector of X, Y and Z axis of the orientation in three-dimensional space
    * 
    */
-  virtual auto GetGyroscope(void) noexcept -> types::EuclideanVector<float> = 0;
+  virtual auto GetGyroscope(void) noexcept -> types::EuclideanVector<std::int16_t> = 0;
 
   /**
    * @brief Used for reading the accelerometers measured values
    * @return Vector of X, Y and Z axis of the acceleration in three-dimensional space
    * 
    */
-  virtual auto GetAccelerometer(void) noexcept -> types::EuclideanVector<float> = 0;
+  virtual auto GetAccelerometer(void) noexcept -> types::EuclideanVector<std::int16_t> = 0;
 
   /**
    * @brief Used for reading the magnetometers measured values
    * @return Vector of X, Y and Z axis of the magnetic field in three-dimensional space
    * 
    */
-  virtual auto GetMagnetometer(void) noexcept -> types::EuclideanVector<float> = 0;
+  virtual auto GetMagnetometer(void) noexcept -> types::EuclideanVector<std::int16_t> = 0;
 
   /**
    * @brief Used for reading the temperature of the Inertial Measurement Unit

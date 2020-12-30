@@ -16,9 +16,9 @@ class MockMpu9255 : public GenericInertialMeasurementUnit {
   MOCK_METHOD(types::ImuSensitivity, GetGyroscopeSensitivity, (), (noexcept));
   MOCK_METHOD(void, SetAccelerometerSensitivity, (types::ImuSensitivity accelerometer_sensitivity), (noexcept));
   MOCK_METHOD(types::ImuSensitivity, GetAccelerometerSensitivity, (), (noexcept));
-  MOCK_METHOD(types::EuclideanVector<float>, GetGyroscope, (), (noexcept));
-  MOCK_METHOD(types::EuclideanVector<float>, GetAccelerometer, (), (noexcept));
-  MOCK_METHOD(types::EuclideanVector<float>, GetMagnetometer, (), (noexcept));
+  MOCK_METHOD(types::EuclideanVector<std::int16_t>, GetGyroscope, (), (noexcept));
+  MOCK_METHOD(types::EuclideanVector<std::int16_t>, GetAccelerometer, (), (noexcept));
+  MOCK_METHOD(types::EuclideanVector<std::int16_t>, GetMagnetometer, (), (noexcept));
   MOCK_METHOD(int, GetTemperature, (), (noexcept));
 };
 }  // namespace imu

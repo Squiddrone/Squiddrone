@@ -26,9 +26,9 @@ class InertialMeasurement final : public InertialMeasurementInterface {
   auto GetGyroscopeSensitivity(void) noexcept -> types::ImuSensitivity override;
   void SetAccelerometerSensitivity(types::ImuSensitivity accelerometer_sensitivity) noexcept override;
   auto GetAccelerometerSensitivity(void) noexcept -> types::ImuSensitivity override;
-  auto GetGyroscope(void) noexcept -> types::EuclideanVector<float> override;
-  auto GetAccelerometer(void) noexcept -> types::EuclideanVector<float> override;
-  auto GetMagnetometer(void) noexcept -> types::EuclideanVector<float> override;
+  auto GetGyroscope(void) noexcept -> types::EuclideanVector<std::int16_t> override;
+  auto GetAccelerometer(void) noexcept -> types::EuclideanVector<std::int16_t> override;
+  auto GetMagnetometer(void) noexcept -> types::EuclideanVector<std::int16_t> override;
   auto GetTemperature(void) noexcept -> int override;
   auto UnitTestSetImuSeam(std::unique_ptr<imu::GenericInertialMeasurementUnit> imu) noexcept -> void override;
 };

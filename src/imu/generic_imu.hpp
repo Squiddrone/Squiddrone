@@ -18,9 +18,9 @@ class GenericInertialMeasurementUnit {
   virtual auto GetGyroscopeSensitivity(void) noexcept -> types::ImuSensitivity = 0;
   virtual auto SetAccelerometerSensitivity(types::ImuSensitivity accelerometer_sensitivity) noexcept -> void = 0;
   virtual auto GetAccelerometerSensitivity(void) noexcept -> types::ImuSensitivity = 0;
-  virtual auto GetGyroscope(void) noexcept -> types::EuclideanVector<float> = 0;
-  virtual auto GetAccelerometer(void) noexcept -> types::EuclideanVector<float> = 0;
-  virtual auto GetMagnetometer(void) noexcept -> types::EuclideanVector<float> = 0;
+  virtual auto GetGyroscope(void) noexcept -> types::EuclideanVector<std::int16_t> = 0;
+  virtual auto GetAccelerometer(void) noexcept -> types::EuclideanVector<std::int16_t> = 0;
+  virtual auto GetMagnetometer(void) noexcept -> types::EuclideanVector<std::int16_t> = 0;
   virtual auto GetTemperature(void) noexcept -> int = 0;
 
  protected:

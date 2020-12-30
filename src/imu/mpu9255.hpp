@@ -17,9 +17,9 @@ class Mpu9255 final : public GenericInertialMeasurementUnit {
   auto GetGyroscopeSensitivity(void) noexcept -> types::ImuSensitivity override;
   auto SetAccelerometerSensitivity(types::ImuSensitivity accelerometer_sensitivity) noexcept -> void override;
   auto GetAccelerometerSensitivity(void) noexcept -> types::ImuSensitivity override;
-  auto GetGyroscope(void) noexcept -> types::EuclideanVector<float> override;
-  auto GetAccelerometer(void) noexcept -> types::EuclideanVector<float> override;
-  auto GetMagnetometer(void) noexcept -> types::EuclideanVector<float> override;
+  auto GetGyroscope(void) noexcept -> types::EuclideanVector<std::int16_t> override;
+  auto GetAccelerometer(void) noexcept -> types::EuclideanVector<std::int16_t> override;
+  auto GetMagnetometer(void) noexcept -> types::EuclideanVector<std::int16_t> override;
   auto GetTemperature(void) noexcept -> int override;
   auto UnitTestSetGyroscope(std::unique_ptr<imu::GyroscopeInterface> gyroscope) -> void;
 

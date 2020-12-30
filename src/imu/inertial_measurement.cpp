@@ -22,15 +22,15 @@ auto InertialMeasurement::GetAccelerometerSensitivity(void) noexcept -> types::I
   return imu_->GetAccelerometerSensitivity();
 }
 
-auto InertialMeasurement::GetGyroscope(void) noexcept -> types::EuclideanVector<float> {
+auto InertialMeasurement::GetGyroscope(void) noexcept -> types::EuclideanVector<std::int16_t> {
   return imu_->GetGyroscope();
 }
 
-auto InertialMeasurement::GetAccelerometer(void) noexcept -> types::EuclideanVector<float> {
+auto InertialMeasurement::GetAccelerometer(void) noexcept -> types::EuclideanVector<std::int16_t> {
   return imu_->GetAccelerometer();
 }
 
-auto InertialMeasurement::GetMagnetometer(void) noexcept -> types::EuclideanVector<float> {
+auto InertialMeasurement::GetMagnetometer(void) noexcept -> types::EuclideanVector<std::int16_t> {
   return imu_->GetMagnetometer();
 }
 

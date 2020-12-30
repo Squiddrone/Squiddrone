@@ -26,18 +26,17 @@ auto Mpu9255::GetAccelerometerSensitivity(void) noexcept -> types::ImuSensitivit
   return accelerometer_sensitivity_;
 }
 
-auto Mpu9255::GetGyroscope(void) noexcept -> types::EuclideanVector<float> {
-  types::EuclideanVector<float> value{0, 0, 0};
+auto Mpu9255::GetGyroscope(void) noexcept -> types::EuclideanVector<std::int16_t> {
+  return gyroscope_->Get();
+}
+
+auto Mpu9255::GetAccelerometer(void) noexcept -> types::EuclideanVector<std::int16_t> {
+  types::EuclideanVector<std::int16_t> value{0, 0, 0};
   return value;
 }
 
-auto Mpu9255::GetAccelerometer(void) noexcept -> types::EuclideanVector<float> {
-  types::EuclideanVector<float> value{0, 0, 0};
-  return value;
-}
-
-auto Mpu9255::GetMagnetometer(void) noexcept -> types::EuclideanVector<float> {
-  types::EuclideanVector<float> value{0, 0, 0};
+auto Mpu9255::GetMagnetometer(void) noexcept -> types::EuclideanVector<std::int16_t> {
+  types::EuclideanVector<std::int16_t> value{0, 0, 0};
   return value;
 }
 
