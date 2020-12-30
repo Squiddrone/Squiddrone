@@ -55,7 +55,7 @@ class ComInterface {
    * @return types::ComError COM_OK in case of successful transmission, error code in case something 
    * went wrong.
    */
-  virtual auto PutDataPacket(std::uint8_t target_id, types::com_msg_frame &payload) const noexcept
+  virtual auto PutDataPacket(std::uint8_t target_id, types::com_msg_frame &payload) noexcept
       -> types::ComError = 0;
 
  protected:
