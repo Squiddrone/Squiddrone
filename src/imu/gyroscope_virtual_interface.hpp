@@ -10,7 +10,7 @@ class GyroscopeInterface : public InertialMeasurementSensorWithSensitivity {
   GyroscopeInterface() = delete;
   ~GyroscopeInterface() = default;
 
-  explicit GyroscopeInterface(std::unique_ptr<i2c::I2CInterface> i2c_handler) : InertialMeasurementSensorWithSensitivity(std::move(i2c_handler)){};
+  explicit GyroscopeInterface(std::shared_ptr<i2c::I2CInterface> i2c_handler) : InertialMeasurementSensorWithSensitivity(i2c_handler){};
   virtual auto Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus = 0;
 };
 

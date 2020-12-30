@@ -31,7 +31,7 @@ class InertialMeasurementInterface {
    * @param  i2c_handler Unique pointer to I2C Handler defined by hal driver 
    * 
    */
-  explicit InertialMeasurementInterface(std::unique_ptr<i2c::I2CInterface> i2c_handler, std::unique_ptr<imu::GenericInertialMeasurementUnit> imu) : imu_(std::move(imu)){};
+  explicit InertialMeasurementInterface(std::shared_ptr<i2c::I2CInterface> i2c_handler, std::unique_ptr<imu::GenericInertialMeasurementUnit> imu) : imu_(std::move(imu)){};
 
   /**
    * @brief Used for Initialization of complete Inertial Measurement Unit

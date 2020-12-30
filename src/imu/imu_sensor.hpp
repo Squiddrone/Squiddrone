@@ -14,7 +14,7 @@ class InertialMeasurementSensor : public InertialMeasurementSensorInterface {
  public:
   virtual ~InertialMeasurementSensor() = default;
 
-  explicit InertialMeasurementSensor(std::unique_ptr<i2c::I2CInterface> i2c_handler) : InertialMeasurementSensorInterface(), i2c_handler_(std::move(i2c_handler)){};
+  explicit InertialMeasurementSensor(std::shared_ptr<i2c::I2CInterface> i2c_handler) : InertialMeasurementSensorInterface(), i2c_handler_(i2c_handler){};
   auto Get(void) noexcept -> types::EuclideanVector<int16_t> override;
   auto Update(void) noexcept -> types::DriverStatus override;
 
@@ -30,7 +30,7 @@ class InertialMeasurementSensor : public InertialMeasurementSensorInterface {
   auto SetSensorValues(std::int16_t x, std::int16_t y, std::int16_t z) noexcept -> void;
 
   types::EuclideanVector<std::int16_t> sensor_values_{-1, -1, -1};
-  std::unique_ptr<i2c::I2CInterface> i2c_handler_;
+  std::shared_ptr<i2c::I2CInterface> i2c_handler_;
   bool initialized_ = false;
   std::uint8_t i2c_address_ = 0;
   types::DriverStatus imu_status_ = types::DriverStatus::HAL_ERROR;

@@ -12,7 +12,7 @@ class GenericInertialMeasurementUnit {
  public:
   GenericInertialMeasurementUnit() = delete;
   virtual ~GenericInertialMeasurementUnit() = default;
-  explicit GenericInertialMeasurementUnit(std::unique_ptr<i2c::I2CInterface> i2c_handler) : i2c_handler_(std::move(i2c_handler)) {}
+  explicit GenericInertialMeasurementUnit(std::shared_ptr<i2c::I2CInterface> i2c_handler) : i2c_handler_(i2c_handler) {}
   virtual auto Init(void) noexcept -> types::DriverStatus = 0;
   virtual auto SetGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept -> void = 0;
   virtual auto GetGyroscopeSensitivity(void) noexcept -> types::ImuSensitivity = 0;
@@ -26,7 +26,7 @@ class GenericInertialMeasurementUnit {
  protected:
   types::ImuSensitivity gyroscope_sensitivity_ = types::ImuSensitivity::FINEST;
   types::ImuSensitivity accelerometer_sensitivity_ = types::ImuSensitivity::FINEST;
-  std::unique_ptr<i2c::I2CInterface> i2c_handler_;
+  std::shared_ptr<i2c::I2CInterface> i2c_handler_;
 };
 
 }  // namespace imu

@@ -20,7 +20,7 @@ class InertialMeasurement final : public InertialMeasurementInterface {
    * @param  i2c_handler Unique pointer to I2C Handler defined by hal driver 
    * 
    */
-  explicit InertialMeasurement(std::unique_ptr<i2c::I2CInterface> i2c_handler) : InertialMeasurementInterface(std::move(i2c_handler), std::make_unique<imu::Mpu9255>(std::move(i2c_handler))) {}
+  explicit InertialMeasurement(std::shared_ptr<i2c::I2CInterface> i2c_handler) : InertialMeasurementInterface(i2c_handler, std::make_unique<imu::Mpu9255>(i2c_handler)) {}
   auto Init(void) noexcept -> types::DriverStatus override;
   void SetGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept override;
   auto GetGyroscopeSensitivity(void) noexcept -> types::ImuSensitivity override;

@@ -14,7 +14,7 @@ class InertialMeasurementSensorWithSensitivity : public InertialMeasurementSenso
   InertialMeasurementSensorWithSensitivity() = delete;
   ~InertialMeasurementSensorWithSensitivity() = default;
 
-  explicit InertialMeasurementSensorWithSensitivity(std::unique_ptr<i2c::I2CInterface> i2c_handler) : InertialMeasurementSensorWithSensitivityInterface(std::move(i2c_handler)){};
+  explicit InertialMeasurementSensorWithSensitivity(std::shared_ptr<i2c::I2CInterface> i2c_handler) : InertialMeasurementSensorWithSensitivityInterface(i2c_handler){};
 
   auto Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus override;
   auto GetSensitivity(void) noexcept -> types::ImuSensitivity override;
