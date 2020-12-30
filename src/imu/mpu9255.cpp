@@ -36,7 +36,7 @@ auto Mpu9255::GetAccelerometerSensitivity(void) noexcept -> types::ImuSensitivit
 
 auto Mpu9255::GetGyroscope(void) noexcept -> types::EuclideanVector<std::int16_t> {
   if (!IsInitialized()) {
-    return types::EuclideanVector<std::int16_t> {-1, -1, -1};
+    return types::EuclideanVector<std::int16_t>{-1, -1, -1};
   }
 
   return gyroscope_->Get();
