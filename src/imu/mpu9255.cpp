@@ -8,7 +8,6 @@ auto Mpu9255::Init(void) noexcept -> types::DriverStatus {
   }
 
   return gyroscope_->Init(WHO_AM_I_MPU9255_ADDRESS);
-  //return types::DriverStatus::INPUT_ERROR;
 }
 
 auto Mpu9255::SetGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept -> void {
