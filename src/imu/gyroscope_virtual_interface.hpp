@@ -1,0 +1,21 @@
+#ifndef SRC_GYROSCOPE_INTERFACE_HPP_
+#define SRC_GYROSCOPE_INTERFACE_HPP_
+
+#include "imu_sensitivity.hpp"
+#include "imu_sensor_with_sensitivity.hpp"
+#include "mpu9255_data.hpp"
+
+namespace imu {
+
+class GyroscopeInterface : public InertialMeasurementSensorWithSensitivity {
+ public:
+  GyroscopeInterface() = delete;
+  ~GyroscopeInterface() = default;
+
+  explicit GyroscopeInterface(std::unique_ptr<i2c::I2CInterface> i2c_handler) : InertialMeasurementSensorWithSensitivity(std::move(i2c_handler)){};
+  virtual auto Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus = 0;
+};
+
+}  // namespace imu
+
+#endif

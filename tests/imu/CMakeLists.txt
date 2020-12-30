@@ -5,7 +5,12 @@ add_testpackage(TEST_NAME
                     imu_interface_tests.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/inertial_measurement.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/mpu9255.cpp
-                TEST_INCLUDE_DIRECTORIES 
+                    ${CMAKE_SOURCE_DIR}/src/imu/imu_sensor.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/imu_sensor_with_sensitivity.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/gyroscope.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/mpu9255.cpp
+                TEST_INCLUDE_DIRECTORIES
+                    ${CMAKE_SOURCE_DIR}/src 
                     ${CMAKE_SOURCE_DIR}/src/imu
                     ${CMAKE_SOURCE_DIR}/src/types
                     ${CMAKE_SOURCE_DIR}/src/i2c
@@ -33,8 +38,12 @@ add_testpackage(TEST_NAME
                     imu_mpu9255
                 SOURCES 
                     imu_mpu9255_tests.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/imu_sensor.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/imu_sensor_with_sensitivity.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/gyroscope.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/mpu9255.cpp
-                TEST_INCLUDE_DIRECTORIES 
+                TEST_INCLUDE_DIRECTORIES
+                    ${CMAKE_SOURCE_DIR}/src
                     ${CMAKE_SOURCE_DIR}/src/imu
                     ${CMAKE_SOURCE_DIR}/src/types
                     ${CMAKE_SOURCE_DIR}/src/i2c

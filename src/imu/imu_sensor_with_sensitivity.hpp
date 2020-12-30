@@ -3,20 +3,22 @@
 
 #include "imu_sensitivity.hpp"
 #include "imu_sensor.hpp"
+#include "imu_sensor_with_sensitivity.hpp"
+#include "imu_sensor_with_sensitivity_virtual_interface.hpp"
 #include "mpu9255_data.hpp"
 
 namespace imu {
 
-class InertialMeasurementSensorWithSensitivity : public InertialMeasurementSensor {
+class InertialMeasurementSensorWithSensitivity : public InertialMeasurementSensorWithSensitivityInterface {
  public:
   InertialMeasurementSensorWithSensitivity() = delete;
   ~InertialMeasurementSensorWithSensitivity() = default;
 
-  explicit InertialMeasurementSensorWithSensitivity(std::unique_ptr<i2c::I2CInterface> i2c_handler) : InertialMeasurementSensor(std::move(i2c_handler)){};
+  explicit InertialMeasurementSensorWithSensitivity(std::unique_ptr<i2c::I2CInterface> i2c_handler) : InertialMeasurementSensorWithSensitivityInterface(std::move(i2c_handler)){};
 
-  auto Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus;
-  auto GetSensitivity(void) noexcept -> types::ImuSensitivity;
-  auto SetSensitivity(types::ImuSensitivity sensitivity) noexcept -> types::DriverStatus;
+  auto Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus override;
+  auto GetSensitivity(void) noexcept -> types::ImuSensitivity override;
+  auto SetSensitivity(types::ImuSensitivity sensitivity) noexcept -> types::DriverStatus override;
 
  protected:
   auto GetConfigRegisterDataForSensitivity(types::ImuSensitivity sensitivity) noexcept -> std::uint8_t;

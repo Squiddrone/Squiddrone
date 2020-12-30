@@ -5,17 +5,18 @@
 #include "basic_types.hpp"
 #include "error_types.hpp"
 #include "i2c.hpp"
+#include "imu_sensor_virtual_interface.hpp"
 #include "mpu9255_data.hpp"
 
 namespace imu {
 
-class InertialMeasurementSensor {
+class InertialMeasurementSensor : public InertialMeasurementSensorInterface {
  public:
   virtual ~InertialMeasurementSensor() = default;
 
-  explicit InertialMeasurementSensor(std::unique_ptr<i2c::I2CInterface> i2c_handler) : i2c_handler_(std::move(i2c_handler)){};
-  auto Get(void) noexcept -> types::EuclideanVector<int16_t>;
-  auto Update(void) noexcept -> types::DriverStatus;
+  explicit InertialMeasurementSensor(std::unique_ptr<i2c::I2CInterface> i2c_handler) : InertialMeasurementSensorInterface(), i2c_handler_(std::move(i2c_handler)){};
+  auto Get(void) noexcept -> types::EuclideanVector<int16_t> override;
+  auto Update(void) noexcept -> types::DriverStatus override;
 
  protected:
   auto Mpu9255Detected(void) noexcept -> bool;

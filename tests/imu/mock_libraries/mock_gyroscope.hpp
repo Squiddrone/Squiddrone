@@ -3,14 +3,14 @@
 
 #include <gmock/gmock.h>
 #include <memory>
-#include "gyroscope.hpp"
+#include "gyroscope_virtual_interface.hpp"
 #include "mock_i2c.hpp"
 
 namespace imu {
 
-class MockGyroscope : public InertialMeasurementSensorWithSensitivity {
+class MockGyroscope : public GyroscopeInterface {
  public:
-  MockGyroscope() : InertialMeasurementSensorWithSensitivity(std::move(std::make_unique<i2c::MockI2C>())) {}
+  MockGyroscope() : GyroscopeInterface(std::move(std::make_unique<i2c::MockI2C>())) {}
   MOCK_METHOD(types::DriverStatus, Init, (std::uint8_t i2c_address), (noexcept));
   MOCK_METHOD(types::ImuSensitivity, GetSensitivity, (), (noexcept));
   MOCK_METHOD(types::DriverStatus, SetSensitivity, (types::ImuSensitivity sensitivity), (noexcept));
