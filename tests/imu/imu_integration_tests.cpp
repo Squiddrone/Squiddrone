@@ -40,8 +40,6 @@ class ImuIntegrationTests : public ::testing::Test {
       types::DriverStatus::OK, {0b11111111}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_update{
       types::DriverStatus::OK, {0, 15, 0, 25, 0, 35}};
-  std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_read_mismatch{
-      types::DriverStatus::OK, {0, 15}};
 };
 
 TEST_F(ImuIntegrationTests, integration_test_happy_path) {
