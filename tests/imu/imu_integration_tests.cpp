@@ -47,7 +47,9 @@ class ImuIntegrationTests : public ::testing::Test {
 TEST_F(ImuIntegrationTests, integration_test_happy_path) {
   ConfigureUnitUnderTest();
 
-  unit_under_test_->Init();
+  auto init_return = unit_under_test_->Init();
+
+  EXPECT_EQ(init_return, types::DriverStatus::OK);
 
   auto update_return = unit_under_test_->Update();
 
@@ -60,14 +62,22 @@ TEST_F(ImuIntegrationTests, integration_test_happy_path) {
   EXPECT_EQ(gyroscope_return.z, 35);
 }
 
-TEST_F(ImuIntegrationTests, integration_test_no_Init) {
-  GTEST_SKIP_("Speicherabzugsfehler.");
-
+TEST_F(ImuIntegrationTests, integration_test_Update_without_Init) {
   ConfigureUnitUnderTest();
 
   auto update_return = unit_under_test_->Update();
 
   EXPECT_EQ(update_return, types::DriverStatus::HAL_ERROR);
+}
+
+TEST_F(ImuIntegrationTests, integration_GetGyroscope_without_Init) {
+  ConfigureUnitUnderTest();
+
+  auto gyroscope_return = unit_under_test_->GetGyroscope();
+
+  EXPECT_EQ(gyroscope_return.x, -1);
+  EXPECT_EQ(gyroscope_return.y, -1);
+  EXPECT_EQ(gyroscope_return.z, -1);
 }
 
 }  // namespace
