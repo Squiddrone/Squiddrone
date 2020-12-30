@@ -15,8 +15,13 @@ namespace spi {
  * 
  */
 enum class PinSetting : bool {
-  HIGH = true,
-  LOW = false
+  ACTIVE = true,
+  INACTIVE = false
+};
+
+enum class CSActiveState : uint8_t {
+  ACTIVE_LOW = 0,
+  ACTIVE_HIGH
 };
 
 /**
@@ -26,6 +31,7 @@ enum class PinSetting : bool {
 typedef struct CSPinDefinition {
   GPIO_TypeDef *peripheral;
   uint16_t gpio_pin;
+  CSActiveState active_state;
 } CSPin;
 
 /**
@@ -35,10 +41,13 @@ typedef struct CSPinDefinition {
 class SPI final : spi::SPIInterface {
  public:
   SPI() = delete;
-  explicit SPI(const CSPin chip_select) : spi::SPIInterface(), chip_select_(chip_select){};
+  explicit SPI(const CSPin chip_select) : spi::SPIInterface(), chip_select_(chip_select) { SetChipSelectPin(PinSetting::INACTIVE); };
   virtual ~SPI() = default;
 
-  auto Transfer(std::vector<uint8_t> &mosi_data_buffer, std::vector<uint8_t> &miso_data_buffer) noexcept -> types::DriverStatus override;
+  auto Transfer(std::vector<uint8_t> &mosi_data_buffer,
+                std::vector<uint8_t> &miso_data_buffer) noexcept -> types::DriverStatus override;
+
+  auto Write(std::vector<std::uint8_t> &mosi_data_buffer) const noexcept -> types::DriverStatus;
 
  private:
   CSPin chip_select_;
@@ -50,7 +59,7 @@ class SPI final : spi::SPIInterface {
    * @return true Transaction length is exceeding limits.
    * @return false Transaction length is within limits.
    */
-  auto IsTransactionLengthExceedingLimits(std::uint8_t transaction_length) noexcept -> bool;
+  auto IsTransactionLengthExceedingLimits(std::uint8_t transaction_length) const noexcept -> bool;
 
   /**
    * @brief Check if miso buffer is smaller than the mosi buffer.
@@ -60,7 +69,7 @@ class SPI final : spi::SPIInterface {
    * @return true Miso buffer is too small
    * @return false Miso buffer is large enough.
    */
-  auto IsMisoBufferTooSmall(std::vector<uint8_t> &mosi_buffer, std::vector<uint8_t> &miso_buffer) noexcept -> bool;
+  auto IsMisoBufferTooSmall(std::vector<uint8_t> &mosi_buffer, std::vector<uint8_t> &miso_buffer) const noexcept -> bool;
 
   /**
    * @brief Set the Chip select GPIO pin.
@@ -68,7 +77,7 @@ class SPI final : spi::SPIInterface {
    * @param pin_state The desired pin state. High or low.
    * @return void
    */
-  auto SetChipSelectPin(PinSetting pin_state) noexcept -> void;
+  auto SetChipSelectPin(PinSetting pin_state) const noexcept -> void;
 };
 
 }  // namespace spi
