@@ -25,6 +25,9 @@ class Mpu9255 final : public GenericInertialMeasurementUnit {
   auto UnitTestSetGyroscope(std::unique_ptr<imu::GyroscopeInterface> gyroscope) -> void;
 
  protected:
+  auto IsInitialized(void) noexcept -> bool;
+
+  bool initialized_ = false;
   std::unique_ptr<imu::GyroscopeInterface> gyroscope_ = NULL;
 };
 

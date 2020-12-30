@@ -7,10 +7,14 @@ auto Mpu9255::Init(void) noexcept -> types::DriverStatus {
     gyroscope_ = std::make_unique<imu::Gyroscope>(std::move(i2c_handler_));
   }
 
+  initialized_ = true;
   return gyroscope_->Init(WHO_AM_I_MPU9255_ADDRESS);
 }
 
 auto Mpu9255::Update(void) noexcept -> types::DriverStatus {
+  if (!IsInitialized())
+    return types::DriverStatus::HAL_ERROR;
+
   return gyroscope_->Update();
 }
 
@@ -31,6 +35,10 @@ auto Mpu9255::GetAccelerometerSensitivity(void) noexcept -> types::ImuSensitivit
 }
 
 auto Mpu9255::GetGyroscope(void) noexcept -> types::EuclideanVector<std::int16_t> {
+  if (!IsInitialized()) {
+    return types::EuclideanVector<std::int16_t> {-1, -1, -1};
+  }
+
   return gyroscope_->Get();
 }
 
@@ -46,6 +54,10 @@ auto Mpu9255::GetMagnetometer(void) noexcept -> types::EuclideanVector<std::int1
 
 auto Mpu9255::GetTemperature(void) noexcept -> int {
   return 0;
+}
+
+auto Mpu9255::IsInitialized(void) noexcept -> bool {
+  return initialized_;
 }
 
 auto Mpu9255::UnitTestSetGyroscope(std::unique_ptr<imu::GyroscopeInterface> gyroscope) -> void {
