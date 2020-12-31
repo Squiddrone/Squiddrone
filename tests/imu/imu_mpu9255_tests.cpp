@@ -40,6 +40,7 @@ TEST_F(Mpu9255Tests, mpu9255_Init_all_sensors_ok) {
   ConfigureUnitUnderTest();
 
   EXPECT_EQ(unit_under_test_->Init(), types::DriverStatus::OK);
+  EXPECT_EQ(unit_under_test_->IsInitialized(), true);
 }
 
 TEST_F(Mpu9255Tests, mpu9255_Init_accelerometer_failed) {
@@ -51,6 +52,7 @@ TEST_F(Mpu9255Tests, mpu9255_Init_accelerometer_failed) {
   ConfigureUnitUnderTest();
 
   EXPECT_EQ(unit_under_test_->Init(), types::DriverStatus::HAL_ERROR);
+  EXPECT_EQ(unit_under_test_->IsInitialized(), false);
 }
 
 TEST_F(Mpu9255Tests, mpu9255_Update_all_sensors_ok) {

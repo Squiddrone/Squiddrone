@@ -24,13 +24,13 @@ class Mpu9255 final : public GenericInertialMeasurementUnit {
   auto GetAccelerometer(void) noexcept -> types::EuclideanVector<std::int16_t> override;
   auto GetMagnetometer(void) noexcept -> types::EuclideanVector<std::int16_t> override;
   auto GetTemperature(void) noexcept -> int override;
+  auto IsInitialized(void) noexcept -> bool;
 
   auto UnitTestSetGyroscope(std::unique_ptr<imu::GyroscopeInterface> gyroscope) -> void;
   auto UnitTestSetAccelerometer(std::unique_ptr<imu::AccelerometerInterface> accelerometer) -> void;
 
  protected:
-  auto IsInitialized(void) noexcept -> bool;
-  auto CombineSensorResults(types::DriverStatus gyroscope_status, types::DriverStatus accelerometer_status) noexcept -> types::DriverStatus;
+  auto AllSensorsAreOK(types::DriverStatus gyroscope_status, types::DriverStatus accelerometer_status) noexcept -> bool;
 
   bool initialized_ = false;
   std::unique_ptr<imu::GyroscopeInterface> gyroscope_ = NULL;
