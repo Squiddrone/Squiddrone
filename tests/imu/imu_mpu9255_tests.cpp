@@ -87,15 +87,17 @@ TEST_F(Mpu9255Tests, mpu9255_Update_accelerometer_failed) {
 }
 
 TEST_F(Mpu9255Tests, mpu9255_SetGyroscopeSensitivity) {
+  ON_CALL(*mock_gyroscope_, GetSensitivity)
+      .WillByDefault(Return(types::ImuSensitivity::FINEST));
+
   ConfigureUnitUnderTest();
 
-  unit_under_test_->SetGyroscopeSensitivity(types::ImuSensitivity::FINEST);
+  unit_under_test_->Init();
 
+  auto set_return = unit_under_test_->SetGyroscopeSensitivity(types::ImuSensitivity::FINEST);
+
+  EXPECT_EQ(set_return, types::DriverStatus::OK);
   EXPECT_EQ(unit_under_test_->GetGyroscopeSensitivity(), types::ImuSensitivity::FINEST);
-
-  unit_under_test_->SetGyroscopeSensitivity(types::ImuSensitivity::ROUGHEST);
-
-  EXPECT_EQ(unit_under_test_->GetGyroscopeSensitivity(), types::ImuSensitivity::ROUGHEST);
 }
 
 TEST_F(Mpu9255Tests, mpu9255_GetGyroscopeSensitivity) {
@@ -107,15 +109,19 @@ TEST_F(Mpu9255Tests, mpu9255_GetGyroscopeSensitivity) {
 }
 
 TEST_F(Mpu9255Tests, mpu9255_SetAccelerometerSensitivity) {
+  ON_CALL(*mock_accelerometer_, GetSensitivity)
+      .WillByDefault(Return(types::ImuSensitivity::FINEST));
+  ON_CALL(*mock_accelerometer_, SetSensitivity)
+      .WillByDefault(Return(types::DriverStatus::OK));
+
   ConfigureUnitUnderTest();
 
-  unit_under_test_->SetAccelerometerSensitivity(types::ImuSensitivity::FINEST);
+  unit_under_test_->Init();
 
+  auto set_return = unit_under_test_->SetAccelerometerSensitivity(types::ImuSensitivity::FINEST);
+
+  EXPECT_EQ(set_return, types::DriverStatus::OK);
   EXPECT_EQ(unit_under_test_->GetAccelerometerSensitivity(), types::ImuSensitivity::FINEST);
-
-  unit_under_test_->SetAccelerometerSensitivity(types::ImuSensitivity::ROUGHEST);
-
-  EXPECT_EQ(unit_under_test_->GetAccelerometerSensitivity(), types::ImuSensitivity::ROUGHEST);
 }
 
 TEST_F(Mpu9255Tests, mpu9255_GetAccelerometerSensitivity) {

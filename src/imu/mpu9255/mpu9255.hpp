@@ -16,9 +16,9 @@ class Mpu9255 final : public GenericInertialMeasurementUnit {
   explicit Mpu9255(std::shared_ptr<i2c::I2CInterface> i2c_handler) : GenericInertialMeasurementUnit(i2c_handler) {}
   auto Init(void) noexcept -> types::DriverStatus override;
   auto Update(void) noexcept -> types::DriverStatus override;
-  auto SetGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept -> void override;
+  auto SetGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept -> types::DriverStatus override;
   auto GetGyroscopeSensitivity(void) noexcept -> types::ImuSensitivity override;
-  auto SetAccelerometerSensitivity(types::ImuSensitivity accelerometer_sensitivity) noexcept -> void override;
+  auto SetAccelerometerSensitivity(types::ImuSensitivity accelerometer_sensitivity) noexcept -> types::DriverStatus override;
   auto GetAccelerometerSensitivity(void) noexcept -> types::ImuSensitivity override;
   auto GetGyroscope(void) noexcept -> types::EuclideanVector<std::int16_t> override;
   auto GetAccelerometer(void) noexcept -> types::EuclideanVector<std::int16_t> override;

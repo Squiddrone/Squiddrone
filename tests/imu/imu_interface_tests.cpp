@@ -61,6 +61,8 @@ TEST_F(ImuInterfaceTests, interface_Update) {
 TEST_F(ImuInterfaceTests, interface_set_gyroscope_sensitivity_finest) {
   ON_CALL(*mock_mpu9255_, GetGyroscopeSensitivity)
       .WillByDefault(Return(types::ImuSensitivity::FINEST));
+  ON_CALL(*mock_mpu9255_, SetGyroscopeSensitivity)
+      .WillByDefault(Return(types::DriverStatus::OK));
 
   ConfigureUnitUnderTest();
 

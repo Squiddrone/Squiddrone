@@ -149,6 +149,8 @@ TEST_F(ImuIntegrationTests, integration_GetGyroscope_without_Init) {
 TEST_F(ImuIntegrationTests, integration_SetGyroscopeSensitivity) {
   ConfigureUnitUnderTest();
 
+  unit_under_test_->Init();
+
   unit_under_test_->SetGyroscopeSensitivity(types::ImuSensitivity::FINEST);
 
   EXPECT_EQ(unit_under_test_->GetGyroscopeSensitivity(), types::ImuSensitivity::FINEST);
@@ -160,6 +162,8 @@ TEST_F(ImuIntegrationTests, integration_SetGyroscopeSensitivity) {
 
 TEST_F(ImuIntegrationTests, integration_SetAccelerometerSensitivity) {
   ConfigureUnitUnderTest();
+
+  unit_under_test_->Init();
 
   unit_under_test_->SetAccelerometerSensitivity(types::ImuSensitivity::FINEST);
 

@@ -23,20 +23,26 @@ auto Mpu9255::Update(void) noexcept -> types::DriverStatus {
   return CombineSensorResults(gyroscope_->Update(), accelerometer_->Update());
 }
 
-auto Mpu9255::SetGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept -> void {
-  gyroscope_sensitivity_ = gyroscope_sensitivity;
+auto Mpu9255::SetGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept -> types::DriverStatus {
+  if (!IsInitialized())
+    return types::DriverStatus::HAL_ERROR;
+
+  return gyroscope_->SetSensitivity(gyroscope_sensitivity);
 }
 
 auto Mpu9255::GetGyroscopeSensitivity(void) noexcept -> types::ImuSensitivity {
-  return gyroscope_sensitivity_;
+  return gyroscope_->GetSensitivity();
 }
 
-auto Mpu9255::SetAccelerometerSensitivity(types::ImuSensitivity accelerometer_sensitivity) noexcept -> void {
-  accelerometer_sensitivity_ = accelerometer_sensitivity;
+auto Mpu9255::SetAccelerometerSensitivity(types::ImuSensitivity accelerometer_sensitivity) noexcept -> types::DriverStatus {
+  if (!IsInitialized())
+    return types::DriverStatus::HAL_ERROR;
+
+  return accelerometer_->SetSensitivity(accelerometer_sensitivity);
 }
 
 auto Mpu9255::GetAccelerometerSensitivity(void) noexcept -> types::ImuSensitivity {
-  return accelerometer_sensitivity_;
+  return accelerometer_->GetSensitivity();
 }
 
 auto Mpu9255::GetGyroscope(void) noexcept -> types::EuclideanVector<std::int16_t> {
