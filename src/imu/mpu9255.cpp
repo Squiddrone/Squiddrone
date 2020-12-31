@@ -10,17 +10,17 @@ auto Mpu9255::Init(void) noexcept -> types::DriverStatus {
     accelerometer_ = std::make_unique<imu::Accelerometer>(i2c_handler_);
   }
 
-  accelerometer_->Init(WHO_AM_I_MPU9255_ADDRESS);
   initialized_ = true;
-  return gyroscope_->Init(WHO_AM_I_MPU9255_ADDRESS);
+  auto gyro_init = gyroscope_->Init(WHO_AM_I_MPU9255_ADDRESS);
+  auto accel_init = accelerometer_->Init(WHO_AM_I_MPU9255_ADDRESS);
+  return CombineSensorResults(gyro_init, accel_init);
 }
 
 auto Mpu9255::Update(void) noexcept -> types::DriverStatus {
   if (!IsInitialized())
     return types::DriverStatus::HAL_ERROR;
 
-  accelerometer_->Update();
-  return gyroscope_->Update();
+  return CombineSensorResults(gyroscope_->Update(), accelerometer_->Update());
 }
 
 auto Mpu9255::SetGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept -> void {
@@ -66,6 +66,15 @@ auto Mpu9255::GetTemperature(void) noexcept -> int {
 
 auto Mpu9255::IsInitialized(void) noexcept -> bool {
   return initialized_;
+}
+
+auto Mpu9255::CombineSensorResults(types::DriverStatus gyroscope_status, types::DriverStatus accelerometer_status) noexcept -> types::DriverStatus {
+  if (gyroscope_status == types::DriverStatus::OK &&
+      accelerometer_status == types::DriverStatus::OK) {
+    return types::DriverStatus::OK;
+  } else {
+    return types::DriverStatus::HAL_ERROR;
+  }
 }
 
 auto Mpu9255::UnitTestSetGyroscope(std::unique_ptr<imu::GyroscopeInterface> gyroscope) -> void {

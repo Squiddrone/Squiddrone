@@ -1,11 +1,11 @@
 #ifndef SRC_MPU9255_HPP_
 #define SRC_MPU9255_HPP_
 
+#include "accelerometer.hpp"
+#include "accelerometer_virtual_interface.hpp"
 #include "generic_imu.hpp"
 #include "gyroscope.hpp"
 #include "gyroscope_virtual_interface.hpp"
-#include "accelerometer.hpp"
-#include "accelerometer_virtual_interface.hpp"
 
 namespace imu {
 
@@ -30,6 +30,7 @@ class Mpu9255 final : public GenericInertialMeasurementUnit {
 
  protected:
   auto IsInitialized(void) noexcept -> bool;
+  auto CombineSensorResults(types::DriverStatus gyroscope_status, types::DriverStatus accelerometer_status) noexcept -> types::DriverStatus;
 
   bool initialized_ = false;
   std::unique_ptr<imu::GyroscopeInterface> gyroscope_ = NULL;

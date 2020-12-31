@@ -31,7 +31,7 @@ class Mpu9255Tests : public ::testing::Test {
   types::EuclideanVector<std::int16_t> sensor_values_accelerometer{4, 5, 6};
 };
 
-TEST_F(Mpu9255Tests, mpu9255_Init) {
+TEST_F(Mpu9255Tests, mpu9255_Init_all_sensors_ok) {
   ON_CALL(*mock_gyroscope_, Init)
       .WillByDefault(Return(types::DriverStatus::OK));
   ON_CALL(*mock_accelerometer_, Init)
@@ -40,6 +40,50 @@ TEST_F(Mpu9255Tests, mpu9255_Init) {
   ConfigureUnitUnderTest();
 
   EXPECT_EQ(unit_under_test_->Init(), types::DriverStatus::OK);
+}
+
+TEST_F(Mpu9255Tests, mpu9255_Init_accelerometer_failed) {
+  ON_CALL(*mock_gyroscope_, Init)
+      .WillByDefault(Return(types::DriverStatus::OK));
+  ON_CALL(*mock_accelerometer_, Init)
+      .WillByDefault(Return(types::DriverStatus::HAL_ERROR));
+
+  ConfigureUnitUnderTest();
+
+  EXPECT_EQ(unit_under_test_->Init(), types::DriverStatus::HAL_ERROR);
+}
+
+TEST_F(Mpu9255Tests, mpu9255_Update_all_sensors_ok) {
+  ON_CALL(*mock_gyroscope_, Init)
+      .WillByDefault(Return(types::DriverStatus::OK));
+  ON_CALL(*mock_accelerometer_, Init)
+      .WillByDefault(Return(types::DriverStatus::OK));
+  ON_CALL(*mock_gyroscope_, Update)
+      .WillByDefault(Return(types::DriverStatus::OK));
+  ON_CALL(*mock_accelerometer_, Update)
+      .WillByDefault(Return(types::DriverStatus::OK));
+
+  ConfigureUnitUnderTest();
+
+  unit_under_test_->Init();
+
+  EXPECT_EQ(unit_under_test_->Update(), types::DriverStatus::OK);
+}
+
+TEST_F(Mpu9255Tests, mpu9255_Update_accelerometer_failed) {
+  ON_CALL(*mock_gyroscope_, Init)
+      .WillByDefault(Return(types::DriverStatus::OK));
+  ON_CALL(*mock_accelerometer_, Init)
+      .WillByDefault(Return(types::DriverStatus::OK));
+  ON_CALL(*mock_gyroscope_, Update)
+      .WillByDefault(Return(types::DriverStatus::OK));
+  ON_CALL(*mock_accelerometer_, Update)
+      .WillByDefault(Return(types::DriverStatus::HAL_ERROR));
+
+  ConfigureUnitUnderTest();
+
+  unit_under_test_->Init();
+  EXPECT_EQ(unit_under_test_->Update(), types::DriverStatus::HAL_ERROR);
 }
 
 TEST_F(Mpu9255Tests, mpu9255_SetGyroscopeSensitivity) {
