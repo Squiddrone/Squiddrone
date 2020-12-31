@@ -25,6 +25,10 @@ class ImuIntegrationTests : public ::testing::Test {
         .WillByDefault(Return(answer_to_gyro_config));
     ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::GYRO_XOUT_H, _, _))
         .WillByDefault(Return(answer_to_gyro_update));
+    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::ACCEL_CONFIG, _, _))
+        .WillByDefault(Return(answer_to_accelerometer_config));
+    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::ACCEL_XOUT_H, _, _))
+        .WillByDefault(Return(answer_to_accelerometer_update));
   }
 
   virtual void ConfigureUnitUnderTest() {
@@ -37,6 +41,8 @@ class ImuIntegrationTests : public ::testing::Test {
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_who_am_i{
       types::DriverStatus::OK, {imu::WHO_AM_I_MPU9255_VALUE}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_gyro_config{
+      types::DriverStatus::OK, {0b11111111}};
+  std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_accelerometer_config{
       types::DriverStatus::OK, {0b11111111}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_gyro_update{
       types::DriverStatus::OK, {0, 15, 0, 25, 0, 35}};
@@ -67,8 +73,6 @@ TEST_F(ImuIntegrationTests, integration_test_gyroscope_happy_path) {
 }
 
 TEST_F(ImuIntegrationTests, integration_test_accelerometer_happy_path) {
-  GTEST_SKIP_("Not implemented yet.");
-
   ConfigureUnitUnderTest();
 
   auto init_return = unit_under_test_->Init();

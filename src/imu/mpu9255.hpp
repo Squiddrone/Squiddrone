@@ -4,6 +4,8 @@
 #include "generic_imu.hpp"
 #include "gyroscope.hpp"
 #include "gyroscope_virtual_interface.hpp"
+#include "accelerometer.hpp"
+#include "accelerometer_virtual_interface.hpp"
 
 namespace imu {
 
@@ -22,13 +24,16 @@ class Mpu9255 final : public GenericInertialMeasurementUnit {
   auto GetAccelerometer(void) noexcept -> types::EuclideanVector<std::int16_t> override;
   auto GetMagnetometer(void) noexcept -> types::EuclideanVector<std::int16_t> override;
   auto GetTemperature(void) noexcept -> int override;
+
   auto UnitTestSetGyroscope(std::unique_ptr<imu::GyroscopeInterface> gyroscope) -> void;
+  auto UnitTestSetAccelerometer(std::unique_ptr<imu::AccelerometerInterface> accelerometer) -> void;
 
  protected:
   auto IsInitialized(void) noexcept -> bool;
 
   bool initialized_ = false;
   std::unique_ptr<imu::GyroscopeInterface> gyroscope_ = NULL;
+  std::unique_ptr<imu::AccelerometerInterface> accelerometer_ = NULL;
 };
 
 }  // namespace imu
