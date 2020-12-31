@@ -1,5 +1,5 @@
 #include "imu_sensor_with_sensitivity.hpp"
-#include "utilities/byte.hpp"
+#include "byte.hpp"
 
 namespace imu {
 

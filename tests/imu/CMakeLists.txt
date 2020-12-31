@@ -9,9 +9,9 @@ add_testpackage(TEST_NAME
                     ${CMAKE_SOURCE_DIR}/src/imu/imu_sensor_with_sensitivity.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/gyroscope.cpp
                 TEST_INCLUDE_DIRECTORIES
-                    ${CMAKE_SOURCE_DIR}/src 
                     ${CMAKE_SOURCE_DIR}/src/imu
                     ${CMAKE_SOURCE_DIR}/src/types
+                    ${CMAKE_SOURCE_DIR}/src/utilities
                     ${CMAKE_SOURCE_DIR}/src/i2c
                     ${CMAKE_SOURCE_DIR}/tests/i2c/mock_libraries
                     ${CMAKE_SOURCE_DIR}/tests/imu/mock_libraries
@@ -27,9 +27,9 @@ add_testpackage(TEST_NAME
                     ${CMAKE_SOURCE_DIR}/src/imu/imu_sensor_with_sensitivity.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/gyroscope.cpp
                 TEST_INCLUDE_DIRECTORIES
-                    ${CMAKE_SOURCE_DIR}/src 
                     ${CMAKE_SOURCE_DIR}/src/imu
                     ${CMAKE_SOURCE_DIR}/src/types
+                    ${CMAKE_SOURCE_DIR}/src/utilities
                     ${CMAKE_SOURCE_DIR}/src/i2c
                     ${CMAKE_SOURCE_DIR}/tests/imu/mock_libraries
                     ${CMAKE_SOURCE_DIR}/tests/i2c/mock_libraries
@@ -43,9 +43,9 @@ add_testpackage(TEST_NAME
                     ${CMAKE_SOURCE_DIR}/src/imu/imu_sensor_with_sensitivity.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/gyroscope.cpp
                 TEST_INCLUDE_DIRECTORIES 
-                    ${CMAKE_SOURCE_DIR}/src
                     ${CMAKE_SOURCE_DIR}/src/imu
                     ${CMAKE_SOURCE_DIR}/src/types
+                    ${CMAKE_SOURCE_DIR}/src/utilities
                     ${CMAKE_SOURCE_DIR}/src/i2c
                     ${CMAKE_SOURCE_DIR}/tests/imu/mock_libraries
                     ${CMAKE_SOURCE_DIR}/tests/i2c/mock_libraries
@@ -60,9 +60,9 @@ add_testpackage(TEST_NAME
                     ${CMAKE_SOURCE_DIR}/src/imu/gyroscope.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/mpu9255.cpp
                 TEST_INCLUDE_DIRECTORIES
-                    ${CMAKE_SOURCE_DIR}/src
                     ${CMAKE_SOURCE_DIR}/src/imu
                     ${CMAKE_SOURCE_DIR}/src/types
+                    ${CMAKE_SOURCE_DIR}/src/utilities
                     ${CMAKE_SOURCE_DIR}/src/i2c
                     ${CMAKE_SOURCE_DIR}/tests/imu/mock_libraries
                     ${CMAKE_SOURCE_DIR}/tests/i2c/mock_libraries
