@@ -147,6 +147,16 @@ TEST_F(Mpu9255Tests, mpu9255_GetGyroscope) {
   EXPECT_EQ(gyroscope_return.z, sensor_values_gyroscope.z);
 }
 
+TEST_F(Mpu9255Tests, mpu9255_GetGyroscope_without_Init) {
+  ConfigureUnitUnderTest();
+
+  auto gyroscope_return = unit_under_test_->GetGyroscope();
+
+  EXPECT_EQ(gyroscope_return.x, -1);
+  EXPECT_EQ(gyroscope_return.y, -1);
+  EXPECT_EQ(gyroscope_return.z, -1);
+}
+
 TEST_F(Mpu9255Tests, mpu9255_GetAccelerometer) {
   ON_CALL(*mock_accelerometer_, Get)
       .WillByDefault(Return(sensor_values_accelerometer));
@@ -160,6 +170,16 @@ TEST_F(Mpu9255Tests, mpu9255_GetAccelerometer) {
   EXPECT_EQ(accelerometer_return.x, sensor_values_accelerometer.x);
   EXPECT_EQ(accelerometer_return.y, sensor_values_accelerometer.y);
   EXPECT_EQ(accelerometer_return.z, sensor_values_accelerometer.z);
+}
+
+TEST_F(Mpu9255Tests, mpu9255_GetAccelerometer_without_Init) {
+  ConfigureUnitUnderTest();
+
+  auto accelerometer_return = unit_under_test_->GetAccelerometer();
+
+  EXPECT_EQ(accelerometer_return.x, -1);
+  EXPECT_EQ(accelerometer_return.y, -1);
+  EXPECT_EQ(accelerometer_return.z, -1);
 }
 
 TEST_F(Mpu9255Tests, mpu9255_GetMagnetometer) {
