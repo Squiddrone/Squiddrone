@@ -26,6 +26,8 @@ class NRF24L01 final : public ComInterface {
   spi::CSPin cs_pin_;
   spi::SPI spi_{cs_pin_};
 
+  std::uint8_t irq_flags;
+
   //Pipe configuration
   auto EnableDataPipe(DataPipe pipe_no) const noexcept -> types::DriverStatus;
   auto DisableDataPipe(DataPipe pipe_no) const noexcept -> types::DriverStatus;
@@ -48,25 +50,24 @@ class NRF24L01 final : public ComInterface {
   auto EnableAutoAck(DataPipe pipe_no) const noexcept -> types::DriverStatus;
 
   // Transceiver hardware configuration
-  auto EnableTxMode() const noexcept -> types::DriverStatus;
-  auto EnableRxMode() const noexcept -> types::DriverStatus;
-  auto SetPowerState(State power_state) const noexcept -> types::DriverStatus;
-  auto SetRFChannel(std::uint8_t channel) const noexcept -> types::DriverStatus;
-  auto SetDataRate(DataRateSetting data_rate) const noexcept -> types::DriverStatus;
-  auto SetRFOutputPower(RFPowerSetting rf_power) const noexcept -> types::DriverStatus;
+  auto EnableTxMode() noexcept -> types::DriverStatus;
+  auto EnableRxMode() noexcept -> types::DriverStatus;
+  auto SetPowerState(State power_state) noexcept -> types::DriverStatus;
+  auto SetRFChannel(std::uint8_t channel) noexcept -> types::DriverStatus;
+  auto SetDataRate(DataRateSetting data_rate) noexcept -> types::DriverStatus;
+  auto SetRFOutputPower(RFPowerSetting rf_power) noexcept -> types::DriverStatus;
   // Not sure if we ever need this
-  auto SetLNAGain(State state) const noexcept -> types::DriverStatus;
+  auto SetLNAGain(State state) noexcept -> types::DriverStatus;
 
   // General protocol configuration
-  auto SetPayloadData() const noexcept -> types::DriverStatus;
-  auto SetAddressWidth(DataPipeAddressWidth address_width) const noexcept -> types::DriverStatus;
-  auto EnableCRC() const noexcept -> types::DriverStatus;
-  auto SetCRCEncodingScheme(CRCEncodingScheme encoding_scheme) const noexcept -> types::DriverStatus;
-  auto ConfigAutoRetransmission(AutoRetransmissionDelay delay, AutoRetransmitCount count)
-      const noexcept -> types::DriverStatus;
+  auto SetPayloadData() noexcept -> types::DriverStatus;
+  auto SetAddressWidth(DataPipeAddressWidth address_width) noexcept -> types::DriverStatus;
+  auto EnableCRC() noexcept -> types::DriverStatus;
+  auto SetCRCEncodingScheme(CRCEncodingScheme encoding_scheme) noexcept -> types::DriverStatus;
+  auto ConfigAutoRetransmission(AutoRetransmissionDelay delay, AutoRetransmitCount count) noexcept -> types::DriverStatus;
 
   // Status register access
-  auto CarrierDetected() const noexcept -> bool;
+  auto CarrierDetected() noexcept -> bool;
 
   // Helper functions
   auto ReadRegister(std::uint8_t register_address) noexcept -> std::uint8_t;
