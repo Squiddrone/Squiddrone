@@ -38,12 +38,16 @@ int main() {
   MX_TIM16_Init();
   MX_TIM17_Init();
 
-  spi::CSPinDefinition com_cs_pin = {.peripheral = GPIOA, .gpio_pin = CSCOM_Pin};
+  spi::CSPinDefinition com_cs_pin = {.peripheral = GPIOA, .gpio_pin = CSCOM_Pin, .active_state = spi::CSActiveState::ACTIVE_LOW};
 
   auto com_buffer = std::make_unique<com::ComMessageBuffer>();
   auto com_device = std::make_unique<com::NRF24L01>(std::move(com_buffer), com_cs_pin);
 
+  types::com_msg_frame payload;
+
   while (1) {
+    com_device->PutDataPacket(0x0, payload);
+    HAL_Delay(1000);
   }
   return 0;
 }
