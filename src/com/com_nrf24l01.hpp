@@ -56,6 +56,8 @@ class NRF24L01 final : public ComInterface {
   auto SetRFChannel(std::uint8_t channel) noexcept -> types::DriverStatus;
   auto SetDataRate(DataRateSetting data_rate) noexcept -> types::DriverStatus;
   auto SetRFOutputPower(RFPowerSetting rf_power) noexcept -> types::DriverStatus;
+  auto FlushTx() noexcept -> types::DriverStatus;
+  auto FlushRx() noexcept -> types::DriverStatus;
   // Not sure if we ever need this
   auto SetLNAGain(State state) noexcept -> types::DriverStatus;
 

@@ -51,4 +51,22 @@ auto NRF24L01::WriteRegister(std::uint8_t register_address, std::uint8_t registe
   return spi_ret_val;
 }
 
+auto NRF24L01::FlushTx() noexcept -> types::DriverStatus {
+  types::com_msg_frame mosi_data_buffer;
+  mosi_data_buffer.push_back(instruction_word::FLUSH_TX);
+
+  auto spi_ret_val = spi_.Write(mosi_data_buffer);
+
+  return spi_ret_val;
+}
+
+auto NRF24L01::FlushRx() noexcept -> types::DriverStatus {
+  types::com_msg_frame mosi_data_buffer;
+  mosi_data_buffer.push_back(instruction_word::FLUSH_RX);
+
+  auto spi_ret_val = spi_.Write(mosi_data_buffer);
+
+  return spi_ret_val;
+}
+
 }  // namespace com
