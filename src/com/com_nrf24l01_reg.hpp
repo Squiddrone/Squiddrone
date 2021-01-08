@@ -3,6 +3,7 @@
 
 #include <array>
 #include <cstdint>
+#include "utilities/byte.hpp"
 
 namespace com {
 
@@ -84,6 +85,7 @@ enum class DataRateSetting : std::uint8_t {
 };
 
 using data_pipe_address = std::array<std::uint8_t, 5>;
+using register_t = std::uint8_t;
 
 namespace instruction_word {
 const std::uint8_t R_REGISTER = 0x00;
