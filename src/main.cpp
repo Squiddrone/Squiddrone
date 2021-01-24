@@ -84,8 +84,8 @@ auto UartPrint(std::string text) -> void {
 }
 
 auto FormatEuclidVectorForPrintOut(std::string Sensor, types::EuclideanVector<std::int16_t> Vector) -> std::string {
-  return Sensor +
-         ": X: " + std::to_string(Vector.x) +
+  return Sensor + ":" +
+         " X: " + std::to_string(Vector.x) +
          " Y: " + std::to_string(Vector.y) +
          " Z: " + std::to_string(Vector.z);
 }
