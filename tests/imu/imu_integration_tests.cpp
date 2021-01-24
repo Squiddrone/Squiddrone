@@ -21,6 +21,8 @@ class ImuIntegrationTests : public ::testing::Test {
         .WillByDefault(Return(answer_to_who_am_i));
     ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::WHO_AM_I_MPU9255_REGISTER, _, _))
         .WillByDefault(Return(answer_to_who_am_i));
+    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::WHO_AM_I_AK8963_REGISTER, _, _))
+        .WillByDefault(Return(answer_to_who_am_i_AK8963));
     ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::GYRO_CONFIG, _, _))
         .WillByDefault(Return(answer_to_gyro_config));
     ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::GYRO_XOUT_H, _, _))
@@ -29,6 +31,8 @@ class ImuIntegrationTests : public ::testing::Test {
         .WillByDefault(Return(answer_to_accelerometer_config));
     ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::ACCEL_XOUT_H, _, _))
         .WillByDefault(Return(answer_to_accelerometer_update));
+    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::MAGNETOMETER_XOUT_L, _, _))
+        .WillByDefault(Return(answer_to_magnetometer_update));
   }
 
   virtual void ConfigureUnitUnderTest() {
@@ -40,6 +44,8 @@ class ImuIntegrationTests : public ::testing::Test {
 
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_who_am_i{
       types::DriverStatus::OK, {imu::WHO_AM_I_MPU9255_VALUE}};
+  std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_who_am_i_AK8963{
+      types::DriverStatus::OK, {imu::WHO_AM_I_AK8963_VALUE}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_gyro_config{
       types::DriverStatus::OK, {0b11111111}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_accelerometer_config{
@@ -91,8 +97,6 @@ TEST_F(ImuIntegrationTests, integration_test_accelerometer_happy_path) {
 }
 
 TEST_F(ImuIntegrationTests, integration_test_magnetometer_happy_path) {
-  GTEST_SKIP_("Not implemented yet.");
-
   ConfigureUnitUnderTest();
 
   auto init_return = unit_under_test_->Init();

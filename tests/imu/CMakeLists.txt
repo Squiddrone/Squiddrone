@@ -9,6 +9,7 @@ add_testpackage(TEST_NAME
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensor_with_sensitivity.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/accelerometer.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/gyroscope.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/magnetometer.cpp
                 TEST_INCLUDE_DIRECTORIES
                     ${CMAKE_SOURCE_DIR}/src/imu
                     ${CMAKE_SOURCE_DIR}/src/imu/interface
@@ -31,6 +32,7 @@ add_testpackage(TEST_NAME
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensor_with_sensitivity.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/accelerometer.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/gyroscope.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/magnetometer.cpp
                 TEST_INCLUDE_DIRECTORIES
                     ${CMAKE_SOURCE_DIR}/src/imu
                     ${CMAKE_SOURCE_DIR}/src/imu/interface
@@ -69,6 +71,7 @@ add_testpackage(TEST_NAME
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensor_with_sensitivity.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/accelerometer.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/gyroscope.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/magnetometer.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/mpu9255/mpu9255.cpp
                 TEST_INCLUDE_DIRECTORIES
                     ${CMAKE_SOURCE_DIR}/src/imu/interface

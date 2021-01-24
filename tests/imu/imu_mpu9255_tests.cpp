@@ -3,6 +3,7 @@
 #include "mock_accelerometer.hpp"
 #include "mock_gyroscope.hpp"
 #include "mock_i2c.hpp"
+#include "mock_magnetometer.hpp"
 #include "mpu9255.hpp"
 
 using ::testing::_;
@@ -20,21 +21,26 @@ class Mpu9255Tests : public ::testing::Test {
     unit_under_test_ = std::make_unique<imu::Mpu9255>(i2c_handler_);
     unit_under_test_->UnitTestSetGyroscope(std::move(mock_gyroscope_));
     unit_under_test_->UnitTestSetAccelerometer(std::move(mock_accelerometer_));
+    unit_under_test_->UnitTestSetMagnetometer(std::move(mock_magnetometer_));
   }
 
   std::shared_ptr<i2c::MockI2C> i2c_handler_ = std::make_shared<NiceMock<i2c::MockI2C>>();
   std::unique_ptr<imu::Mpu9255> unit_under_test_;
   std::unique_ptr<imu::MockGyroscope> mock_gyroscope_ = std::make_unique<NiceMock<imu::MockGyroscope>>();
   std::unique_ptr<imu::MockAccelerometer> mock_accelerometer_ = std::make_unique<NiceMock<imu::MockAccelerometer>>();
+  std::unique_ptr<imu::MockMagnetometer> mock_magnetometer_ = std::make_unique<NiceMock<imu::MockMagnetometer>>();
 
   types::EuclideanVector<std::int16_t> sensor_values_gyroscope{1, 2, 3};
   types::EuclideanVector<std::int16_t> sensor_values_accelerometer{4, 5, 6};
+  types::EuclideanVector<std::int16_t> sensor_values_magnetometer{7, 8, 9};
 };
 
 TEST_F(Mpu9255Tests, mpu9255_Init_all_sensors_ok) {
   ON_CALL(*mock_gyroscope_, Init)
       .WillByDefault(Return(types::DriverStatus::OK));
   ON_CALL(*mock_accelerometer_, Init)
+      .WillByDefault(Return(types::DriverStatus::OK));
+  ON_CALL(*mock_magnetometer_, Init)
       .WillByDefault(Return(types::DriverStatus::OK));
 
   ConfigureUnitUnderTest();
@@ -43,10 +49,40 @@ TEST_F(Mpu9255Tests, mpu9255_Init_all_sensors_ok) {
   EXPECT_EQ(unit_under_test_->IsInitialized(), true);
 }
 
+TEST_F(Mpu9255Tests, mpu9255_Init_gyroscope_failed) {
+  ON_CALL(*mock_gyroscope_, Init)
+      .WillByDefault(Return(types::DriverStatus::HAL_ERROR));
+  ON_CALL(*mock_accelerometer_, Init)
+      .WillByDefault(Return(types::DriverStatus::OK));
+  ON_CALL(*mock_magnetometer_, Init)
+      .WillByDefault(Return(types::DriverStatus::OK));
+
+  ConfigureUnitUnderTest();
+
+  EXPECT_EQ(unit_under_test_->Init(), types::DriverStatus::HAL_ERROR);
+  EXPECT_EQ(unit_under_test_->IsInitialized(), false);
+}
+
 TEST_F(Mpu9255Tests, mpu9255_Init_accelerometer_failed) {
   ON_CALL(*mock_gyroscope_, Init)
       .WillByDefault(Return(types::DriverStatus::OK));
   ON_CALL(*mock_accelerometer_, Init)
+      .WillByDefault(Return(types::DriverStatus::HAL_ERROR));
+  ON_CALL(*mock_magnetometer_, Init)
+      .WillByDefault(Return(types::DriverStatus::OK));
+
+  ConfigureUnitUnderTest();
+
+  EXPECT_EQ(unit_under_test_->Init(), types::DriverStatus::HAL_ERROR);
+  EXPECT_EQ(unit_under_test_->IsInitialized(), false);
+}
+
+TEST_F(Mpu9255Tests, mpu9255_Init_magnetometer_failed) {
+  ON_CALL(*mock_gyroscope_, Init)
+      .WillByDefault(Return(types::DriverStatus::OK));
+  ON_CALL(*mock_accelerometer_, Init)
+      .WillByDefault(Return(types::DriverStatus::OK));
+  ON_CALL(*mock_magnetometer_, Init)
       .WillByDefault(Return(types::DriverStatus::HAL_ERROR));
 
   ConfigureUnitUnderTest();
@@ -60,9 +96,13 @@ TEST_F(Mpu9255Tests, mpu9255_Update_all_sensors_ok) {
       .WillByDefault(Return(types::DriverStatus::OK));
   ON_CALL(*mock_accelerometer_, Init)
       .WillByDefault(Return(types::DriverStatus::OK));
+  ON_CALL(*mock_magnetometer_, Init)
+      .WillByDefault(Return(types::DriverStatus::OK));
   ON_CALL(*mock_gyroscope_, Update)
       .WillByDefault(Return(types::DriverStatus::OK));
   ON_CALL(*mock_accelerometer_, Update)
+      .WillByDefault(Return(types::DriverStatus::OK));
+  ON_CALL(*mock_magnetometer_, Update)
       .WillByDefault(Return(types::DriverStatus::OK));
 
   ConfigureUnitUnderTest();
@@ -77,10 +117,14 @@ TEST_F(Mpu9255Tests, mpu9255_Update_accelerometer_failed) {
       .WillByDefault(Return(types::DriverStatus::OK));
   ON_CALL(*mock_accelerometer_, Init)
       .WillByDefault(Return(types::DriverStatus::OK));
+  ON_CALL(*mock_magnetometer_, Init)
+      .WillByDefault(Return(types::DriverStatus::OK));
   ON_CALL(*mock_gyroscope_, Update)
       .WillByDefault(Return(types::DriverStatus::OK));
   ON_CALL(*mock_accelerometer_, Update)
       .WillByDefault(Return(types::DriverStatus::HAL_ERROR));
+  ON_CALL(*mock_magnetometer_, Update)
+      .WillByDefault(Return(types::DriverStatus::OK));
 
   ConfigureUnitUnderTest();
 
@@ -185,11 +229,28 @@ TEST_F(Mpu9255Tests, mpu9255_GetAccelerometer_without_Init) {
 }
 
 TEST_F(Mpu9255Tests, mpu9255_GetMagnetometer) {
-  GTEST_SKIP_("Not implemented yet.");
+  ON_CALL(*mock_magnetometer_, Get)
+      .WillByDefault(Return(sensor_values_magnetometer));
 
   ConfigureUnitUnderTest();
 
-  unit_under_test_->GetMagnetometer();
+  unit_under_test_->Init();
+
+  auto magnetometer_return = unit_under_test_->GetMagnetometer();
+
+  EXPECT_EQ(magnetometer_return.x, sensor_values_magnetometer.x);
+  EXPECT_EQ(magnetometer_return.y, sensor_values_magnetometer.y);
+  EXPECT_EQ(magnetometer_return.z, sensor_values_magnetometer.z);
+}
+
+TEST_F(Mpu9255Tests, mpu9255_GetMagnetometer_without_Init) {
+  ConfigureUnitUnderTest();
+
+  auto accelerometer_return = unit_under_test_->GetMagnetometer();
+
+  EXPECT_EQ(accelerometer_return.x, -1);
+  EXPECT_EQ(accelerometer_return.y, -1);
+  EXPECT_EQ(accelerometer_return.z, -1);
 }
 
 TEST_F(Mpu9255Tests, mpu9255_GetTemperature) {

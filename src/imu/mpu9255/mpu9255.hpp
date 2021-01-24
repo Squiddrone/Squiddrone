@@ -30,6 +30,7 @@ class Mpu9255 final : public GenericInertialMeasurementUnit {
 
   auto UnitTestSetGyroscope(std::unique_ptr<imu::GyroscopeInterface> gyroscope) -> void;
   auto UnitTestSetAccelerometer(std::unique_ptr<imu::AccelerometerInterface> accelerometer) -> void;
+  auto UnitTestSetMagnetometer(std::unique_ptr<imu::MagnetometerInterface> magnetometer) -> void;
 
  protected:
   auto AllSensorsAreOK(types::DriverStatus gyroscope_status,

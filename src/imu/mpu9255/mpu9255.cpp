@@ -116,4 +116,8 @@ auto Mpu9255::UnitTestSetAccelerometer(std::unique_ptr<imu::AccelerometerInterfa
   accelerometer_ = std::move(accelerometer);
 }
 
+auto Mpu9255::UnitTestSetMagnetometer(std::unique_ptr<imu::MagnetometerInterface> magnetometer) -> void {
+  magnetometer_ = std::move(magnetometer);
+}
+
 }  // namespace imu
