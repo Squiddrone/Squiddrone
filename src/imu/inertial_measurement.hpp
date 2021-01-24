@@ -1,114 +1,108 @@
-#ifndef SRC_IMU_INTERFACE_HPP_
-#define SRC_IMU_INTERFACE_HPP_
+#ifndef SRC_INERTIAL_MEASUREMENT_HPP_
+#define SRC_INERTIAL_MEASUREMENT_HPP_
 
-#include "basic_types.hpp"
-#include "i2c.hpp"
-#include "imu_sensitivity.hpp"
-#include "mpu9255.hpp"
+#include "imu_interface.hpp"
 
 namespace imu {
 
 /**
- * @brief The InertialMeasurementInterface provides an interface for the Inertial Measurement Unit.
+ * @brief Concrete implementation of the Inertial Measurement Unit Interface.
  * 
  */
-class InertialMeasurementInterface {
+class InertialMeasurement final : public InertialMeasurementInterface {
  public:
   /**
    * @brief  Default constructor may not be used, so it is deleted.
    * 
    */
-  InertialMeasurementInterface() = delete;
+  InertialMeasurement() = delete;
 
   /**
    * @brief The default destructor is sufficent
    *
    */
-  virtual ~InertialMeasurementInterface() = default;
+  ~InertialMeasurement() = default;
 
   /**
-   * @brief  The custom constructor is the one to be used. 
+   * @brief  The custom constructor is
+   *          the one to be used. 
    * @param  i2c_handler Unique pointer to I2C Handler defined by hal driver 
    * 
    */
-  explicit InertialMeasurementInterface(std::shared_ptr<i2c::I2CInterface> i2c_handler, std::unique_ptr<imu::GenericInertialMeasurementUnit> imu) : imu_(std::move(imu)){};
+  explicit InertialMeasurement(std::shared_ptr<i2c::I2CInterface> i2c_handler) : InertialMeasurementInterface(i2c_handler, std::make_unique<imu::Mpu9255>(i2c_handler)) {}
 
   /**
    * @brief Used for Initialization of complete Inertial Measurement Unit
    * 
    */
-  virtual auto Init(void) noexcept -> types::DriverStatus = 0;
+  auto Init(void) noexcept -> types::DriverStatus override;
 
   /**
    * @brief Used to update all sensors from Inertial Measurement Unit
    * 
    */
-  virtual auto Update(void) noexcept -> types::DriverStatus = 0;
+  auto Update(void) noexcept -> types::DriverStatus override;
 
   /**
    * @brief Used for setting of the gyroscopes sensitivity
    * 
    */
-  virtual void SetGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept = 0;
+  void SetGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept override;
 
   /**
    * @brief Used for reading the gyroscopes sensitivity
    * @return Gyroscopes sensitivity as types::ImuSensitivity
    * 
    */
-  virtual auto GetGyroscopeSensitivity(void) noexcept -> types::ImuSensitivity = 0;
+  auto GetGyroscopeSensitivity(void) noexcept -> types::ImuSensitivity override;
 
   /**
    * @brief Used for setting of the accelerometers sensitivity
    * 
    */
-  virtual void SetAccelerometerSensitivity(types::ImuSensitivity accelerometer_sensitivity) noexcept = 0;
+  void SetAccelerometerSensitivity(types::ImuSensitivity accelerometer_sensitivity) noexcept override;
 
   /**
    * @brief Used for reading the accelerometers sensitivity
    * @return accelerometers sensitivity as types::ImuSensitivity
    * 
    */
-  virtual auto GetAccelerometerSensitivity(void) noexcept -> types::ImuSensitivity = 0;
+  auto GetAccelerometerSensitivity(void) noexcept -> types::ImuSensitivity override;
 
   /**
    * @brief Used for reading the gyroscopes measured values
    * @return Vector of X, Y and Z axis of the orientation in three-dimensional space
    * 
    */
-  virtual auto GetGyroscope(void) noexcept -> types::EuclideanVector<std::int16_t> = 0;
+  auto GetGyroscope(void) noexcept -> types::EuclideanVector<std::int16_t> override;
 
   /**
    * @brief Used for reading the accelerometers measured values
    * @return Vector of X, Y and Z axis of the acceleration in three-dimensional space
    * 
    */
-  virtual auto GetAccelerometer(void) noexcept -> types::EuclideanVector<std::int16_t> = 0;
+  auto GetAccelerometer(void) noexcept -> types::EuclideanVector<std::int16_t> override;
 
   /**
    * @brief Used for reading the magnetometers measured values
    * @return Vector of X, Y and Z axis of the magnetic field in three-dimensional space
    * 
    */
-  virtual auto GetMagnetometer(void) noexcept -> types::EuclideanVector<std::int16_t> = 0;
+  auto GetMagnetometer(void) noexcept -> types::EuclideanVector<std::int16_t> override;
 
   /**
    * @brief Used for reading the temperature of the Inertial Measurement Unit
    * @return Temperature of Inertial Measurement Unit as Integer
    * 
    */
-  virtual auto GetTemperature(void) noexcept -> int = 0;
+  auto GetTemperature(void) noexcept -> int override;
 
   /**
   * @brief Only used for Unittests, to be able to inject a Mock Object
   * 
   * @param imu Unique Pointer to Mock Object
   */
-  virtual auto UnitTestSetImuSeam(std::unique_ptr<imu::GenericInertialMeasurementUnit> imu) noexcept -> void = 0;
-
- protected:
-  /// Holds the local reference to generic imu
-  std::unique_ptr<imu::GenericInertialMeasurementUnit> imu_;
+  auto UnitTestSetImuSeam(std::unique_ptr<imu::GenericInertialMeasurementUnit> imu) noexcept -> void override;
 };
 
 }  // namespace imu
