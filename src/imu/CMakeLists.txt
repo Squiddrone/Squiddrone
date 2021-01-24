@@ -15,6 +15,7 @@ target_sources(${ELF_FILE}
         ${CMAKE_CURRENT_SOURCE_DIR}/mpu9255/mpu9255.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/sensors/accelerometer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/sensors/gyroscope.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/sensors/magnetometer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/sensors/imu_sensor.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/sensors/imu_sensor_with_sensitivity.cpp
 )

@@ -9,10 +9,14 @@ auto Mpu9255::Init(void) noexcept -> types::DriverStatus {
   if (accelerometer_ == NULL) {
     accelerometer_ = std::make_unique<imu::Accelerometer>(i2c_handler_);
   }
+  if (magnetometer_ == NULL) {
+    magnetometer_ = std::make_unique<imu::Magnetometer>(i2c_handler_);
+  }
 
   auto gyro_init = gyroscope_->Init(WHO_AM_I_MPU9255_ADDRESS);
   auto accel_init = accelerometer_->Init(WHO_AM_I_MPU9255_ADDRESS);
-  if (AllSensorsAreOK(gyro_init, accel_init)) {
+  auto magneto_init = magnetometer_->Init(WHO_AM_I_AK8963_ADDRESS);
+  if (AllSensorsAreOK(gyro_init, accel_init, magneto_init)) {
     initialized_ = true;
     return types::DriverStatus::OK;
   }
@@ -23,7 +27,7 @@ auto Mpu9255::Update(void) noexcept -> types::DriverStatus {
   if (!IsInitialized())
     return types::DriverStatus::HAL_ERROR;
 
-  if (AllSensorsAreOK(gyroscope_->Update(), accelerometer_->Update())) {
+  if (AllSensorsAreOK(gyroscope_->Update(), accelerometer_->Update(), magnetometer_->Update())) {
     initialized_ = true;
     return types::DriverStatus::OK;
   }
@@ -69,8 +73,11 @@ auto Mpu9255::GetAccelerometer(void) noexcept -> types::EuclideanVector<std::int
 }
 
 auto Mpu9255::GetMagnetometer(void) noexcept -> types::EuclideanVector<std::int16_t> {
-  types::EuclideanVector<std::int16_t> value{0, 0, 0};
-  return value;
+  if (!IsInitialized()) {
+    return types::EuclideanVector<std::int16_t>{-1, -1, -1};
+  }
+
+  return magnetometer_->Get();
 }
 
 auto Mpu9255::GetTemperature(void) noexcept -> int {
@@ -81,9 +88,12 @@ auto Mpu9255::IsInitialized(void) noexcept -> bool {
   return initialized_;
 }
 
-auto Mpu9255::AllSensorsAreOK(types::DriverStatus gyroscope_status, types::DriverStatus accelerometer_status) noexcept -> bool {
+auto Mpu9255::AllSensorsAreOK(types::DriverStatus gyroscope_status,
+                              types::DriverStatus accelerometer_status,
+                              types::DriverStatus magnetometer_status) noexcept -> bool {
   if (gyroscope_status == types::DriverStatus::OK &&
-      accelerometer_status == types::DriverStatus::OK) {
+      accelerometer_status == types::DriverStatus::OK &&
+      magnetometer_status == types::DriverStatus::OK) {
     return true;
   } else {
     return false;

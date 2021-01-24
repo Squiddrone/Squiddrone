@@ -63,6 +63,7 @@ int main() {
       if (imu->Update() == types::DriverStatus::OK) {
         UartPrint(FormatEuclidVectorForPrintOut("Gyroscope", imu->GetGyroscope()));
         UartPrint(FormatEuclidVectorForPrintOut("Accelerometer", imu->GetAccelerometer()));
+        UartPrint(FormatEuclidVectorForPrintOut("Magnetometer", imu->GetMagnetometer()));
       } else {
         UartPrint("Update failed.");
       }
