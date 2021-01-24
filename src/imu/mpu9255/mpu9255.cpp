@@ -16,8 +16,7 @@ auto Mpu9255::Init(void) noexcept -> types::DriverStatus {
   auto gyro_init = gyroscope_->Init(WHO_AM_I_MPU9255_ADDRESS);
   auto accel_init = accelerometer_->Init(WHO_AM_I_MPU9255_ADDRESS);
 
-  i2c_handler_->Write(WHO_AM_I_MPU9255_ADDRESS, {INT_PIN_CFG, 0x22});
-  i2c_handler_->Write(WHO_AM_I_MPU9255_ADDRESS, {INT_ENABLE, 0x01});
+  SetInitConfig();
 
   auto magneto_init = magnetometer_->Init(WHO_AM_I_AK8963_ADDRESS);
   if (AllSensorsAreOK(gyro_init, accel_init, magneto_init)) {
@@ -25,6 +24,11 @@ auto Mpu9255::Init(void) noexcept -> types::DriverStatus {
     return types::DriverStatus::OK;
   }
   return types::DriverStatus::HAL_ERROR;
+}
+
+auto Mpu9255::SetInitConfig(void) -> void {
+  i2c_handler_->Write(WHO_AM_I_MPU9255_ADDRESS, {INT_PIN_CFG, 0x22});
+  i2c_handler_->Write(WHO_AM_I_MPU9255_ADDRESS, {INT_ENABLE, 0x01});
 }
 
 auto Mpu9255::Update(void) noexcept -> types::DriverStatus {
