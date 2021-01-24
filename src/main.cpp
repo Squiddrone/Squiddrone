@@ -21,9 +21,9 @@
 #include "serial_config.h"
 #include "spi_config.h"
 #include "timer_config.h"
+#include "uart_print.hpp"
 
 #define SYSTEM_TEST_IMU true
-auto UartPrint(std::string text) -> void;
 auto FormatEuclidVectorForPrintOut(std::string Sensor, types::EuclideanVector<std::int16_t> Vector) -> std::string;
 
 int main() {
@@ -50,10 +50,10 @@ int main() {
   bool init_successful = false;
 
   if (imu->Init() == types::DriverStatus::OK) {
-    UartPrint("Init successfull.");
+    utilities::UartPrint("Init successfull.");
     init_successful = true;
   } else {
-    UartPrint("Init failed.");
+    utilities::UartPrint("Init failed.");
   }
 
   HAL_Delay(500);
@@ -61,11 +61,11 @@ int main() {
   while (1) {
     if (init_successful == true) {
       if (imu->Update() == types::DriverStatus::OK) {
-        UartPrint(FormatEuclidVectorForPrintOut("Gyroscope", imu->GetGyroscope()));
-        UartPrint(FormatEuclidVectorForPrintOut("Accelerometer", imu->GetAccelerometer()));
-        UartPrint(FormatEuclidVectorForPrintOut("Magnetometer", imu->GetMagnetometer()));
+        utilities::UartPrint(FormatEuclidVectorForPrintOut("Gyroscope", imu->GetGyroscope()));
+        utilities::UartPrint(FormatEuclidVectorForPrintOut("Accelerometer", imu->GetAccelerometer()));
+        utilities::UartPrint(FormatEuclidVectorForPrintOut("Magnetometer", imu->GetMagnetometer()));
       } else {
-        UartPrint("Update failed.");
+        utilities::UartPrint("Update failed.");
       }
     }
     HAL_Delay(500);
@@ -76,12 +76,6 @@ int main() {
 #endif
 
   return 0;
-}
-
-auto UartPrint(std::string text) -> void {
-  text = text + "\r\n";
-  auto uchar_vector = std::vector<unsigned char>(text.data(), text.data() + text.length());
-  HAL_UART_Transmit(&huart2, uchar_vector.data(), (uint16_t)text.length(), HAL_MAX_DELAY);
 }
 
 auto FormatEuclidVectorForPrintOut(std::string Sensor, types::EuclideanVector<std::int16_t> Vector) -> std::string {
