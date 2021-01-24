@@ -14,9 +14,10 @@ auto InertialMeasurementSensor::Update(void) noexcept -> types::DriverStatus {
         ConvertUint8BytesIntoInt16SensorValue(measurement_values.at(0), measurement_values.at(1)),
         ConvertUint8BytesIntoInt16SensorValue(measurement_values.at(2), measurement_values.at(3)),
         ConvertUint8BytesIntoInt16SensorValue(measurement_values.at(4), measurement_values.at(5)));
+    return types::DriverStatus::OK;
   }
 
-  return types::DriverStatus::OK;
+  return types::DriverStatus::HAL_ERROR;
 }
 
 auto InertialMeasurementSensor::Get(void) noexcept -> types::EuclideanVector<int16_t> {
