@@ -49,9 +49,12 @@ class NRF24L01 final : public ComInterface {
   auto SetRxPayloadSize(DataPipe pipe_no, std::size_t payload_size) const noexcept -> types::DriverStatus;
   auto EnableAutoAck(DataPipe pipe_no) const noexcept -> types::DriverStatus;
 
+  // Mode switching
+  auto InitTx() noexcept -> types::DriverStatus;
+  auto InitRx() noexcept -> types::DriverStatus;
+
   // Transceiver hardware configuration
-  auto EnableTxMode() noexcept -> types::DriverStatus;
-  auto EnableRxMode() noexcept -> types::DriverStatus;
+  auto SetOperationMode(OperationMode mode) noexcept -> types::DriverStatus;
   auto SetPowerState(State power_state) noexcept -> types::DriverStatus;
   auto SetRFChannel(std::uint8_t channel) noexcept -> types::DriverStatus;
   auto SetDataRate(DataRateSetting data_rate) noexcept -> types::DriverStatus;
@@ -62,7 +65,7 @@ class NRF24L01 final : public ComInterface {
   auto SetLNAGain(State state) noexcept -> types::DriverStatus;
 
   // General protocol configuration
-  auto SetPayloadData() noexcept -> types::DriverStatus;
+  auto SetPayloadData(types::com_msg_frame &payload) noexcept -> types::DriverStatus;
   auto SetAddressWidth(DataPipeAddressWidth address_width) noexcept -> types::DriverStatus;
   auto EnableCRC() noexcept -> types::DriverStatus;
   auto SetCRCEncodingScheme(CRCEncodingScheme encoding_scheme) noexcept -> types::DriverStatus;
