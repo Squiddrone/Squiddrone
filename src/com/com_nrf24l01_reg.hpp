@@ -34,22 +34,22 @@ enum class DataPipeAddressWidth : std::uint8_t {
 
 enum class AutoRetransmissionDelay : std::uint8_t {
   // auto retransmis delay 250-4000 us
-  ard250us = 0x00,
-  ard500us = 0x10,
-  ard750us = 0x20,
-  ard1000us = 0x30,
-  ard1250us = 0x40,
-  ard1500us = 0x50,
-  ard1750us = 0x60,
-  ard2000us = 0x70,
-  ard2250us = 0x80,
-  ard2500us = 0x90,
-  ard2750us = 0xa0,
-  ard3000us = 0xb0,
-  ard3250us = 0xc0,
-  ard3500us = 0xd0,
-  ard3750us = 0xe0,
-  ard4000us = 0xf0
+  ard250us = 0x0,
+  ard500us = 0x1,
+  ard750us = 0x2,
+  ard1000us = 0x3,
+  ard1250us = 0x4,
+  ard1500us = 0x5,
+  ard1750us = 0x6,
+  ard2000us = 0x7,
+  ard2250us = 0x8,
+  ard2500us = 0x9,
+  ard2750us = 0xa,
+  ard3000us = 0xb,
+  ard3250us = 0xc,
+  ard3500us = 0xd,
+  ard3750us = 0xe,
+  ard4000us = 0xf
 };
 
 enum class AutoRetransmitCount : std::uint8_t {
