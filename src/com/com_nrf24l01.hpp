@@ -29,8 +29,8 @@ class NRF24L01 final : public ComInterface {
   std::uint8_t irq_flags;
 
   //Pipe configuration
-  auto EnableDataPipe(DataPipe pipe_no) const noexcept -> types::DriverStatus;
-  auto DisableDataPipe(DataPipe pipe_no) const noexcept -> types::DriverStatus;
+  auto EnableDataPipe(DataPipe pipe_no) noexcept -> types::DriverStatus;
+  auto DisableDataPipe(DataPipe pipe_no) noexcept -> types::DriverStatus;
   /**
    * @brief Set the Tx Address and configure Pipe 0 for ack reception.
    * 
@@ -39,6 +39,7 @@ class NRF24L01 final : public ComInterface {
    */
   auto SetTxAddress(data_pipe_address tx_addr) const noexcept -> types::DriverStatus;
   auto SetRxAddress(DataPipe pipe_no, data_pipe_address rx_addr) const noexcept -> types::DriverStatus;
+  auto GetRxAddress(DataPipe pipe_no) noexcept -> data_pipe_address;
   /**
    * @brief Set the Rx Payload Size per data pipe.
    * 
@@ -47,7 +48,7 @@ class NRF24L01 final : public ComInterface {
    * @return types::DriverStatus 
    */
   auto SetRxPayloadSize(DataPipe pipe_no, std::size_t payload_size) const noexcept -> types::DriverStatus;
-  auto EnableAutoAck(DataPipe pipe_no) const noexcept -> types::DriverStatus;
+  auto EnableAutoAck(DataPipe pipe_no) noexcept -> types::DriverStatus;
 
   // Mode switching
   auto InitTx() noexcept -> types::DriverStatus;
@@ -61,11 +62,12 @@ class NRF24L01 final : public ComInterface {
   auto SetRFOutputPower(RFPowerSetting rf_power) noexcept -> types::DriverStatus;
   auto FlushTx() noexcept -> types::DriverStatus;
   auto FlushRx() noexcept -> types::DriverStatus;
+  auto ReadAndClearIRQFlags() -> register_t;
   // Not sure if we ever need this
   auto SetLNAGain(State state) noexcept -> types::DriverStatus;
 
   // General protocol configuration
-  auto SetPayloadData(types::com_msg_frame &payload) noexcept -> types::DriverStatus;
+  auto WritePayloadData(types::com_msg_frame &payload) noexcept -> types::DriverStatus;
   auto SetAddressWidth(DataPipeAddressWidth address_width) noexcept -> types::DriverStatus;
   auto EnableCRC() noexcept -> types::DriverStatus;
   auto SetCRCEncodingScheme(CRCEncodingScheme encoding_scheme) noexcept -> types::DriverStatus;
@@ -76,6 +78,7 @@ class NRF24L01 final : public ComInterface {
 
   // Helper functions
   auto ReadRegister(std::uint8_t register_address) noexcept -> std::uint8_t;
+  auto ReadRegister(std::uint8_t register_address, std::uint8_t length) noexcept -> std::vector<uint8_t>;
   auto WriteRegister(std::uint8_t register_address, std::uint8_t register_content) -> types::DriverStatus;
 };
 }  // namespace com
