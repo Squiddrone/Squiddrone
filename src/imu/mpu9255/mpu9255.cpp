@@ -13,12 +13,12 @@ auto Mpu9255::Init(void) noexcept -> types::DriverStatus {
     magnetometer_ = std::make_unique<imu::Magnetometer>(i2c_handler_);
   }
 
-  auto gyro_init = gyroscope_->Init(WHO_AM_I_MPU9255_ADDRESS);
-  auto accel_init = accelerometer_->Init(WHO_AM_I_MPU9255_ADDRESS);
+  auto gyro_init = gyroscope_->Init(MPU9255_ADDRESS);
+  auto accel_init = accelerometer_->Init(MPU9255_ADDRESS);
 
   SetInitConfig();
 
-  auto magneto_init = magnetometer_->Init(WHO_AM_I_AK8963_ADDRESS);
+  auto magneto_init = magnetometer_->Init(AK8963_ADDRESS);
   if (AllSensorsAreOK(gyro_init, accel_init, magneto_init)) {
     initialized_ = true;
     return types::DriverStatus::OK;
@@ -32,11 +32,11 @@ auto Mpu9255::SetInitConfig(void) -> void {
 }
 
 auto Mpu9255::SetMPU9255Register(std::uint8_t register_, std::uint8_t register_value) -> void {
-  i2c_handler_->Write(WHO_AM_I_MPU9255_ADDRESS, {register_, register_value});
+  i2c_handler_->Write(MPU9255_ADDRESS, {register_, register_value});
 }
 
 auto Mpu9255::SetAK8963Register(std::uint8_t register_, std::uint8_t register_value) -> void {
-  i2c_handler_->Write(WHO_AM_I_AK8963_ADDRESS, {register_, register_value});
+  i2c_handler_->Write(AK8963_ADDRESS, {register_, register_value});
 }
 
 auto Mpu9255::Update(void) noexcept -> types::DriverStatus {
