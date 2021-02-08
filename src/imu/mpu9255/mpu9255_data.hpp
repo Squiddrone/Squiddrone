@@ -18,6 +18,7 @@ static constexpr std::uint8_t WHO_AM_I_AK8963_VALUE = 0x48;
 static constexpr std::uint8_t WHO_AM_I_AK8963_REGISTER = 0x00;
 static constexpr std::uint8_t INT_PIN_CFG = 0x37;
 static constexpr std::uint8_t INT_ENABLE = 0x38;
+static constexpr std::uint8_t AK8963_CNTL = 0x0A;
 }  // namespace imu
 
 #endif
