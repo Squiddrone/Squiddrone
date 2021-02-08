@@ -37,6 +37,8 @@ class Mpu9255 final : public GenericInertialMeasurementUnit {
                        types::DriverStatus accelerometer_status,
                        types::DriverStatus magnetometer_status) noexcept -> bool;
   auto SetInitConfig(void) -> void;
+  auto SetMPU9255Register(std::uint8_t register_, std::uint8_t register_value) -> void;
+  auto SetAK8963Register(std::uint8_t register_, std::uint8_t register_value) -> void;
 
   bool initialized_ = false;
   std::unique_ptr<imu::GyroscopeInterface> gyroscope_ = NULL;

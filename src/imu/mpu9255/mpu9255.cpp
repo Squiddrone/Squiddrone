@@ -27,8 +27,16 @@ auto Mpu9255::Init(void) noexcept -> types::DriverStatus {
 }
 
 auto Mpu9255::SetInitConfig(void) -> void {
-  i2c_handler_->Write(WHO_AM_I_MPU9255_ADDRESS, {INT_PIN_CFG, 0x22});
-  i2c_handler_->Write(WHO_AM_I_MPU9255_ADDRESS, {INT_ENABLE, 0x01});
+  SetMPU9255Register(INT_PIN_CFG, 0x22);
+  SetMPU9255Register(INT_ENABLE, 0x01);
+}
+
+auto Mpu9255::SetMPU9255Register(std::uint8_t register_, std::uint8_t register_value) -> void {
+  i2c_handler_->Write(WHO_AM_I_MPU9255_ADDRESS, {register_, register_value});
+}
+
+auto Mpu9255::SetAK8963Register(std::uint8_t register_, std::uint8_t register_value) -> void {
+  i2c_handler_->Write(WHO_AM_I_AK8963_ADDRESS, {register_, register_value});
 }
 
 auto Mpu9255::Update(void) noexcept -> types::DriverStatus {
