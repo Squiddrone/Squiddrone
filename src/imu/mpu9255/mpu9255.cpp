@@ -12,16 +12,20 @@ auto Mpu9255::Init(void) noexcept -> types::DriverStatus {
   if (magnetometer_ == NULL) {
     magnetometer_ = std::make_unique<imu::Magnetometer>(i2c_handler_);
   }
+  if (temperature_ == NULL) {
+    temperature_ = std::make_unique<imu::Temperature>(i2c_handler_);
+  }
 
   auto gyro_init = gyroscope_->Init(MPU9255_ADDRESS);
   auto accel_init = accelerometer_->Init(MPU9255_ADDRESS);
+  auto temperature_init = temperature_->Init(MPU9255_ADDRESS);
 
   SetInitConfigMPU9255();
 
   auto magneto_init = magnetometer_->Init(AK8963_ADDRESS);
 
   SetInitConfigAK8963();
-  if (AllSensorsAreOK(gyro_init, accel_init, magneto_init)) {
+  if (AllSensorsAreOK(gyro_init, accel_init, magneto_init, temperature_init)) {
     initialized_ = true;
     return types::DriverStatus::OK;
   }
@@ -57,7 +61,7 @@ auto Mpu9255::Update(void) noexcept -> types::DriverStatus {
   if (!IsInitialized())
     return types::DriverStatus::HAL_ERROR;
 
-  if (AllSensorsAreOK(gyroscope_->Update(), accelerometer_->Update(), magnetometer_->Update())) {
+  if (AllSensorsAreOK(gyroscope_->Update(), accelerometer_->Update(), magnetometer_->Update(), temperature_->Update())) {
     initialized_ = true;
     return types::DriverStatus::OK;
   }
@@ -111,7 +115,11 @@ auto Mpu9255::GetMagnetometer(void) noexcept -> types::EuclideanVector<std::int1
 }
 
 auto Mpu9255::GetTemperature(void) noexcept -> int {
-  return 0;
+  if (!IsInitialized()) {
+    return 0;
+  }
+
+  return temperature_->Get_();
 }
 
 auto Mpu9255::IsInitialized(void) noexcept -> bool {
@@ -120,10 +128,12 @@ auto Mpu9255::IsInitialized(void) noexcept -> bool {
 
 auto Mpu9255::AllSensorsAreOK(types::DriverStatus gyroscope_status,
                               types::DriverStatus accelerometer_status,
-                              types::DriverStatus magnetometer_status) noexcept -> bool {
+                              types::DriverStatus magnetometer_status,
+                              types::DriverStatus temperature_status) noexcept -> bool {
   if (gyroscope_status == types::DriverStatus::OK &&
       accelerometer_status == types::DriverStatus::OK &&
-      magnetometer_status == types::DriverStatus::OK) {
+      magnetometer_status == types::DriverStatus::OK &&
+      temperature_status == types::DriverStatus::OK) {
     return true;
   } else {
     return false;
@@ -140,6 +150,10 @@ auto Mpu9255::UnitTestSetAccelerometer(std::unique_ptr<imu::AccelerometerInterfa
 
 auto Mpu9255::UnitTestSetMagnetometer(std::unique_ptr<imu::MagnetometerInterface> magnetometer) -> void {
   magnetometer_ = std::move(magnetometer);
+}
+
+auto Mpu9255::UnitTestSetTemperature(std::unique_ptr<imu::TemperatureInterface> temperature) -> void {
+  temperature_ = std::move(temperature);
 }
 
 }  // namespace imu

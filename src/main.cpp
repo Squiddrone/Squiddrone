@@ -65,6 +65,7 @@ int main() {
         utilities::UartPrint(FormatEuclidVectorForPrintOut("Gyroscope", imu->GetGyroscope()));
         utilities::UartPrint(FormatEuclidVectorForPrintOut("Accelerometer", imu->GetAccelerometer()));
         utilities::UartPrint(FormatEuclidVectorForPrintOut("Magnetometer", imu->GetMagnetometer()));
+        utilities::UartPrint("Temperature: " + std::to_string(imu->GetTemperature()));
       } else {
         utilities::UartPrint("Update failed.");
       }

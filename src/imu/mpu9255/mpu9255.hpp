@@ -9,6 +9,8 @@
 #include "magnetometer.hpp"
 #include "magnetometer_virtual_interface.hpp"
 #include "sleep.hpp"
+#include "temperature.hpp"
+#include "temperature_virtual_interface.hpp"
 
 namespace imu {
 
@@ -32,11 +34,13 @@ class Mpu9255 final : public GenericInertialMeasurementUnit {
   auto UnitTestSetGyroscope(std::unique_ptr<imu::GyroscopeInterface> gyroscope) -> void;
   auto UnitTestSetAccelerometer(std::unique_ptr<imu::AccelerometerInterface> accelerometer) -> void;
   auto UnitTestSetMagnetometer(std::unique_ptr<imu::MagnetometerInterface> magnetometer) -> void;
+  auto UnitTestSetTemperature(std::unique_ptr<imu::TemperatureInterface> temperature) -> void;
 
  protected:
   auto AllSensorsAreOK(types::DriverStatus gyroscope_status,
                        types::DriverStatus accelerometer_status,
-                       types::DriverStatus magnetometer_status) noexcept -> bool;
+                       types::DriverStatus magnetometer_status,
+                       types::DriverStatus temperature_status) noexcept -> bool;
   auto SetInitConfigMPU9255(void) -> void;
   auto SetInitConfigAK8963(void) -> void;
   auto SetMPU9255Register(std::uint8_t register_, std::uint8_t register_value) -> void;
@@ -46,6 +50,7 @@ class Mpu9255 final : public GenericInertialMeasurementUnit {
   std::unique_ptr<imu::GyroscopeInterface> gyroscope_ = NULL;
   std::unique_ptr<imu::AccelerometerInterface> accelerometer_ = NULL;
   std::unique_ptr<imu::MagnetometerInterface> magnetometer_ = NULL;
+  std::unique_ptr<imu::TemperatureInterface> temperature_ = NULL;
 };
 
 }  // namespace imu
