@@ -38,7 +38,7 @@ class GyroscopeTests : public ::testing::Test {
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_gyro_config{
       types::DriverStatus::OK, {0b11111111}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_update{
-      types::DriverStatus::OK, {0, 15, 0, 25, 0, 35}};
+      types::DriverStatus::OK, {0, 50, 0, 100, 0, 150}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_read_mismatch{
       types::DriverStatus::OK, {0, 15}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_invalid{
@@ -117,7 +117,7 @@ TEST_F(GyroscopeTests, gyroscope_Update_failes_in_ReadContentFromRegister) {
 TEST_F(GyroscopeTests, gyroscope_full) {
   ConfigureUnitUnderTest();
 
-  types::EuclideanVector<std::int16_t> expected_value{15, 25, 35};
+  types::EuclideanVector<std::int16_t> expected_value{3, 6, 9};
   unit_under_test_->Init(i2c_address_);
   unit_under_test_->Update();
   auto gyroscope_get_return = unit_under_test_->Get();

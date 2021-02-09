@@ -53,9 +53,9 @@ class ImuIntegrationTests : public ::testing::Test {
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_accelerometer_config{
       types::DriverStatus::OK, {0b11111111}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_gyro_update{
-      types::DriverStatus::OK, {0, 15, 0, 25, 0, 35}};
+      types::DriverStatus::OK, {0, 50, 0, 100, 0, 150}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_accelerometer_update{
-      types::DriverStatus::OK, {0, 45, 0, 55, 0, 65}};
+      types::DriverStatus::OK, {0, 100, 0, 200, 2, 50}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_magnetometer_update{
       types::DriverStatus::OK, {0, 75, 0, 85, 0, 95}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_temperature_update{
@@ -75,9 +75,9 @@ TEST_F(ImuIntegrationTests, integration_test_gyroscope_happy_path) {
 
   auto gyroscope_return = unit_under_test_->GetGyroscope();
 
-  EXPECT_EQ(gyroscope_return.x, 15);
-  EXPECT_EQ(gyroscope_return.y, 25);
-  EXPECT_EQ(gyroscope_return.z, 35);
+  EXPECT_EQ(gyroscope_return.x, 3);
+  EXPECT_EQ(gyroscope_return.y, 6);
+  EXPECT_EQ(gyroscope_return.z, 9);
 }
 
 TEST_F(ImuIntegrationTests, integration_test_accelerometer_happy_path) {
