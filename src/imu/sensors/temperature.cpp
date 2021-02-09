@@ -27,11 +27,18 @@ auto Temperature::Update_(void) noexcept -> types::DriverStatus {
   std::vector<uint8_t> measurement_values = ReadContentFromRegister(SENSOR_DATA_REGISTER, REGISTER_DATA_LENGTH);
 
   if (ImuConnectionSuccessful()) {
-    sensor_value_ = ConvertUint8BytesIntoInt16SensorValue(measurement_values.at(0), measurement_values.at(1));
+    auto adc_value = ConvertUint8BytesIntoInt16SensorValue(measurement_values.at(0), measurement_values.at(1));
+    sensor_value_ = CalculateTempInDegreeFromADC(adc_value);
     return types::DriverStatus::OK;
   }
 
   return types::DriverStatus::HAL_ERROR;
+}
+
+auto Temperature::CalculateTempInDegreeFromADC(std::int16_t adc_value) noexcept -> std::int16_t {
+  constexpr float TEMP_SENSITIVITY = 333.87;
+  constexpr std::int16_t Temp21degC = 21;
+  return static_cast<std::int16_t>(adc_value / TEMP_SENSITIVITY + Temp21degC);
 }
 
 auto Temperature::Get_(void) noexcept -> std::int16_t {

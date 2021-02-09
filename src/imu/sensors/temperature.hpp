@@ -16,6 +16,7 @@ class Temperature final : public TemperatureInterface {
   auto Get_(void) noexcept -> std::int16_t override;
 
  private:
+  auto CalculateTempInDegreeFromADC(std::int16_t adc_value) noexcept -> std::int16_t;
   std::int16_t sensor_value_ = -1;
 };
 
