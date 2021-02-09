@@ -4,6 +4,7 @@
 #include "mock_gyroscope.hpp"
 #include "mock_i2c.hpp"
 #include "mock_magnetometer.hpp"
+#include "mock_temperature.hpp"
 #include "mpu9255.hpp"
 
 using ::testing::_;
@@ -22,6 +23,7 @@ class Mpu9255Tests : public ::testing::Test {
     unit_under_test_->UnitTestSetGyroscope(std::move(mock_gyroscope_));
     unit_under_test_->UnitTestSetAccelerometer(std::move(mock_accelerometer_));
     unit_under_test_->UnitTestSetMagnetometer(std::move(mock_magnetometer_));
+    unit_under_test_->UnitTestSetTemperature(std::move(mock_temperature_));
   }
 
   std::shared_ptr<i2c::MockI2C> i2c_handler_ = std::make_shared<NiceMock<i2c::MockI2C>>();
@@ -29,6 +31,7 @@ class Mpu9255Tests : public ::testing::Test {
   std::unique_ptr<imu::MockGyroscope> mock_gyroscope_ = std::make_unique<NiceMock<imu::MockGyroscope>>();
   std::unique_ptr<imu::MockAccelerometer> mock_accelerometer_ = std::make_unique<NiceMock<imu::MockAccelerometer>>();
   std::unique_ptr<imu::MockMagnetometer> mock_magnetometer_ = std::make_unique<NiceMock<imu::MockMagnetometer>>();
+  std::unique_ptr<imu::MockTemperature> mock_temperature_ = std::make_unique<NiceMock<imu::MockTemperature>>();
 
   types::EuclideanVector<std::int16_t> sensor_values_gyroscope{1, 2, 3};
   types::EuclideanVector<std::int16_t> sensor_values_accelerometer{4, 5, 6};
@@ -246,19 +249,32 @@ TEST_F(Mpu9255Tests, mpu9255_GetMagnetometer) {
 TEST_F(Mpu9255Tests, mpu9255_GetMagnetometer_without_Init) {
   ConfigureUnitUnderTest();
 
-  auto accelerometer_return = unit_under_test_->GetMagnetometer();
+  auto magnetometer_return = unit_under_test_->GetMagnetometer();
 
-  EXPECT_EQ(accelerometer_return.x, -1);
-  EXPECT_EQ(accelerometer_return.y, -1);
-  EXPECT_EQ(accelerometer_return.z, -1);
+  EXPECT_EQ(magnetometer_return.x, -1);
+  EXPECT_EQ(magnetometer_return.y, -1);
+  EXPECT_EQ(magnetometer_return.z, -1);
 }
 
 TEST_F(Mpu9255Tests, mpu9255_GetTemperature) {
-  GTEST_SKIP_("Not implemented yet.");
+  ON_CALL(*mock_temperature_, Get_)
+      .WillByDefault(Return(37));
 
   ConfigureUnitUnderTest();
 
-  unit_under_test_->GetTemperature();
+  unit_under_test_->Init();
+
+  auto temperature_return = unit_under_test_->GetTemperature();
+
+  EXPECT_EQ(temperature_return, 37);
+}
+
+TEST_F(Mpu9255Tests, mpu9255_GetTemperature_without_Init) {
+  ConfigureUnitUnderTest();
+
+  auto temperature_return = unit_under_test_->GetTemperature();
+
+  EXPECT_EQ(temperature_return, -1);
 }
 
 }  // namespace

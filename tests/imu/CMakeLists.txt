@@ -10,6 +10,7 @@ add_testpackage(TEST_NAME
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/accelerometer.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/gyroscope.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/magnetometer.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/temperature.cpp
                     ${CMAKE_SOURCE_DIR}/src/utilities/sleep.cpp
                 TEST_INCLUDE_DIRECTORIES
                     ${CMAKE_SOURCE_DIR}/src/imu
@@ -34,6 +35,7 @@ add_testpackage(TEST_NAME
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/accelerometer.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/gyroscope.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/magnetometer.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/temperature.cpp
                     ${CMAKE_SOURCE_DIR}/src/utilities/sleep.cpp
                 TEST_INCLUDE_DIRECTORIES
                     ${CMAKE_SOURCE_DIR}/src/imu
@@ -74,6 +76,7 @@ add_testpackage(TEST_NAME
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/accelerometer.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/gyroscope.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/magnetometer.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/temperature.cpp
                     ${CMAKE_SOURCE_DIR}/src/utilities/sleep.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/mpu9255/mpu9255.cpp
                 TEST_INCLUDE_DIRECTORIES

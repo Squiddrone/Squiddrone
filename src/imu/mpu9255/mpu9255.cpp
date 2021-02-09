@@ -116,7 +116,7 @@ auto Mpu9255::GetMagnetometer(void) noexcept -> types::EuclideanVector<std::int1
 
 auto Mpu9255::GetTemperature(void) noexcept -> int {
   if (!IsInitialized()) {
-    return 0;
+    return -1;
   }
 
   return temperature_->Get_();
