@@ -94,6 +94,18 @@ TEST_F(TemperatureTests, Get_without_Update_first) {
   EXPECT_EQ(get_return, expected_value);
 }
 
+TEST_F(TemperatureTests, Update_failes_in_ReadContentFromRegister) {
+  ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::TEMP_OUT_H, _, _))
+      .WillByDefault(Return(answer_invalid));
+
+  ConfigureUnitUnderTest();
+
+  unit_under_test_->Init(i2c_address_);
+  auto update_return = unit_under_test_->Update();
+
+  EXPECT_EQ(update_return, types::DriverStatus::HAL_ERROR);
+}
+
 TEST_F(TemperatureTests, full) {
   ConfigureUnitUnderTest();
 
