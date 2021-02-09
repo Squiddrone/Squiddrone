@@ -35,6 +35,7 @@ auto Mpu9255::SetInitConfigMPU9255(void) -> void {
 
 auto Mpu9255::SetInitConfigAK8963(void) -> void {
   SetAK8963Register(AK8963_CNTL, 0x00);  // Power down magnetometer
+  utilities::Sleep(10);
   SetAK8963Register(AK8963_CNTL, 0x0F);  // Enter Fuse ROM access mode
   SetAK8963Register(AK8963_CNTL, 0x00);  // Power down magnetometer
   // Configure the magnetometer for continuous read and highest resolution

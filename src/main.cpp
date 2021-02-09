@@ -19,6 +19,7 @@
 #include "inertial_measurement.hpp"
 #include "mcu_settings.h"
 #include "serial_config.h"
+#include "sleep.hpp"
 #include "spi_config.h"
 #include "timer_config.h"
 #include "uart_print.hpp"
@@ -56,7 +57,7 @@ int main() {
     utilities::UartPrint("Init failed.");
   }
 
-  HAL_Delay(500);
+  utilities::Sleep(500);
 
   while (1) {
     if (init_successful == true) {
@@ -68,7 +69,7 @@ int main() {
         utilities::UartPrint("Update failed.");
       }
     }
-    HAL_Delay(500);
+    utilities::Sleep(500);
   }
 #else
   while (1) {

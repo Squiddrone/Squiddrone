@@ -8,6 +8,7 @@
 #include "gyroscope_virtual_interface.hpp"
 #include "magnetometer.hpp"
 #include "magnetometer_virtual_interface.hpp"
+#include "sleep.hpp"
 
 namespace imu {
 
