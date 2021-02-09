@@ -59,7 +59,7 @@ class ImuIntegrationTests : public ::testing::Test {
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_magnetometer_update{
       types::DriverStatus::OK, {0, 75, 0, 85, 0, 95}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_temperature_update{
-      types::DriverStatus::OK, {0, 37}};
+      types::DriverStatus::OK, {2, 112}};
 };
 
 TEST_F(ImuIntegrationTests, integration_test_gyroscope_happy_path) {
@@ -129,7 +129,7 @@ TEST_F(ImuIntegrationTests, integration_test_temperature_happy_path) {
 
   auto temperature_return = unit_under_test_->GetTemperature();
 
-  EXPECT_EQ(temperature_return, 37);
+  EXPECT_EQ(temperature_return, 22);
 }
 
 TEST_F(ImuIntegrationTests, integration_test_Update_without_Init) {
