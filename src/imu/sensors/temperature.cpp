@@ -12,9 +12,6 @@ auto Temperature::Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus
 
   sensor_value_ = 0;
 
-  if (ImuConnectionFailed())
-    return types::DriverStatus::HAL_ERROR;
-
   initialized_ = true;
   return types::DriverStatus::OK;
 }
