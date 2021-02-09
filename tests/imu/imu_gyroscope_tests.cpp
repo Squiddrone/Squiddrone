@@ -102,6 +102,18 @@ TEST_F(GyroscopeTests, gyroscope_Get_without_Update_first) {
   EXPECT_EQ(gyroscope_get_return.z, expected_value.z);
 }
 
+TEST_F(GyroscopeTests, gyroscope_Update_failes_in_ReadContentFromRegister) {
+  ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::GYRO_XOUT_H, _, _))
+      .WillByDefault(Return(answer_invalid));
+
+  ConfigureUnitUnderTest();
+
+  auto init_return = unit_under_test_->Init(i2c_address_);
+  auto update_return = unit_under_test_->Update();
+
+  EXPECT_EQ(update_return, types::DriverStatus::HAL_ERROR);
+}
+
 TEST_F(GyroscopeTests, gyroscope_full) {
   ConfigureUnitUnderTest();
 
