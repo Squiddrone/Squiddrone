@@ -101,7 +101,7 @@ TEST_F(MagnetometerTests, Get_without_Update_first) {
 TEST_F(MagnetometerTests, full) {
   ConfigureUnitUnderTest();
 
-  types::EuclideanVector<std::int16_t> expected_value{15, 25, 35};
+  types::EuclideanVector<std::int16_t> expected_value{22, 37, 52};
   unit_under_test_->Init(i2c_address_);
   unit_under_test_->Update();
   auto get_return = unit_under_test_->Get();

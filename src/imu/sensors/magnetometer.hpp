@@ -12,6 +12,10 @@ class Magnetometer final : public MagnetometerInterface {
 
   explicit Magnetometer(std::shared_ptr<i2c::I2CInterface> i2c_handler) : MagnetometerInterface(i2c_handler){};
   auto Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus override;
+  auto Update(void) noexcept -> types::DriverStatus override;
+
+ private:
+  auto GetFactorADC2Magnetometer(void) noexcept -> float;
 };
 
 }  // namespace imu
