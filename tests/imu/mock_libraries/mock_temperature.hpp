@@ -3,8 +3,8 @@
 
 #include <gmock/gmock.h>
 #include <memory>
-#include "temperature_virtual_interface.hpp"
 #include "mock_i2c.hpp"
+#include "temperature_virtual_interface.hpp"
 
 namespace imu {
 
