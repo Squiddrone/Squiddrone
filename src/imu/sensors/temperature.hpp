@@ -16,7 +16,7 @@ class Temperature final : public TemperatureInterface {
   auto Get_(void) noexcept -> std::int16_t override;
 
  private:
-  std::int16_t sensor_value_ = 0;
+  std::int16_t sensor_value_ = -1;
 };
 
 }  // namespace imu
