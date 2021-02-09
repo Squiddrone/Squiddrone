@@ -101,7 +101,7 @@ TEST_F(TemperatureTests, Update_failes_in_ReadContentFromRegister) {
   ConfigureUnitUnderTest();
 
   unit_under_test_->Init(i2c_address_);
-  auto update_return = unit_under_test_->Update();
+  auto update_return = unit_under_test_->Update_();
 
   EXPECT_EQ(update_return, types::DriverStatus::HAL_ERROR);
 }
