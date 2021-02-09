@@ -12,7 +12,7 @@ class TemperatureInterface : public InertialMeasurementSensor {
 
   explicit TemperatureInterface(std::shared_ptr<i2c::I2CInterface> i2c_handler) : InertialMeasurementSensor(i2c_handler){};
   virtual auto Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus = 0;
-  virtual auto Update(void) noexcept -> types::DriverStatus = 0;
+  virtual auto Update_(void) noexcept -> types::DriverStatus = 0;
   virtual auto Get_(void) noexcept -> std::int16_t = 0;
 };
 

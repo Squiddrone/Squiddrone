@@ -19,7 +19,7 @@ auto Temperature::Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus
   return types::DriverStatus::OK;
 }
 
-auto Temperature::Update(void) noexcept -> types::DriverStatus {
+auto Temperature::Update_(void) noexcept -> types::DriverStatus {
   if (!IsInitialized())
     return types::DriverStatus::HAL_ERROR;
 

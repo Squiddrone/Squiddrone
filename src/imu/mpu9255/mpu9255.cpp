@@ -61,7 +61,7 @@ auto Mpu9255::Update(void) noexcept -> types::DriverStatus {
   if (!IsInitialized())
     return types::DriverStatus::HAL_ERROR;
 
-  if (AllSensorsAreOK(gyroscope_->Update(), accelerometer_->Update(), magnetometer_->Update(), temperature_->Update())) {
+  if (AllSensorsAreOK(gyroscope_->Update(), accelerometer_->Update(), magnetometer_->Update(), temperature_->Update_())) {
     initialized_ = true;
     return types::DriverStatus::OK;
   }
