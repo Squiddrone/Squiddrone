@@ -80,7 +80,7 @@ int main() {
   return 0;
 }
 
-auto FormatEuclidVectorForPrintOut(std::string Sensor, types::EuclideanVector<std::int16_t> Vector) -> std::string {
+auto FormatEuclidVectorForPrintOut(const std::string Sensor, types::EuclideanVector<std::int16_t> Vector) -> std::string {
   return Sensor + ":" +
          " X: " + std::to_string(Vector.x) +
          " Y: " + std::to_string(Vector.y) +
