@@ -18,12 +18,13 @@ enum class CRCEncodingScheme : std::uint8_t {
 };
 
 enum class DataPipe : std::uint8_t {
-  data_pipe_0 = 0,
-  data_pipe_1,
-  data_pipe_2,
-  data_pipe_3,
-  data_pipe_4,
-  data_pipe_5
+  rx_pipe_0 = 0,
+  rx_pipe_1,
+  rx_pipe_2,
+  rx_pipe_3,
+  rx_pipe_4,
+  rx_pipe_5,
+  tx_pipe
 };
 
 enum class DataPipeAddressWidth : std::uint8_t {
