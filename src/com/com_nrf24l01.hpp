@@ -39,7 +39,7 @@ class NRF24L01 final : public ComInterface {
    */
   auto SetTxAddress(data_pipe_address tx_addr) const noexcept -> types::DriverStatus;
   auto SetRxAddress(DataPipe pipe_no, data_pipe_address rx_addr) const noexcept -> types::DriverStatus;
-  auto GetRxAddress(DataPipe pipe_no) noexcept -> data_pipe_address;
+  auto GetPipeAddress(DataPipe pipe_no) noexcept -> data_pipe_address;
   /**
    * @brief Set the Rx Payload Size per data pipe.
    * 
@@ -55,6 +55,10 @@ class NRF24L01 final : public ComInterface {
   auto InitRx() noexcept -> types::DriverStatus;
 
   // Transceiver hardware configuration
+  auto InitTransceiver(std::uint8_t channel,
+                       DataRateSetting data_rate,
+                       RFPowerSetting rf_power,
+                       CRCEncodingScheme encoding_scheme) noexcept -> types::DriverStatus;
   auto SetOperationMode(OperationMode mode) noexcept -> types::DriverStatus;
   auto SetPowerState(State power_state) noexcept -> types::DriverStatus;
   auto SetRFChannel(std::uint8_t channel) noexcept -> types::DriverStatus;
