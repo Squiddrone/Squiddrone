@@ -1,6 +1,34 @@
 #include "com_nrf24l01.hpp"
 
 namespace com {
+auto NRF24L01::InitTransceiver(std::uint8_t channel,
+                               DataRateSetting data_rate,
+                               RFPowerSetting rf_power,
+                               CRCEncodingScheme encoding_scheme) noexcept -> types::DriverStatus {
+  SetRFChannel(channel);
+  SetDataRate(data_rate);
+  EnableCRC();
+  SetCRCEncodingScheme(encoding_scheme);
+  SetRFOutputPower(rf_power);
+}
+
+auto NRF24L01::InitTx() noexcept -> types::DriverStatus {
+  FlushTx();
+  FlushRx();
+
+  SetOperationMode(OperationMode::prim_tx);
+  /* needed in final implementation
+    SetTxAddress(tx_addr);
+    SetRxAddress(DataPipe::data_pipe_0, tx_addr);
+  */
+
+  EnableDataPipe(DataPipe::rx_pipe_0);
+  EnableAutoAck(DataPipe::rx_pipe_0);
+  ConfigAutoRetransmission(AutoRetransmissionDelay::ard500us, AutoRetransmitCount::arc1);
+
+  return types::DriverStatus::OK;
+}
+
 auto NRF24L01::SetOperationMode(OperationMode mode) noexcept -> types::DriverStatus {
   utilities::Byte config_register(ReadRegister(reg::config::REG_ADDR));
 
@@ -11,27 +39,6 @@ auto NRF24L01::SetOperationMode(OperationMode mode) noexcept -> types::DriverSta
   }
 
   return WriteRegister(reg::config::REG_ADDR, config_register.Get());
-}
-
-auto NRF24L01::InitTx() noexcept -> types::DriverStatus {
-  SetRFChannel(rf_config::rf_channel);
-  SetDataRate(DataRateSetting::rf_dr_1mbps);
-  EnableCRC();
-  SetCRCEncodingScheme(CRCEncodingScheme::crc_16bit);
-  SetOperationMode(OperationMode::prim_tx);
-  /* needed in final implementation
-    SetTxAddress(tx_addr);
-    SetRxAddress(DataPipe::data_pipe_0, tx_addr);
-  */
-  SetRFOutputPower(RFPowerSetting::rf_pwr_0dBm);
-
-  // disable retransmission?
-  ConfigAutoRetransmission(AutoRetransmissionDelay::ard250us, AutoRetransmitCount::arc0);
-
-  EnableDataPipe(DataPipe::data_pipe_0);
-  EnableAutoAck(DataPipe::data_pipe_0);
-
-  return types::DriverStatus::OK;
 }
 
 auto NRF24L01::SetRFChannel(std::uint8_t channel) noexcept -> types::DriverStatus {
@@ -114,29 +121,30 @@ auto NRF24L01::ConfigAutoRetransmission(AutoRetransmissionDelay delay, AutoRetra
 auto NRF24L01::SetRxAddress(DataPipe pipe_no, data_pipe_address rx_addr) const noexcept -> types::DriverStatus {
 }
 
-auto NRF24L01::GetRxAddress(DataPipe pipe_no) noexcept -> data_pipe_address {
+auto NRF24L01::GetPipeAddress(DataPipe pipe_no) noexcept -> data_pipe_address {
   std::vector<uint8_t> miso_data;
   uint8_t register_addr = reg::rx_addr_p0::REG_ADDR + static_cast<uint8_t>(pipe_no);
   data_pipe_address addr = {0};
   uint8_t counter = 0;
 
   switch (pipe_no) {
-    case DataPipe::data_pipe_0:
-    case DataPipe::data_pipe_1:
+    case DataPipe::tx_pipe:
+    case DataPipe::rx_pipe_0:
+    case DataPipe::rx_pipe_1:
       miso_data = ReadRegister(register_addr, 5);
-      // implementiere multibyte read, aber heut nimmer...
       for (auto n : miso_data) {
         addr.at(counter) = n;
         counter++;
       }
       break;
-    case DataPipe::data_pipe_2:
-    case DataPipe::data_pipe_3:
-    case DataPipe::data_pipe_4:
-    case DataPipe::data_pipe_5:
+    case DataPipe::rx_pipe_2:
+    case DataPipe::rx_pipe_3:
+    case DataPipe::rx_pipe_4:
+    case DataPipe::rx_pipe_5:
       addr.at(0) = ReadRegister(register_addr);
       break;
   }
+  return addr;
 }
 
 auto NRF24L01::GetDataPacket() const noexcept -> types::com_msg_frame {
@@ -147,18 +155,19 @@ auto NRF24L01::GetDataPacket() const noexcept -> types::com_msg_frame {
 auto NRF24L01::PutDataPacket(std::uint8_t target_id, types::com_msg_frame &payload) noexcept -> types::ComError {
   register_t irq_flg = 0;
 
-  auto rv = SetPowerState(State::enabled);
-  rv = FlushTx();
-  ReadAndClearIRQFlags();
-  rv = InitTx();
-  rv = WritePayloadData(payload);
-  GetRxAddress(DataPipe::data_pipe_0);
+  SetPowerState(State::enabled);
+  HAL_Delay(1);
+  InitTx();
+  WriteRegister(0x1d, 0);
+
+  WritePayloadData(payload);
+  irq_flg = ReadAndClearIRQFlags();
 
   for (int i = 0; i < 10; i++) {
     irq_flg = ReadAndClearIRQFlags();
     if (irq_flg & ((1U << 5) | (1U << 4))) break;
-    HAL_Delay(1);
   }
+  SetPowerState(State::disabled);
 
   return types::ComError::COM_OK;
 }
