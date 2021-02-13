@@ -43,7 +43,7 @@ int main() {
   auto com_buffer = std::make_unique<com::ComMessageBuffer>();
   auto com_device = std::make_unique<com::NRF24L01>(std::move(com_buffer), com_cs_pin);
 
-  types::com_msg_frame payload;
+  types::com_msg_frame payload{0xab, 't', 'e', 's', 't', 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
   while (1) {
     com_device->PutDataPacket(0x0, payload);
