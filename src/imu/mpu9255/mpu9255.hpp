@@ -8,7 +8,6 @@
 #include "gyroscope_virtual_interface.hpp"
 #include "magnetometer.hpp"
 #include "magnetometer_virtual_interface.hpp"
-#include "sleep.hpp"
 #include "temperature.hpp"
 #include "temperature_virtual_interface.hpp"
 

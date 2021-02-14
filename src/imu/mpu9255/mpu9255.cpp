@@ -24,7 +24,6 @@ auto Mpu9255::Init(void) noexcept -> types::DriverStatus {
 
   auto magneto_init = magnetometer_->Init(AK8963_ADDRESS);
 
-  SetInitConfigAK8963();
   if (AllSensorsAreOK(gyro_init, accel_init, magneto_init, temperature_init)) {
     initialized_ = true;
     return types::DriverStatus::OK;
@@ -35,18 +34,6 @@ auto Mpu9255::Init(void) noexcept -> types::DriverStatus {
 auto Mpu9255::SetInitConfigMPU9255(void) -> void {
   SetMPU9255Register(INT_PIN_CFG, 0x22);
   SetMPU9255Register(INT_ENABLE, 0x01);
-}
-
-auto Mpu9255::SetInitConfigAK8963(void) -> void {
-  SetAK8963Register(AK8963_CNTL, 0x00);  // Power down magnetometer
-  utilities::Sleep(10);
-  SetAK8963Register(AK8963_CNTL, 0x0F);  // Enter Fuse ROM access mode
-  SetAK8963Register(AK8963_CNTL, 0x00);  // Power down magnetometer
-  utilities::Sleep(10);
-  // Configure the magnetometer for continuous read and highest resolution
-  // set Mscale bit 4 to 1 (0) to enable 16 (14) bit resolution in CNTL register,
-  // and enable continuous mode data acquisition Mmode (bits [3:0]), 0010 for 8 Hz and 0110 for 100 Hz sample rates
-  SetAK8963Register(AK8963_CNTL, 1 << 4 | 0x02);  // Set magnetometer data resolution and sample ODR
 }
 
 auto Mpu9255::SetMPU9255Register(std::uint8_t register_, std::uint8_t register_value) -> void {
