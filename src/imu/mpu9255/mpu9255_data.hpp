@@ -20,6 +20,7 @@ static constexpr std::uint8_t INT_PIN_CFG = 0x37;
 static constexpr std::uint8_t INT_ENABLE = 0x38;
 static constexpr std::uint8_t AK8963_CNTL = 0x0A;
 static constexpr std::uint8_t TEMP_OUT_H = 0x41;
+static constexpr std::uint8_t AK8963_ASAX = 0x10;
 }  // namespace imu
 
 #endif

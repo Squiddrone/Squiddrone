@@ -15,7 +15,10 @@ class Magnetometer final : public MagnetometerInterface {
   auto Update(void) noexcept -> types::DriverStatus override;
 
  private:
+  types::EuclideanVector<float> calibration_values_{-1, -1, -1};
+
   auto GetFactorADC2Magnetometer(void) noexcept -> float;
+  auto GetCalibrationValues(void) noexcept -> void;
 };
 
 }  // namespace imu
