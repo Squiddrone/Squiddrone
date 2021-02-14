@@ -20,9 +20,9 @@ auto Magnetometer::Init(std::uint8_t i2c_address) noexcept -> types::DriverStatu
 auto Magnetometer::Update(void) noexcept -> types::DriverStatus {
   if (InertialMeasurementSensor::Update() == types::DriverStatus::OK) {
     auto adc_2_magnetometer = GetFactorADC2Magnetometer();
-    sensor_values_.x = static_cast<std::int16_t>(adc_2_magnetometer * (float)sensor_values_.x);
-    sensor_values_.y = static_cast<std::int16_t>(adc_2_magnetometer * (float)sensor_values_.y);
-    sensor_values_.z = static_cast<std::int16_t>(adc_2_magnetometer * (float)sensor_values_.z);
+    sensor_values_.x = static_cast<std::int16_t>(adc_2_magnetometer * (float)sensor_values_.x * calibration_values_.x);
+    sensor_values_.y = static_cast<std::int16_t>(adc_2_magnetometer * (float)sensor_values_.y * calibration_values_.y);
+    sensor_values_.z = static_cast<std::int16_t>(adc_2_magnetometer * (float)sensor_values_.z * calibration_values_.z);
     return types::DriverStatus::OK;
   } else {
     return types::DriverStatus::HAL_ERROR;
