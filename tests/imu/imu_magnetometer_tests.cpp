@@ -17,6 +17,8 @@ class MagnetometerTests : public ::testing::Test {
 
     ON_CALL(*i2c_handler_, ReadContentFromRegister(_, _, _, _))
         .WillByDefault(Return(answer_to_who_am_i));
+    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::AK8963_ASAX, _, _))
+        .WillByDefault(Return(answer_calibration_values));
     ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::WHO_AM_I_AK8963_REGISTER, _, _))
         .WillByDefault(Return(answer_to_who_am_i));
     ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::MAGNETOMETER_XOUT_L, _, _))
@@ -37,6 +39,8 @@ class MagnetometerTests : public ::testing::Test {
       types::DriverStatus::OK, {0, 15, 0, 25, 0, 35}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_read_mismatch{
       types::DriverStatus::OK, {0, 15}};
+  std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_calibration_values{
+      types::DriverStatus::OK, {128, 128, 128}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_invalid{
       types::DriverStatus::HAL_ERROR, {}};
 };
