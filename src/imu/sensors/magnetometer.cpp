@@ -33,7 +33,18 @@ auto Magnetometer::SetInitData(void) -> void {
 }
 
 auto Magnetometer::Update(void) noexcept -> types::DriverStatus {
-  if (InertialMeasurementSensor::Update() == types::DriverStatus::OK) {
+  if (!IsInitialized())
+    return types::DriverStatus::HAL_ERROR;
+
+  const std::uint16_t REGISTER_DATA_LENGTH = 6;
+  std::vector<uint8_t> measurement_values = ReadContentFromRegister(SENSOR_DATA_REGISTER, REGISTER_DATA_LENGTH);
+
+  if (ImuConnectionSuccessful()) {
+    SetSensorValues(
+        ConvertUint8BytesIntoInt16SensorValue(measurement_values.at(1), measurement_values.at(0)),
+        ConvertUint8BytesIntoInt16SensorValue(measurement_values.at(3), measurement_values.at(2)),
+        ConvertUint8BytesIntoInt16SensorValue(measurement_values.at(5), measurement_values.at(4)));
+
     auto adc_2_magnetometer = GetFactorADC2Magnetometer();
     sensor_values_.x = static_cast<std::int16_t>(adc_2_magnetometer * (float)sensor_values_.x * calibration_values_.x);
     sensor_values_.y = static_cast<std::int16_t>(adc_2_magnetometer * (float)sensor_values_.y * calibration_values_.y);
@@ -45,7 +56,7 @@ auto Magnetometer::Update(void) noexcept -> types::DriverStatus {
 }
 
 auto Magnetometer::GetFactorADC2Magnetometer(void) noexcept -> float {
-  return static_cast<float>(10.0 * 4912.0 / 32768.0);  // at the moment fix at 16Bit setting
+  return static_cast<float>(4912.0 / 32760.0);  // at the moment fix at 16Bit setting. Also 14Bit possible.
 }
 
 auto Magnetometer::GetCalibrationValues(void) noexcept -> void {
