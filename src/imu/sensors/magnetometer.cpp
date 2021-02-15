@@ -39,8 +39,11 @@ auto Magnetometer::Update(void) noexcept -> types::DriverStatus {
   if (!IsMagnetometerMeasurementReady())
     return types::DriverStatus::OK;
 
-  const std::uint16_t REGISTER_DATA_LENGTH = 6;
+  const std::uint16_t REGISTER_DATA_LENGTH = 7;
   std::vector<uint8_t> measurement_values = ReadContentFromRegister(SENSOR_DATA_REGISTER, REGISTER_DATA_LENGTH);
+
+  if (HasMagnetometerOverflow(measurement_values.at(6)))
+    return types::DriverStatus::OK;
 
   if (ImuConnectionSuccessful()) {
     SetSensorValues(
@@ -61,6 +64,10 @@ auto Magnetometer::Update(void) noexcept -> types::DriverStatus {
 auto Magnetometer::IsMagnetometerMeasurementReady(void) noexcept -> bool {
   std::vector<uint8_t> st1_register = ReadContentFromRegister(imu::AK8963_ST1, 1);
   return st1_register.at(0) & 0x01;
+}
+
+auto Magnetometer::HasMagnetometerOverflow(std::uint8_t st2_register_value) noexcept -> bool {
+  return st2_register_value & 0x08;
 }
 
 auto Magnetometer::GetFactorADC2Magnetometer(void) noexcept -> float {

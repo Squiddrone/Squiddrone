@@ -39,8 +39,8 @@ class MagnetometerTests : public ::testing::Test {
       types::DriverStatus::OK, {imu::WHO_AM_I_AK8963_VALUE}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_update{
       types::DriverStatus::OK, {0b11111000, 0b01111111, 0, 0, 0b00001000, 0b10000000, 0}};
-  std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_update{
-      types::DriverStatus::OK, {0b11111000, 0b01111111, 0, 0, 0b00001000, 0b10000000, 0}};
+  std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_update_magnetic_overflow{
+      types::DriverStatus::OK, {0b11111000, 0b01111111, 0, 0, 0b00001000, 0b10000000, 0x08}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_measurement_ready{
       types::DriverStatus::OK, {0b00000001}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_measurement_not_ready{
@@ -116,7 +116,6 @@ TEST_F(MagnetometerTests, Update_but_measurement_is_not_ready) {
 
   ConfigureUnitUnderTest();
 
-  types::EuclideanVector<std::int16_t> expected_value{0, 0, 0};
   unit_under_test_->Init(i2c_address_);
   auto update_return = unit_under_test_->Update();
 
@@ -124,12 +123,11 @@ TEST_F(MagnetometerTests, Update_but_measurement_is_not_ready) {
 }
 
 TEST_F(MagnetometerTests, Update_magnetic_overflow_occured) {
-  ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::AK8963_ST1, _, _))
-      .WillByDefault(Return(answer_to_measurement_not_ready));
+  ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::MAGNETOMETER_XOUT_L, _, _))
+      .WillByDefault(Return(answer_to_update_magnetic_overflow));
 
   ConfigureUnitUnderTest();
 
-  types::EuclideanVector<std::int16_t> expected_value{0, 0, 0};
   unit_under_test_->Init(i2c_address_);
   auto update_return = unit_under_test_->Update();
 
