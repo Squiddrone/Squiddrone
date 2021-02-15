@@ -31,6 +31,10 @@ class ImuIntegrationTests : public ::testing::Test {
         .WillByDefault(Return(answer_to_accelerometer_config));
     ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::ACCEL_XOUT_H, _, _))
         .WillByDefault(Return(answer_to_accelerometer_update));
+    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::AK8963_ASAX, _, _))
+        .WillByDefault(Return(magnetometer_answer_calibration_values));
+    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::AK8963_ST1, _, _))
+        .WillByDefault(Return(magnetometer_answer_to_measurement_ready));
     ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::MAGNETOMETER_XOUT_L, _, _))
         .WillByDefault(Return(answer_to_magnetometer_update));
     ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::TEMP_OUT_H, _, _))
@@ -57,9 +61,13 @@ class ImuIntegrationTests : public ::testing::Test {
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_accelerometer_update{
       types::DriverStatus::OK, {46, 224, 50, 200, 50, 50}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_magnetometer_update{
-      types::DriverStatus::OK, {0, 15, 0, 25, 0, 35}};
+      types::DriverStatus::OK, {0b11111000, 0b01111111, 0, 0, 0b00001000, 0b10000000, 0}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_temperature_update{
       types::DriverStatus::OK, {2, 112}};
+  std::pair<types::DriverStatus, std::vector<std::uint8_t>> magnetometer_answer_to_measurement_ready{
+      types::DriverStatus::OK, {0b00000001}};
+  std::pair<types::DriverStatus, std::vector<std::uint8_t>> magnetometer_answer_calibration_values{
+      types::DriverStatus::OK, {128, 128, 128}};
 };
 
 TEST_F(ImuIntegrationTests, integration_test_gyroscope_happy_path) {
@@ -111,9 +119,9 @@ TEST_F(ImuIntegrationTests, integration_test_magnetometer_happy_path) {
 
   auto magnetometer_return = unit_under_test_->GetMagnetometer();
 
-  EXPECT_EQ(magnetometer_return.x, 22);
-  EXPECT_EQ(magnetometer_return.y, 37);
-  EXPECT_EQ(magnetometer_return.z, 52);
+  EXPECT_EQ(magnetometer_return.x, 4912);
+  EXPECT_EQ(magnetometer_return.y, 0);
+  EXPECT_EQ(magnetometer_return.z, -4912);
 }
 
 TEST_F(ImuIntegrationTests, integration_test_temperature_happy_path) {
