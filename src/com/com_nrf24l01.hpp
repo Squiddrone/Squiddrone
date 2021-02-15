@@ -3,6 +3,7 @@
 
 #include "com_interface.hpp"
 #include "com_nrf24l01_reg.hpp"
+#include "com_nrf24l01_spi_protocol.hpp"
 #include "spi.hpp"
 
 namespace com {
@@ -25,6 +26,7 @@ class NRF24L01 final : public ComInterface {
  private:
   spi::CSPin cs_pin_;
   spi::SPI spi_{cs_pin_};
+  NRF24L01SpiProtocol spi_protocol_{spi_};
 
   std::uint8_t irq_flags;
 
@@ -71,7 +73,6 @@ class NRF24L01 final : public ComInterface {
   auto SetLNAGain(State state) noexcept -> types::DriverStatus;
 
   // General protocol configuration
-  auto WritePayloadData(types::com_msg_frame &payload) noexcept -> types::DriverStatus;
   auto SetAddressWidth(DataPipeAddressWidth address_width) noexcept -> types::DriverStatus;
   auto EnableCRC() noexcept -> types::DriverStatus;
   auto SetCRCEncodingScheme(CRCEncodingScheme encoding_scheme) noexcept -> types::DriverStatus;
@@ -79,11 +80,6 @@ class NRF24L01 final : public ComInterface {
 
   // Status register access
   auto CarrierDetected() noexcept -> bool;
-
-  // Helper functions
-  auto ReadRegister(std::uint8_t register_address) noexcept -> std::uint8_t;
-  auto ReadRegister(std::uint8_t register_address, std::uint8_t length) noexcept -> std::vector<uint8_t>;
-  auto WriteRegister(std::uint8_t register_address, std::uint8_t register_content) -> types::DriverStatus;
 };
 }  // namespace com
 
