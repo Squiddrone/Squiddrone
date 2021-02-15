@@ -19,6 +19,7 @@ class Magnetometer final : public MagnetometerInterface {
   types::EuclideanVector<float> calibration_values_{-1, -1, -1};
 
   auto SetInitData(void) -> void;
+  auto IsMagnetometerMeasurementReady(void) noexcept -> bool;
   auto GetFactorADC2Magnetometer(void) noexcept -> float;
   auto GetCalibrationValues(void) noexcept -> void;
 };

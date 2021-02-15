@@ -36,6 +36,9 @@ auto Magnetometer::Update(void) noexcept -> types::DriverStatus {
   if (!IsInitialized())
     return types::DriverStatus::HAL_ERROR;
 
+  if (!IsMagnetometerMeasurementReady())
+    return types::DriverStatus::OK;
+
   const std::uint16_t REGISTER_DATA_LENGTH = 6;
   std::vector<uint8_t> measurement_values = ReadContentFromRegister(SENSOR_DATA_REGISTER, REGISTER_DATA_LENGTH);
 
@@ -53,6 +56,11 @@ auto Magnetometer::Update(void) noexcept -> types::DriverStatus {
   } else {
     return types::DriverStatus::HAL_ERROR;
   }
+}
+
+auto Magnetometer::IsMagnetometerMeasurementReady(void) noexcept -> bool {
+  std::vector<uint8_t> st1_register = ReadContentFromRegister(imu::AK8963_ST1, 1);
+  return st1_register.at(0) & 0x01;
 }
 
 auto Magnetometer::GetFactorADC2Magnetometer(void) noexcept -> float {
