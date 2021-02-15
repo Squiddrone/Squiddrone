@@ -23,6 +23,7 @@ class InertialMeasurementSensor : public InertialMeasurementSensorInterface {
   auto AK8963Detected(void) noexcept -> bool;
   auto Write(const std::vector<std::uint8_t>& data) noexcept -> void;
   auto ReadContentFromRegister(std::uint8_t read_from_register, std::uint16_t byte_size) noexcept -> std::vector<std::uint8_t>;
+  auto WriteContentIntoRegister(std::uint8_t write_into_register, std::uint8_t register_content) noexcept -> types::DriverStatus;
   auto ImuConnectionSuccessful(void) noexcept -> bool;
   auto ImuConnectionFailed(void) noexcept -> bool;
   auto SetI2CAdress(std::uint8_t i2c_address) noexcept -> void;

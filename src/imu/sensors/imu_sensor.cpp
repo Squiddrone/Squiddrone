@@ -64,6 +64,10 @@ auto InertialMeasurementSensor::ReadContentFromRegister(std::uint8_t read_from_r
   return content_of_register;
 }
 
+auto InertialMeasurementSensor::WriteContentIntoRegister(std::uint8_t write_into_register, std::uint8_t register_content) noexcept -> types::DriverStatus {
+  return i2c_handler_->Write(i2c_address_, {write_into_register, register_content});
+}
+
 auto InertialMeasurementSensor::Write(const std::vector<std::uint8_t>& data) noexcept -> void {
   imu_status_ = i2c_handler_->Write(i2c_address_, data);
 }
