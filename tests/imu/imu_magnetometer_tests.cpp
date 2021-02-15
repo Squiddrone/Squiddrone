@@ -36,7 +36,7 @@ class MagnetometerTests : public ::testing::Test {
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_who_am_i{
       types::DriverStatus::OK, {imu::WHO_AM_I_AK8963_VALUE}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_update{
-      types::DriverStatus::OK, {0, 15, 0, 25, 0, 35}};
+      types::DriverStatus::OK, {0b11111000, 0b01111111, 0, 0, 0b00001000, 0b10000000}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_read_mismatch{
       types::DriverStatus::OK, {0, 15}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_calibration_values{
@@ -105,7 +105,7 @@ TEST_F(MagnetometerTests, Get_without_Update_first) {
 TEST_F(MagnetometerTests, full) {
   ConfigureUnitUnderTest();
 
-  types::EuclideanVector<std::int16_t> expected_value{22, 37, 52};
+  types::EuclideanVector<std::int16_t> expected_value{4912, 0, -4912};
   unit_under_test_->Init(i2c_address_);
   unit_under_test_->Update();
   auto get_return = unit_under_test_->Get();
