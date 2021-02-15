@@ -37,13 +37,13 @@ auto Magnetometer::Update(void) noexcept -> types::DriverStatus {
     return types::DriverStatus::HAL_ERROR;
 
   if (!IsMagnetometerMeasurementReady())
-    return types::DriverStatus::OK;
+    return types::DriverStatus::HAL_ERROR;
 
   const std::uint16_t REGISTER_DATA_LENGTH = 7;
   std::vector<uint8_t> measurement_values = ReadContentFromRegister(SENSOR_DATA_REGISTER, REGISTER_DATA_LENGTH);
 
   if (HasMagnetometerOverflow(measurement_values.at(6)))
-    return types::DriverStatus::OK;
+    return types::DriverStatus::HAL_ERROR;
 
   if (ImuConnectionSuccessful()) {
     SetSensorValues(

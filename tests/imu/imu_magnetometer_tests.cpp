@@ -119,7 +119,7 @@ TEST_F(MagnetometerTests, Update_but_measurement_is_not_ready) {
   unit_under_test_->Init(i2c_address_);
   auto update_return = unit_under_test_->Update();
 
-  EXPECT_EQ(update_return, types::DriverStatus::OK);
+  EXPECT_EQ(update_return, types::DriverStatus::HAL_ERROR);
 }
 
 TEST_F(MagnetometerTests, Update_magnetic_overflow_occured) {
@@ -131,7 +131,7 @@ TEST_F(MagnetometerTests, Update_magnetic_overflow_occured) {
   unit_under_test_->Init(i2c_address_);
   auto update_return = unit_under_test_->Update();
 
-  EXPECT_EQ(update_return, types::DriverStatus::OK);
+  EXPECT_EQ(update_return, types::DriverStatus::HAL_ERROR);
 }
 
 TEST_F(MagnetometerTests, full) {
