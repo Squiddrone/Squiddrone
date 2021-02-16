@@ -4,6 +4,7 @@
 #include "com_interface.hpp"
 #include "com_nrf24l01_reg.hpp"
 #include "spi.hpp"
+#include "stm32g4xx_hal.h"
 
 namespace com {
 

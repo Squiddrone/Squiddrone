@@ -3,7 +3,12 @@
 
 #include <array>
 #include <cstdint>
+
+#ifndef UNIT_TEST
 #include "utilities/byte.hpp"
+#else
+#include "byte_mock.hpp"
+#endif
 
 namespace com {
 

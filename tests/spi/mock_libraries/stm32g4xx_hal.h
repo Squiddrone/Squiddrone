@@ -21,6 +21,9 @@ typedef struct __SPI_HandleTypeDef {
 HAL_StatusTypeDef HAL_SPI_TransmitReceive(SPI_HandleTypeDef *hspi, uint8_t *pTxData, uint8_t *pRxData, uint16_t Size,
                                           uint32_t Timeout);
 
+HAL_StatusTypeDef HAL_SPI_Transmit(SPI_HandleTypeDef *hspi, uint8_t *pTxData, uint16_t Size,
+                                   uint32_t Timeout);
+
 typedef uint8_t GPIO_TypeDef;
 
 typedef enum {
