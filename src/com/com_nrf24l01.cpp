@@ -156,7 +156,6 @@ auto NRF24L01::PutDataPacket(std::uint8_t target_id, types::com_msg_frame &paylo
   register_t irq_flg = 0;
 
   SetPowerState(State::enabled);
-  HAL_Delay(1);
   InitTx();
   spi_protocol_.WriteRegister(0x1d, 0);
 
