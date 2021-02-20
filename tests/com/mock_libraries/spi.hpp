@@ -4,6 +4,7 @@
 #include "error_types.hpp"
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
+#include "stm32g4xx_hal.h"
 
 typedef struct
 {
