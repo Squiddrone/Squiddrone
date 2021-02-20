@@ -9,10 +9,14 @@ namespace com {
 
 class NRF24L01SpiProtocol {
  public:
-  NRF24L01SpiProtocol(std::unique_ptr<spi::SPI> spi){};
+  NRF24L01SpiProtocol() = default;
   MOCK_METHOD((std::uint8_t), ReadRegister, (std::uint8_t), (noexcept));
   MOCK_METHOD((std::vector<uint8_t>), ReadRegister, (std::uint8_t, std::uint8_t), (noexcept));
   MOCK_METHOD((types::DriverStatus), WriteRegister, (std::uint8_t, std::uint8_t), (noexcept));
+  MOCK_METHOD((types::DriverStatus), FlushTxBuffer, (), (noexcept));
+  MOCK_METHOD((types::DriverStatus), FlushRxBuffer, (), (noexcept));
+  MOCK_METHOD((std::uint8_t), ReadAndClearIRQFlags, (), (noexcept));
+  MOCK_METHOD((types::DriverStatus), WritePayloadData, (std::vector<uint8_t>));
 };
 }  // namespace com
 
