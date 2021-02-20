@@ -8,7 +8,7 @@
 namespace com {
 class NRF24L01SpiProtocol {
  public:
-  NRF24L01SpiProtocol(){};
+  NRF24L01SpiProtocol() = default;
   // SPI protocol functions
   auto ReadRegister(std::uint8_t register_address) noexcept -> std::uint8_t;
   auto ReadRegister(std::uint8_t register_address, std::uint8_t length) noexcept -> std::vector<uint8_t>;
