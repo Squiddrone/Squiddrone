@@ -4,6 +4,7 @@
 #include "error_types.hpp"
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
+#include "mcu_settings.h"
 
 typedef struct
 {
@@ -11,9 +12,14 @@ typedef struct
 
 namespace spi {
 
+enum class CSActiveState : uint8_t {
+  ACTIVE_LOW = 0,
+  ACTIVE_HIGH
+};
 typedef struct CSPinDefinition {
   GPIO_TypeDef *peripheral;
   uint16_t gpio_pin;
+  CSActiveState active_state;
 } CSPin;
 
 class MockSPI {
