@@ -37,7 +37,7 @@ auto InertialMeasurementSensorWithSensitivity::SaveNewSensitivity(types::ImuSens
 
 auto InertialMeasurementSensorWithSensitivity::SendSensitivityRegisterData(types::ImuSensitivity sensitivity) noexcept -> void {
   std::uint8_t new_config = GetConfigRegisterDataForSensitivity(sensitivity);
-  Write({CONFIG_REGISTER, new_config});
+  WriteContentIntoRegister(CONFIG_REGISTER, new_config);
 }
 
 auto InertialMeasurementSensorWithSensitivity::GetConfigRegisterDataForSensitivity(types::ImuSensitivity sensitivity) noexcept -> std::uint8_t {
