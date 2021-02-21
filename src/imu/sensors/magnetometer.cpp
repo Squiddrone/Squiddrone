@@ -38,26 +38,25 @@ auto Magnetometer::Update(void) noexcept -> types::DriverStatus {
   if (!IsMagnetometerMeasurementReady())
     return types::DriverStatus::HAL_ERROR;
 
-  const std::uint16_t REGISTER_DATA_LENGTH = 7;
-  std::vector<uint8_t> measurement_values = ReadContentFromRegister(SENSOR_DATA_REGISTER, REGISTER_DATA_LENGTH);
+  if (InertialMeasurementSensorVector::Update() == types::DriverStatus::OK) {
+    if (HasMagnetometerOverflow(raw_values_.at(6)))
+      return types::DriverStatus::HAL_ERROR;
 
-  if (HasMagnetometerOverflow(measurement_values.at(6)))
-    return types::DriverStatus::HAL_ERROR;
+    if (ImuConnectionSuccessful()) {
+      SetSensorValues(
+          ConvertUint8BytesIntoInt16SensorValue(raw_values_.at(1), raw_values_.at(0)),
+          ConvertUint8BytesIntoInt16SensorValue(raw_values_.at(3), raw_values_.at(2)),
+          ConvertUint8BytesIntoInt16SensorValue(raw_values_.at(5), raw_values_.at(4)));
 
-  if (ImuConnectionSuccessful()) {
-    SetSensorValues(
-        ConvertUint8BytesIntoInt16SensorValue(measurement_values.at(1), measurement_values.at(0)),
-        ConvertUint8BytesIntoInt16SensorValue(measurement_values.at(3), measurement_values.at(2)),
-        ConvertUint8BytesIntoInt16SensorValue(measurement_values.at(5), measurement_values.at(4)));
-
-    auto adc_2_magnetometer = GetFactorADC2Magnetometer();
-    sensor_values_.x = static_cast<std::int16_t>(adc_2_magnetometer * (float)sensor_values_.x * calibration_values_.x);
-    sensor_values_.y = static_cast<std::int16_t>(adc_2_magnetometer * (float)sensor_values_.y * calibration_values_.y);
-    sensor_values_.z = static_cast<std::int16_t>(adc_2_magnetometer * (float)sensor_values_.z * calibration_values_.z);
-    return types::DriverStatus::OK;
-  } else {
-    return types::DriverStatus::HAL_ERROR;
+      auto adc_2_magnetometer = GetFactorADC2Magnetometer();
+      sensor_values_.x = static_cast<std::int16_t>(adc_2_magnetometer * (float)sensor_values_.x * calibration_values_.x);
+      sensor_values_.y = static_cast<std::int16_t>(adc_2_magnetometer * (float)sensor_values_.y * calibration_values_.y);
+      sensor_values_.z = static_cast<std::int16_t>(adc_2_magnetometer * (float)sensor_values_.z * calibration_values_.z);
+      return types::DriverStatus::OK;
+    }
   }
+
+  return types::DriverStatus::HAL_ERROR;
 }
 
 auto Magnetometer::IsMagnetometerMeasurementReady(void) noexcept -> bool {
