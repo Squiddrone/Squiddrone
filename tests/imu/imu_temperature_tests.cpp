@@ -64,14 +64,14 @@ TEST_F(TemperatureTests, Update) {
   ConfigureUnitUnderTest();
 
   unit_under_test_->Init(i2c_address_);
-  auto update_return = unit_under_test_->Update_();
+  auto update_return = unit_under_test_->Update();
   EXPECT_EQ(update_return, types::DriverStatus::OK);
 }
 
 TEST_F(TemperatureTests, Update_without_Init_first) {
   ConfigureUnitUnderTest();
 
-  auto update_return = unit_under_test_->Update_();
+  auto update_return = unit_under_test_->Update();
   EXPECT_EQ(update_return, types::DriverStatus::HAL_ERROR);
 }
 
@@ -79,7 +79,7 @@ TEST_F(TemperatureTests, Get_without_Update_and_Init_first) {
   ConfigureUnitUnderTest();
 
   std::int16_t expected_value = -1;
-  auto get_return = unit_under_test_->Get_();
+  auto get_return = unit_under_test_->Get();
 
   EXPECT_EQ(get_return, expected_value);
 }
@@ -89,7 +89,7 @@ TEST_F(TemperatureTests, Get_without_Update_first) {
 
   std::int16_t expected_value = 0;
   unit_under_test_->Init(i2c_address_);
-  auto get_return = unit_under_test_->Get_();
+  auto get_return = unit_under_test_->Get();
 
   EXPECT_EQ(get_return, expected_value);
 }
@@ -101,7 +101,7 @@ TEST_F(TemperatureTests, Update_failes_in_ReadContentFromRegister) {
   ConfigureUnitUnderTest();
 
   unit_under_test_->Init(i2c_address_);
-  auto update_return = unit_under_test_->Update_();
+  auto update_return = unit_under_test_->Update();
 
   EXPECT_EQ(update_return, types::DriverStatus::HAL_ERROR);
 }
@@ -111,8 +111,8 @@ TEST_F(TemperatureTests, full) {
 
   std::int16_t expected_value = 22;
   unit_under_test_->Init(i2c_address_);
-  unit_under_test_->Update_();
-  auto get_return = unit_under_test_->Get_();
+  unit_under_test_->Update();
+  auto get_return = unit_under_test_->Get();
 
   EXPECT_EQ(get_return, expected_value);
 }

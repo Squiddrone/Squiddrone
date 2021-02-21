@@ -257,7 +257,7 @@ TEST_F(Mpu9255Tests, mpu9255_GetMagnetometer_without_Init) {
 }
 
 TEST_F(Mpu9255Tests, mpu9255_GetTemperature) {
-  ON_CALL(*mock_temperature_, Get_)
+  ON_CALL(*mock_temperature_, Get)
       .WillByDefault(Return(37));
 
   ConfigureUnitUnderTest();

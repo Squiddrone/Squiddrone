@@ -18,5 +18,7 @@ target_sources(${ELF_FILE}
         ${CMAKE_CURRENT_SOURCE_DIR}/sensors/magnetometer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/sensors/temperature.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/sensors/imu_sensor_general.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/sensors/imu_sensor_vector.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/sensors/imu_sensor_single_value.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/sensors/imu_sensor_with_sensitivity.cpp
 )

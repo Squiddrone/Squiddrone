@@ -4,13 +4,14 @@ namespace imu {
 
 auto Accelerometer::Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus {
   SENSOR_DATA_REGISTER = imu::ACCEL_XOUT_H;
+  REGISTER_DATA_LENGTH_IN_BYTES = 6;
   CONFIG_REGISTER = imu::ACCEL_CONFIG;
 
   return InertialMeasurementSensorWithSensitivity::Init(i2c_address);
 }
 
 auto Accelerometer::Update(void) noexcept -> types::DriverStatus {
-  if (InertialMeasurementSensor::Update() == types::DriverStatus::OK) {
+  if (InertialMeasurementSensorVector::Update() == types::DriverStatus::OK) {
     auto adc_2_accel = GetFactorADC2Accelerometer();
     sensor_values_.x = static_cast<std::int16_t>(adc_2_accel * (float)sensor_values_.x);
     sensor_values_.y = static_cast<std::int16_t>(adc_2_accel * (float)sensor_values_.y);

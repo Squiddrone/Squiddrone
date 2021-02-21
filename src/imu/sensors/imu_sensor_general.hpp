@@ -15,7 +15,6 @@ class InertialMeasurementSensor : public InertialMeasurementSensorGeneralInterfa
   virtual ~InertialMeasurementSensor() = default;
 
   explicit InertialMeasurementSensor(std::shared_ptr<i2c::I2CInterface> i2c_handler) : InertialMeasurementSensorGeneralInterface(), i2c_handler_(i2c_handler){};
-  auto Get(void) noexcept -> types::EuclideanVector<int16_t> override;
   auto Update(void) noexcept -> types::DriverStatus override;
 
  protected:
@@ -29,14 +28,14 @@ class InertialMeasurementSensor : public InertialMeasurementSensorGeneralInterfa
   auto SetI2CAdress(std::uint8_t i2c_address) noexcept -> void;
   auto ConvertUint8BytesIntoInt16SensorValue(std::uint8_t first_byte, std::uint8_t second_byte) noexcept -> std::int16_t;
   auto IsInitialized(void) noexcept -> bool;
-  auto SetSensorValues(std::int16_t x, std::int16_t y, std::int16_t z) noexcept -> void;
 
-  types::EuclideanVector<std::int16_t> sensor_values_{-1, -1, -1};
   std::shared_ptr<i2c::I2CInterface> i2c_handler_;
   bool initialized_ = false;
   std::uint8_t i2c_address_ = 0;
   types::DriverStatus imu_status_ = types::DriverStatus::HAL_ERROR;
+  std::vector<uint8_t> raw_values_;
   std::uint8_t SENSOR_DATA_REGISTER = 0;
+  std::uint8_t REGISTER_DATA_LENGTH_IN_BYTES = 0;
   std::uint8_t CONFIG_REGISTER = 0;
 };
 

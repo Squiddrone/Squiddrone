@@ -6,22 +6,13 @@ auto InertialMeasurementSensor::Update(void) noexcept -> types::DriverStatus {
   if (!IsInitialized())
     return types::DriverStatus::HAL_ERROR;
 
-  const std::uint16_t REGISTER_DATA_LENGTH = 6;
-  std::vector<uint8_t> measurement_values = ReadContentFromRegister(SENSOR_DATA_REGISTER, REGISTER_DATA_LENGTH);
+  raw_values_ = ReadContentFromRegister(SENSOR_DATA_REGISTER, REGISTER_DATA_LENGTH_IN_BYTES);
 
   if (ImuConnectionSuccessful()) {
-    SetSensorValues(
-        ConvertUint8BytesIntoInt16SensorValue(measurement_values.at(0), measurement_values.at(1)),
-        ConvertUint8BytesIntoInt16SensorValue(measurement_values.at(2), measurement_values.at(3)),
-        ConvertUint8BytesIntoInt16SensorValue(measurement_values.at(4), measurement_values.at(5)));
     return types::DriverStatus::OK;
   }
 
   return types::DriverStatus::HAL_ERROR;
-}
-
-auto InertialMeasurementSensor::Get(void) noexcept -> types::EuclideanVector<int16_t> {
-  return sensor_values_;
 }
 
 auto InertialMeasurementSensor::Mpu9255Detected(void) noexcept -> bool {
@@ -90,12 +81,6 @@ auto InertialMeasurementSensor::ConvertUint8BytesIntoInt16SensorValue(std::uint8
 
 auto InertialMeasurementSensor::IsInitialized(void) noexcept -> bool {
   return initialized_;
-}
-
-auto InertialMeasurementSensor::SetSensorValues(std::int16_t x, std::int16_t y, std::int16_t z) noexcept -> void {
-  sensor_values_.x = x;
-  sensor_values_.y = y;
-  sensor_values_.z = z;
 }
 
 }  // namespace imu

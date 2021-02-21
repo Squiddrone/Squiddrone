@@ -48,7 +48,7 @@ auto Mpu9255::Update(void) noexcept -> types::DriverStatus {
   if (!IsInitialized())
     return types::DriverStatus::HAL_ERROR;
 
-  if (AllSensorsAreOK(gyroscope_->Update(), accelerometer_->Update(), magnetometer_->Update(), temperature_->Update_())) {
+  if (AllSensorsAreOK(gyroscope_->Update(), accelerometer_->Update(), magnetometer_->Update(), temperature_->Update())) {
     initialized_ = true;
     return types::DriverStatus::OK;
   }
@@ -106,7 +106,7 @@ auto Mpu9255::GetTemperature(void) noexcept -> int {
     return -1;
   }
 
-  return temperature_->Get_();
+  return temperature_->Get();
 }
 
 auto Mpu9255::IsInitialized(void) noexcept -> bool {

@@ -4,6 +4,7 @@ namespace imu {
 
 auto Magnetometer::Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus {
   SENSOR_DATA_REGISTER = imu::MAGNETOMETER_XOUT_L;
+  REGISTER_DATA_LENGTH_IN_BYTES = 7;
   SetI2CAdress(i2c_address);
   initialized_ = false;
 

@@ -14,7 +14,6 @@ class InertialMeasurementSensorGeneralInterface {
   virtual ~InertialMeasurementSensorGeneralInterface() = default;
 
   explicit InertialMeasurementSensorGeneralInterface(void){};
-  virtual auto Get(void) noexcept -> types::EuclideanVector<int16_t> = 0;
   virtual auto Update(void) noexcept -> types::DriverStatus = 0;
 };
 
