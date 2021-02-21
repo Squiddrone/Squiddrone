@@ -5,16 +5,16 @@
 #include "basic_types.hpp"
 #include "error_types.hpp"
 #include "i2c.hpp"
-#include "imu_sensor_virtual_interface.hpp"
+#include "imu_sensor_general_virtual_interface.hpp"
 #include "mpu9255_data.hpp"
 
 namespace imu {
 
-class InertialMeasurementSensor : public InertialMeasurementSensorInterface {
+class InertialMeasurementSensor : public InertialMeasurementSensorGeneralInterface {
  public:
   virtual ~InertialMeasurementSensor() = default;
 
-  explicit InertialMeasurementSensor(std::shared_ptr<i2c::I2CInterface> i2c_handler) : InertialMeasurementSensorInterface(), i2c_handler_(i2c_handler){};
+  explicit InertialMeasurementSensor(std::shared_ptr<i2c::I2CInterface> i2c_handler) : InertialMeasurementSensorGeneralInterface(), i2c_handler_(i2c_handler){};
   auto Get(void) noexcept -> types::EuclideanVector<int16_t> override;
   auto Update(void) noexcept -> types::DriverStatus override;
 

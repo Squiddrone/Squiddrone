@@ -9,11 +9,11 @@
 
 namespace imu {
 
-class InertialMeasurementSensorInterface {
+class InertialMeasurementSensorGeneralInterface {
  public:
-  virtual ~InertialMeasurementSensorInterface() = default;
+  virtual ~InertialMeasurementSensorGeneralInterface() = default;
 
-  explicit InertialMeasurementSensorInterface(void){};
+  explicit InertialMeasurementSensorGeneralInterface(void){};
   virtual auto Get(void) noexcept -> types::EuclideanVector<int16_t> = 0;
   virtual auto Update(void) noexcept -> types::DriverStatus = 0;
 };

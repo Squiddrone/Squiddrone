@@ -33,7 +33,7 @@ auto Temperature::Update_(void) noexcept -> types::DriverStatus {
 }
 
 auto Temperature::CalculateTempInDegreeFromADC(std::int16_t adc_value) noexcept -> std::int16_t {
-  constexpr float TEMP_SENSITIVITY = 333.87;
+  constexpr float TEMP_SENSITIVITY = 333.87f;
   constexpr std::int16_t Temp21degC = 21;
   return static_cast<std::int16_t>(adc_value / TEMP_SENSITIVITY + Temp21degC);
 }

@@ -1,4 +1,4 @@
-#include "imu_sensor.hpp"
+#include "imu_sensor_general.hpp"
 
 namespace imu {
 

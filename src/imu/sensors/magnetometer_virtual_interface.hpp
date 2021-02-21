@@ -1,7 +1,7 @@
 #ifndef SRC_MAGNETOMETER_INTERFACE_HPP_
 #define SRC_MAGNETOMETER_INTERFACE_HPP_
 
-#include "imu_sensor.hpp"
+#include "imu_sensor_general.hpp"
 
 namespace imu {
 

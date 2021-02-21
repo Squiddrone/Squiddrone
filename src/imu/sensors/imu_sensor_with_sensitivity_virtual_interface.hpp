@@ -2,7 +2,7 @@
 #define SRC_IMU_SENSOR_WITH_SENSITIVITY_INTERFACE_HPP_
 
 #include "imu_sensitivity.hpp"
-#include "imu_sensor.hpp"
+#include "imu_sensor_general.hpp"
 #include "mpu9255_data.hpp"
 
 namespace imu {
