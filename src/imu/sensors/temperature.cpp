@@ -5,13 +5,11 @@ namespace imu {
 auto Temperature::Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus {
   SENSOR_DATA_REGISTER = imu::TEMP_OUT_H;
   REGISTER_DATA_LENGTH_IN_BYTES = 2;
-  SetI2CAdress(i2c_address);
-  initialized_ = false;
 
-  if (!Mpu9255Detected())
+  if (InertialMeasurementSensor::Init(i2c_address) != types::DriverStatus::OK)
     return types::DriverStatus::HAL_ERROR;
 
-  sensor_value_ = 0;
+  SetSensorValue(0);
 
   initialized_ = true;
   return types::DriverStatus::OK;

@@ -2,6 +2,19 @@
 
 namespace imu {
 
+auto InertialMeasurementSensor::Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus {
+  SetI2CAdress(i2c_address);
+  initialized_ = false;
+
+  if (!Mpu9255Detected() || !AK8963Detected())
+    return types::DriverStatus::HAL_ERROR;
+
+  if (ImuConnectionFailed())
+    return types::DriverStatus::HAL_ERROR;
+
+  return types::DriverStatus::OK;
+}
+
 auto InertialMeasurementSensor::Update(void) noexcept -> types::DriverStatus {
   if (!IsInitialized())
     return types::DriverStatus::HAL_ERROR;

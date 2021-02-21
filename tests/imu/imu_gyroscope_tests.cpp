@@ -16,9 +16,11 @@ class GyroscopeTests : public ::testing::Test {
         .WillByDefault(Return(types::DriverStatus::OK));
 
     ON_CALL(*i2c_handler_, ReadContentFromRegister(_, _, _, _))
-        .WillByDefault(Return(answer_to_who_am_i));
+        .WillByDefault(Return(answer_to_who_am_i_MPU9255));
     ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::WHO_AM_I_MPU9255_REGISTER, _, _))
-        .WillByDefault(Return(answer_to_who_am_i));
+        .WillByDefault(Return(answer_to_who_am_i_MPU9255));
+    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::WHO_AM_I_AK8963_REGISTER, _, _))
+        .WillByDefault(Return(answer_to_who_am_i_AK8963));
     ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::GYRO_CONFIG, _, _))
         .WillByDefault(Return(answer_to_gyro_config));
     ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::GYRO_XOUT_H, _, _))
@@ -33,8 +35,10 @@ class GyroscopeTests : public ::testing::Test {
   std::shared_ptr<i2c::MockI2C> i2c_handler_ = std::make_shared<NiceMock<i2c::MockI2C>>();
   std::unique_ptr<imu::Gyroscope> unit_under_test_;
 
-  std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_who_am_i{
+  std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_who_am_i_MPU9255{
       types::DriverStatus::OK, {imu::WHO_AM_I_MPU9255_VALUE}};
+  std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_who_am_i_AK8963{
+      types::DriverStatus::OK, {imu::WHO_AM_I_AK8963_VALUE}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_gyro_config{
       types::DriverStatus::OK, {0b11111111}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_update{

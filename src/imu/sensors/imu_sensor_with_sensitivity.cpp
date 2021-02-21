@@ -4,10 +4,7 @@
 namespace imu {
 
 auto InertialMeasurementSensorWithSensitivity::Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus {
-  SetI2CAdress(i2c_address);
-  initialized_ = false;
-
-  if (!Mpu9255Detected())
+  if (InertialMeasurementSensor::Init(i2c_address) != types::DriverStatus::OK)
     return types::DriverStatus::HAL_ERROR;
 
   SetSensorValues(0, 0, 0);

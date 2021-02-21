@@ -14,6 +14,7 @@ class InertialMeasurementSensorGeneralInterface {
   virtual ~InertialMeasurementSensorGeneralInterface() = default;
 
   explicit InertialMeasurementSensorGeneralInterface(void){};
+  virtual auto Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus = 0;
   virtual auto Update(void) noexcept -> types::DriverStatus = 0;
 };
 
