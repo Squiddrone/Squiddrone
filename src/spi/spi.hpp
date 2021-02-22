@@ -49,6 +49,7 @@ class SPI final : spi::SPIInterface {
   explicit SPI(const CSPin chip_select) : spi::SPIInterface(), chip_select_(chip_select) { SetChipSelectPin(PinSetting::INACTIVE); };
   virtual ~SPI() = default;
 
+  auto Write(std::vector<std::uint8_t> &mosi_data_buffer) noexcept -> types::DriverStatus override;
   auto Transfer(std::vector<uint8_t> &mosi_data_buffer, std::vector<uint8_t> &miso_data_buffer) noexcept -> types::DriverStatus override;
 
  private:
@@ -79,7 +80,7 @@ class SPI final : spi::SPIInterface {
    * @param pin_state The desired pin state. High or low.
    * @return void
    */
-  auto SetChipSelectPin(PinSetting pin_state) noexcept -> void;
+  auto SetChipSelectPin(PinSetting pin_state) const noexcept -> void;
 };
 
 }  // namespace spi
