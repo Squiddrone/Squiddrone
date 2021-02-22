@@ -29,6 +29,7 @@ class GyroscopeTests : public ::testing::Test {
 
   virtual void ConfigureUnitUnderTest() {
     unit_under_test_ = std::make_unique<imu::Gyroscope>(i2c_handler_);
+    unit_under_test_->SetSensitivity(types::ImuSensitivity::FINEST);
   }
 
   uint8_t i2c_address_ = 0x68;
