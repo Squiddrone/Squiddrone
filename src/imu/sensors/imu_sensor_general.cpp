@@ -9,9 +9,6 @@ auto InertialMeasurementSensor::Init(std::uint8_t i2c_address) noexcept -> types
   if (!Mpu9255Detected() || !AK8963Detected())
     return types::DriverStatus::HAL_ERROR;
 
-  if (ImuConnectionFailed())
-    return types::DriverStatus::HAL_ERROR;
-
   return types::DriverStatus::OK;
 }
 
