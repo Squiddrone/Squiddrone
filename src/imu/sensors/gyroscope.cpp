@@ -39,7 +39,7 @@ auto Gyroscope::GetFactorADC2Gyro(void) noexcept -> float {
       gyro_resolution = 250.0;
       break;
   }
-  return static_cast<float>(gyro_resolution / 32768.0);
+  return static_cast<float>(gyro_resolution / (float)INT16_MAX);
 }
 
 }  // namespace imu

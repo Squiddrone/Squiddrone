@@ -39,7 +39,7 @@ auto Accelerometer::GetFactorADC2Accelerometer(void) noexcept -> float {
       accel_resolution = 2.0;
       break;
   }
-  return static_cast<float>(accel_resolution / 32768.0);
+  return static_cast<float>(accel_resolution / (float)INT16_MAX);
 }
 
 }  // namespace imu
