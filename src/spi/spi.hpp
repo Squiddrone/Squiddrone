@@ -2,6 +2,7 @@
 #define SRC_SPI_SPI_HPP_
 
 #include <array>
+#include "mcu_settings.h"
 #include "spi_interface.hpp"
 #include "stm32g4xx_hal.h"
 
@@ -15,8 +16,17 @@ namespace spi {
  * 
  */
 enum class PinSetting : bool {
-  HIGH = true,
-  LOW = false
+  ACTIVE = true,
+  INACTIVE = false
+};
+
+/**
+ * @brief Chip select active state setting
+ * 
+ */
+enum class CSActiveState : uint8_t {
+  ACTIVE_LOW = 0,
+  ACTIVE_HIGH
 };
 
 /**
@@ -26,6 +36,7 @@ enum class PinSetting : bool {
 typedef struct CSPinDefinition {
   GPIO_TypeDef *peripheral;
   uint16_t gpio_pin;
+  CSActiveState active_state;
 } CSPin;
 
 /**
@@ -35,7 +46,7 @@ typedef struct CSPinDefinition {
 class SPI final : spi::SPIInterface {
  public:
   SPI() = delete;
-  explicit SPI(const CSPin chip_select) : spi::SPIInterface(), chip_select_(chip_select){};
+  explicit SPI(const CSPin chip_select) : spi::SPIInterface(), chip_select_(chip_select) { SetChipSelectPin(PinSetting::INACTIVE); };
   virtual ~SPI() = default;
 
   auto Transfer(std::vector<uint8_t> &mosi_data_buffer, std::vector<uint8_t> &miso_data_buffer) noexcept -> types::DriverStatus override;

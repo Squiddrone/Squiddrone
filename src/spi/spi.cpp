@@ -15,7 +15,7 @@ auto SPI::Transfer(std::vector<uint8_t> &mosi_data_buffer, std::vector<uint8_t> 
     return types::DriverStatus::INPUT_ERROR;
   }
 
-  SetChipSelectPin(PinSetting::HIGH);
+  SetChipSelectPin(PinSetting::ACTIVE);
 
   transmit_receive_ret_value = HAL_SPI_TransmitReceive(&hspi1,
                                                        reinterpret_cast<uint8_t *>(mosi_data_buffer.data()),
@@ -23,7 +23,7 @@ auto SPI::Transfer(std::vector<uint8_t> &mosi_data_buffer, std::vector<uint8_t> 
                                                        transaction_length,
                                                        types::SPI_HAL_TX_RX_TIMEOUT);
 
-  SetChipSelectPin(PinSetting::LOW);
+  SetChipSelectPin(PinSetting::INACTIVE);
 
   if (transmit_receive_ret_value == HAL_OK) {
     return_value = types::DriverStatus::OK;
