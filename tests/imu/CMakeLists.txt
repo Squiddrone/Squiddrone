@@ -73,6 +73,25 @@ add_testpackage(TEST_NAME
 )
 
 add_testpackage(TEST_NAME 
+                    imu_sensors_accelerometer
+                SOURCES 
+                    imu_accelerometer_tests.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensor_general.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensor_vector.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensor_with_sensitivity.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/accelerometer.cpp
+                TEST_INCLUDE_DIRECTORIES 
+                    ${CMAKE_SOURCE_DIR}/src/imu/interface
+                    ${CMAKE_SOURCE_DIR}/src/imu/mpu9255
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors
+                    ${CMAKE_SOURCE_DIR}/src/types
+                    ${CMAKE_SOURCE_DIR}/src/utilities
+                    ${CMAKE_SOURCE_DIR}/src/i2c
+                    ${CMAKE_SOURCE_DIR}/tests/imu/mock_libraries
+                    ${CMAKE_SOURCE_DIR}/tests/i2c/mock_libraries
+)
+
+add_testpackage(TEST_NAME 
                     imu_sensors_magnetometer
                 SOURCES 
                     imu_magnetometer_tests.cpp
