@@ -29,6 +29,7 @@ class AccelerometerTests : public ::testing::Test {
 
   virtual void ConfigureUnitUnderTest() {
     unit_under_test_ = std::make_unique<imu::Accelerometer>(i2c_handler_);
+    unit_under_test_->SetSensitivity(types::ImuSensitivity::FINEST);
   }
 
   uint8_t i2c_address_ = 0x68;
@@ -118,11 +119,54 @@ TEST_F(AccelerometerTests, Update_failes_in_ReadContentFromRegister) {
   EXPECT_EQ(update_return, types::DriverStatus::HAL_ERROR);
 }
 
-TEST_F(AccelerometerTests, full) {
+TEST_F(AccelerometerTests, full_finest) {
   ConfigureUnitUnderTest();
 
   types::EuclideanVector<std::int16_t> expected_value{16, 0, -16};
   unit_under_test_->Init(i2c_address_);
+  unit_under_test_->SetSensitivity(types::ImuSensitivity::FINEST);
+  unit_under_test_->Update();
+  auto get_return = unit_under_test_->Get();
+
+  EXPECT_EQ(get_return.x, expected_value.x);
+  EXPECT_EQ(get_return.y, expected_value.y);
+  EXPECT_EQ(get_return.z, expected_value.z);
+}
+
+TEST_F(AccelerometerTests, full_finer) {
+  ConfigureUnitUnderTest();
+
+  types::EuclideanVector<std::int16_t> expected_value{8, 0, -8};
+  unit_under_test_->Init(i2c_address_);
+  unit_under_test_->SetSensitivity(types::ImuSensitivity::FINER);
+  unit_under_test_->Update();
+  auto get_return = unit_under_test_->Get();
+
+  EXPECT_EQ(get_return.x, expected_value.x);
+  EXPECT_EQ(get_return.y, expected_value.y);
+  EXPECT_EQ(get_return.z, expected_value.z);
+}
+
+TEST_F(AccelerometerTests, full_rougher) {
+  ConfigureUnitUnderTest();
+
+  types::EuclideanVector<std::int16_t> expected_value{4, 0, -4};
+  unit_under_test_->Init(i2c_address_);
+  unit_under_test_->SetSensitivity(types::ImuSensitivity::ROUGHER);
+  unit_under_test_->Update();
+  auto get_return = unit_under_test_->Get();
+
+  EXPECT_EQ(get_return.x, expected_value.x);
+  EXPECT_EQ(get_return.y, expected_value.y);
+  EXPECT_EQ(get_return.z, expected_value.z);
+}
+
+TEST_F(AccelerometerTests, full_roughest) {
+  ConfigureUnitUnderTest();
+
+  types::EuclideanVector<std::int16_t> expected_value{2, 0, -2};
+  unit_under_test_->Init(i2c_address_);
+  unit_under_test_->SetSensitivity(types::ImuSensitivity::ROUGHEST);
   unit_under_test_->Update();
   auto get_return = unit_under_test_->Get();
 
