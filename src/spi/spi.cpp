@@ -46,10 +46,20 @@ auto SPI::IsMisoBufferTooSmall(std::vector<uint8_t> &mosi_buffer, std::vector<ui
 }
 
 auto SPI::SetChipSelectPin(PinSetting pin_setting) noexcept -> void {
+  GPIO_PinState pin_state_active = GPIO_PIN_RESET;
+  GPIO_PinState pin_state_inactive = GPIO_PIN_RESET;
   GPIO_PinState pin_state = GPIO_PIN_RESET;
 
-  if (pin_setting == PinSetting::HIGH) {
-    pin_state = GPIO_PIN_SET;
+  if (chip_select_.active_state == CSActiveState::ACTIVE_HIGH) {
+    pin_state_active = GPIO_PIN_SET;
+  } else {
+    pin_state_inactive = GPIO_PIN_SET;
+  }
+
+  if (pin_setting == PinSetting::ACTIVE) {
+    pin_state = pin_state_active;
+  } else {
+    pin_state = pin_state_inactive;
   }
 
   HAL_GPIO_WritePin(chip_select_.peripheral, chip_select_.gpio_pin, pin_state);
