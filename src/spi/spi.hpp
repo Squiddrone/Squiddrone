@@ -2,7 +2,6 @@
 #define SRC_SPI_SPI_HPP_
 
 #include <array>
-#include "mcu_settings.h"
 #include "spi_interface.hpp"
 #include "stm32g4xx_hal.h"
 
@@ -50,7 +49,7 @@ class SPI final : spi::SPIInterface {
   virtual ~SPI() = default;
 
   auto Write(std::vector<std::uint8_t> &mosi_data_buffer) noexcept -> types::DriverStatus override;
-  auto Transfer(std::vector<uint8_t> &mosi_data_buffer, std::vector<uint8_t> &miso_data_buffer) noexcept -> types::DriverStatus override;
+  auto Transfer(std::vector<std::uint8_t> &mosi_data_buffer, std::vector<uint8_t> &miso_data_buffer) noexcept -> types::DriverStatus override;
 
  private:
   CSPin chip_select_;
