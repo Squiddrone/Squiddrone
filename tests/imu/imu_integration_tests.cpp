@@ -57,9 +57,9 @@ class ImuIntegrationTests : public ::testing::Test {
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_accelerometer_config{
       types::DriverStatus::OK, {0b11111111}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_gyro_update{
-      types::DriverStatus::OK, {0, 50, 0, 100, 0, 150}};
+      types::DriverStatus::OK, {0x7F, 0xFF, 0x00, 0x00, 0x80, 0x00}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_accelerometer_update{
-      types::DriverStatus::OK, {46, 224, 50, 200, 50, 50}};
+      types::DriverStatus::OK, {0x7F, 0xFF, 0x00, 0x00, 0x80, 0x00}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_magnetometer_update{
       types::DriverStatus::OK, {0b11111000, 0b01111111, 0, 0, 0b00001000, 0b10000000, 0}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_temperature_update{
@@ -73,7 +73,10 @@ class ImuIntegrationTests : public ::testing::Test {
 TEST_F(ImuIntegrationTests, integration_test_gyroscope_happy_path) {
   ConfigureUnitUnderTest();
 
+  types::EuclideanVector<std::int16_t> expected_value{2000, 0, -2000};
+
   auto init_return = unit_under_test_->Init();
+  unit_under_test_->SetGyroscopeSensitivity(types::ImuSensitivity::FINEST);
 
   EXPECT_EQ(init_return, types::DriverStatus::OK);
 
@@ -83,15 +86,18 @@ TEST_F(ImuIntegrationTests, integration_test_gyroscope_happy_path) {
 
   auto gyroscope_return = unit_under_test_->GetGyroscope();
 
-  EXPECT_EQ(gyroscope_return.x, 3);
-  EXPECT_EQ(gyroscope_return.y, 6);
-  EXPECT_EQ(gyroscope_return.z, 9);
+  EXPECT_EQ(gyroscope_return.x, expected_value.x);
+  EXPECT_EQ(gyroscope_return.y, expected_value.y);
+  EXPECT_EQ(gyroscope_return.z, expected_value.z);
 }
 
 TEST_F(ImuIntegrationTests, integration_test_accelerometer_happy_path) {
   ConfigureUnitUnderTest();
 
+  types::EuclideanVector<std::int16_t> expected_value{16, 0, -16};
+
   auto init_return = unit_under_test_->Init();
+  unit_under_test_->SetAccelerometerSensitivity(types::ImuSensitivity::FINEST);
 
   EXPECT_EQ(init_return, types::DriverStatus::OK);
 
@@ -101,9 +107,9 @@ TEST_F(ImuIntegrationTests, integration_test_accelerometer_happy_path) {
 
   auto accelerometer_return = unit_under_test_->GetAccelerometer();
 
-  EXPECT_EQ(accelerometer_return.x, 5);
-  EXPECT_EQ(accelerometer_return.y, 6);
-  EXPECT_EQ(accelerometer_return.z, 6);
+  EXPECT_EQ(accelerometer_return.x, expected_value.x);
+  EXPECT_EQ(accelerometer_return.y, expected_value.y);
+  EXPECT_EQ(accelerometer_return.z, expected_value.z);
 }
 
 TEST_F(ImuIntegrationTests, integration_test_magnetometer_happy_path) {
