@@ -278,14 +278,17 @@ TEST_F(GyroscopeTests, SetSensitivity_GetSensitivity) {
   EXPECT_EQ(get, set_sensitivity);
 }
 
-TEST_F(GyroscopeTests, connection_failed_after_Mpu9255Detected) {
-  EXPECT_CALL(*i2c_handler_, Write(_, _, _))
-      .WillOnce(Return(types::DriverStatus::HAL_ERROR));
+TEST_F(GyroscopeTests, connection_failed_after_successful_init) {
+  ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::GYRO_XOUT_H, _, _))
+      .WillByDefault(Return(answer_invalid));
 
   ConfigureUnitUnderTest();
 
   auto init_return = unit_under_test_->Init(i2c_address_);
-  EXPECT_EQ(init_return, types::DriverStatus::HAL_ERROR);
+  auto update_return = unit_under_test_->Update();
+
+  EXPECT_EQ(init_return, types::DriverStatus::OK);
+  EXPECT_EQ(update_return, types::DriverStatus::HAL_ERROR);
 }
 
 TEST_F(GyroscopeTests, read_bytesize_mismatch) {
