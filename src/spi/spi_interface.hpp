@@ -27,6 +27,22 @@ class SPIInterface {
   virtual ~SPIInterface() = default;
 
   /**
+   * @brief Perform an SPI Write transaction. MISO data are disregarded.
+   * 
+   * @param mosi_data_buffer Reference to buffer holding the data to be transmitted.
+   * @return types::DriverStatus Status information about the success of the transmission.
+   */
+  virtual auto Write(std::vector<std::uint8_t> &mosi_data_buffer) noexcept -> types::DriverStatus = 0;
+
+  /**
+   * @brief Perform an SPI Read transaction.
+   * 
+   * @param miso_data_buffer Reference to buffer for data reception.
+   * @return types::DriverStatus Status information about the success of the transmission.
+   */
+  virtual auto Read(std::vector<std::uint8_t> &miso_data_buffer) noexcept -> types::DriverStatus = 0;
+
+  /**
    * @brief Perform an SPI Tx/Rx transaction. The transaction is bidirectional. While MOSI data are transmitted, the incoming MISO data are 
    * stored in the miso_data_buffer. The maximum length of any SPI transaction is limited to a maximum length defined in
    * SPI_TRANSACTION_LENGTH_LIMIT.
