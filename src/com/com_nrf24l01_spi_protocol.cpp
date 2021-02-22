@@ -21,6 +21,7 @@ auto NRF24L01SpiProtocol::ReadRegister(const std::uint8_t register_address, std:
   mosi_data_buffer.push_back(instruction_word::R_REGISTER | register_address);
 
   spi_.Transfer(mosi_data_buffer, miso_data_buffer);
+  // First databyte is status register content.
   miso_data_buffer.erase(miso_data_buffer.begin());
 
   return miso_data_buffer;
@@ -52,6 +53,15 @@ auto NRF24L01SpiProtocol::WritePayloadData(std::vector<uint8_t> &payload) noexce
   mosi_data_buffer.insert(mosi_data_buffer.begin(), instruction_word::W_TX_PAYLOAD);
 
   auto spi_ret_val = spi_.Write(mosi_data_buffer);
+
+  return spi_ret_val;
+}
+
+auto NRF24L01SpiProtocol::ReadRxPayloadData(std::vector<uint8_t> &payload) noexcept -> types::DriverStatus {
+  std::vector<uint8_t> mosi_data_buffer(32);
+  mosi_data_buffer.insert(mosi_data_buffer.begin(), instruction_word::R_RX_PAYLOAD);
+
+  auto spi_ret_val = spi_.Transfer(mosi_data_buffer, payload);
 
   return spi_ret_val;
 }
