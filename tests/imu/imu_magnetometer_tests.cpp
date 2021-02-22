@@ -151,6 +151,19 @@ TEST_F(MagnetometerTests, full) {
   EXPECT_EQ(get_return.z, expected_value.z);
 }
 
+TEST_F(MagnetometerTests, connection_failed_after_successful_init) {
+  ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::MAGNETOMETER_XOUT_L, _, _))
+      .WillByDefault(Return(answer_invalid));
+
+  ConfigureUnitUnderTest();
+
+  auto init_return = unit_under_test_->Init(i2c_address_);
+  auto update_return = unit_under_test_->Update();
+
+  EXPECT_EQ(init_return, types::DriverStatus::OK);
+  EXPECT_EQ(update_return, types::DriverStatus::HAL_ERROR);
+}
+
 TEST_F(MagnetometerTests, read_bytesize_mismatch) {
   ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::WHO_AM_I_AK8963_REGISTER, _, _))
       .WillByDefault(Return(answer_read_mismatch));
