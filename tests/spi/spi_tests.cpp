@@ -10,11 +10,27 @@ class SPITests : public ::testing::Test {
     unit_under_test_ = std::make_unique<spi::SPI>(cs_pin);
   }
 
-  spi::CSPin cs_pin = {.peripheral = nullptr, .gpio_pin = 0};
+  spi::CSPin cs_pin = {.peripheral = nullptr, .gpio_pin = 0, .active_state = spi::CSActiveState::ACTIVE_LOW};
   std::unique_ptr<spi::SPI> unit_under_test_;
   std::vector<uint8_t> miso_buffer;
   std::vector<uint8_t> mosi_buffer;
 };
+
+TEST_F(SPITests, cs_pin_setting_active_low) {
+  GPIO_TypeDef test_mock_gpio_;
+  spi::CSPin cs_pin_ = {.peripheral = &test_mock_gpio_, .gpio_pin = 0, .active_state = spi::CSActiveState::ACTIVE_LOW};
+  auto unit_under_test_ = std::make_unique<spi::SPI>(cs_pin_);
+  unit_under_test_->Transfer(mosi_buffer, miso_buffer);
+  EXPECT_EQ(test_mock_gpio_.mock_test_value, static_cast<uint8_t>(GPIO_PIN_SET));
+}
+
+TEST_F(SPITests, cs_pin_setting_active_high) {
+  GPIO_TypeDef test_mock_gpio_;
+  spi::CSPin cs_pin_ = {.peripheral = &test_mock_gpio_, .gpio_pin = 0, .active_state = spi::CSActiveState::ACTIVE_HIGH};
+  auto unit_under_test_ = std::make_unique<spi::SPI>(cs_pin_);
+  unit_under_test_->Transfer(mosi_buffer, miso_buffer);
+  EXPECT_EQ(test_mock_gpio_.mock_test_value, static_cast<uint8_t>(GPIO_PIN_RESET));
+}
 
 TEST_F(SPITests, transfer_exceeding_buffer_size_limit) {
   std::vector<uint8_t> too_large_buffer(65);
