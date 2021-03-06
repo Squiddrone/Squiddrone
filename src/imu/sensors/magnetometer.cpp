@@ -38,7 +38,7 @@ auto Magnetometer::Update(void) noexcept -> types::DriverStatus {
   if (!IsMagnetometerMeasurementReady())
     return types::DriverStatus::HAL_ERROR;
 
-  if (InertialMeasurementSensorVector::Update() == types::DriverStatus::OK) {
+  if (SensorVector::Update() == types::DriverStatus::OK) {
     if (HasMagnetometerOverflow(raw_values_.at(6)))
       return types::DriverStatus::HAL_ERROR;
 

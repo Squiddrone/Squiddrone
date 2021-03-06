@@ -5,11 +5,11 @@
 
 namespace imu {
 
-class InertialMeasurementSensorVector : public InertialMeasurementSensorVectorInterface {
+class SensorVector : public SensorVectorInterface {
  public:
-  virtual ~InertialMeasurementSensorVector() = default;
+  virtual ~SensorVector() = default;
 
-  explicit InertialMeasurementSensorVector(std::shared_ptr<i2c::I2CInterface> i2c_handler) : InertialMeasurementSensorVectorInterface(i2c_handler){};
+  explicit SensorVector(std::shared_ptr<i2c::I2CInterface> i2c_handler) : SensorVectorInterface(i2c_handler){};
   auto Update(void) noexcept -> types::DriverStatus override;
   auto Get(void) noexcept -> types::EuclideanVector<int16_t> override;
 

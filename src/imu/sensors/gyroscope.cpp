@@ -11,7 +11,7 @@ auto Gyroscope::Init(const std::uint8_t i2c_address) noexcept -> types::DriverSt
 }
 
 auto Gyroscope::Update(void) noexcept -> types::DriverStatus {
-  if (InertialMeasurementSensorVector::Update() == types::DriverStatus::OK) {
+  if (SensorVector::Update() == types::DriverStatus::OK) {
     auto adc_2_gyro = GetFactorADC2Gyro();
     sensor_values_.x = static_cast<std::int16_t>(adc_2_gyro * sensor_values_.x);
     sensor_values_.y = static_cast<std::int16_t>(adc_2_gyro * sensor_values_.y);
