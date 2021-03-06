@@ -4,8 +4,8 @@
 #include <memory>
 #include "basic_types.hpp"
 #include "error_types.hpp"
-#include "i2c.hpp"
 #include "general_virtual_interface.hpp"
+#include "i2c.hpp"
 #include "mpu9255_data.hpp"
 
 namespace imu {
