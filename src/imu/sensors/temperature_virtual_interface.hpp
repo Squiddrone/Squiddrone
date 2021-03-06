@@ -11,7 +11,7 @@ class TemperatureInterface : public SensorSingleValue {
   ~TemperatureInterface() = default;
 
   explicit TemperatureInterface(std::shared_ptr<i2c::I2CInterface> i2c_handler) : SensorSingleValue(i2c_handler){};
-  virtual auto Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus = 0;
+  virtual auto Init(const std::uint8_t i2c_address) noexcept -> types::DriverStatus = 0;
   virtual auto Update(void) noexcept -> types::DriverStatus = 0;
 };
 
