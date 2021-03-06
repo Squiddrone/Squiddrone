@@ -15,18 +15,18 @@ class InertialMeasurementSensor : public InertialMeasurementSensorGeneralInterfa
   virtual ~InertialMeasurementSensor() = default;
 
   explicit InertialMeasurementSensor(std::shared_ptr<i2c::I2CInterface> i2c_handler) : InertialMeasurementSensorGeneralInterface(), i2c_handler_(i2c_handler){};
-  auto Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus override;
+  auto Init(const std::uint8_t i2c_address) noexcept -> types::DriverStatus override;
   auto Update(void) noexcept -> types::DriverStatus override;
 
  protected:
   auto Mpu9255Detected(void) noexcept -> bool;
   auto AK8963Detected(void) noexcept -> bool;
-  auto ReadContentFromRegister(std::uint8_t read_from_register, std::uint16_t byte_size) noexcept -> std::vector<std::uint8_t>;
-  auto WriteContentIntoRegister(std::uint8_t write_into_register, std::uint8_t register_content) noexcept -> void;
+  auto ReadContentFromRegister(const std::uint8_t read_from_register, const std::uint16_t byte_size) noexcept -> std::vector<std::uint8_t>;
+  auto WriteContentIntoRegister(const std::uint8_t write_into_register, const std::uint8_t register_content) noexcept -> void;
   auto ImuConnectionSuccessful(void) noexcept -> bool;
   auto ImuConnectionFailed(void) noexcept -> bool;
-  auto SetI2CAdress(std::uint8_t i2c_address) noexcept -> void;
-  auto ConvertUint8BytesIntoInt16SensorValue(std::uint8_t first_byte, std::uint8_t second_byte) noexcept -> std::int16_t;
+  auto SetI2CAdress(const std::uint8_t i2c_address) noexcept -> void;
+  auto ConvertUint8BytesIntoInt16SensorValue(const std::uint8_t first_byte, const std::uint8_t second_byte) noexcept -> std::int16_t;
   auto IsInitialized(void) noexcept -> bool;
 
   std::shared_ptr<i2c::I2CInterface> i2c_handler_;

@@ -12,7 +12,7 @@ class Magnetometer final : public MagnetometerInterface {
   ~Magnetometer() = default;
 
   explicit Magnetometer(std::shared_ptr<i2c::I2CInterface> i2c_handler) : MagnetometerInterface(i2c_handler){};
-  auto Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus override;
+  auto Init(const std::uint8_t i2c_address) noexcept -> types::DriverStatus override;
   auto Update(void) noexcept -> types::DriverStatus override;
 
  private:
@@ -20,7 +20,7 @@ class Magnetometer final : public MagnetometerInterface {
 
   auto SetInitData(void) -> void;
   auto IsMagnetometerMeasurementReady(void) noexcept -> bool;
-  auto HasMagnetometerOverflow(std::uint8_t st2_register_value) noexcept -> bool;
+  auto HasMagnetometerOverflow(const std::uint8_t st2_register_value) noexcept -> bool;
   auto GetFactorADC2Magnetometer(void) noexcept -> float;
   auto GetCalibrationValues(void) noexcept -> void;
 };

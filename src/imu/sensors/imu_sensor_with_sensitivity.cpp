@@ -3,7 +3,7 @@
 
 namespace imu {
 
-auto InertialMeasurementSensorWithSensitivity::Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus {
+auto InertialMeasurementSensorWithSensitivity::Init(const std::uint8_t i2c_address) noexcept -> types::DriverStatus {
   if (InertialMeasurementSensor::Init(i2c_address) != types::DriverStatus::OK)
     return types::DriverStatus::HAL_ERROR;
 
@@ -17,7 +17,7 @@ auto InertialMeasurementSensorWithSensitivity::Init(std::uint8_t i2c_address) no
   return types::DriverStatus::OK;
 }
 
-auto InertialMeasurementSensorWithSensitivity::SetSensitivity(types::ImuSensitivity sensitivity) noexcept -> types::DriverStatus {
+auto InertialMeasurementSensorWithSensitivity::SetSensitivity(const types::ImuSensitivity sensitivity) noexcept -> types::DriverStatus {
   if (!IsInitialized()) {
     return types::DriverStatus::HAL_ERROR;
   }
@@ -31,16 +31,16 @@ auto InertialMeasurementSensorWithSensitivity::SetSensitivity(types::ImuSensitiv
   return imu_status_;
 }
 
-auto InertialMeasurementSensorWithSensitivity::SaveNewSensitivity(types::ImuSensitivity sensitivity) noexcept -> void {
+auto InertialMeasurementSensorWithSensitivity::SaveNewSensitivity(const types::ImuSensitivity sensitivity) noexcept -> void {
   sensitivity_ = sensitivity;
 }
 
-auto InertialMeasurementSensorWithSensitivity::SendSensitivityRegisterData(types::ImuSensitivity sensitivity) noexcept -> void {
+auto InertialMeasurementSensorWithSensitivity::SendSensitivityRegisterData(const types::ImuSensitivity sensitivity) noexcept -> void {
   std::uint8_t new_config = GetConfigRegisterDataForSensitivity(sensitivity);
   WriteContentIntoRegister(CONFIG_REGISTER, new_config);
 }
 
-auto InertialMeasurementSensorWithSensitivity::GetConfigRegisterDataForSensitivity(types::ImuSensitivity sensitivity) noexcept -> std::uint8_t {
+auto InertialMeasurementSensorWithSensitivity::GetConfigRegisterDataForSensitivity(const types::ImuSensitivity sensitivity) noexcept -> std::uint8_t {
   utilities::Byte config_data(ReadContentFromRegister(CONFIG_REGISTER, 1).at(0));
 
   if (sensitivity == types::ImuSensitivity::FINEST) {

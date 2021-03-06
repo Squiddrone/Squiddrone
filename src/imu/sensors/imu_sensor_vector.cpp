@@ -20,7 +20,7 @@ auto InertialMeasurementSensorVector::Get(void) noexcept -> types::EuclideanVect
   return sensor_values_;
 }
 
-auto InertialMeasurementSensorVector::SetSensorValues(std::int16_t x, std::int16_t y, std::int16_t z) noexcept -> void {
+auto InertialMeasurementSensorVector::SetSensorValues(const std::int16_t x, const std::int16_t y, const std::int16_t z) noexcept -> void {
   sensor_values_.x = x;
   sensor_values_.y = y;
   sensor_values_.z = z;

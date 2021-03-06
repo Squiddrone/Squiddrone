@@ -20,9 +20,9 @@ class Mpu9255 final : public GenericInertialMeasurementUnit {
   explicit Mpu9255(std::shared_ptr<i2c::I2CInterface> i2c_handler) : GenericInertialMeasurementUnit(i2c_handler) {}
   auto Init(void) noexcept -> types::DriverStatus override;
   auto Update(void) noexcept -> types::DriverStatus override;
-  auto SetGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept -> types::DriverStatus override;
+  auto SetGyroscopeSensitivity(const types::ImuSensitivity gyroscope_sensitivity) noexcept -> types::DriverStatus override;
   auto GetGyroscopeSensitivity(void) noexcept -> types::ImuSensitivity override;
-  auto SetAccelerometerSensitivity(types::ImuSensitivity accelerometer_sensitivity) noexcept -> types::DriverStatus override;
+  auto SetAccelerometerSensitivity(const types::ImuSensitivity accelerometer_sensitivity) noexcept -> types::DriverStatus override;
   auto GetAccelerometerSensitivity(void) noexcept -> types::ImuSensitivity override;
   auto GetGyroscope(void) noexcept -> types::EuclideanVector<std::int16_t> override;
   auto GetAccelerometer(void) noexcept -> types::EuclideanVector<std::int16_t> override;
@@ -36,14 +36,13 @@ class Mpu9255 final : public GenericInertialMeasurementUnit {
   auto UnitTestSetTemperature(std::unique_ptr<imu::TemperatureInterface> temperature) -> void;
 
  protected:
-  auto AllSensorsAreOK(types::DriverStatus gyroscope_status,
-                       types::DriverStatus accelerometer_status,
-                       types::DriverStatus magnetometer_status,
-                       types::DriverStatus temperature_status) noexcept -> bool;
+  auto AllSensorsAreOK(const types::DriverStatus gyroscope_status,
+                       const types::DriverStatus accelerometer_status,
+                       const types::DriverStatus magnetometer_status,
+                       const types::DriverStatus temperature_status) noexcept -> bool;
   auto SetInitConfigMPU9255(void) -> void;
   auto SetInitConfigAK8963(void) -> void;
-  auto SetMPU9255Register(std::uint8_t register_, std::uint8_t register_value) -> void;
-  auto SetAK8963Register(std::uint8_t register_, std::uint8_t register_value) -> void;
+  auto SetMPU9255Register(const std::uint8_t register_, const std::uint8_t register_value) -> void;
 
   bool initialized_ = false;
   std::unique_ptr<imu::GyroscopeInterface> gyroscope_ = NULL;

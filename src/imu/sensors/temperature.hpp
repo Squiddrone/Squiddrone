@@ -11,11 +11,11 @@ class Temperature final : public TemperatureInterface {
   ~Temperature() = default;
 
   explicit Temperature(std::shared_ptr<i2c::I2CInterface> i2c_handler) : TemperatureInterface(i2c_handler){};
-  auto Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus override;
+  auto Init(const std::uint8_t i2c_address) noexcept -> types::DriverStatus override;
   auto Update(void) noexcept -> types::DriverStatus override;
 
  private:
-  auto CalculateTempInDegreeFromADC(std::int16_t adc_value) noexcept -> std::int16_t;
+  auto CalculateTempInDegreeFromADC(const std::int16_t adc_value) noexcept -> std::int16_t;
 };
 
 }  // namespace imu

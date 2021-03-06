@@ -2,7 +2,7 @@
 
 namespace imu {
 
-auto Gyroscope::Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus {
+auto Gyroscope::Init(const std::uint8_t i2c_address) noexcept -> types::DriverStatus {
   SENSOR_DATA_REGISTER = imu::GYRO_XOUT_H;
   REGISTER_DATA_LENGTH_IN_BYTES = 6;
   CONFIG_REGISTER = imu::GYRO_CONFIG;

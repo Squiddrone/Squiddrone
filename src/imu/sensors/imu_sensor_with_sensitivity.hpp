@@ -16,14 +16,14 @@ class InertialMeasurementSensorWithSensitivity : public InertialMeasurementSenso
 
   explicit InertialMeasurementSensorWithSensitivity(std::shared_ptr<i2c::I2CInterface> i2c_handler) : InertialMeasurementSensorWithSensitivityInterface(i2c_handler){};
 
-  auto Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus override;
+  auto Init(const std::uint8_t i2c_address) noexcept -> types::DriverStatus override;
   auto GetSensitivity(void) noexcept -> types::ImuSensitivity override;
-  auto SetSensitivity(types::ImuSensitivity sensitivity) noexcept -> types::DriverStatus override;
+  auto SetSensitivity(const types::ImuSensitivity sensitivity) noexcept -> types::DriverStatus override;
 
  protected:
-  auto GetConfigRegisterDataForSensitivity(types::ImuSensitivity sensitivity) noexcept -> std::uint8_t;
-  auto SendSensitivityRegisterData(types::ImuSensitivity sensitivity) noexcept -> void;
-  auto SaveNewSensitivity(types::ImuSensitivity sensitivity) noexcept -> void;
+  auto GetConfigRegisterDataForSensitivity(const types::ImuSensitivity sensitivity) noexcept -> std::uint8_t;
+  auto SendSensitivityRegisterData(const types::ImuSensitivity sensitivity) noexcept -> void;
+  auto SaveNewSensitivity(const types::ImuSensitivity sensitivity) noexcept -> void;
 
   types::ImuSensitivity sensitivity_ = types::ImuSensitivity::FINEST;
 };

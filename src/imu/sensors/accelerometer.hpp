@@ -11,7 +11,7 @@ class Accelerometer final : public AccelerometerInterface {
   ~Accelerometer() = default;
 
   explicit Accelerometer(std::shared_ptr<i2c::I2CInterface> i2c_handler) : AccelerometerInterface(i2c_handler){};
-  auto Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus override;
+  auto Init(const std::uint8_t i2c_address) noexcept -> types::DriverStatus override;
   auto Update(void) noexcept -> types::DriverStatus override;
 
  private:

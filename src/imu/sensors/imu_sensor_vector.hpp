@@ -14,7 +14,7 @@ class InertialMeasurementSensorVector : public InertialMeasurementSensorVectorIn
   auto Get(void) noexcept -> types::EuclideanVector<int16_t> override;
 
  protected:
-  auto SetSensorValues(std::int16_t x, std::int16_t y, std::int16_t z) noexcept -> void;
+  auto SetSensorValues(const std::int16_t x, const std::int16_t y, const std::int16_t z) noexcept -> void;
 
   types::EuclideanVector<std::int16_t> sensor_values_{-1, -1, -1};
 };

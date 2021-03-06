@@ -2,7 +2,7 @@
 
 namespace imu {
 
-auto InertialMeasurementSensor::Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus {
+auto InertialMeasurementSensor::Init(const std::uint8_t i2c_address) noexcept -> types::DriverStatus {
   SetI2CAdress(i2c_address);
   initialized_ = false;
 
@@ -51,7 +51,7 @@ auto InertialMeasurementSensor::AK8963Detected(void) noexcept -> bool {
   return who_am_i_correct;
 }
 
-auto InertialMeasurementSensor::ReadContentFromRegister(std::uint8_t read_from_register, std::uint16_t byte_size) noexcept -> std::vector<std::uint8_t> {
+auto InertialMeasurementSensor::ReadContentFromRegister(const std::uint8_t read_from_register, const std::uint16_t byte_size) noexcept -> std::vector<std::uint8_t> {
   types::DriverStatus i2c_status;
   std::vector<uint8_t> content_of_register;
 
@@ -65,7 +65,7 @@ auto InertialMeasurementSensor::ReadContentFromRegister(std::uint8_t read_from_r
   return content_of_register;
 }
 
-auto InertialMeasurementSensor::WriteContentIntoRegister(std::uint8_t write_into_register, std::uint8_t register_content) noexcept -> void {
+auto InertialMeasurementSensor::WriteContentIntoRegister(const std::uint8_t write_into_register, const std::uint8_t register_content) noexcept -> void {
   imu_status_ = i2c_handler_->Write(i2c_address_, {write_into_register, register_content});
 }
 
@@ -81,7 +81,7 @@ auto InertialMeasurementSensor::SetI2CAdress(std::uint8_t i2c_address) noexcept 
   i2c_address_ = i2c_address;
 }
 
-auto InertialMeasurementSensor::ConvertUint8BytesIntoInt16SensorValue(std::uint8_t first_byte, std::uint8_t second_byte) noexcept -> std::int16_t {
+auto InertialMeasurementSensor::ConvertUint8BytesIntoInt16SensorValue(const std::uint8_t first_byte, const std::uint8_t second_byte) noexcept -> std::int16_t {
   return static_cast<std::int16_t>(first_byte << 8 | second_byte);
 }
 

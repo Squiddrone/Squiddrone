@@ -16,13 +16,13 @@ auto Mpu9255::Init(void) noexcept -> types::DriverStatus {
     temperature_ = std::make_unique<imu::Temperature>(i2c_handler_);
   }
 
-  auto gyro_init = gyroscope_->Init(MPU9255_ADDRESS);
-  auto accel_init = accelerometer_->Init(MPU9255_ADDRESS);
-  auto temperature_init = temperature_->Init(MPU9255_ADDRESS);
+  const auto gyro_init = gyroscope_->Init(MPU9255_ADDRESS);
+  const auto accel_init = accelerometer_->Init(MPU9255_ADDRESS);
+  const auto temperature_init = temperature_->Init(MPU9255_ADDRESS);
 
   SetInitConfigMPU9255();
 
-  auto magneto_init = magnetometer_->Init(AK8963_ADDRESS);
+  const auto magneto_init = magnetometer_->Init(AK8963_ADDRESS);
 
   if (AllSensorsAreOK(gyro_init, accel_init, magneto_init, temperature_init)) {
     initialized_ = true;
@@ -36,12 +36,8 @@ auto Mpu9255::SetInitConfigMPU9255(void) -> void {
   SetMPU9255Register(INT_ENABLE, 0x01);
 }
 
-auto Mpu9255::SetMPU9255Register(std::uint8_t register_, std::uint8_t register_value) -> void {
+auto Mpu9255::SetMPU9255Register(const std::uint8_t register_, const std::uint8_t register_value) -> void {
   i2c_handler_->Write(MPU9255_ADDRESS, {register_, register_value});
-}
-
-auto Mpu9255::SetAK8963Register(std::uint8_t register_, std::uint8_t register_value) -> void {
-  i2c_handler_->Write(AK8963_ADDRESS, {register_, register_value});
 }
 
 auto Mpu9255::Update(void) noexcept -> types::DriverStatus {
@@ -55,7 +51,7 @@ auto Mpu9255::Update(void) noexcept -> types::DriverStatus {
   return types::DriverStatus::HAL_ERROR;
 }
 
-auto Mpu9255::SetGyroscopeSensitivity(types::ImuSensitivity gyroscope_sensitivity) noexcept -> types::DriverStatus {
+auto Mpu9255::SetGyroscopeSensitivity(const types::ImuSensitivity gyroscope_sensitivity) noexcept -> types::DriverStatus {
   if (!IsInitialized())
     return types::DriverStatus::HAL_ERROR;
 
@@ -66,7 +62,7 @@ auto Mpu9255::GetGyroscopeSensitivity(void) noexcept -> types::ImuSensitivity {
   return gyroscope_->GetSensitivity();
 }
 
-auto Mpu9255::SetAccelerometerSensitivity(types::ImuSensitivity accelerometer_sensitivity) noexcept -> types::DriverStatus {
+auto Mpu9255::SetAccelerometerSensitivity(const types::ImuSensitivity accelerometer_sensitivity) noexcept -> types::DriverStatus {
   if (!IsInitialized())
     return types::DriverStatus::HAL_ERROR;
 
@@ -113,10 +109,10 @@ auto Mpu9255::IsInitialized(void) noexcept -> bool {
   return initialized_;
 }
 
-auto Mpu9255::AllSensorsAreOK(types::DriverStatus gyroscope_status,
-                              types::DriverStatus accelerometer_status,
-                              types::DriverStatus magnetometer_status,
-                              types::DriverStatus temperature_status) noexcept -> bool {
+auto Mpu9255::AllSensorsAreOK(const types::DriverStatus gyroscope_status,
+                              const types::DriverStatus accelerometer_status,
+                              const types::DriverStatus magnetometer_status,
+                              const types::DriverStatus temperature_status) noexcept -> bool {
   if (gyroscope_status == types::DriverStatus::OK &&
       accelerometer_status == types::DriverStatus::OK &&
       magnetometer_status == types::DriverStatus::OK &&

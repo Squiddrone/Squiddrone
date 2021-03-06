@@ -14,7 +14,7 @@ class InertialMeasurementSensorSingleValue : public InertialMeasurementSensorSin
   auto Get(void) noexcept -> std::int16_t override;
 
  protected:
-  auto SetSensorValue(std::int16_t new_value) noexcept -> void;
+  auto SetSensorValue(const std::int16_t new_value) noexcept -> void;
 
   std::int16_t sensor_value_ = -1;
 };

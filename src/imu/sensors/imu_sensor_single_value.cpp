@@ -18,7 +18,7 @@ auto InertialMeasurementSensorSingleValue::Get(void) noexcept -> std::int16_t {
   return sensor_value_;
 }
 
-auto InertialMeasurementSensorSingleValue::SetSensorValue(std::int16_t new_value) noexcept -> void {
+auto InertialMeasurementSensorSingleValue::SetSensorValue(const std::int16_t new_value) noexcept -> void {
   sensor_value_ = new_value;
 }
 

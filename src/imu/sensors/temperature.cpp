@@ -2,7 +2,7 @@
 
 namespace imu {
 
-auto Temperature::Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus {
+auto Temperature::Init(const std::uint8_t i2c_address) noexcept -> types::DriverStatus {
   SENSOR_DATA_REGISTER = imu::TEMP_OUT_H;
   REGISTER_DATA_LENGTH_IN_BYTES = 2;
 
@@ -24,7 +24,7 @@ auto Temperature::Update(void) noexcept -> types::DriverStatus {
   return types::DriverStatus::HAL_ERROR;
 }
 
-auto Temperature::CalculateTempInDegreeFromADC(std::int16_t adc_value) noexcept -> std::int16_t {
+auto Temperature::CalculateTempInDegreeFromADC(const std::int16_t adc_value) noexcept -> std::int16_t {
   constexpr float TEMP_SENSITIVITY = 333.87f;
   constexpr std::int16_t Temp21degC = 21;
   return static_cast<std::int16_t>(adc_value / TEMP_SENSITIVITY + Temp21degC);

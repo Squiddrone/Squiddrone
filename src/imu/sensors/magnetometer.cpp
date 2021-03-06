@@ -2,7 +2,7 @@
 
 namespace imu {
 
-auto Magnetometer::Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus {
+auto Magnetometer::Init(const std::uint8_t i2c_address) noexcept -> types::DriverStatus {
   SENSOR_DATA_REGISTER = imu::MAGNETOMETER_XOUT_L;
   REGISTER_DATA_LENGTH_IN_BYTES = 7;
 
@@ -48,7 +48,7 @@ auto Magnetometer::Update(void) noexcept -> types::DriverStatus {
           ConvertUint8BytesIntoInt16SensorValue(raw_values_.at(3), raw_values_.at(2)),
           ConvertUint8BytesIntoInt16SensorValue(raw_values_.at(5), raw_values_.at(4)));
 
-      auto adc_2_magnetometer = GetFactorADC2Magnetometer();
+      const auto adc_2_magnetometer = GetFactorADC2Magnetometer();
       sensor_values_.x = static_cast<std::int16_t>(adc_2_magnetometer * (float)sensor_values_.x * calibration_values_.x);
       sensor_values_.y = static_cast<std::int16_t>(adc_2_magnetometer * (float)sensor_values_.y * calibration_values_.y);
       sensor_values_.z = static_cast<std::int16_t>(adc_2_magnetometer * (float)sensor_values_.z * calibration_values_.z);
@@ -64,7 +64,7 @@ auto Magnetometer::IsMagnetometerMeasurementReady(void) noexcept -> bool {
   return st1_register.at(0) & 0x01;
 }
 
-auto Magnetometer::HasMagnetometerOverflow(std::uint8_t st2_register_value) noexcept -> bool {
+auto Magnetometer::HasMagnetometerOverflow(const std::uint8_t st2_register_value) noexcept -> bool {
   return st2_register_value & 0x08;
 }
 
@@ -73,7 +73,7 @@ auto Magnetometer::GetFactorADC2Magnetometer(void) noexcept -> float {
 }
 
 auto Magnetometer::GetCalibrationValues(void) noexcept -> void {
-  std::vector<std::uint8_t> raw_calibration_values = ReadContentFromRegister(imu::AK8963_ASAX, 3);
+  const std::vector<std::uint8_t> raw_calibration_values = ReadContentFromRegister(imu::AK8963_ASAX, 3);
 
   calibration_values_.x = static_cast<float>((raw_calibration_values[0] - 128) * 0.5 / 128.0 + 1.0);
   calibration_values_.y = static_cast<float>((raw_calibration_values[1] - 128) * 0.5 / 128.0 + 1.0);
