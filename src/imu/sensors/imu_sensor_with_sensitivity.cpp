@@ -3,7 +3,7 @@
 
 namespace imu {
 
-auto InertialMeasurementSensorWithSensitivity::Init(const std::uint8_t i2c_address) noexcept -> types::DriverStatus {
+auto SensorWithSensitivity::Init(const std::uint8_t i2c_address) noexcept -> types::DriverStatus {
   if (SensorGeneral::Init(i2c_address) != types::DriverStatus::OK)
     return types::DriverStatus::HAL_ERROR;
 
@@ -17,7 +17,7 @@ auto InertialMeasurementSensorWithSensitivity::Init(const std::uint8_t i2c_addre
   return types::DriverStatus::OK;
 }
 
-auto InertialMeasurementSensorWithSensitivity::SetSensitivity(const types::ImuSensitivity sensitivity) noexcept -> types::DriverStatus {
+auto SensorWithSensitivity::SetSensitivity(const types::ImuSensitivity sensitivity) noexcept -> types::DriverStatus {
   if (!IsInitialized()) {
     return types::DriverStatus::HAL_ERROR;
   }
@@ -31,16 +31,16 @@ auto InertialMeasurementSensorWithSensitivity::SetSensitivity(const types::ImuSe
   return imu_status_;
 }
 
-auto InertialMeasurementSensorWithSensitivity::SaveNewSensitivity(const types::ImuSensitivity sensitivity) noexcept -> void {
+auto SensorWithSensitivity::SaveNewSensitivity(const types::ImuSensitivity sensitivity) noexcept -> void {
   sensitivity_ = sensitivity;
 }
 
-auto InertialMeasurementSensorWithSensitivity::SendSensitivityRegisterData(const types::ImuSensitivity sensitivity) noexcept -> void {
+auto SensorWithSensitivity::SendSensitivityRegisterData(const types::ImuSensitivity sensitivity) noexcept -> void {
   std::uint8_t new_config = GetConfigRegisterDataForSensitivity(sensitivity);
   WriteContentIntoRegister(CONFIG_REGISTER, new_config);
 }
 
-auto InertialMeasurementSensorWithSensitivity::GetConfigRegisterDataForSensitivity(const types::ImuSensitivity sensitivity) noexcept -> std::uint8_t {
+auto SensorWithSensitivity::GetConfigRegisterDataForSensitivity(const types::ImuSensitivity sensitivity) noexcept -> std::uint8_t {
   utilities::Byte config_data(ReadContentFromRegister(CONFIG_REGISTER, 1).at(0));
 
   if (sensitivity == types::ImuSensitivity::FINEST) {
@@ -60,7 +60,7 @@ auto InertialMeasurementSensorWithSensitivity::GetConfigRegisterDataForSensitivi
   return config_data.Get();
 }
 
-auto InertialMeasurementSensorWithSensitivity::GetSensitivity(void) noexcept -> types::ImuSensitivity {
+auto SensorWithSensitivity::GetSensitivity(void) noexcept -> types::ImuSensitivity {
   return sensitivity_;
 }
 

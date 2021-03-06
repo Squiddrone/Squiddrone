@@ -7,7 +7,7 @@ auto Gyroscope::Init(const std::uint8_t i2c_address) noexcept -> types::DriverSt
   REGISTER_DATA_LENGTH_IN_BYTES = 6;
   CONFIG_REGISTER = imu::GYRO_CONFIG;
 
-  return InertialMeasurementSensorWithSensitivity::Init(i2c_address);
+  return SensorWithSensitivity::Init(i2c_address);
 }
 
 auto Gyroscope::Update(void) noexcept -> types::DriverStatus {

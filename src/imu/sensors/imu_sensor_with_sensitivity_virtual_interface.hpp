@@ -7,12 +7,12 @@
 
 namespace imu {
 
-class InertialMeasurementSensorWithSensitivityInterface : public SensorVector {
+class SensorWithSensitivityInterface : public SensorVector {
  public:
-  InertialMeasurementSensorWithSensitivityInterface() = delete;
-  ~InertialMeasurementSensorWithSensitivityInterface() = default;
+  SensorWithSensitivityInterface() = delete;
+  ~SensorWithSensitivityInterface() = default;
 
-  explicit InertialMeasurementSensorWithSensitivityInterface(std::shared_ptr<i2c::I2CInterface> i2c_handler) : SensorVector(i2c_handler){};
+  explicit SensorWithSensitivityInterface(std::shared_ptr<i2c::I2CInterface> i2c_handler) : SensorVector(i2c_handler){};
 
   virtual auto Init(std::uint8_t i2c_address) noexcept -> types::DriverStatus = 0;
   virtual auto GetSensitivity(void) noexcept -> types::ImuSensitivity = 0;

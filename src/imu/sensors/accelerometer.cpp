@@ -7,7 +7,7 @@ auto Accelerometer::Init(const std::uint8_t i2c_address) noexcept -> types::Driv
   REGISTER_DATA_LENGTH_IN_BYTES = 6;
   CONFIG_REGISTER = imu::ACCEL_CONFIG;
 
-  return InertialMeasurementSensorWithSensitivity::Init(i2c_address);
+  return SensorWithSensitivity::Init(i2c_address);
 }
 
 auto Accelerometer::Update(void) noexcept -> types::DriverStatus {

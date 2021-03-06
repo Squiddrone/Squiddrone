@@ -9,12 +9,12 @@
 
 namespace imu {
 
-class InertialMeasurementSensorWithSensitivity : public InertialMeasurementSensorWithSensitivityInterface {
+class SensorWithSensitivity : public SensorWithSensitivityInterface {
  public:
-  InertialMeasurementSensorWithSensitivity() = delete;
-  ~InertialMeasurementSensorWithSensitivity() = default;
+  SensorWithSensitivity() = delete;
+  ~SensorWithSensitivity() = default;
 
-  explicit InertialMeasurementSensorWithSensitivity(std::shared_ptr<i2c::I2CInterface> i2c_handler) : InertialMeasurementSensorWithSensitivityInterface(i2c_handler){};
+  explicit SensorWithSensitivity(std::shared_ptr<i2c::I2CInterface> i2c_handler) : SensorWithSensitivityInterface(i2c_handler){};
 
   auto Init(const std::uint8_t i2c_address) noexcept -> types::DriverStatus override;
   auto GetSensitivity(void) noexcept -> types::ImuSensitivity override;
