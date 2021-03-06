@@ -11,6 +11,7 @@ class InertialMeasurementSensorVectorInterface : public InertialMeasurementSenso
 
   explicit InertialMeasurementSensorVectorInterface(std::shared_ptr<i2c::I2CInterface> i2c_handler) : InertialMeasurementSensor(i2c_handler){};
   virtual auto Get(void) noexcept -> types::EuclideanVector<int16_t> = 0;
+  virtual auto Update(void) noexcept -> types::DriverStatus = 0;
 };
 
 }  // namespace imu

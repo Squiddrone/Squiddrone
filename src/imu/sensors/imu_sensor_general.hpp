@@ -16,7 +16,7 @@ class InertialMeasurementSensor : public InertialMeasurementSensorGeneralInterfa
 
   explicit InertialMeasurementSensor(std::shared_ptr<i2c::I2CInterface> i2c_handler) : InertialMeasurementSensorGeneralInterface(), i2c_handler_(i2c_handler){};
   auto Init(const std::uint8_t i2c_address) noexcept -> types::DriverStatus override;
-  auto Update(void) noexcept -> types::DriverStatus override;
+  auto GetRawValues(void) noexcept -> types::DriverStatus override;
 
  protected:
   auto Mpu9255Detected(void) noexcept -> bool;

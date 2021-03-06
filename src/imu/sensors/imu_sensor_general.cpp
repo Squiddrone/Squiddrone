@@ -12,7 +12,7 @@ auto InertialMeasurementSensor::Init(const std::uint8_t i2c_address) noexcept ->
   return types::DriverStatus::OK;
 }
 
-auto InertialMeasurementSensor::Update(void) noexcept -> types::DriverStatus {
+auto InertialMeasurementSensor::GetRawValues(void) noexcept -> types::DriverStatus {
   if (!IsInitialized())
     return types::DriverStatus::HAL_ERROR;
 
