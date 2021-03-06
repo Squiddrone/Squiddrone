@@ -2,7 +2,7 @@
 
 namespace imu {
 
-auto InertialMeasurementSensorSingleValue::Update(void) noexcept -> types::DriverStatus {
+auto SensorSingleValue::Update(void) noexcept -> types::DriverStatus {
   SensorGeneral::GetRawValues();
 
   if (ImuConnectionSuccessful()) {
@@ -14,11 +14,11 @@ auto InertialMeasurementSensorSingleValue::Update(void) noexcept -> types::Drive
   return types::DriverStatus::HAL_ERROR;
 }
 
-auto InertialMeasurementSensorSingleValue::Get(void) noexcept -> std::int16_t {
+auto SensorSingleValue::Get(void) noexcept -> std::int16_t {
   return sensor_value_;
 }
 
-auto InertialMeasurementSensorSingleValue::SetSensorValue(const std::int16_t new_value) noexcept -> void {
+auto SensorSingleValue::SetSensorValue(const std::int16_t new_value) noexcept -> void {
   sensor_value_ = new_value;
 }
 

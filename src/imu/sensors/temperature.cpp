@@ -16,7 +16,7 @@ auto Temperature::Init(const std::uint8_t i2c_address) noexcept -> types::Driver
 }
 
 auto Temperature::Update(void) noexcept -> types::DriverStatus {
-  if (InertialMeasurementSensorSingleValue::Update() == types::DriverStatus::OK) {
+  if (SensorSingleValue::Update() == types::DriverStatus::OK) {
     sensor_value_ = CalculateTempInDegreeFromADC(sensor_value_);
     return types::DriverStatus::OK;
   }
