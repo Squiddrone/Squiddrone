@@ -6,7 +6,7 @@ auto Temperature::Init(const std::uint8_t i2c_address) noexcept -> types::Driver
   SENSOR_DATA_REGISTER = imu::TEMP_OUT_H;
   REGISTER_DATA_LENGTH_IN_BYTES = 2;
 
-  if (InertialMeasurementSensor::Init(i2c_address) != types::DriverStatus::OK)
+  if (SensorGeneral::Init(i2c_address) != types::DriverStatus::OK)
     return types::DriverStatus::HAL_ERROR;
 
   SetSensorValue(0);

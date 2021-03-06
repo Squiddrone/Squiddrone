@@ -10,11 +10,11 @@
 
 namespace imu {
 
-class InertialMeasurementSensor : public InertialMeasurementSensorGeneralInterface {
+class SensorGeneral : public GeneralInterface {
  public:
-  virtual ~InertialMeasurementSensor() = default;
+  virtual ~SensorGeneral() = default;
 
-  explicit InertialMeasurementSensor(std::shared_ptr<i2c::I2CInterface> i2c_handler) : InertialMeasurementSensorGeneralInterface(), i2c_handler_(i2c_handler){};
+  explicit SensorGeneral(std::shared_ptr<i2c::I2CInterface> i2c_handler) : GeneralInterface(), i2c_handler_(i2c_handler){};
   auto Init(const std::uint8_t i2c_address) noexcept -> types::DriverStatus override;
   auto GetRawValues(void) noexcept -> types::DriverStatus override;
 

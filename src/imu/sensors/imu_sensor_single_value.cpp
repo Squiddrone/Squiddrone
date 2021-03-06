@@ -3,7 +3,7 @@
 namespace imu {
 
 auto InertialMeasurementSensorSingleValue::Update(void) noexcept -> types::DriverStatus {
-  InertialMeasurementSensor::GetRawValues();
+  SensorGeneral::GetRawValues();
 
   if (ImuConnectionSuccessful()) {
     SetSensorValue(
