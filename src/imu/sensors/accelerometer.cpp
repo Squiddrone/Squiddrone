@@ -23,7 +23,7 @@ auto Accelerometer::Update(void) noexcept -> types::DriverStatus {
 }
 
 auto Accelerometer::GetFactorADC2Accelerometer(void) noexcept -> float {
-  auto accel_resolution = 0;
+  auto accel_resolution = 0.0f;
 
   switch (sensitivity_) {
     case types::ImuSensitivity::FINEST:

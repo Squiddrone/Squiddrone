@@ -23,7 +23,7 @@ auto Gyroscope::Update(void) noexcept -> types::DriverStatus {
 }
 
 auto Gyroscope::GetFactorADC2Gyro(void) noexcept -> float {
-  auto gyro_resolution = 0;
+  auto gyro_resolution = 0.0f;
 
   switch (sensitivity_) {
     case types::ImuSensitivity::FINEST:
