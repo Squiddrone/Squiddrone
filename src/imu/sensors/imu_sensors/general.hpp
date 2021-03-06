@@ -5,7 +5,7 @@
 #include "basic_types.hpp"
 #include "error_types.hpp"
 #include "i2c.hpp"
-#include "imu_sensor_general_virtual_interface.hpp"
+#include "general_virtual_interface.hpp"
 #include "mpu9255_data.hpp"
 
 namespace imu {

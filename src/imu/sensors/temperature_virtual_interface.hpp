@@ -1,7 +1,7 @@
 #ifndef SRC_TEMPERATURE_INTERFACE_HPP_
 #define SRC_TEMPERATURE_INTERFACE_HPP_
 
-#include "imu_sensor_single_value.hpp"
+#include "sensor_single_value.hpp"
 
 namespace imu {
 

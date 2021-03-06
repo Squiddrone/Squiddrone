@@ -1,7 +1,7 @@
 #ifndef SRC_ACCELEROMETER_INTERFACE_HPP_
 #define SRC_ACCELEROMETER_INTERFACE_HPP_
 
-#include "imu_sensor_with_sensitivity.hpp"
+#include "sensor_with_sensitivity.hpp"
 
 namespace imu {
 

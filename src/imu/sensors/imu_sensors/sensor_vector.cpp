@@ -1,4 +1,4 @@
-#include "imu_sensor_vector.hpp"
+#include "sensor_vector.hpp"
 
 namespace imu {
 

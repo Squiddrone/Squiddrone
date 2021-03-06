@@ -1,11 +1,11 @@
-#ifndef SRC_IMU_SENSOR_WITH_SENSITIVITY_HPP_
-#define SRC_IMU_SENSOR_WITH_SENSITIVITY_HPP_
+#ifndef SRC_sensor_with_sensitivity_HPP_
+#define SRC_sensor_with_sensitivity_HPP_
 
+#include "general.hpp"
 #include "imu_sensitivity.hpp"
-#include "imu_sensor_general.hpp"
-#include "imu_sensor_with_sensitivity.hpp"
-#include "imu_sensor_with_sensitivity_virtual_interface.hpp"
 #include "mpu9255_data.hpp"
+#include "sensor_with_sensitivity.hpp"
+#include "sensor_with_sensitivity_virtual_interface.hpp"
 
 namespace imu {
 

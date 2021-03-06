@@ -1,9 +1,9 @@
-#ifndef SRC_IMU_SENSOR_WITH_SENSITIVITY_INTERFACE_HPP_
-#define SRC_IMU_SENSOR_WITH_SENSITIVITY_INTERFACE_HPP_
+#ifndef SRC_sensor_with_sensitivity_INTERFACE_HPP_
+#define SRC_sensor_with_sensitivity_INTERFACE_HPP_
 
 #include "imu_sensitivity.hpp"
-#include "imu_sensor_vector.hpp"
 #include "mpu9255_data.hpp"
+#include "sensor_vector.hpp"
 
 namespace imu {
 

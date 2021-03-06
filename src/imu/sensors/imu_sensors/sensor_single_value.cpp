@@ -1,4 +1,4 @@
-#include "imu_sensor_single_value.hpp"
+#include "sensor_single_value.hpp"
 
 namespace imu {
 
