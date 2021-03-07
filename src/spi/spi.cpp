@@ -76,10 +76,9 @@ auto SPI::IsMisoBufferTooSmall(std::vector<uint8_t> &mosi_buffer, std::vector<ui
   return miso_buffer.size() < mosi_buffer.size();
 }
 
-auto SPI::SetChipSelectPin(PinSetting pin_setting) const noexcept -> void {
+auto SPI::GetCSOutputLevel(PinSetting pin_setting) const noexcept -> GPIO_PinState {
   GPIO_PinState pin_state_active = GPIO_PIN_RESET;
   GPIO_PinState pin_state_inactive = GPIO_PIN_RESET;
-  GPIO_PinState pin_state = GPIO_PIN_RESET;
 
   if (chip_select_.active_state == CSActiveState::ACTIVE_HIGH) {
     pin_state_active = GPIO_PIN_SET;
@@ -88,12 +87,21 @@ auto SPI::SetChipSelectPin(PinSetting pin_setting) const noexcept -> void {
   }
 
   if (pin_setting == PinSetting::ACTIVE) {
-    pin_state = pin_state_active;
+    return pin_state_active;
   } else {
-    pin_state = pin_state_inactive;
+    return pin_state_inactive;
+  }
+}
+
+auto SPI::SetChipSelectPin(PinSetting pin_setting) const noexcept -> void {
+  GPIO_PinState gpio_state = GPIO_PIN_RESET;
+  if (pin_setting == PinSetting::ACTIVE) {
+    gpio_state = GetCSOutputLevel(pin_setting);
+  } else {
+    gpio_state = GetCSOutputLevel(pin_setting);
   }
 
-  HAL_GPIO_WritePin(chip_select_.peripheral, chip_select_.gpio_pin, pin_state);
+  HAL_GPIO_WritePin(chip_select_.peripheral, chip_select_.gpio_pin, gpio_state);
 }
 
 }  // namespace spi

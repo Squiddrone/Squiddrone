@@ -54,32 +54,13 @@ class SPI final : spi::SPIInterface {
  private:
   CSPin chip_select_;
 
-  /**
-   * @brief Check if transaction length is exceeding maximum size.
-   * 
-   * @param transaction_length Transaction length in bytes.
-   * @return true Transaction length is exceeding limits.
-   * @return false Transaction length is within limits.
-   */
   auto IsTransactionLengthExceedingLimits(std::uint8_t transaction_length) noexcept -> bool;
 
-  /**
-   * @brief Check if miso buffer is smaller than the mosi buffer.
-   * 
-   * @param mosi_buffer Reference to the mosi buffer.
-   * @param miso_buffer Reference to the miso buffer
-   * @return true Miso buffer is too small
-   * @return false Miso buffer is large enough.
-   */
   auto IsMisoBufferTooSmall(std::vector<uint8_t> &mosi_buffer, std::vector<uint8_t> &miso_buffer) noexcept -> bool;
 
-  /**
-   * @brief Set the Chip select GPIO pin.
-   * 
-   * @param pin_state The desired pin state. High or low.
-   * @return void
-   */
   auto SetChipSelectPin(PinSetting pin_state) const noexcept -> void;
+
+  auto GetCSOutputLevel(PinSetting pin_setting) const noexcept -> GPIO_PinState;
 };
 
 }  // namespace spi
