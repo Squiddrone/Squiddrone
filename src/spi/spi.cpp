@@ -95,11 +95,8 @@ auto SPI::GetCSOutputLevel(PinSetting pin_setting) const noexcept -> GPIO_PinSta
 
 auto SPI::SetChipSelectPin(PinSetting pin_setting) const noexcept -> void {
   GPIO_PinState gpio_state = GPIO_PIN_RESET;
-  if (pin_setting == PinSetting::ACTIVE) {
-    gpio_state = GetCSOutputLevel(pin_setting);
-  } else {
-    gpio_state = GetCSOutputLevel(pin_setting);
-  }
+  
+  gpio_state = GetCSOutputLevel(pin_setting);
 
   HAL_GPIO_WritePin(chip_select_.peripheral, chip_select_.gpio_pin, gpio_state);
 }
