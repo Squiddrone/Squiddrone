@@ -58,7 +58,7 @@ class SPI final : spi::SPIInterface {
 
   auto IsMisoBufferTooSmall(std::vector<uint8_t> &mosi_buffer, std::vector<uint8_t> &miso_buffer) noexcept -> bool;
 
-  auto SetChipSelectPin(PinSetting pin_state) const noexcept -> void;
+  auto SetChipSelectPin(PinSetting pin_setting) const noexcept -> void;
 
   auto GetCSOutputLevel(PinSetting pin_setting) const noexcept -> GPIO_PinState;
 };
