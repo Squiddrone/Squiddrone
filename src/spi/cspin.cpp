@@ -4,10 +4,9 @@ namespace spi {
 
 auto CSPin::SetCS(PinSetting pin_setting) -> void {
   GPIO_PinState gpio_state = inactive_;
+
   if (pin_setting == PinSetting::ACTIVE) {
     gpio_state = active_;
-  } else {
-    gpio_state = inactive_;
   }
 
   HAL_GPIO_WritePin(peripheral_, gpio_pin_, gpio_state);
