@@ -2,6 +2,9 @@
 #include "gtest/gtest.h"
 #include "spi.hpp"
 
+using ::testing::NiceMock;
+using ::testing::Return;
+
 namespace {
 
 class SPITests : public ::testing::Test {
@@ -10,27 +13,12 @@ class SPITests : public ::testing::Test {
     unit_under_test_ = std::make_unique<spi::SPI>(cs_pin);
   }
 
-  spi::CSPin cs_pin = {.peripheral = nullptr, .gpio_pin = 0, .active_state = spi::CSActiveState::ACTIVE_LOW};
+  NiceMock<spi::CSPin> cs_pin;
   std::unique_ptr<spi::SPI> unit_under_test_;
   std::vector<uint8_t> miso_buffer;
   std::vector<uint8_t> mosi_buffer;
 };
-
-TEST_F(SPITests, cs_pin_setting_active_low) {
-  GPIO_TypeDef test_mock_gpio_;
-  spi::CSPin cs_pin_ = {.peripheral = &test_mock_gpio_, .gpio_pin = 0, .active_state = spi::CSActiveState::ACTIVE_LOW};
-  auto unit_under_test_ = std::make_unique<spi::SPI>(cs_pin_);
-  unit_under_test_->Transfer(mosi_buffer, miso_buffer);
-  EXPECT_EQ(test_mock_gpio_.mock_test_value, static_cast<uint8_t>(GPIO_PIN_SET));
-}
-
-TEST_F(SPITests, cs_pin_setting_active_high) {
-  GPIO_TypeDef test_mock_gpio_;
-  spi::CSPin cs_pin_ = {.peripheral = &test_mock_gpio_, .gpio_pin = 0, .active_state = spi::CSActiveState::ACTIVE_HIGH};
-  auto unit_under_test_ = std::make_unique<spi::SPI>(cs_pin_);
-  unit_under_test_->Transfer(mosi_buffer, miso_buffer);
-  EXPECT_EQ(test_mock_gpio_.mock_test_value, static_cast<uint8_t>(GPIO_PIN_RESET));
-}
+}  // namespace
 
 TEST_F(SPITests, transfer_exceeding_buffer_size_limit) {
   std::vector<uint8_t> too_large_buffer(65);
@@ -128,4 +116,7 @@ TEST_F(SPITests, write_spi_hal_busy) {
   EXPECT_EQ(rv, types::DriverStatus::HAL_ERROR);
 }
 
-}  // namespace
+int main(int argc, char **argv) {
+  ::testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}

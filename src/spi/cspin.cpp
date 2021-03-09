@@ -2,7 +2,7 @@
 
 namespace spi {
 
-auto CSPin::SetCS(PinSetting pin_setting) -> void {
+auto CSPin::SetCS(PinSetting pin_setting) noexcept -> void {
   GPIO_PinState gpio_state = inactive_;
 
   if (pin_setting == PinSetting::ACTIVE) {

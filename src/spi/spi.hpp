@@ -6,7 +6,11 @@
 #include "stm32g4xx_hal.h"
 
 //preserve include order
+#ifndef UNIT_TEST
 #include "cspin.hpp"
+#else
+#include "cspin_mock.hpp"
+#endif
 #include "spi_config.h"
 
 namespace spi {
@@ -18,14 +22,14 @@ namespace spi {
 class SPI final : spi::SPIInterface {
  public:
   SPI() = delete;
-  explicit SPI(const CSPin chip_select) : spi::SPIInterface(), chip_select_(chip_select){};
+  explicit SPI(CSPin &chip_select) : spi::SPIInterface(), chip_select_(chip_select){};
   virtual ~SPI() = default;
 
   auto Write(std::vector<std::uint8_t> &mosi_data_buffer) noexcept -> types::DriverStatus override;
   auto Transfer(std::vector<std::uint8_t> &mosi_data_buffer, std::vector<uint8_t> &miso_data_buffer) noexcept -> types::DriverStatus override;
 
  private:
-  CSPin chip_select_;
+  CSPin &chip_select_;
 
   auto IsTransactionLengthExceedingLimits(std::uint8_t transaction_length) noexcept -> bool;
 
