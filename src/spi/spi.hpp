@@ -6,37 +6,10 @@
 #include "stm32g4xx_hal.h"
 
 //preserve include order
+#include "cspin.hpp"
 #include "spi_config.h"
 
 namespace spi {
-
-/**
- * @brief Valid values for chip select pin setting
- * 
- */
-enum class PinSetting : bool {
-  ACTIVE = true,
-  INACTIVE = false
-};
-
-/**
- * @brief Chip select active state setting
- * 
- */
-enum class CSActiveState : uint8_t {
-  ACTIVE_LOW = 0,
-  ACTIVE_HIGH
-};
-
-/**
- * @brief Data structure to hold the chip select GPIO information
- * 
- */
-typedef struct CSPinDefinition {
-  GPIO_TypeDef *peripheral;
-  uint16_t gpio_pin;
-  CSActiveState active_state;
-} CSPin;
 
 /**
  * @brief Concrete implementation of the SPI interface.
@@ -45,7 +18,7 @@ typedef struct CSPinDefinition {
 class SPI final : spi::SPIInterface {
  public:
   SPI() = delete;
-  explicit SPI(const CSPin chip_select) : spi::SPIInterface(), chip_select_(chip_select) { SetChipSelectPin(PinSetting::INACTIVE); };
+  explicit SPI(const CSPin chip_select) : spi::SPIInterface(), chip_select_(chip_select){};
   virtual ~SPI() = default;
 
   auto Write(std::vector<std::uint8_t> &mosi_data_buffer) noexcept -> types::DriverStatus override;
@@ -57,10 +30,6 @@ class SPI final : spi::SPIInterface {
   auto IsTransactionLengthExceedingLimits(std::uint8_t transaction_length) noexcept -> bool;
 
   auto IsMisoBufferTooSmall(std::vector<uint8_t> &mosi_buffer, std::vector<uint8_t> &miso_buffer) noexcept -> bool;
-
-  auto SetChipSelectPin(PinSetting pin_setting) const noexcept -> void;
-
-  auto GetCSOutputLevel(PinSetting pin_setting) const noexcept -> GPIO_PinState;
 };
 
 }  // namespace spi
