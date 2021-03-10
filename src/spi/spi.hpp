@@ -26,14 +26,14 @@ class SPI final : spi::SPIInterface {
   virtual ~SPI() = default;
 
   auto Write(std::vector<std::uint8_t> &mosi_data_buffer) noexcept -> types::DriverStatus override;
-  auto Transfer(std::vector<std::uint8_t> &mosi_data_buffer, std::vector<uint8_t> &miso_data_buffer) noexcept -> types::DriverStatus override;
+  auto Transfer(std::vector<std::uint8_t> &mosi_data_buffer, std::vector<std::uint8_t> &miso_data_buffer) noexcept -> types::DriverStatus override;
 
  private:
   CSPin &chip_select_;
 
   auto IsTransactionLengthExceedingLimits(std::uint8_t transaction_length) noexcept -> bool;
-
-  auto IsMisoBufferTooSmall(std::vector<uint8_t> &mosi_buffer, std::vector<uint8_t> &miso_buffer) noexcept -> bool;
+  auto IsMisoBufferTooSmall(std::vector<std::uint8_t> &mosi_buffer, std::vector<std::uint8_t> &miso_buffer) noexcept -> bool;
+  auto CheckHALReturnValue(HAL_StatusTypeDef hal_return_value) -> types::DriverStatus;
 };
 
 }  // namespace spi
