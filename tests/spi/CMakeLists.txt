@@ -21,3 +21,16 @@ add_testpackage(TEST_NAME
                     ${CMAKE_SOURCE_DIR}/src/types
                     ${CMAKE_SOURCE_DIR}/tests/spi/mock_libraries
 )
+
+add_testpackage(TEST_NAME 
+                    cspin
+                SOURCES 
+                    cspin_tests.cpp
+                    ${CMAKE_SOURCE_DIR}/src/spi/cspin.cpp
+                    ${CMAKE_SOURCE_DIR}/tests/spi/mock_libraries/gpio_config.c
+                    ${CMAKE_SOURCE_DIR}/tests/spi/mock_libraries/stm32g4xx_hal.c
+                TEST_INCLUDE_DIRECTORIES 
+                    ${CMAKE_SOURCE_DIR}/src/spi
+                    ${CMAKE_SOURCE_DIR}/src/types
+                    ${CMAKE_SOURCE_DIR}/tests/spi/mock_libraries
+)
