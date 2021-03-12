@@ -17,6 +17,8 @@ class Magnetometer final : public MagnetometerInterface {
 
  private:
   types::EuclideanVector<float> calibration_values_{-1, -1, -1};
+  float MAX_MAGNETIC_FLUX_IN_MICRO_TESLA = 4912.0f;
+  float MAX_MAGNETIC_MEASUREMENT_IN_DIGIT_16BIT = 32760.0f;
 
   auto SetInitData(void) -> void;
   auto IsMagnetometerMeasurementReady(void) noexcept -> bool;

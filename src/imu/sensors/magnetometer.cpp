@@ -69,7 +69,7 @@ auto Magnetometer::HasMagnetometerOverflow(const std::uint8_t st2_register_value
 }
 
 auto Magnetometer::GetFactorADC2Magnetometer(void) noexcept -> float {
-  return static_cast<float>(4912.0 / 32760.0);  // at the moment fix at 16Bit setting. Also 14Bit possible.
+  return static_cast<float>(MAX_MAGNETIC_FLUX_IN_MICRO_TESLA / MAX_MAGNETIC_MEASUREMENT_IN_DIGIT_16BIT);
 }
 
 auto Magnetometer::GetCalibrationValues(void) noexcept -> void {
