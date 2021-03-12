@@ -36,10 +36,10 @@ auto NRF24L01SpiProtocol::WriteRegister(std::uint8_t register_address, std::uint
   return spi_ret_val;
 }
 
-auto NRF24L01SpiProtocol::WriteRegister(std::uint8_t register_address, std::vector<uint8_t> register_content) -> types::DriverStatus {
+auto NRF24L01SpiProtocol::WriteRegister(std::uint8_t register_address, std::vector<uint8_t> &register_content) -> types::DriverStatus {
   std::vector<uint8_t> mosi_data_buffer;
   mosi_data_buffer = register_content;
-  mosi_data_buffer.insert(mosi_data_buffer.begin(), instruction_word::W_REGISTER);
+  mosi_data_buffer.insert(mosi_data_buffer.begin(), (instruction_word::W_REGISTER | register_address));
 
   auto spi_ret_val = spi_.Write(mosi_data_buffer);
 
