@@ -19,6 +19,7 @@ class SensorGeneral : public GeneralInterface {
   auto GetRawValues(void) noexcept -> types::DriverStatus override;
 
  protected:
+  auto CheckHardware(void) -> bool;
   auto Mpu9255Detected(void) noexcept -> bool;
   auto AK8963Detected(void) noexcept -> bool;
   auto CheckI2CDevice(const std::uint8_t register_, const std::uint8_t value) noexcept -> bool;
