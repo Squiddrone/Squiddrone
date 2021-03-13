@@ -60,12 +60,13 @@ auto Magnetometer::Update(void) noexcept -> types::DriverStatus {
 }
 
 auto Magnetometer::IsMagnetometerMeasurementReady(void) noexcept -> bool {
-  std::vector<uint8_t> st1_register = ReadContentFromRegister(imu::AK8963_ST1, 1);
-  return st1_register.at(0) & 0x01;
+  auto st1_register = std::make_unique<utilities::Byte>(ReadContentFromRegister(imu::AK8963_ST1, 1).at(0));
+  return st1_register->IsBitHigh(0);
 }
 
 auto Magnetometer::HasMagnetometerOverflow(const std::uint8_t st2_register_value) noexcept -> bool {
-  return st2_register_value & 0x08;
+  auto st2_register = std::make_unique<utilities::Byte>(st2_register_value);
+  return st2_register->IsBitHigh(3);
 }
 
 auto Magnetometer::GetFactorADC2Magnetometer(void) noexcept -> float {
