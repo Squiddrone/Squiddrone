@@ -21,6 +21,7 @@ class SensorGeneral : public GeneralInterface {
  protected:
   auto Mpu9255Detected(void) noexcept -> bool;
   auto AK8963Detected(void) noexcept -> bool;
+  auto CheckI2CDevice(const std::uint8_t register_, const std::uint8_t value) noexcept -> bool;
   auto ReadContentFromRegister(const std::uint8_t read_from_register, const std::uint16_t byte_size) noexcept -> std::vector<std::uint8_t>;
   auto WriteContentIntoRegister(const std::uint8_t write_into_register, const std::uint8_t register_content) noexcept -> void;
   auto ImuConnectionSuccessful(void) noexcept -> bool;

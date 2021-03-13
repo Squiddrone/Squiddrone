@@ -26,29 +26,24 @@ auto SensorGeneral::GetRawValues(void) noexcept -> types::DriverStatus {
 }
 
 auto SensorGeneral::Mpu9255Detected(void) noexcept -> bool {
-  bool who_am_i_correct = false;
-
-  std::vector<uint8_t> who_am_i_register_value = ReadContentFromRegister(WHO_AM_I_MPU9255_REGISTER, 1);
-  if (ImuConnectionSuccessful()) {
-    if (who_am_i_register_value.at(0) == WHO_AM_I_MPU9255_VALUE) {
-      who_am_i_correct = true;
-    }
-  }
-
-  return who_am_i_correct;
+  return CheckI2CDevice(WHO_AM_I_MPU9255_REGISTER, WHO_AM_I_MPU9255_VALUE);
 }
 
 auto SensorGeneral::AK8963Detected(void) noexcept -> bool {
-  bool who_am_i_correct = false;
+  return CheckI2CDevice(WHO_AM_I_AK8963_REGISTER, WHO_AM_I_AK8963_VALUE);
+}
 
-  std::vector<uint8_t> who_am_i_register_value = ReadContentFromRegister(WHO_AM_I_AK8963_REGISTER, 1);
+auto SensorGeneral::CheckI2CDevice(const std::uint8_t register_, const std::uint8_t value) noexcept -> bool {
+  bool value_is_correct = false;
+
+  std::vector<uint8_t> register_value = ReadContentFromRegister(register_, 1);
   if (ImuConnectionSuccessful()) {
-    if (who_am_i_register_value.at(0) == WHO_AM_I_AK8963_VALUE) {
-      who_am_i_correct = true;
+    if (register_value.at(0) == value) {
+      value_is_correct = true;
     }
   }
 
-  return who_am_i_correct;
+  return value_is_correct;
 }
 
 auto SensorGeneral::ReadContentFromRegister(const std::uint8_t read_from_register, const std::uint16_t byte_size) noexcept -> std::vector<std::uint8_t> {
