@@ -27,7 +27,7 @@ auto Magnetometer::SetInitData(void) -> void {
   // Configure the magnetometer for continuous read and highest resolution
   // set Mscale bit 4 to 1 (0) to enable 16 (14) bit resolution in CNTL register,
   // and enable continuous mode data acquisition Mmode (bits [3:0]), 0010 for 8 Hz and 0110 for 100 Hz sample rates
-  WriteContentIntoRegister(AK8963_CNTL, 1 << 4 | 0x02);  // Set magnetometer data resolution and sample ODR
+  WriteContentIntoRegister(AK8963_CNTL, 0x12);  // Set magnetometer data resolution and sample ODR
   utilities::Sleep(10);
 }
 
