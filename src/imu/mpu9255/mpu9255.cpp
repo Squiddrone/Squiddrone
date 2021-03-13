@@ -124,7 +124,7 @@ auto Mpu9255::InitAccelerometer(void) noexcept -> void {
 }
 
 auto Mpu9255::InitMagnetometer(void) noexcept -> void {
-  magnetometer_status_ = magnetometer_->Init(MPU9255_ADDRESS);
+  magnetometer_status_ = magnetometer_->Init(AK8963_ADDRESS);
 }
 
 auto Mpu9255::InitTemperature(void) noexcept -> void {
