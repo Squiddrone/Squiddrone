@@ -16,27 +16,27 @@ auto Mpu9255::Init(void) noexcept -> types::DriverStatus {
     temperature_ = std::make_unique<imu::Temperature>(i2c_handler_);
   }
 
-  const auto gyro_init = gyroscope_->Init(MPU9255_ADDRESS);
-  const auto accel_init = accelerometer_->Init(MPU9255_ADDRESS);
-  const auto temperature_init = temperature_->Init(MPU9255_ADDRESS);
+  InitGyro();
+  InitAccelerometer();
+  InitTemperature();
 
   SetInitConfigMPU9255();
 
-  const auto magneto_init = magnetometer_->Init(AK8963_ADDRESS);
+  InitMagnetometer();
 
-  if (AllSensorsAreOK(gyro_init, accel_init, magneto_init, temperature_init)) {
+  if (CheckIfAllSensorsAreOK()) {
     initialized_ = true;
     return types::DriverStatus::OK;
   }
   return types::DriverStatus::HAL_ERROR;
 }
 
-auto Mpu9255::SetInitConfigMPU9255(void) -> void {
+auto Mpu9255::SetInitConfigMPU9255(void) noexcept -> void {
   SetMPU9255Register(INT_PIN_CFG, 0x22);
   SetMPU9255Register(INT_ENABLE, 0x01);
 }
 
-auto Mpu9255::SetMPU9255Register(const std::uint8_t register_, const std::uint8_t register_value) -> void {
+auto Mpu9255::SetMPU9255Register(const std::uint8_t register_, const std::uint8_t register_value) noexcept -> void {
   i2c_handler_->Write(MPU9255_ADDRESS, {register_, register_value});
 }
 
@@ -44,7 +44,9 @@ auto Mpu9255::Update(void) noexcept -> types::DriverStatus {
   if (!IsInitialized())
     return types::DriverStatus::HAL_ERROR;
 
-  if (AllSensorsAreOK(gyroscope_->Update(), accelerometer_->Update(), magnetometer_->Update(), temperature_->Update())) {
+  UpdateAllSensors();
+
+  if (CheckIfAllSensorsAreOK()) {
     initialized_ = true;
     return types::DriverStatus::OK;
   }
@@ -109,33 +111,53 @@ auto Mpu9255::IsInitialized(void) noexcept -> bool {
   return initialized_;
 }
 
-auto Mpu9255::AllSensorsAreOK(const types::DriverStatus gyroscope_status,
-                              const types::DriverStatus accelerometer_status,
-                              const types::DriverStatus magnetometer_status,
-                              const types::DriverStatus temperature_status) noexcept -> bool {
-  if (gyroscope_status == types::DriverStatus::OK &&
-      accelerometer_status == types::DriverStatus::OK &&
-      magnetometer_status == types::DriverStatus::OK &&
-      temperature_status == types::DriverStatus::OK) {
+auto Mpu9255::InitGyro(void) noexcept -> void {
+  gyroscope_status_ = gyroscope_->Init(MPU9255_ADDRESS);
+}
+
+auto Mpu9255::InitAccelerometer(void) noexcept -> void {
+  accelerometer_status_ = accelerometer_->Init(MPU9255_ADDRESS);
+}
+
+auto Mpu9255::InitMagnetometer(void) noexcept -> void {
+  magnetometer_status_ = magnetometer_->Init(MPU9255_ADDRESS);
+}
+
+auto Mpu9255::InitTemperature(void) noexcept -> void {
+  temperature_status_ = temperature_->Init(MPU9255_ADDRESS);
+}
+
+auto Mpu9255::UpdateAllSensors(void) noexcept -> void {
+  gyroscope_status_ = gyroscope_->Update();
+  accelerometer_status_ = accelerometer_->Update();
+  magnetometer_status_ = magnetometer_->Update();
+  temperature_status_ = temperature_->Update();
+}
+
+auto Mpu9255::CheckIfAllSensorsAreOK(void) noexcept -> bool {
+  if (gyroscope_status_ == types::DriverStatus::OK &&
+      accelerometer_status_ == types::DriverStatus::OK &&
+      magnetometer_status_ == types::DriverStatus::OK &&
+      temperature_status_ == types::DriverStatus::OK) {
     return true;
   } else {
     return false;
   }
 }
 
-auto Mpu9255::UnitTestSetGyroscope(std::unique_ptr<imu::GyroscopeInterface> gyroscope) -> void {
+auto Mpu9255::UnitTestSetGyroscope(std::unique_ptr<imu::GyroscopeInterface> gyroscope) noexcept -> void {
   gyroscope_ = std::move(gyroscope);
 }
 
-auto Mpu9255::UnitTestSetAccelerometer(std::unique_ptr<imu::AccelerometerInterface> accelerometer) -> void {
+auto Mpu9255::UnitTestSetAccelerometer(std::unique_ptr<imu::AccelerometerInterface> accelerometer) noexcept -> void {
   accelerometer_ = std::move(accelerometer);
 }
 
-auto Mpu9255::UnitTestSetMagnetometer(std::unique_ptr<imu::MagnetometerInterface> magnetometer) -> void {
+auto Mpu9255::UnitTestSetMagnetometer(std::unique_ptr<imu::MagnetometerInterface> magnetometer) noexcept -> void {
   magnetometer_ = std::move(magnetometer);
 }
 
-auto Mpu9255::UnitTestSetTemperature(std::unique_ptr<imu::TemperatureInterface> temperature) -> void {
+auto Mpu9255::UnitTestSetTemperature(std::unique_ptr<imu::TemperatureInterface> temperature) noexcept -> void {
   temperature_ = std::move(temperature);
 }
 
