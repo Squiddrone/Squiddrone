@@ -18,15 +18,13 @@ auto SensorWithSensitivity::Init(const std::uint8_t i2c_address) noexcept -> typ
 }
 
 auto SensorWithSensitivity::SetSensitivity(const types::ImuSensitivity sensitivity) noexcept -> types::DriverStatus {
-  if (!IsInitialized()) {
+  if (!IsInitialized())
     return types::DriverStatus::HAL_ERROR;
-  }
 
   SendSensitivityRegisterData(sensitivity);
 
-  if (ImuConnectionSuccessful()) {
+  if (ImuConnectionSuccessful())
     SaveNewSensitivity(sensitivity);
-  }
 
   return imu_status_;
 }
