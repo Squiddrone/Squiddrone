@@ -21,7 +21,7 @@ auto Magnetometer::SetInitData(void) noexcept -> void {
   EnterFuseROMAccessMode();
   GetCalibrationValues();
   PowerDownMagnetometer();
-  ConfigureForContinousRead();
+  ConfigureForContinuousRead();
 }
 
 auto Magnetometer::PowerDownMagnetometer(void) noexcept -> void {
@@ -34,11 +34,11 @@ auto Magnetometer::EnterFuseROMAccessMode(void) noexcept -> void {
   utilities::Sleep(10);
 }
 
-auto Magnetometer::ConfigureForContinousRead(void) noexcept -> void {
-  // Configure the magnetometer for continuous read and highest resolution
-  // set Mscale bit 4 to 1 (0) to enable 16 (14) bit resolution in CNTL register,
-  // and enable continuous mode data acquisition Mmode (bits [3:0]), 0010 for 8 Hz and 0110 for 100 Hz sample rates
-  WriteContentIntoRegister(AK8963_CNTL, 0x12);  // Set magnetometer data resolution and sample ODR
+auto Magnetometer::ConfigureForContinuousRead(void) noexcept -> void {
+  // Configure the magnetometer for continuous read and highest resolution.
+  // Set Bit 4 to enable 16 bit resolution and enable continuous mode data acquisition at 8 Hz.
+  // See MPU-9255 Register Map, Revision 1.0, p. 51
+  WriteContentIntoRegister(AK8963_CNTL, 0b10010);
   utilities::Sleep(10);
 }
 
@@ -92,7 +92,7 @@ auto Magnetometer::GetCalibrationValues(void) noexcept -> void {
   calibration_values_.z = AdjustSensitivity(raw_calibration_values[2]);
 }
 
-auto Magnetometer::AdjustSensitivity(std::uint8_t sensitivity_adjustment_value) noexcept -> float {
+auto Magnetometer::AdjustSensitivity(const std::uint8_t sensitivity_adjustment_value) noexcept -> float {
   // for formula see MPU-9255 Register Map, Revision 1.0, p. 53
   return static_cast<float>((sensitivity_adjustment_value - 128) * 0.5 / 128.0 + 1.0);
 }
