@@ -18,25 +18,28 @@ auto Magnetometer::Init(const std::uint8_t i2c_address) noexcept -> types::Drive
 
 auto Magnetometer::SetInitData(void) noexcept -> void {
   PowerDownMagnetometer();
-  utilities::Sleep(10);
   EnterFuseROMAccessMode();
-  utilities::Sleep(10);
   GetCalibrationValues();
   PowerDownMagnetometer();
+  ConfigureForContinousRead();
+}
+
+auto Magnetometer::PowerDownMagnetometer(void) noexcept -> void {
+  WriteContentIntoRegister(AK8963_CNTL, 0x00);
   utilities::Sleep(10);
+}
+
+auto Magnetometer::EnterFuseROMAccessMode(void) noexcept -> void {
+  WriteContentIntoRegister(AK8963_CNTL, 0x0F);
+  utilities::Sleep(10);
+}
+
+auto Magnetometer::ConfigureForContinousRead(void) noexcept -> void {
   // Configure the magnetometer for continuous read and highest resolution
   // set Mscale bit 4 to 1 (0) to enable 16 (14) bit resolution in CNTL register,
   // and enable continuous mode data acquisition Mmode (bits [3:0]), 0010 for 8 Hz and 0110 for 100 Hz sample rates
   WriteContentIntoRegister(AK8963_CNTL, 0x12);  // Set magnetometer data resolution and sample ODR
   utilities::Sleep(10);
-}
-
-auto Magnetometer::PowerDownMagnetometer(void) noexcept -> void {
-  WriteContentIntoRegister(AK8963_CNTL, 0x00);
-}
-
-auto Magnetometer::EnterFuseROMAccessMode(void) noexcept -> void {
-  WriteContentIntoRegister(AK8963_CNTL, 0x0F);
 }
 
 auto Magnetometer::Update(void) noexcept -> types::DriverStatus {
