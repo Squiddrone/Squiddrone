@@ -1,9 +1,9 @@
 #ifndef SRC_MAGNETOMETER_HPP_
 #define SRC_MAGNETOMETER_HPP_
 
+#include "byte.hpp"
 #include "magnetometer_virtual_interface.hpp"
 #include "sleep.hpp"
-#include "byte.hpp"
 
 namespace imu {
 
@@ -26,6 +26,7 @@ class Magnetometer final : public MagnetometerInterface {
   auto HasMagnetometerOverflow(const std::uint8_t st2_register_value) noexcept -> bool;
   auto GetFactorADC2Magnetometer(void) noexcept -> float;
   auto GetCalibrationValues(void) noexcept -> void;
+  auto AdjustSensitivity(std::uint8_t sensitivity_adjustment_value) noexcept -> float;
 };
 
 }  // namespace imu

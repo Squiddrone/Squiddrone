@@ -76,9 +76,14 @@ auto Magnetometer::GetFactorADC2Magnetometer(void) noexcept -> float {
 auto Magnetometer::GetCalibrationValues(void) noexcept -> void {
   const std::vector<std::uint8_t> raw_calibration_values = ReadContentFromRegister(imu::AK8963_ASAX, 3);
 
-  calibration_values_.x = static_cast<float>((raw_calibration_values[0] - 128) * 0.5 / 128.0 + 1.0);
-  calibration_values_.y = static_cast<float>((raw_calibration_values[1] - 128) * 0.5 / 128.0 + 1.0);
-  calibration_values_.z = static_cast<float>((raw_calibration_values[2] - 128) * 0.5 / 128.0 + 1.0);
+  calibration_values_.x = AdjustSensitivity(raw_calibration_values[0]);
+  calibration_values_.y = AdjustSensitivity(raw_calibration_values[1]);
+  calibration_values_.z = AdjustSensitivity(raw_calibration_values[2]);
+}
+
+auto Magnetometer::AdjustSensitivity(std::uint8_t sensitivity_adjustment_value) noexcept -> float {
+  // for formula see MPU-9255 Register Map, Revision 1.0, p. 53
+  return static_cast<float>((sensitivity_adjustment_value - 128) * 0.5 / 128.0 + 1.0);
 }
 
 }  // namespace imu
