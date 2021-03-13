@@ -99,13 +99,13 @@ TEST_F(UtilityByteTests, byte_init_0_clear_same_bit_twice) {
 }
 
 TEST_F(UtilityByteTests, byte_is_bit_3_high_true) {
-  unit_under_test = std::make_unique<utilities::Byte>(0b1000); 
+  unit_under_test = std::make_unique<utilities::Byte>(0b1000);
 
   EXPECT_EQ(true, unit_under_test->IsBitHigh(3));
 }
 
 TEST_F(UtilityByteTests, byte_is_bit_3_high_false) {
-  unit_under_test = std::make_unique<utilities::Byte>(0); 
+  unit_under_test = std::make_unique<utilities::Byte>(0);
 
   EXPECT_EQ(false, unit_under_test->IsBitHigh(3));
 }
@@ -117,7 +117,7 @@ TEST_F(UtilityByteTests, byte_is_bit_3_low_true) {
 }
 
 TEST_F(UtilityByteTests, byte_is_bit_3_low_false) {
-  unit_under_test = std::make_unique<utilities::Byte>(0); 
+  unit_under_test = std::make_unique<utilities::Byte>(0);
 
   EXPECT_EQ(true, unit_under_test->IsBitLow(3));
 }
