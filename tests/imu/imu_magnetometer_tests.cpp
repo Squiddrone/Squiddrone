@@ -33,7 +33,7 @@ class MagnetometerTests : public ::testing::Test {
     unit_under_test_ = std::make_unique<imu::Magnetometer>(i2c_handler_);
   }
 
-  uint8_t i2c_address_ = 0x68;
+  uint8_t i2c_address_ = imu::AK8963_ADDRESS;
   std::shared_ptr<i2c::MockI2C> i2c_handler_ = std::make_shared<NiceMock<i2c::MockI2C>>();
   std::unique_ptr<imu::Magnetometer> unit_under_test_;
 

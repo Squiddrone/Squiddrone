@@ -32,7 +32,7 @@ class AccelerometerTests : public ::testing::Test {
     unit_under_test_->SetSensitivity(types::ImuSensitivity::FINEST);
   }
 
-  uint8_t i2c_address_ = 0x68;
+  uint8_t i2c_address_ = imu::MPU9255_ADDRESS;
   std::shared_ptr<i2c::MockI2C> i2c_handler_ = std::make_shared<NiceMock<i2c::MockI2C>>();
   std::unique_ptr<imu::Accelerometer> unit_under_test_;
 
