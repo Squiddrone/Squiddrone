@@ -111,7 +111,7 @@ TEST_F(UtilityByteTests, byte_is_bit_3_high_false) {
 }
 
 TEST_F(UtilityByteTests, byte_is_bit_3_low_true) {
-  unit_under_test = std::make_unique<utilities::Byte>(0b1000); 
+  unit_under_test = std::make_unique<utilities::Byte>(0b1000);
 
   EXPECT_EQ(false, unit_under_test->IsBitLow(3));
 }
