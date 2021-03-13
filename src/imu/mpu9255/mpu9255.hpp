@@ -36,6 +36,7 @@ class Mpu9255 final : public GenericInertialMeasurementUnit {
   auto UnitTestSetTemperature(std::unique_ptr<imu::TemperatureInterface> temperature) noexcept -> void;
 
  protected:
+  auto CreateSensorPointer(void) noexcept -> void;
   auto CheckIfAllSensorsAreOK(void) noexcept -> bool;
   auto SetInitConfigMPU9255(void) noexcept -> void;
   auto SetInitConfigAK8963(void) noexcept -> void;
