@@ -6,7 +6,10 @@ auto SensorGeneral::Init(const std::uint8_t i2c_address) noexcept -> types::Driv
   SetI2CAdress(i2c_address);
   initialized_ = false;
 
-  if (!Mpu9255Detected() || !AK8963Detected())
+  if (i2c_address == imu::MPU9255_ADDRESS && !Mpu9255Detected())
+    return types::DriverStatus::HAL_ERROR;
+
+  if (i2c_address == imu::AK8963_ADDRESS && !AK8963Detected())
     return types::DriverStatus::HAL_ERROR;
 
   return types::DriverStatus::OK;
