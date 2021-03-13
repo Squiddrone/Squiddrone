@@ -23,6 +23,7 @@ class Magnetometer final : public MagnetometerInterface {
 
   auto SetInitData(void) noexcept -> void;
   auto PowerDownMagnetometer(void) noexcept -> void;
+  auto EnterFuseROMAccessMode(void) noexcept -> void;
   auto IsMagnetometerMeasurementReady(void) noexcept -> bool;
   auto HasMagnetometerOverflow(const std::uint8_t st2_register_value) noexcept -> bool;
   auto GetFactorADC2Magnetometer(void) noexcept -> float;

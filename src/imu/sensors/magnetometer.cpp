@@ -19,7 +19,7 @@ auto Magnetometer::Init(const std::uint8_t i2c_address) noexcept -> types::Drive
 auto Magnetometer::SetInitData(void) noexcept -> void {
   PowerDownMagnetometer();
   utilities::Sleep(10);
-  WriteContentIntoRegister(AK8963_CNTL, 0x0F);  // Enter Fuse ROM access mode
+  EnterFuseROMAccessMode();
   utilities::Sleep(10);
   GetCalibrationValues();
   PowerDownMagnetometer();
@@ -33,6 +33,10 @@ auto Magnetometer::SetInitData(void) noexcept -> void {
 
 auto Magnetometer::PowerDownMagnetometer(void) noexcept -> void {
   WriteContentIntoRegister(AK8963_CNTL, 0x00);
+}
+
+auto Magnetometer::EnterFuseROMAccessMode(void) noexcept -> void {
+  WriteContentIntoRegister(AK8963_CNTL, 0x0F);
 }
 
 auto Magnetometer::Update(void) noexcept -> types::DriverStatus {
