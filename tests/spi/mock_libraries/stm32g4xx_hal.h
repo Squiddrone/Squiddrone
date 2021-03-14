@@ -24,7 +24,9 @@ HAL_StatusTypeDef HAL_SPI_TransmitReceive(SPI_HandleTypeDef *hspi, uint8_t *pTxD
 HAL_StatusTypeDef HAL_SPI_Transmit(SPI_HandleTypeDef *hspi, uint8_t *pTxData, uint16_t Size,
                                    uint32_t Timeout);
 
-typedef uint8_t GPIO_TypeDef;
+typedef struct __GPIO_TypeDef {
+  uint8_t mock_test_value;
+} GPIO_TypeDef;
 
 typedef enum {
   GPIO_PIN_RESET = 0U,
