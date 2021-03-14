@@ -13,8 +13,8 @@ auto NRF24L01::InitTransceiver(std::uint8_t channel,
 }
 
 auto NRF24L01::InitTx() noexcept -> types::DriverStatus {
-  FlushTx();
-  FlushRx();
+  spi_protocol_.FlushTxBuffer();
+  spi_protocol_.FlushRxBuffer();
 
   SetOperationMode(OperationMode::prim_tx);
   /* needed in final implementation
@@ -123,7 +123,7 @@ auto NRF24L01::SetRxAddress(DataPipe pipe_no, data_pipe_address rx_addr) const n
 
 auto NRF24L01::GetPipeAddress(DataPipe pipe_no) noexcept -> data_pipe_address {
   std::vector<uint8_t> miso_data;
-  uint8_t register_addr = reg::rx_addr_p0::REG_ADDR + static_cast<uint8_t>(pipe_no);
+  uint8_t register_addr = reg::rx_addr_p0::REG_ADDR + static_cast<std::uint8_t>(pipe_no);
   data_pipe_address addr = {0};
   uint8_t counter = 0;
 
@@ -156,55 +156,19 @@ auto NRF24L01::PutDataPacket(std::uint8_t target_id, types::com_msg_frame &paylo
   register_t irq_flg = 0;
 
   SetPowerState(State::enabled);
-  HAL_Delay(1);
   InitTx();
   spi_protocol_.WriteRegister(0x1d, 0);
 
   spi_protocol_.WritePayloadData(payload);
-  irq_flg = ReadAndClearIRQFlags();
+  irq_flg = spi_protocol_.ReadAndClearIRQFlags();
 
   for (int i = 0; i < 10; i++) {
-    irq_flg = ReadAndClearIRQFlags();
+    irq_flg = spi_protocol_.ReadAndClearIRQFlags();
     if (irq_flg & ((1U << 5) | (1U << 4))) break;
   }
   SetPowerState(State::disabled);
 
   return types::ComError::COM_OK;
-}
-
-auto NRF24L01::FlushTx() noexcept -> types::DriverStatus {
-  std::vector<std::uint8_t> mosi_data_buffer;
-  mosi_data_buffer.push_back(instruction_word::FLUSH_TX);
-
-  auto spi_ret_val = spi_.Write(mosi_data_buffer);
-
-  return spi_ret_val;
-}
-
-auto NRF24L01::FlushRx() noexcept -> types::DriverStatus {
-  std::vector<std::uint8_t> mosi_data_buffer;
-  mosi_data_buffer.push_back(instruction_word::FLUSH_RX);
-
-  auto spi_ret_val = spi_.Write(mosi_data_buffer);
-
-  return spi_ret_val;
-}
-
-auto NRF24L01::ReadAndClearIRQFlags() -> register_t {
-  std::vector<std::uint8_t> mosi_data;
-  std::vector<std::uint8_t> miso_data(2);
-
-  utilities::Byte construct_byte(0);
-
-  construct_byte.SetBit(reg::status::MAX_RT);
-  construct_byte.SetBit(reg::status::TX_DS);
-  construct_byte.SetBit(reg::status::RX_DR);
-
-  mosi_data.push_back(instruction_word::W_REGISTER | reg::status::REG_ADDR);
-  mosi_data.push_back(construct_byte.Get());
-  spi_.Transfer(mosi_data, miso_data);
-
-  return miso_data.at(0);
 }
 
 }  // namespace com

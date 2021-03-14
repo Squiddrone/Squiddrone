@@ -15,11 +15,11 @@ class ConcreteComInterface final : public com::ComInterface {
   using com::ComInterface::msg_buffer_;
   explicit ConcreteComInterface(std::unique_ptr<com::ComMessageBuffer> com_buf) : com::ComInterface(std::move(com_buf)) {}
 
-  auto GetDataPacket() noexcept -> types::com_msg_frame override {
+  virtual auto GetDataPacket() const noexcept -> types::com_msg_frame override {
     return msg_buffer_->GetData();
   }
 
-  auto PutDataPacket(std::uint8_t target_id, types::com_msg_frame &payload) noexcept -> types::ComError override {
+  virtual auto PutDataPacket(std::uint8_t target_id, types::com_msg_frame &payload) noexcept -> types::ComError override {
     return types::ComError::COM_OK;
   }
 };

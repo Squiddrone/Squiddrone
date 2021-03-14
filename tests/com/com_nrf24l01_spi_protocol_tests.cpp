@@ -7,12 +7,10 @@ class ComNRF24L01SpiProtocolTests : public ::testing::Test {
  protected:
   virtual void SetUp() {
   }
-  spi::CSPinDefinition com_cs_pin_;
-  spi::SPI spi_{com_cs_pin_};
-  com::NRF24L01SpiProtocol unit_under_test_{spi_};
 };
 
-TEST_F(ComNRF24L01SpiProtocolTests, read_register_spi_tx_ok) {
+TEST_F(ComNRF24L01SpiProtocolTests, sometest) {
+  auto unit_under_test_ = std::make_unique<com::NRF24L01SpiProtocol>;
   ASSERT_TRUE(true);
 }
 

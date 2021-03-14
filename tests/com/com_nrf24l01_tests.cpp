@@ -12,8 +12,11 @@ class ComNRF24L01Tests : public ::testing::Test {
   spi::CSPinDefinition com_cs_pin;
 };
 
-TEST_F(ComNRF24L01Tests, some_test) {
-  auto nrf24l01 = std::make_unique<com::NRF24L01>(std::move(com_msg_buffer_), com_cs_pin);
+TEST_F(ComNRF24L01Tests, com_frame_length_exceeding_limit) {
+  auto unit_under_test_ = std::make_unique<com::NRF24L01>(std::move(com_msg_buffer_));
+  types::com_msg_frame long_msg_frame(33);
+
+  types::ComError return_value = unit_under_test_->PutDataPacket(0, long_msg_frame);
   ASSERT_TRUE(true);
 }
 

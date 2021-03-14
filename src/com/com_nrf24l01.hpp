@@ -3,9 +3,11 @@
 
 #include "com_interface.hpp"
 #include "com_nrf24l01_reg.hpp"
+#ifndef UNIT_TEST
 #include "com_nrf24l01_spi_protocol.hpp"
-#include "spi.hpp"
-#include "stm32g4xx_hal.h"
+#else
+#include "com_nrf24l01_spi_protocol_mock.hpp"
+#endif
 
 namespace com {
 
@@ -19,16 +21,12 @@ class NRF24L01 final : public ComInterface {
   auto PutDataPacket(std::uint8_t target_id, types::com_msg_frame &payload) noexcept
       -> types::ComError override;
 
-  explicit NRF24L01(std::unique_ptr<com::ComMessageBuffer> msg_buf, spi::CSPinDefinition &cs_pin) : ComInterface(std::move(msg_buf)),
-                                                                                                    cs_pin_(cs_pin){};
+  explicit NRF24L01(std::unique_ptr<com::ComMessageBuffer> msg_buf) : ComInterface(std::move(msg_buf)){};
   NRF24L01() = delete;
   ~NRF24L01() = default;
 
  private:
-  spi::CSPin cs_pin_;
-  spi::SPI spi_{cs_pin_};
-  NRF24L01SpiProtocol spi_protocol_{spi_};
-
+  NRF24L01SpiProtocol spi_protocol_;
   std::uint8_t irq_flags;
 
   //Pipe configuration
@@ -67,9 +65,6 @@ class NRF24L01 final : public ComInterface {
   auto SetRFChannel(std::uint8_t channel) noexcept -> types::DriverStatus;
   auto SetDataRate(DataRateSetting data_rate) noexcept -> types::DriverStatus;
   auto SetRFOutputPower(RFPowerSetting rf_power) noexcept -> types::DriverStatus;
-  auto FlushTx() noexcept -> types::DriverStatus;
-  auto FlushRx() noexcept -> types::DriverStatus;
-  auto ReadAndClearIRQFlags() -> register_t;
   // Not sure if we ever need this
   auto SetLNAGain(State state) noexcept -> types::DriverStatus;
 
