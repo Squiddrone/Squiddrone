@@ -21,12 +21,13 @@ class NRF24L01 final : public ComInterface {
   auto PutDataPacket(std::uint8_t target_id, types::com_msg_frame &payload) noexcept
       -> types::ComError override;
 
-  explicit NRF24L01(std::unique_ptr<com::ComMessageBuffer> msg_buf) : ComInterface(std::move(msg_buf)){};
+  explicit NRF24L01(std::unique_ptr<com::ComMessageBuffer> msg_buf,
+                    NRF24L01SpiProtocol &spi_protocol) : ComInterface(std::move(msg_buf)), spi_protocol_(spi_protocol){};
   NRF24L01() = delete;
   ~NRF24L01() = default;
 
  private:
-  NRF24L01SpiProtocol spi_protocol_;
+  NRF24L01SpiProtocol &spi_protocol_;
   std::uint8_t irq_flags;
 
   //Pipe configuration
