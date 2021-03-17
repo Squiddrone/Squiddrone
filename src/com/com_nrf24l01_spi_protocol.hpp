@@ -15,6 +15,9 @@ class NRF24L01SpiProtocol {
   auto WriteRegister(std::uint8_t register_address, std::vector<std::uint8_t> &register_content) -> types::DriverStatus;
   auto WritePayloadData(std::vector<std::uint8_t> &payload) noexcept -> types::DriverStatus;
   auto ReadPayloadData(std::vector<std::uint8_t> &payload) noexcept -> types::DriverStatus;
+  auto FlushTxBuffer() noexcept -> types::DriverStatus;
+  auto FlushRxBuffer() noexcept -> types::DriverStatus;
+  auto ReadAndClearIRQFlags() -> register_t;
 
  private:
   spi::SPI &spi_;

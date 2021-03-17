@@ -66,4 +66,41 @@ auto NRF24L01SpiProtocol::ReadPayloadData(std::vector<std::uint8_t> &payload) no
   return spi_ret_val;
 }
 
+auto NRF24L01SpiProtocol::FlushTxBuffer() noexcept -> types::DriverStatus {
+  std::vector<std::uint8_t> mosi_data_buffer;
+  mosi_data_buffer.push_back(instruction_word::FLUSH_TX);
+
+  auto spi_ret_val = spi_.Write(mosi_data_buffer);
+
+  return spi_ret_val;
+}
+
+auto NRF24L01SpiProtocol::FlushRxBuffer() noexcept -> types::DriverStatus {
+  std::vector<std::uint8_t> mosi_data_buffer;
+  mosi_data_buffer.push_back(instruction_word::FLUSH_RX);
+
+  auto spi_ret_val = spi_.Write(mosi_data_buffer);
+
+  return spi_ret_val;
+}
+
+auto NRF24L01SpiProtocol::ReadAndClearIRQFlags() -> register_t {
+  auto position_in_buffer = 0;
+  auto spi_transfer_length = 2;
+  std::vector<std::uint8_t> mosi_data;
+  std::vector<std::uint8_t> miso_data(spi_transfer_length);
+
+  utilities::Byte construct_byte(0);
+
+  construct_byte.SetBit(reg::status::MAX_RT);
+  construct_byte.SetBit(reg::status::TX_DS);
+  construct_byte.SetBit(reg::status::RX_DR);
+
+  mosi_data.push_back(instruction_word::W_REGISTER | reg::status::REG_ADDR);
+  mosi_data.push_back(construct_byte.Get());
+  spi_.Transfer(mosi_data, miso_data);
+
+  return miso_data.at(position_in_buffer);
+}
+
 }  // namespace com
