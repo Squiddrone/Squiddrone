@@ -32,7 +32,7 @@ class SPI final : spi::SPIInterface {
  private:
   CSPin &chip_select_;
 
-  auto IsTransactionLengthExceedingLimits(std::uint8_t transaction_length) const noexcept -> bool;
+  auto IsTransactionLengthExceedingLimits(std::uint8_t transaction_length) noexcept -> bool;
   auto IsMisoBufferTooSmall(std::vector<std::uint8_t> &mosi_buffer, std::vector<std::uint8_t> &miso_buffer) noexcept -> bool;
   auto CheckHALReturnValue(HAL_StatusTypeDef hal_return_value) -> types::DriverStatus;
 };
