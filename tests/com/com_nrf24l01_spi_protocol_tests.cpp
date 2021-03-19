@@ -4,6 +4,7 @@
 
 using ::testing::_;
 using ::testing::ElementsAre;
+using ::testing::Invoke;
 using ::testing::Return;
 
 namespace {
@@ -17,6 +18,11 @@ class ComNRF24L01SpiProtocolTests : public ::testing::Test {
 };
 
 }  // namespace
+
+types::DriverStatus ConstructTestVector(std::vector<std::uint8_t> &mosi, std::vector<std::uint8_t> &miso) noexcept {
+  miso.at(0) = 0xaa;
+  return types::DriverStatus::OK;
+}
 
 TEST_F(ComNRF24L01SpiProtocolTests, read_register) {
   std::uint8_t test_reg_addr = 0xfa;
@@ -76,6 +82,27 @@ TEST_F(ComNRF24L01SpiProtocolTests, read_payload_spi_tx_ok) {
   auto retval = unit_under_test_->ReadPayloadData(test_payload);
   EXPECT_THAT(test_payload, ElementsAre(_, _, _));
   EXPECT_EQ(retval, types::DriverStatus::OK);
+}
+
+TEST_F(ComNRF24L01SpiProtocolTests, flush_tx_buffer) {
+  unit_under_test_ = std::make_unique<com::NRF24L01SpiProtocol>(spi_);
+  EXPECT_CALL(spi_, Write(ElementsAre(com::instruction_word::FLUSH_TX)));
+  unit_under_test_->FlushTxBuffer();
+}
+
+TEST_F(ComNRF24L01SpiProtocolTests, flush_rx_buffer) {
+  unit_under_test_ = std::make_unique<com::NRF24L01SpiProtocol>(spi_);
+  EXPECT_CALL(spi_, Write(ElementsAre(com::instruction_word::FLUSH_RX)));
+  unit_under_test_->FlushRxBuffer();
+}
+
+TEST_F(ComNRF24L01SpiProtocolTests, read_and_clear_irq_flags) {
+  std::uint8_t test_reg_addr = com::reg::status::REG_ADDR;
+  std::uint8_t clear_irq_bit_sequence = 0x70;
+  unit_under_test_ = std::make_unique<com::NRF24L01SpiProtocol>(spi_);
+  EXPECT_CALL(spi_, Transfer(ElementsAre(com::instruction_word::W_REGISTER | test_reg_addr, _), _)).WillOnce(Invoke(&ConstructTestVector));
+  auto rv = unit_under_test_->ReadAndClearIRQFlags();
+  EXPECT_EQ(rv, 0xaa);
 }
 
 int main(int argc, char **argv) {
