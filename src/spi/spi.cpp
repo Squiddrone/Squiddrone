@@ -48,7 +48,7 @@ auto SPI::Transfer(std::vector<std::uint8_t> &mosi_data_buffer, std::vector<std:
   return CheckHALReturnValue(transmit_receive_ret_value);
 }
 
-auto SPI::IsTransactionLengthExceedingLimits(std::uint8_t transaction_length) const noexcept -> bool {
+auto SPI::IsTransactionLengthExceedingLimits(std::uint8_t transaction_length) noexcept -> bool {
   return transaction_length > types::SPI_TRANSACTION_LENGTH_LIMIT;
 }
 

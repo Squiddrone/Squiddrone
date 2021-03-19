@@ -38,8 +38,11 @@ int main() {
   MX_TIM16_Init();
   MX_TIM17_Init();
 
+  auto com_cs_pin = spi::CSPin(CSCOM_GPIO_Port, CSCOM_Pin, spi::CSActiveState::ACTIVE_LOW);
+  auto com_spi = spi::SPI(com_cs_pin);
+  auto com_spi_protocol = com::NRF24L01SpiProtocol(com_spi);
   auto com_buffer = std::make_unique<com::ComMessageBuffer>();
-  auto com_device = std::make_unique<com::NRF24L01>(std::move(com_buffer));
+  auto com_device = std::make_unique<com::NRF24L01>(std::move(com_buffer), com_spi_protocol);
 
   types::com_msg_frame payload{0xab, 't', 'e', 's', 't', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
