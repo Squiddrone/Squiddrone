@@ -98,9 +98,9 @@ TEST_F(ComNRF24L01SpiProtocolTests, flush_rx_buffer) {
 
 TEST_F(ComNRF24L01SpiProtocolTests, read_and_clear_irq_flags) {
   std::uint8_t test_reg_addr = com::reg::status::REG_ADDR;
-  std::uint8_t clear_irq_bit_sequence = 0x70;
   unit_under_test_ = std::make_unique<com::NRF24L01SpiProtocol>(spi_);
-  EXPECT_CALL(spi_, Transfer(ElementsAre(com::instruction_word::W_REGISTER | test_reg_addr, _), _)).WillOnce(Invoke(&ConstructTestVector));
+  EXPECT_CALL(spi_, Transfer(ElementsAre(com::instruction_word::W_REGISTER | test_reg_addr, _), _))
+      .WillOnce(Invoke(&ConstructTestVector));
   auto rv = unit_under_test_->ReadAndClearIRQFlags();
   EXPECT_EQ(rv, 0xaa);
 }

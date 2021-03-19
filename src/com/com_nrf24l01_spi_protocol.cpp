@@ -26,7 +26,7 @@ auto NRF24L01SpiProtocol::ReadRegister(const std::uint8_t register_address, std:
   return miso_data_buffer;
 }
 
-auto NRF24L01SpiProtocol::WriteRegister(std::uint8_t register_address, std::uint8_t register_content) -> types::DriverStatus {
+auto NRF24L01SpiProtocol::WriteRegister(std::uint8_t register_address, std::uint8_t register_content) noexcept -> types::DriverStatus {
   std::vector<std::uint8_t> mosi_data_buffer;
   mosi_data_buffer.push_back(instruction_word::W_REGISTER | register_address);
   mosi_data_buffer.push_back(register_content);
@@ -36,7 +36,7 @@ auto NRF24L01SpiProtocol::WriteRegister(std::uint8_t register_address, std::uint
   return spi_ret_val;
 }
 
-auto NRF24L01SpiProtocol::WriteRegister(std::uint8_t register_address, std::vector<std::uint8_t> &register_content) -> types::DriverStatus {
+auto NRF24L01SpiProtocol::WriteRegister(std::uint8_t register_address, std::vector<std::uint8_t> &register_content) noexcept -> types::DriverStatus {
   std::vector<std::uint8_t> mosi_data_buffer;
   mosi_data_buffer = register_content;
   mosi_data_buffer.insert(mosi_data_buffer.begin(), (instruction_word::W_REGISTER | register_address));
@@ -84,7 +84,7 @@ auto NRF24L01SpiProtocol::FlushRxBuffer() noexcept -> types::DriverStatus {
   return spi_ret_val;
 }
 
-auto NRF24L01SpiProtocol::ReadAndClearIRQFlags() -> register_t {
+auto NRF24L01SpiProtocol::ReadAndClearIRQFlags() noexcept -> register_t {
   auto position_in_buffer = 0;
   auto spi_transfer_length = 2;
   std::vector<std::uint8_t> mosi_data;

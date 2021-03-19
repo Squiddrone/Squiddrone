@@ -7,17 +7,17 @@
 namespace com {
 class NRF24L01SpiProtocol {
  public:
-  NRF24L01SpiProtocol(spi::SPI &spi) : spi_(spi){};
+  explicit NRF24L01SpiProtocol(spi::SPI &spi) : spi_(spi){};
   // SPI protocol functions
   auto ReadRegister(std::uint8_t register_address) noexcept -> std::uint8_t;
   auto ReadRegister(std::uint8_t register_address, std::uint8_t length) noexcept -> std::vector<std::uint8_t>;
-  auto WriteRegister(std::uint8_t register_address, std::uint8_t register_content) -> types::DriverStatus;
-  auto WriteRegister(std::uint8_t register_address, std::vector<std::uint8_t> &register_content) -> types::DriverStatus;
+  auto WriteRegister(std::uint8_t register_address, std::uint8_t register_content) noexcept -> types::DriverStatus;
+  auto WriteRegister(std::uint8_t register_address, std::vector<std::uint8_t> &register_content) noexcept -> types::DriverStatus;
   auto WritePayloadData(std::vector<std::uint8_t> &payload) noexcept -> types::DriverStatus;
   auto ReadPayloadData(std::vector<std::uint8_t> &payload) noexcept -> types::DriverStatus;
   auto FlushTxBuffer() noexcept -> types::DriverStatus;
   auto FlushRxBuffer() noexcept -> types::DriverStatus;
-  auto ReadAndClearIRQFlags() -> register_t;
+  auto ReadAndClearIRQFlags() noexcept -> register_t;
 
  private:
   spi::SPI &spi_;
