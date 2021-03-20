@@ -83,6 +83,9 @@ auto Mpu9255::SetGyroscopeSensitivity(const types::ImuSensitivity gyroscope_sens
 }
 
 auto Mpu9255::GetGyroscopeSensitivity(void) noexcept -> types::ImuSensitivity {
+  if (!IsInitialized())
+    return types::ImuSensitivity::FINEST;
+
   return gyroscope_->GetSensitivity();
 }
 
@@ -94,6 +97,9 @@ auto Mpu9255::SetAccelerometerSensitivity(const types::ImuSensitivity accelerome
 }
 
 auto Mpu9255::GetAccelerometerSensitivity(void) noexcept -> types::ImuSensitivity {
+  if (!IsInitialized())
+    return types::ImuSensitivity::FINEST;
+
   return accelerometer_->GetSensitivity();
 }
 
