@@ -155,6 +155,12 @@ TEST_F(Mpu9255Tests, mpu9255_GetGyroscopeSensitivity_without_Init) {
   EXPECT_EQ(unit_under_test_->GetGyroscopeSensitivity(), types::ImuSensitivity::FINEST);
 }
 
+TEST_F(Mpu9255Tests, mpu9255_SetGyroscopeSensitivity_without_Init) {
+  ConfigureUnitUnderTest();
+
+  EXPECT_EQ(unit_under_test_->SetGyroscopeSensitivity(types::ImuSensitivity::FINEST), types::DriverStatus::HAL_ERROR);
+}
+
 TEST_F(Mpu9255Tests, mpu9255_SetAccelerometerSensitivity) {
   ON_CALL(*mock_accelerometer_, GetSensitivity)
       .WillByDefault(Return(types::ImuSensitivity::FINEST));
@@ -175,6 +181,12 @@ TEST_F(Mpu9255Tests, mpu9255_GetAccelerometerSensitivity_without_Init) {
   ConfigureUnitUnderTest();
 
   EXPECT_EQ(unit_under_test_->GetAccelerometerSensitivity(), types::ImuSensitivity::FINEST);
+}
+
+TEST_F(Mpu9255Tests, mpu9255_SetAccelerometerSensitivity_without_Init) {
+  ConfigureUnitUnderTest();
+
+  EXPECT_EQ(unit_under_test_->SetAccelerometerSensitivity(types::ImuSensitivity::FINEST), types::DriverStatus::HAL_ERROR);
 }
 
 TEST_F(Mpu9255Tests, mpu9255_GetGyroscope) {
