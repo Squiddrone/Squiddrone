@@ -291,6 +291,18 @@ TEST_F(GyroscopeTests, connection_failed_after_successful_init) {
   EXPECT_EQ(update_return, types::DriverStatus::HAL_ERROR);
 }
 
+TEST_F(GyroscopeTests, connection_failed_in_init_at_sending_of_sensitivity_data) {
+  const std::vector<std::uint8_t> expected_data_finest{imu::GYRO_CONFIG, 0b11100111};
+  ON_CALL(*i2c_handler_, Write(i2c_address_, expected_data_finest, _))
+      .WillByDefault(Return(types::DriverStatus::HAL_ERROR));
+
+  ConfigureUnitUnderTest();
+
+  auto init_return = unit_under_test_->Init(i2c_address_);
+
+  EXPECT_EQ(init_return, types::DriverStatus::HAL_ERROR);
+}
+
 TEST_F(GyroscopeTests, read_bytesize_mismatch) {
   ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::WHO_AM_I_MPU9255_REGISTER, _, _))
       .WillByDefault(Return(answer_read_mismatch));
