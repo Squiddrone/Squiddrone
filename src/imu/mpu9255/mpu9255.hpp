@@ -37,21 +37,13 @@ class Mpu9255 final : public GenericInertialMeasurementUnit {
 
  protected:
   auto CreateSensorPointer(void) noexcept -> void;
-  auto CheckIfAllSensorsAreOK(void) noexcept -> bool;
   auto SetInitConfigMPU9255(void) noexcept -> void;
   auto SetInitConfigAK8963(void) noexcept -> void;
   auto SetMPU9255Register(const std::uint8_t register_, const std::uint8_t register_value) noexcept -> void;
-  auto InitGyro(void) noexcept -> void;
-  auto InitAccelerometer(void) noexcept -> void;
-  auto InitMagnetometer(void) noexcept -> void;
-  auto InitTemperature(void) noexcept -> void;
-  auto UpdateAllSensors(void) noexcept -> void;
+  auto InitAllSensors(void) noexcept -> bool;
+  auto UpdateAllSensors(void) noexcept -> bool;
 
   bool initialized_ = false;
-  types::DriverStatus gyroscope_status_;
-  types::DriverStatus accelerometer_status_;
-  types::DriverStatus magnetometer_status_;
-  types::DriverStatus temperature_status_;
   std::unique_ptr<imu::GyroscopeInterface> gyroscope_ = NULL;
   std::unique_ptr<imu::AccelerometerInterface> accelerometer_ = NULL;
   std::unique_ptr<imu::MagnetometerInterface> magnetometer_ = NULL;
