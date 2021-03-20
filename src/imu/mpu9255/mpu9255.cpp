@@ -104,33 +104,29 @@ auto Mpu9255::GetAccelerometerSensitivity(void) noexcept -> types::ImuSensitivit
 }
 
 auto Mpu9255::GetGyroscope(void) noexcept -> types::EuclideanVector<std::int16_t> {
-  if (!IsInitialized()) {
+  if (!IsInitialized())
     return types::EuclideanVector<std::int16_t>{-1, -1, -1};
-  }
 
   return gyroscope_->Get();
 }
 
 auto Mpu9255::GetAccelerometer(void) noexcept -> types::EuclideanVector<std::int16_t> {
-  if (!IsInitialized()) {
+  if (!IsInitialized())
     return types::EuclideanVector<std::int16_t>{-1, -1, -1};
-  }
 
   return accelerometer_->Get();
 }
 
 auto Mpu9255::GetMagnetometer(void) noexcept -> types::EuclideanVector<std::int16_t> {
-  if (!IsInitialized()) {
+  if (!IsInitialized())
     return types::EuclideanVector<std::int16_t>{-1, -1, -1};
-  }
 
   return magnetometer_->Get();
 }
 
 auto Mpu9255::GetTemperature(void) noexcept -> int {
-  if (!IsInitialized()) {
+  if (!IsInitialized())
     return -1;
-  }
 
   return temperature_->Get();
 }
