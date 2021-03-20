@@ -21,7 +21,7 @@ class TemperatureTests : public ::testing::Test {
         .WillByDefault(Return(answer_to_who_am_i_MPU9255));
     ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::WHO_AM_I_AK8963_REGISTER, _, _))
         .WillByDefault(Return(answer_to_who_am_i_AK8963));
-    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::TEMP_OUT_H, _, _))
+    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::TEMP_MEASUREMENT_DATA, _, _))
         .WillByDefault(Return(answer_to_update));
   }
 
@@ -99,7 +99,7 @@ TEST_F(TemperatureTests, Get_without_Update_first) {
 }
 
 TEST_F(TemperatureTests, Update_failes_in_ReadContentFromRegister) {
-  ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::TEMP_OUT_H, _, _))
+  ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::TEMP_MEASUREMENT_DATA, _, _))
       .WillByDefault(Return(answer_invalid));
 
   ConfigureUnitUnderTest();

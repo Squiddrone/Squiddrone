@@ -25,19 +25,19 @@ class ImuIntegrationTests : public ::testing::Test {
         .WillByDefault(Return(answer_to_who_am_i_AK8963));
     ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::GYRO_CONFIG, _, _))
         .WillByDefault(Return(answer_to_gyro_config));
-    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::GYRO_XOUT_H, _, _))
+    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::GYRO_MEASUREMENT_DATA, _, _))
         .WillByDefault(Return(answer_to_gyro_update));
     ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::ACCEL_CONFIG, _, _))
         .WillByDefault(Return(answer_to_accelerometer_config));
-    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::ACCEL_XOUT_H, _, _))
+    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::ACCEL_MEASUREMENT_DATA, _, _))
         .WillByDefault(Return(answer_to_accelerometer_update));
     ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::AK8963_ASAX, _, _))
         .WillByDefault(Return(magnetometer_answer_calibration_values));
     ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::AK8963_ST1, _, _))
         .WillByDefault(Return(magnetometer_answer_to_measurement_ready));
-    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::MAGNETOMETER_XOUT_L, _, _))
+    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::MAGNETOMETER_MEASUREMENT_DATA, _, _))
         .WillByDefault(Return(answer_to_magnetometer_update));
-    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::TEMP_OUT_H, _, _))
+    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::TEMP_MEASUREMENT_DATA, _, _))
         .WillByDefault(Return(answer_to_temperature_update));
   }
 

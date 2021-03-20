@@ -20,14 +20,14 @@ static constexpr std::uint8_t AK8963_ASAX = 0x10;
 static constexpr std::uint8_t AK8963_ST1 = 0x02;
 // Gyroscope specific register
 static constexpr std::uint8_t GYRO_CONFIG = 0x1B;
-static constexpr std::uint8_t GYRO_XOUT_H = 0x43;
+static constexpr std::uint8_t GYRO_MEASUREMENT_DATA = 0x43;
 // Accelerometer specific register
-static constexpr std::uint8_t ACCEL_XOUT_H = 0x3B;
 static constexpr std::uint8_t ACCEL_CONFIG = 0x1C;
+static constexpr std::uint8_t ACCEL_MEASUREMENT_DATA = 0x3B;
 // Magnetometer specific register
-static constexpr std::uint8_t MAGNETOMETER_XOUT_L = 0x03;
+static constexpr std::uint8_t MAGNETOMETER_MEASUREMENT_DATA = 0x03;
 // Temperature sensor specific register
-static constexpr std::uint8_t TEMP_OUT_H = 0x41;
+static constexpr std::uint8_t TEMP_MEASUREMENT_DATA = 0x41;
 
 }  // namespace imu
 

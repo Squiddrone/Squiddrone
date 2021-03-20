@@ -23,7 +23,7 @@ class AccelerometerTests : public ::testing::Test {
         .WillByDefault(Return(answer_to_who_am_i_AK8963));
     ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::ACCEL_CONFIG, _, _))
         .WillByDefault(Return(answer_to_accel_config));
-    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::ACCEL_XOUT_H, _, _))
+    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::ACCEL_MEASUREMENT_DATA, _, _))
         .WillByDefault(Return(answer_to_update));
   }
 
@@ -108,7 +108,7 @@ TEST_F(AccelerometerTests, Get_without_Update_first) {
 }
 
 TEST_F(AccelerometerTests, Update_failes_in_ReadContentFromRegister) {
-  ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::ACCEL_XOUT_H, _, _))
+  ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::ACCEL_MEASUREMENT_DATA, _, _))
       .WillByDefault(Return(answer_invalid));
 
   ConfigureUnitUnderTest();
@@ -279,7 +279,7 @@ TEST_F(AccelerometerTests, SetSensitivity_GetSensitivity) {
 }
 
 TEST_F(AccelerometerTests, connection_failed_after_successful_init) {
-  ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::ACCEL_XOUT_H, _, _))
+  ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::ACCEL_MEASUREMENT_DATA, _, _))
       .WillByDefault(Return(answer_invalid));
 
   ConfigureUnitUnderTest();

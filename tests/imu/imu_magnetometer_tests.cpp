@@ -25,7 +25,7 @@ class MagnetometerTests : public ::testing::Test {
         .WillByDefault(Return(answer_to_who_am_i_MPU9255));
     ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::WHO_AM_I_AK8963_REGISTER, _, _))
         .WillByDefault(Return(answer_to_who_am_i_AK8963));
-    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::MAGNETOMETER_XOUT_L, _, _))
+    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::MAGNETOMETER_MEASUREMENT_DATA, _, _))
         .WillByDefault(Return(answer_to_update));
   }
 
@@ -127,7 +127,7 @@ TEST_F(MagnetometerTests, Update_but_measurement_is_not_ready) {
 }
 
 TEST_F(MagnetometerTests, Update_magnetic_overflow_occured) {
-  ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::MAGNETOMETER_XOUT_L, _, _))
+  ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::MAGNETOMETER_MEASUREMENT_DATA, _, _))
       .WillByDefault(Return(answer_to_update_magnetic_overflow));
 
   ConfigureUnitUnderTest();
@@ -152,7 +152,7 @@ TEST_F(MagnetometerTests, full) {
 }
 
 TEST_F(MagnetometerTests, connection_failed_after_successful_init) {
-  ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::MAGNETOMETER_XOUT_L, _, _))
+  ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::MAGNETOMETER_MEASUREMENT_DATA, _, _))
       .WillByDefault(Return(answer_invalid));
 
   ConfigureUnitUnderTest();

@@ -3,7 +3,7 @@
 namespace imu {
 
 auto Temperature::Init(const std::uint8_t i2c_address) noexcept -> types::DriverStatus {
-  SENSOR_DATA_REGISTER = imu::TEMP_OUT_H;
+  SENSOR_DATA_REGISTER = imu::TEMP_MEASUREMENT_DATA;
   REGISTER_DATA_LENGTH_IN_BYTES = 2;
 
   if (SensorGeneral::Init(i2c_address) != types::DriverStatus::OK)

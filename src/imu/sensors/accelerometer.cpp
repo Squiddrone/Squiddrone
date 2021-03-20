@@ -3,7 +3,7 @@
 namespace imu {
 
 auto Accelerometer::Init(const std::uint8_t i2c_address) noexcept -> types::DriverStatus {
-  SENSOR_DATA_REGISTER = imu::ACCEL_XOUT_H;
+  SENSOR_DATA_REGISTER = imu::ACCEL_MEASUREMENT_DATA;
   REGISTER_DATA_LENGTH_IN_BYTES = 6;
   CONFIG_REGISTER = imu::ACCEL_CONFIG;
 
