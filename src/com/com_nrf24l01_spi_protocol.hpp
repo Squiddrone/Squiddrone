@@ -1,6 +1,7 @@
 #ifndef SRC_COM_COM_NRF24L01_SPI_PROTOCOL_HPP_
 #define SRC_COM_COM_NRF24L01_SPI_PROTOCOL_HPP_
 
+#include <memory>
 #include "com_nrf24l01_reg.hpp"
 #include "spi.hpp"
 
@@ -80,7 +81,7 @@ class NRF24L01SpiProtocol final {
    * 
    * @param spi 
    */
-  explicit NRF24L01SpiProtocol(spi::SPI &spi) : spi_(spi){};
+  explicit NRF24L01SpiProtocol(std::unique_ptr<spi::SPI> spi) : spi_(std::move(spi)){};
   NRF24L01SpiProtocol() = delete;
   /**
    * @brief Destroy the NRF24L01SpiProtocol object
@@ -89,7 +90,7 @@ class NRF24L01SpiProtocol final {
   ~NRF24L01SpiProtocol() = default;
 
  private:
-  spi::SPI &spi_;
+  std::unique_ptr<spi::SPI> spi_;
 };
 }  // namespace com
 
