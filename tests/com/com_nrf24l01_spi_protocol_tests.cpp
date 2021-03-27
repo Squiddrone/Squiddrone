@@ -37,7 +37,7 @@ TEST_F(ComNRF24L01SpiProtocolTests, write_register_spi_tx_ok) {
   unit_under_test_ = std::make_unique<com::NRF24L01SpiProtocol>(spi_);
   EXPECT_CALL(spi_, Write(ElementsAre(com::instruction_word::W_REGISTER | test_reg_addr, test_reg_content)));
   auto retval = unit_under_test_->WriteRegister(test_reg_addr, test_reg_content);
-  EXPECT_EQ(retval, types::DriverStatus::OK);
+  ASSERT_EQ(retval, types::DriverStatus::OK);
 }
 
 TEST_F(ComNRF24L01SpiProtocolTests, write_register_spi_tx_not_ok) {
@@ -46,7 +46,7 @@ TEST_F(ComNRF24L01SpiProtocolTests, write_register_spi_tx_not_ok) {
   unit_under_test_ = std::make_unique<com::NRF24L01SpiProtocol>(spi_);
   EXPECT_CALL(spi_, Write(_)).WillOnce(Return(types::DriverStatus::HAL_ERROR));
   auto retval = unit_under_test_->WriteRegister(test_reg_addr, test_reg_content);
-  EXPECT_EQ(retval, types::DriverStatus::HAL_ERROR);
+  ASSERT_EQ(retval, types::DriverStatus::HAL_ERROR);
 }
 
 TEST_F(ComNRF24L01SpiProtocolTests, read_register_multibyte) {
@@ -63,7 +63,7 @@ TEST_F(ComNRF24L01SpiProtocolTests, write_register_multibyte_spi_tx_ok) {
   unit_under_test_ = std::make_unique<com::NRF24L01SpiProtocol>(spi_);
   EXPECT_CALL(spi_, Write(ElementsAre(com::instruction_word::W_REGISTER | test_reg_addr, 0xaf, 0xaf, 0xaf)));
   auto retval = unit_under_test_->WriteRegister(test_reg_addr, test_reg_content);
-  EXPECT_EQ(retval, types::DriverStatus::OK);
+  ASSERT_EQ(retval, types::DriverStatus::OK);
 }
 
 TEST_F(ComNRF24L01SpiProtocolTests, write_payload_spi_tx_ok) {
@@ -71,7 +71,7 @@ TEST_F(ComNRF24L01SpiProtocolTests, write_payload_spi_tx_ok) {
   unit_under_test_ = std::make_unique<com::NRF24L01SpiProtocol>(spi_);
   EXPECT_CALL(spi_, Write(ElementsAre(com::instruction_word::W_TX_PAYLOAD, 0xaf, 0xaf, 0xaf)));
   auto retval = unit_under_test_->WritePayloadData(test_reg_content);
-  EXPECT_EQ(retval, types::DriverStatus::OK);
+  ASSERT_EQ(retval, types::DriverStatus::OK);
 }
 
 TEST_F(ComNRF24L01SpiProtocolTests, read_payload_spi_tx_ok) {
@@ -81,7 +81,7 @@ TEST_F(ComNRF24L01SpiProtocolTests, read_payload_spi_tx_ok) {
   EXPECT_CALL(spi_, Transfer(ElementsAre(com::instruction_word::R_RX_PAYLOAD), _));
   auto retval = unit_under_test_->ReadPayloadData(test_payload);
   EXPECT_THAT(test_payload, ElementsAre(_, _, _));
-  EXPECT_EQ(retval, types::DriverStatus::OK);
+  ASSERT_EQ(retval, types::DriverStatus::OK);
 }
 
 TEST_F(ComNRF24L01SpiProtocolTests, flush_tx_buffer) {
@@ -102,7 +102,7 @@ TEST_F(ComNRF24L01SpiProtocolTests, read_and_clear_irq_flags) {
   EXPECT_CALL(spi_, Transfer(ElementsAre(com::instruction_word::W_REGISTER | test_reg_addr, _), _))
       .WillOnce(Invoke(&ConstructTestVector));
   auto rv = unit_under_test_->ReadAndClearIRQFlags();
-  EXPECT_EQ(rv, 0xaa);
+  ASSERT_EQ(rv, 0xaa);
 }
 
 int main(int argc, char **argv) {
