@@ -4,8 +4,8 @@
 namespace com {
 
 auto NRF24L01SpiProtocol::ReadRegister(const std::uint8_t register_address) noexcept -> std::uint8_t {
-  auto position_in_buffer = 1;
-  auto spi_transfer_length = 2;
+  constexpr auto position_in_buffer = 1;
+  constexpr auto spi_transfer_length = 2;
   std::vector<std::uint8_t> mosi_data_buffer;
   std::vector<std::uint8_t> miso_data_buffer(spi_transfer_length);
   mosi_data_buffer.push_back(instruction_word::R_REGISTER | register_address);
@@ -85,8 +85,8 @@ auto NRF24L01SpiProtocol::FlushRxBuffer() noexcept -> types::DriverStatus {
 }
 
 auto NRF24L01SpiProtocol::ReadAndClearIRQFlags() noexcept -> register_t {
-  auto position_in_buffer = 0;
-  auto spi_transfer_length = 2;
+  constexpr auto position_in_buffer = 0;
+  constexpr auto spi_transfer_length = 2;
   std::vector<std::uint8_t> mosi_data;
   std::vector<std::uint8_t> miso_data(spi_transfer_length);
 
