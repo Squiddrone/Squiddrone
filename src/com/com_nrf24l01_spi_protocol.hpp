@@ -4,6 +4,11 @@
 #include <memory>
 #include "com_nrf24l01_reg.hpp"
 #include "spi.hpp"
+#ifndef UNIT_TEST
+#include "utilities/byte.hpp"
+#else
+#include "byte_mock.hpp"
+#endif
 
 namespace com {
 /**

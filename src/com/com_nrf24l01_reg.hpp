@@ -4,12 +4,6 @@
 #include <array>
 #include <cstdint>
 
-#ifndef UNIT_TEST
-#include "utilities/byte.hpp"
-#else
-#include "byte_mock.hpp"
-#endif
-
 namespace com {
 
 enum class State : std::uint8_t {
