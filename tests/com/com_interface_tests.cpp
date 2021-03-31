@@ -31,6 +31,7 @@ class ComInterfaceTests : public ::testing::Test {
 
   virtual void SetUp() {
     ON_CALL(*com_buffer_, GetData).WillByDefault(Return(default_return_));
+    com_buffer_->test_member = 0xfa;
   }
 };
 }  // namespace
