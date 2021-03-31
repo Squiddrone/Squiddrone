@@ -10,14 +10,14 @@ namespace utilities {
 
 class Byte {
  public:
-  Byte(std::uint8_t){};
+  explicit Byte(std::uint8_t){};
   MOCK_METHOD(std::uint8_t, Get, (), (noexcept));
   MOCK_METHOD(void, SetBit, (std::uint8_t), (noexcept));
   MOCK_METHOD(void, ClearBit, (std::uint8_t), (noexcept));
   MOCK_METHOD(void, SetLowNibble, (std::uint8_t), (noexcept));
   MOCK_METHOD(void, SetHighNibble, (std::uint8_t), (noexcept));
 
-  std::uint8_t test_member;
+  std::uint8_t test_member = 0;
 };
 }  // namespace utilities
 

@@ -4,12 +4,6 @@
 #include <array>
 #include <cstdint>
 
-#ifndef UNIT_TEST
-#include "utilities/byte.hpp"
-#else
-#include "byte_mock.hpp"
-#endif
-
 namespace com {
 
 enum class State : std::uint8_t {
@@ -33,9 +27,9 @@ enum class DataPipe : std::uint8_t {
 };
 
 enum class DataPipeAddressWidth : std::uint8_t {
-  aw_3bytes = 0x1,
-  aw_4bytes = 0x2,
-  aw_5bytes = 0x3,
+  address_width_3bytes = 0x1,
+  address_width_4bytes = 0x2,
+  address_width_5bytes = 0x3,
 };
 
 enum class AutoRetransmissionDelay : std::uint8_t {
@@ -196,11 +190,11 @@ static constexpr std::uint8_t PLOS_CNT = 4;
 static constexpr std::uint8_t ARC_CNT = 0;
 }  // namespace observe_tx
 
-/// Carrier detect
-namespace cd {
+/// Received power detector register
+namespace rpd {
 static constexpr std::uint8_t REG_ADDR = 0x9;
-static constexpr std::uint8_t CD = 0;
-}  // namespace cd
+static constexpr std::uint8_t RPD = 0;
+}  // namespace rpd
 
 /// Receive address data pipe 0. 5 Bytes maximum length.
 namespace rx_addr_p0 {

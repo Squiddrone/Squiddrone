@@ -21,7 +21,7 @@ add_testpackage(TEST_NAME
 )
 
 add_testpackage(TEST_NAME 
-                    com_nrf24l01_spi_ptotocol 
+                    com_nrf24l01_spi_protocol 
                 SOURCES 
                     com_nrf24l01_spi_protocol_tests.cpp
                     ${CMAKE_SOURCE_DIR}/src/com/com_nrf24l01_spi_protocol.cpp

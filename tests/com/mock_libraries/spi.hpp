@@ -18,7 +18,7 @@ typedef struct CSPinDefinition {
 
 class MockSPI {
  public:
-  MockSPI(const CSPin chip_select){};
+  explicit MockSPI(const CSPin chip_select){};
   MOCK_METHOD(types::DriverStatus, Transfer, (std::vector<uint8_t> & mosi_data_buffer, std::vector<uint8_t> &miso_data_buffer), (noexcept));
   MOCK_METHOD(types::DriverStatus, Write, (std::vector<uint8_t> & mosi_data_buffer), (noexcept));
 };
