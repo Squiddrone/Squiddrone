@@ -3,6 +3,7 @@
 
 #include "com_interface.hpp"
 #include "com_nrf24l01_reg.hpp"
+#include "com_nrf24l01_types.hpp"
 #ifndef UNIT_TEST
 #include "com_nrf24l01_spi_protocol.hpp"
 #else
@@ -22,33 +23,27 @@ class NRF24L01 final : public ComInterface {
       -> types::ComError override;
 
   explicit NRF24L01(std::unique_ptr<com::ComMessageBuffer> msg_buf,
-                    NRF24L01SpiProtocol &spi_protocol) : ComInterface(std::move(msg_buf)), spi_protocol_(spi_protocol){};
+                    std::unique_ptr<NRF24L01SpiProtocol> spi_protocol) : ComInterface(std::move(msg_buf)),
+                                                                         spi_protocol_(std::move(spi_protocol)),
+                                                                         current_operation_mode_(com::OperationMode::startup),
+                                                                         is_initialized_(false){};
   NRF24L01() = delete;
   ~NRF24L01() = default;
 
  private:
-  NRF24L01SpiProtocol &spi_protocol_;
+  std::unique_ptr<NRF24L01SpiProtocol> spi_protocol_;
   std::uint8_t irq_flags;
+  OperationMode current_operation_mode_;
+  bool is_initialized_;
 
   //Pipe configuration
   auto EnableDataPipe(DataPipe pipe_no) noexcept -> types::DriverStatus;
   auto DisableDataPipe(DataPipe pipe_no) noexcept -> types::DriverStatus;
-  /**
-   * @brief Set the Tx Address and configure Pipe 0 for ack reception.
-   * 
-   * @param tx_addr 
-   * @return types::DriverStatus 
-   */
+
   auto SetTxAddress(data_pipe_address tx_addr) const noexcept -> types::DriverStatus;
   auto SetRxAddress(DataPipe pipe_no, data_pipe_address rx_addr) const noexcept -> types::DriverStatus;
   auto GetPipeAddress(DataPipe pipe_no) noexcept -> data_pipe_address;
-  /**
-   * @brief Set the Rx Payload Size per data pipe.
-   * 
-   * @param pipe_no 
-   * @param payload_size Payload size in bytes. 0-32 bytes allowed.
-   * @return types::DriverStatus 
-   */
+
   auto SetRxPayloadSize(DataPipe pipe_no, std::size_t payload_size) const noexcept -> types::DriverStatus;
   auto EnableAutoAck(DataPipe pipe_no) noexcept -> types::DriverStatus;
 
@@ -66,6 +61,7 @@ class NRF24L01 final : public ComInterface {
   auto SetRFChannel(std::uint8_t channel) noexcept -> types::DriverStatus;
   auto SetDataRate(DataRateSetting data_rate) noexcept -> types::DriverStatus;
   auto SetRFOutputPower(RFPowerSetting rf_power) noexcept -> types::DriverStatus;
+  auto MaskInterruptOnIntPin(MaskeableInterrupts interrupt) -> types::DriverStatus;
   // Not sure if we ever need this
   auto SetLNAGain(State state) noexcept -> types::DriverStatus;
 
