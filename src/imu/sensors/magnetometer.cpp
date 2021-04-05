@@ -25,21 +25,34 @@ auto Magnetometer::SetInitData(void) noexcept -> void {
 }
 
 auto Magnetometer::PowerDownMagnetometer(void) noexcept -> void {
-  WriteContentIntoRegister(AK8963_CNTL, 0x00);
-  utilities::Sleep(10);
+  auto cntl_register_value = std::make_unique<utilities::Byte>(0);
+  // MODE[3:0]: Operation mode setting -> "0000": Power-down mode
+  cntl_register_value->ClearBit(0);
+  cntl_register_value->ClearBit(1);
+  cntl_register_value->ClearBit(2);
+  cntl_register_value->ClearBit(3);
+  WriteContentIntoRegister(AK8963_CNTL, cntl_register_value->Get());
+  utilities::Sleep(REBOOT_TIME_IN_MS);
 }
 
 auto Magnetometer::EnterFuseROMAccessMode(void) noexcept -> void {
-  WriteContentIntoRegister(AK8963_CNTL, 0x0F);
-  utilities::Sleep(10);
+  auto cntl_register_value = std::make_unique<utilities::Byte>(0);
+  // MODE[3:0]: Operation mode setting -> "1111": Fuse ROM access mode
+  cntl_register_value->SetBit(0);
+  cntl_register_value->SetBit(1);
+  cntl_register_value->SetBit(2);
+  cntl_register_value->SetBit(3);
+  WriteContentIntoRegister(AK8963_CNTL, cntl_register_value->Get());
+  utilities::Sleep(REBOOT_TIME_IN_MS);
 }
 
 auto Magnetometer::ConfigureForContinuousRead(void) noexcept -> void {
-  // Configure the magnetometer for continuous read and highest resolution.
-  // Set Bit 4 to enable 16 bit resolution and enable continuous mode data acquisition at 8 Hz.
+  auto cntl_register_value = std::make_unique<utilities::Byte>(0);
   // See MPU-9255 Register Map, Revision 1.0, p. 51
-  WriteContentIntoRegister(AK8963_CNTL, 0b10010);
-  utilities::Sleep(10);
+  cntl_register_value->SetBit(1);  // Enable continuous mode data acquisition at 8 Hz.
+  cntl_register_value->SetBit(4);  // Enable 16 bit resolution
+  WriteContentIntoRegister(AK8963_CNTL, cntl_register_value->Get());
+  utilities::Sleep(REBOOT_TIME_IN_MS);
 }
 
 auto Magnetometer::Update(void) noexcept -> types::DriverStatus {
@@ -50,7 +63,8 @@ auto Magnetometer::Update(void) noexcept -> types::DriverStatus {
     return types::DriverStatus::HAL_ERROR;
 
   if (SensorVector::Update() == types::DriverStatus::OK) {
-    if (HasMagnetometerOverflow(raw_values_.at(6)))
+    static constexpr std::int8_t ST2_REGISTER_BYTE = 6;
+    if (HasMagnetometerOverflow(raw_values_.at(ST2_REGISTER_BYTE)))
       return types::DriverStatus::HAL_ERROR;
 
     if (ImuConnectionSuccessful()) {
@@ -60,9 +74,9 @@ auto Magnetometer::Update(void) noexcept -> types::DriverStatus {
           ConvertUint8BytesIntoInt16SensorValue(raw_values_.at(5), raw_values_.at(4)));
 
       const auto adc_2_magnetometer = GetFactorADC2Magnetometer();
-      sensor_values_.x = static_cast<std::int16_t>(adc_2_magnetometer * (float)sensor_values_.x * calibration_values_.x);
-      sensor_values_.y = static_cast<std::int16_t>(adc_2_magnetometer * (float)sensor_values_.y * calibration_values_.y);
-      sensor_values_.z = static_cast<std::int16_t>(adc_2_magnetometer * (float)sensor_values_.z * calibration_values_.z);
+      sensor_values_.x = static_cast<std::int16_t>(adc_2_magnetometer * static_cast<float>(sensor_values_.x) * calibration_values_.x);
+      sensor_values_.y = static_cast<std::int16_t>(adc_2_magnetometer * static_cast<float>(sensor_values_.y) * calibration_values_.y);
+      sensor_values_.z = static_cast<std::int16_t>(adc_2_magnetometer * static_cast<float>(sensor_values_.z) * calibration_values_.z);
       return types::DriverStatus::OK;
     }
   }

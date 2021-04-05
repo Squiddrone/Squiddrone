@@ -20,6 +20,7 @@ class Magnetometer final : public MagnetometerInterface {
   types::EuclideanVector<float> calibration_values_{-1, -1, -1};
   static constexpr float MAX_MAGNETIC_FLUX_IN_MICRO_TESLA = 4912.0f;
   static constexpr float MAX_MAGNETIC_MEASUREMENT_IN_DIGIT_16BIT = 32760.0f;
+  static constexpr std::uint32_t REBOOT_TIME_IN_MS = 10;
 
   auto SetInitData(void) noexcept -> void;
   auto PowerDownMagnetometer(void) noexcept -> void;
