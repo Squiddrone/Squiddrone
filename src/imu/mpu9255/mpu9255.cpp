@@ -30,8 +30,14 @@ auto Mpu9255::CreateSensorPointer(void) noexcept -> void {
 }
 
 auto Mpu9255::SetInitConfigMPU9255(void) noexcept -> void {
-  SetMPU9255Register(INT_PIN_CFG, 0x22);
-  SetMPU9255Register(INT_ENABLE, 0x01);
+  auto int_pin_cfg_value = std::make_unique<utilities::Byte>(0);
+  int_pin_cfg_value->SetBit(1);  // Set I2C Master of MPU9255 to Bypass mode
+  int_pin_cfg_value->SetBit(5);  // Held Pin Level until interrupt status was cleared.
+  SetMPU9255Register(INT_PIN_CFG, int_pin_cfg_value->Get());
+
+  auto int_enable_value = std::make_unique<utilities::Byte>(0);
+  int_enable_value->SetBit(0);  // Enable Raw Sensor Data Ready interrupt to propagate to interrupt pin.
+  SetMPU9255Register(INT_ENABLE, int_enable_value->Get());
 }
 
 auto Mpu9255::SetMPU9255Register(const std::uint8_t register_, const std::uint8_t register_value) noexcept -> void {

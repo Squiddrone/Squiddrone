@@ -3,6 +3,7 @@
 
 #include "accelerometer.hpp"
 #include "accelerometer_interface.hpp"
+#include "byte.hpp"
 #include "generic_imu.hpp"
 #include "gyroscope.hpp"
 #include "gyroscope_interface.hpp"
