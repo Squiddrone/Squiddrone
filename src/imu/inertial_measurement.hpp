@@ -33,12 +33,14 @@ class InertialMeasurement final : public InertialMeasurementInterface {
 
   /**
    * @brief Used for Initialization of complete Inertial Measurement Unit
+   * @return A types::DriverStatus to indicate whether it is faulty or not
    * 
    */
   auto Init(void) noexcept -> types::DriverStatus override;
 
   /**
    * @brief Used to update all sensors from Inertial Measurement Unit
+   * @return A types::DriverStatus to indicate whether it is faulty or not
    * 
    */
   auto Update(void) noexcept -> types::DriverStatus override;
@@ -99,8 +101,8 @@ class InertialMeasurement final : public InertialMeasurementInterface {
 
   /**
   * @brief Only used for Unittests, to be able to inject a Mock Object
-  * 
   * @param imu Unique Pointer to Mock Object
+  * 
   */
   auto UnitTestSetImuSeam(std::unique_ptr<imu::GenericInertialMeasurementUnit> imu) noexcept -> void override;
 };
