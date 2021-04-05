@@ -45,14 +45,10 @@ auto Mpu9255::SetMPU9255Register(const std::uint8_t register_, const std::uint8_
 }
 
 auto Mpu9255::InitAllSensors(void) noexcept -> bool {
-  if (gyroscope_->Init(MPU9255_ADDRESS) == types::DriverStatus::OK &&
-      accelerometer_->Init(MPU9255_ADDRESS) == types::DriverStatus::OK &&
-      magnetometer_->Init(AK8963_ADDRESS) == types::DriverStatus::OK &&
-      temperature_->Init(MPU9255_ADDRESS) == types::DriverStatus::OK) {
-    return true;
-  } else {
-    return false;
-  }
+  return (gyroscope_->Init(MPU9255_ADDRESS) == types::DriverStatus::OK &&
+          accelerometer_->Init(MPU9255_ADDRESS) == types::DriverStatus::OK &&
+          magnetometer_->Init(AK8963_ADDRESS) == types::DriverStatus::OK &&
+          temperature_->Init(MPU9255_ADDRESS) == types::DriverStatus::OK);
 }
 
 auto Mpu9255::Update(void) noexcept -> types::DriverStatus {
@@ -75,14 +71,10 @@ auto Mpu9255::SetToInitialized(void) noexcept -> void {
 }
 
 auto Mpu9255::UpdateAllSensors(void) noexcept -> bool {
-  if (gyroscope_->Update() == types::DriverStatus::OK &&
-      accelerometer_->Update() == types::DriverStatus::OK &&
-      magnetometer_->Update() == types::DriverStatus::OK &&
-      temperature_->Update() == types::DriverStatus::OK) {
-    return true;
-  } else {
-    return false;
-  }
+  return (gyroscope_->Update() == types::DriverStatus::OK &&
+          accelerometer_->Update() == types::DriverStatus::OK &&
+          magnetometer_->Update() == types::DriverStatus::OK &&
+          temperature_->Update() == types::DriverStatus::OK);
 }
 
 auto Mpu9255::SetGyroscopeSensitivity(const types::ImuSensitivity gyroscope_sensitivity) noexcept -> types::DriverStatus {
