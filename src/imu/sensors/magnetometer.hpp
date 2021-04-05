@@ -2,7 +2,7 @@
 #define SRC_MAGNETOMETER_HPP_
 
 #include "byte.hpp"
-#include "magnetometer_virtual_interface.hpp"
+#include "magnetometer_interface.hpp"
 #include "sleep.hpp"
 
 namespace imu {

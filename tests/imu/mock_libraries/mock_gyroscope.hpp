@@ -3,7 +3,7 @@
 
 #include <gmock/gmock.h>
 #include <memory>
-#include "gyroscope_virtual_interface.hpp"
+#include "gyroscope_interface.hpp"
 #include "mock_i2c.hpp"
 
 namespace imu {

@@ -1,7 +1,7 @@
 #ifndef SRC_IMU_MEASUREMENT_SENSOR_VECTOR_HPP_
 #define SRC_IMU_MEASUREMENT_SENSOR_VECTOR_HPP_
 
-#include "sensor_vector_virtual_interface.hpp"
+#include "sensor_vector_interface.hpp"
 
 namespace imu {
 

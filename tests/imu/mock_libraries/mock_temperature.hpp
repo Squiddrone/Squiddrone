@@ -4,7 +4,7 @@
 #include <gmock/gmock.h>
 #include <memory>
 #include "mock_i2c.hpp"
-#include "temperature_virtual_interface.hpp"
+#include "temperature_interface.hpp"
 
 namespace imu {
 

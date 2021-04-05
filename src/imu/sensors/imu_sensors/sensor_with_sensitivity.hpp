@@ -5,7 +5,7 @@
 #include "imu_sensitivity.hpp"
 #include "mpu9255_data.hpp"
 #include "sensor_with_sensitivity.hpp"
-#include "sensor_with_sensitivity_virtual_interface.hpp"
+#include "sensor_with_sensitivity_interface.hpp"
 
 namespace imu {
 

@@ -3,7 +3,7 @@
 
 #include <gmock/gmock.h>
 #include <memory>
-#include "magnetometer_virtual_interface.hpp"
+#include "magnetometer_interface.hpp"
 #include "mock_i2c.hpp"
 
 namespace imu {

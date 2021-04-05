@@ -1,7 +1,7 @@
 #ifndef SRC_GYROSCOPE_HPP_
 #define SRC_GYROSCOPE_HPP_
 
-#include "gyroscope_virtual_interface.hpp"
+#include "gyroscope_interface.hpp"
 
 namespace imu {
 

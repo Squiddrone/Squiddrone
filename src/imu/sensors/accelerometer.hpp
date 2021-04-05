@@ -1,7 +1,7 @@
 #ifndef SRC_ACCELEROMETER_HPP_
 #define SRC_ACCELEROMETER_HPP_
 
-#include "accelerometer_virtual_interface.hpp"
+#include "accelerometer_interface.hpp"
 
 namespace imu {
 

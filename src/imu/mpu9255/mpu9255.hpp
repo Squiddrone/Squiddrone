@@ -2,14 +2,14 @@
 #define SRC_MPU9255_HPP_
 
 #include "accelerometer.hpp"
-#include "accelerometer_virtual_interface.hpp"
+#include "accelerometer_interface.hpp"
 #include "generic_imu.hpp"
 #include "gyroscope.hpp"
-#include "gyroscope_virtual_interface.hpp"
+#include "gyroscope_interface.hpp"
 #include "magnetometer.hpp"
-#include "magnetometer_virtual_interface.hpp"
+#include "magnetometer_interface.hpp"
 #include "temperature.hpp"
-#include "temperature_virtual_interface.hpp"
+#include "temperature_interface.hpp"
 
 namespace imu {
 

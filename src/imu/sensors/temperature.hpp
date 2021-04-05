@@ -1,7 +1,7 @@
 #ifndef SRC_TEMPERATURE_HPP_
 #define SRC_TEMPERATURE_HPP_
 
-#include "temperature_virtual_interface.hpp"
+#include "temperature_interface.hpp"
 
 namespace imu {
 
