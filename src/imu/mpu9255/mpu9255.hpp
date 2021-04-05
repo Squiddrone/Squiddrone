@@ -44,6 +44,7 @@ class Mpu9255 final : public GenericInertialMeasurementUnit {
   auto InitAllSensors(void) noexcept -> bool;
   auto UpdateAllSensors(void) noexcept -> bool;
   auto SetToInitialized(void) noexcept -> void;
+  auto ReturnVectorDefault(void) noexcept -> types::EuclideanVector<std::int16_t>;
 
   bool initialized_ = false;
   std::unique_ptr<imu::GyroscopeInterface> gyroscope_ = NULL;
