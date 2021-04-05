@@ -43,6 +43,7 @@ class Mpu9255 final : public GenericInertialMeasurementUnit {
   auto SetMPU9255Register(const std::uint8_t register_, const std::uint8_t register_value) noexcept -> void;
   auto InitAllSensors(void) noexcept -> bool;
   auto UpdateAllSensors(void) noexcept -> bool;
+  auto SetToInitialized(void) noexcept -> void;
 
   bool initialized_ = false;
   std::unique_ptr<imu::GyroscopeInterface> gyroscope_ = NULL;

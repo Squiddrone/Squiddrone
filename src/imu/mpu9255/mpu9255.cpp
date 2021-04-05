@@ -8,7 +8,7 @@ auto Mpu9255::Init(void) noexcept -> types::DriverStatus {
   SetInitConfigMPU9255();
 
   if (InitAllSensors()) {
-    initialized_ = true;
+    SetToInitialized();
     return types::DriverStatus::OK;
   }
   return types::DriverStatus::HAL_ERROR;
@@ -60,7 +60,7 @@ auto Mpu9255::Update(void) noexcept -> types::DriverStatus {
     return types::DriverStatus::HAL_ERROR;
 
   if (UpdateAllSensors()) {
-    initialized_ = true;
+    SetToInitialized();
     return types::DriverStatus::OK;
   }
   return types::DriverStatus::HAL_ERROR;
@@ -68,6 +68,10 @@ auto Mpu9255::Update(void) noexcept -> types::DriverStatus {
 
 auto Mpu9255::IsInitialized(void) noexcept -> bool {
   return initialized_;
+}
+
+auto Mpu9255::SetToInitialized(void) noexcept -> void {
+  initialized_ = true;
 }
 
 auto Mpu9255::UpdateAllSensors(void) noexcept -> bool {
