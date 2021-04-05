@@ -2,7 +2,7 @@
 
 namespace imu {
 
-auto SensorGeneral::Init(const std::uint8_t i2c_address) noexcept -> types::DriverStatus {
+auto GeneralSensor::Init(const std::uint8_t i2c_address) noexcept -> types::DriverStatus {
   SetI2CAdress(i2c_address);
   initialized_ = false;
 
@@ -12,7 +12,7 @@ auto SensorGeneral::Init(const std::uint8_t i2c_address) noexcept -> types::Driv
   return types::DriverStatus::OK;
 }
 
-auto SensorGeneral::IsHardwareConnected(void) -> bool {
+auto GeneralSensor::IsHardwareConnected(void) -> bool {
   if (i2c_address_ == imu::MPU9255_ADDRESS)
     return Mpu9255Detected();
 
@@ -22,7 +22,7 @@ auto SensorGeneral::IsHardwareConnected(void) -> bool {
   return false;
 }
 
-auto SensorGeneral::GetRawValues(void) noexcept -> types::DriverStatus {
+auto GeneralSensor::GetRawValues(void) noexcept -> types::DriverStatus {
   if (!IsInitialized())
     return types::DriverStatus::HAL_ERROR;
 
@@ -34,15 +34,15 @@ auto SensorGeneral::GetRawValues(void) noexcept -> types::DriverStatus {
   return types::DriverStatus::HAL_ERROR;
 }
 
-auto SensorGeneral::Mpu9255Detected(void) noexcept -> bool {
+auto GeneralSensor::Mpu9255Detected(void) noexcept -> bool {
   return CheckI2CDevice(WHO_AM_I_MPU9255_REGISTER, WHO_AM_I_MPU9255_VALUE);
 }
 
-auto SensorGeneral::AK8963Detected(void) noexcept -> bool {
+auto GeneralSensor::AK8963Detected(void) noexcept -> bool {
   return CheckI2CDevice(WHO_AM_I_AK8963_REGISTER, WHO_AM_I_AK8963_VALUE);
 }
 
-auto SensorGeneral::CheckI2CDevice(const std::uint8_t register_, const std::uint8_t value) noexcept -> bool {
+auto GeneralSensor::CheckI2CDevice(const std::uint8_t register_, const std::uint8_t value) noexcept -> bool {
   bool value_is_correct = false;
 
   std::vector<uint8_t> register_value = ReadContentFromRegister(register_, 1);
@@ -55,7 +55,7 @@ auto SensorGeneral::CheckI2CDevice(const std::uint8_t register_, const std::uint
   return value_is_correct;
 }
 
-auto SensorGeneral::ReadContentFromRegister(const std::uint8_t read_from_register, const std::uint16_t byte_size) noexcept -> std::vector<std::uint8_t> {
+auto GeneralSensor::ReadContentFromRegister(const std::uint8_t read_from_register, const std::uint16_t byte_size) noexcept -> std::vector<std::uint8_t> {
   types::DriverStatus i2c_status;
   std::vector<uint8_t> content_of_register;
 
@@ -69,27 +69,27 @@ auto SensorGeneral::ReadContentFromRegister(const std::uint8_t read_from_registe
   return content_of_register;
 }
 
-auto SensorGeneral::WriteContentIntoRegister(const std::uint8_t write_into_register, const std::uint8_t register_content) noexcept -> void {
+auto GeneralSensor::WriteContentIntoRegister(const std::uint8_t write_into_register, const std::uint8_t register_content) noexcept -> void {
   imu_status_ = i2c_handler_->Write(i2c_address_, {write_into_register, register_content});
 }
 
-auto SensorGeneral::ImuConnectionSuccessful(void) noexcept -> bool {
+auto GeneralSensor::ImuConnectionSuccessful(void) noexcept -> bool {
   return imu_status_ == types::DriverStatus::OK;
 }
 
-auto SensorGeneral::ImuConnectionFailed(void) noexcept -> bool {
+auto GeneralSensor::ImuConnectionFailed(void) noexcept -> bool {
   return !ImuConnectionSuccessful();
 }
 
-auto SensorGeneral::SetI2CAdress(std::uint8_t i2c_address) noexcept -> void {
+auto GeneralSensor::SetI2CAdress(std::uint8_t i2c_address) noexcept -> void {
   i2c_address_ = i2c_address;
 }
 
-auto SensorGeneral::ConvertUint8BytesIntoInt16SensorValue(const std::uint8_t first_byte, const std::uint8_t second_byte) noexcept -> std::int16_t {
+auto GeneralSensor::ConvertUint8BytesIntoInt16SensorValue(const std::uint8_t first_byte, const std::uint8_t second_byte) noexcept -> std::int16_t {
   return static_cast<std::int16_t>(first_byte << 8 | second_byte);
 }
 
-auto SensorGeneral::IsInitialized(void) noexcept -> bool {
+auto GeneralSensor::IsInitialized(void) noexcept -> bool {
   return initialized_;
 }
 

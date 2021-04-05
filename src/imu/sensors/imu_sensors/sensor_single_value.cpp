@@ -3,7 +3,7 @@
 namespace imu {
 
 auto SensorSingleValue::Update(void) noexcept -> types::DriverStatus {
-  SensorGeneral::GetRawValues();
+  GeneralSensor::GetRawValues();
 
   if (ImuConnectionSuccessful()) {
     SetSensorValue(

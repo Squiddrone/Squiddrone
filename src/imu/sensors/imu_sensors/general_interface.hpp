@@ -9,11 +9,11 @@
 
 namespace imu {
 
-class GeneralInterface {
+class GeneralSensorInterface {
  public:
-  virtual ~GeneralInterface() = default;
+  virtual ~GeneralSensorInterface() = default;
 
-  explicit GeneralInterface(void){};
+  explicit GeneralSensorInterface(void){};
   virtual auto Init(const std::uint8_t i2c_address) noexcept -> types::DriverStatus = 0;
   virtual auto GetRawValues(void) noexcept -> types::DriverStatus = 0;
 };

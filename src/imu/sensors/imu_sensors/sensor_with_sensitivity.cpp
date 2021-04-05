@@ -4,7 +4,7 @@
 namespace imu {
 
 auto SensorWithSensitivity::Init(const std::uint8_t i2c_address) noexcept -> types::DriverStatus {
-  if (SensorGeneral::Init(i2c_address) != types::DriverStatus::OK)
+  if (GeneralSensor::Init(i2c_address) != types::DriverStatus::OK)
     return types::DriverStatus::HAL_ERROR;
 
   SetSensorValues(0, 0, 0);

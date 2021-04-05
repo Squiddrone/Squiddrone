@@ -10,11 +10,11 @@
 
 namespace imu {
 
-class SensorGeneral : public GeneralInterface {
+class GeneralSensor : public GeneralSensorInterface {
  public:
-  virtual ~SensorGeneral() = default;
+  virtual ~GeneralSensor() = default;
 
-  explicit SensorGeneral(std::shared_ptr<i2c::I2CInterface> i2c_handler) : GeneralInterface(), i2c_handler_(i2c_handler){};
+  explicit GeneralSensor(std::shared_ptr<i2c::I2CInterface> i2c_handler) : GeneralSensorInterface(), i2c_handler_(i2c_handler){};
   auto Init(const std::uint8_t i2c_address) noexcept -> types::DriverStatus override;
   auto GetRawValues(void) noexcept -> types::DriverStatus override;
 

@@ -6,7 +6,7 @@ auto Magnetometer::Init(const std::uint8_t i2c_address) noexcept -> types::Drive
   SENSOR_DATA_REGISTER = imu::MAGNETOMETER_MEASUREMENT_DATA;
   REGISTER_DATA_LENGTH_IN_BYTES = 7;
 
-  if (SensorGeneral::Init(i2c_address) != types::DriverStatus::OK)
+  if (GeneralSensor::Init(i2c_address) != types::DriverStatus::OK)
     return types::DriverStatus::HAL_ERROR;
 
   SetSensorValues(0, 0, 0);
