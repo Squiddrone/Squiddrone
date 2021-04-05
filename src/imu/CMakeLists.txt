@@ -18,7 +18,7 @@ target_sources(${ELF_FILE}
         ${CMAKE_CURRENT_SOURCE_DIR}/sensors/gyroscope.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/sensors/magnetometer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/sensors/temperature.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/sensors/imu_sensors/general.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/sensors/imu_sensors/imu_general.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/sensors/imu_sensors/sensor_vector.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/sensors/imu_sensors/sensor_single_value.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/sensors/imu_sensors/sensor_with_sensitivity.cpp

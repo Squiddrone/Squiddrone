@@ -1,7 +1,7 @@
 #ifndef SRC_IMU_MEASUREMENT_SENSOR_SINGLE_VALUE_INTERFACE_HPP_
 #define SRC_IMU_MEASUREMENT_SENSOR_SINGLE_VALUE_INTERFACE_HPP_
 
-#include "general.hpp"
+#include "imu_general.hpp"
 
 namespace imu {
 

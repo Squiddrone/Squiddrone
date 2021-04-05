@@ -1,4 +1,4 @@
-#include "general.hpp"
+#include "imu_general.hpp"
 
 namespace imu {
 

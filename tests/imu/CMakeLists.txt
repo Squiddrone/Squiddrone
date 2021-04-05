@@ -5,7 +5,7 @@ add_testpackage(TEST_NAME
                     imu_integration_tests.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/interface/inertial_measurement.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/mpu9255/mpu9255.cpp
-                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/general.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/imu_general.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_vector.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_single_value.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_with_sensitivity.cpp
@@ -33,7 +33,7 @@ add_testpackage(TEST_NAME
                     imu_interface_tests.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/interface/inertial_measurement.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/mpu9255/mpu9255.cpp
-                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/general.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/imu_general.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_vector.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_single_value.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_with_sensitivity.cpp
@@ -59,7 +59,7 @@ add_testpackage(TEST_NAME
                     imu_sensors_gyroscope
                 SOURCES 
                     imu_gyroscope_tests.cpp
-                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/general.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/imu_general.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_vector.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_with_sensitivity.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/gyroscope.cpp
@@ -79,7 +79,7 @@ add_testpackage(TEST_NAME
                     imu_sensors_accelerometer
                 SOURCES 
                     imu_accelerometer_tests.cpp
-                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/general.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/imu_general.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_vector.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_with_sensitivity.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/accelerometer.cpp
@@ -99,7 +99,7 @@ add_testpackage(TEST_NAME
                     imu_sensors_magnetometer
                 SOURCES 
                     imu_magnetometer_tests.cpp
-                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/general.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/imu_general.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_vector.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_with_sensitivity.cpp
                     ${CMAKE_SOURCE_DIR}/src/utilities/sleep.cpp
@@ -120,7 +120,7 @@ add_testpackage(TEST_NAME
                     imu_sensors_temperature
                 SOURCES 
                     imu_temperature_tests.cpp
-                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/general.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/imu_general.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_single_value.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/temperature.cpp
                 TEST_INCLUDE_DIRECTORIES 
@@ -139,7 +139,7 @@ add_testpackage(TEST_NAME
                     imu_mpu9255
                 SOURCES 
                     imu_mpu9255_tests.cpp
-                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/general.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/imu_general.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_vector.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_single_value.cpp
                     ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_with_sensitivity.cpp

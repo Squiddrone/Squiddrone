@@ -1,7 +1,7 @@
 #ifndef SRC_sensor_with_sensitivity_HPP_
 #define SRC_sensor_with_sensitivity_HPP_
 
-#include "general.hpp"
+#include "imu_general.hpp"
 #include "imu_sensitivity.hpp"
 #include "mpu9255_data.hpp"
 #include "sensor_with_sensitivity.hpp"
