@@ -63,7 +63,6 @@ auto Magnetometer::Update(void) noexcept -> types::DriverStatus {
     return types::DriverStatus::HAL_ERROR;
 
   if (SensorVector::Update() == types::DriverStatus::OK) {
-    static constexpr std::int8_t ST2_REGISTER_BYTE = 6;
     if (HasMagnetometerOverflow(raw_values_.at(ST2_REGISTER_BYTE)))
       return types::DriverStatus::HAL_ERROR;
 

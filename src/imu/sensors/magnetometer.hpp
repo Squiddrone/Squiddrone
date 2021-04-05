@@ -21,6 +21,7 @@ class Magnetometer final : public MagnetometerInterface {
   static constexpr float MAX_MAGNETIC_FLUX_IN_MICRO_TESLA = 4912.0f;
   static constexpr float MAX_MAGNETIC_MEASUREMENT_IN_DIGIT_16BIT = 32760.0f;
   static constexpr std::uint32_t REBOOT_TIME_IN_MS = 10;
+  static constexpr std::int8_t ST2_REGISTER_BYTE = 6;
 
   auto SetInitData(void) noexcept -> void;
   auto PowerDownMagnetometer(void) noexcept -> void;
