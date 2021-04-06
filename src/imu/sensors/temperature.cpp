@@ -3,8 +3,8 @@
 namespace imu {
 
 auto Temperature::Init(const std::uint8_t i2c_address) noexcept -> types::DriverStatus {
-  SENSOR_DATA_REGISTER = imu::TEMP_MEASUREMENT_DATA;
-  REGISTER_DATA_LENGTH_IN_BYTES = 2;
+  sensor_data_register = imu::TEMP_MEASUREMENT_DATA;
+  register_data_length_in_bytes = 2;
 
   if (GeneralSensor::Init(i2c_address) != types::DriverStatus::OK)
     return types::DriverStatus::HAL_ERROR;

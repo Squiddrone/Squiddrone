@@ -35,11 +35,11 @@ auto SensorWithSensitivity::SaveNewSensitivity(const types::ImuSensitivity sensi
 
 auto SensorWithSensitivity::SendSensitivityRegisterData(const types::ImuSensitivity sensitivity) noexcept -> void {
   std::uint8_t new_config = GetConfigRegisterDataForSensitivity(sensitivity);
-  WriteContentIntoRegister(CONFIG_REGISTER, new_config);
+  WriteContentIntoRegister(config_register, new_config);
 }
 
 auto SensorWithSensitivity::GetConfigRegisterDataForSensitivity(const types::ImuSensitivity sensitivity) noexcept -> std::uint8_t {
-  utilities::Byte config_data(ReadContentFromRegister(CONFIG_REGISTER, 1).at(0));
+  utilities::Byte config_data(ReadContentFromRegister(config_register, 1).at(0));
 
   if (sensitivity == types::ImuSensitivity::FINEST) {
     config_data.ClearBit(3);

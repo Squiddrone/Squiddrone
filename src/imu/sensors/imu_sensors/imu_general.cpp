@@ -26,7 +26,7 @@ auto GeneralSensor::GetRawValues(void) noexcept -> types::DriverStatus {
   if (!IsInitialized())
     return types::DriverStatus::HAL_ERROR;
 
-  raw_values_ = ReadContentFromRegister(SENSOR_DATA_REGISTER, REGISTER_DATA_LENGTH_IN_BYTES);
+  raw_values_ = ReadContentFromRegister(sensor_data_register, register_data_length_in_bytes);
 
   if (ImuConnectionSuccessful())
     return types::DriverStatus::OK;

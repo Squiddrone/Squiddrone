@@ -36,9 +36,9 @@ class GeneralSensor : public GeneralSensorInterface {
   std::uint8_t i2c_address_ = 0;
   types::DriverStatus imu_status_ = types::DriverStatus::HAL_ERROR;
   std::vector<uint8_t> raw_values_;
-  std::uint8_t SENSOR_DATA_REGISTER = 0;
-  std::uint8_t REGISTER_DATA_LENGTH_IN_BYTES = 0;
-  std::uint8_t CONFIG_REGISTER = 0;
+  std::uint8_t sensor_data_register = 0;
+  std::uint8_t register_data_length_in_bytes = 0;
+  std::uint8_t config_register = 0;
 };
 
 }  // namespace imu

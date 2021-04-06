@@ -3,8 +3,8 @@
 namespace imu {
 
 auto Magnetometer::Init(const std::uint8_t i2c_address) noexcept -> types::DriverStatus {
-  SENSOR_DATA_REGISTER = imu::MAGNETOMETER_MEASUREMENT_DATA;
-  REGISTER_DATA_LENGTH_IN_BYTES = 7;
+  sensor_data_register = imu::MAGNETOMETER_MEASUREMENT_DATA;
+  register_data_length_in_bytes = 7;
 
   if (GeneralSensor::Init(i2c_address) != types::DriverStatus::OK)
     return types::DriverStatus::HAL_ERROR;

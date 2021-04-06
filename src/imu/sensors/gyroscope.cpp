@@ -3,9 +3,9 @@
 namespace imu {
 
 auto Gyroscope::Init(const std::uint8_t i2c_address) noexcept -> types::DriverStatus {
-  SENSOR_DATA_REGISTER = imu::GYRO_MEASUREMENT_DATA;
-  REGISTER_DATA_LENGTH_IN_BYTES = 6;
-  CONFIG_REGISTER = imu::GYRO_CONFIG;
+  sensor_data_register = imu::GYRO_MEASUREMENT_DATA;
+  register_data_length_in_bytes = 6;
+  config_register = imu::GYRO_CONFIG;
 
   return SensorWithSensitivity::Init(i2c_address);
 }
