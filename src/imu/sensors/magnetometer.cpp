@@ -5,11 +5,12 @@ namespace imu {
 auto Magnetometer::Init(const std::uint8_t i2c_address) noexcept -> types::DriverStatus {
   sensor_data_register = imu::MAGNETOMETER_MEASUREMENT_DATA;
   register_data_length_in_bytes = 7;
+  little_endian = false;
 
   if (GeneralSensor::Init(i2c_address) != types::DriverStatus::OK)
     return types::DriverStatus::HAL_ERROR;
 
-  SetSensorValues(0, 0, 0);
+  SetSensorValues({0, 0, 0});
   SetInitData();
 
   initialized_ = true;
@@ -68,9 +69,7 @@ auto Magnetometer::Update(void) noexcept -> types::DriverStatus {
 
     if (ImuConnectionSuccessful()) {
       SetSensorValues(
-          ConvertUint8BytesIntoInt16SensorValue(raw_values_.at(1), raw_values_.at(0)),
-          ConvertUint8BytesIntoInt16SensorValue(raw_values_.at(3), raw_values_.at(2)),
-          ConvertUint8BytesIntoInt16SensorValue(raw_values_.at(5), raw_values_.at(4)));
+          ConvertUint8BytesIntoInt16SensorValue(raw_values_));
 
       const auto adc_2_magnetometer = GetFactorADC2Magnetometer();
       sensor_values_.x = static_cast<std::int16_t>(adc_2_magnetometer * static_cast<float>(sensor_values_.x) * calibration_values_.x);

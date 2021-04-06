@@ -28,17 +28,19 @@ class GeneralSensor : public GeneralSensorInterface {
   auto ImuConnectionSuccessful(void) noexcept -> bool;
   auto ImuConnectionFailed(void) noexcept -> bool;
   auto SetI2CAdress(const std::uint8_t i2c_address) noexcept -> void;
-  auto ConvertUint8BytesIntoInt16SensorValue(const std::uint8_t first_byte, const std::uint8_t second_byte) noexcept -> std::int16_t;
+  auto ConvertUint8BytesIntoInt16SensorValue(const std::vector<std::uint8_t> raw_vector) noexcept -> std::vector<std::int16_t>;
+  auto ConvertUint8BytesIntoInt16(std::uint8_t first_byte, std::uint8_t second_byte) noexcept -> std::int16_t;
   auto IsInitialized(void) noexcept -> bool;
 
   std::shared_ptr<i2c::I2CInterface> i2c_handler_;
   bool initialized_ = false;
   std::uint8_t i2c_address_ = 0;
   types::DriverStatus imu_status_ = types::DriverStatus::HAL_ERROR;
-  std::vector<uint8_t> raw_values_;
+  std::vector<std::uint8_t> raw_values_;
   std::uint8_t sensor_data_register = 0;
   std::uint8_t register_data_length_in_bytes = 0;
   std::uint8_t config_register = 0;
+  bool little_endian = false;
 };
 
 }  // namespace imu

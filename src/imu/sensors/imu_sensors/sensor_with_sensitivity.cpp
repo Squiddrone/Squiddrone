@@ -7,7 +7,7 @@ auto SensorWithSensitivity::Init(const std::uint8_t i2c_address) noexcept -> typ
   if (GeneralSensor::Init(i2c_address) != types::DriverStatus::OK)
     return types::DriverStatus::HAL_ERROR;
 
-  SetSensorValues(0, 0, 0);
+  SetSensorValues({0, 0, 0});
 
   SendSensitivityRegisterData(sensitivity_);
   if (ImuConnectionFailed())

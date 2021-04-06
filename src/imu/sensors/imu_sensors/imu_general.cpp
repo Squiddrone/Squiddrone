@@ -85,7 +85,22 @@ auto GeneralSensor::SetI2CAdress(std::uint8_t i2c_address) noexcept -> void {
   i2c_address_ = i2c_address;
 }
 
-auto GeneralSensor::ConvertUint8BytesIntoInt16SensorValue(const std::uint8_t first_byte, const std::uint8_t second_byte) noexcept -> std::int16_t {
+auto GeneralSensor::ConvertUint8BytesIntoInt16SensorValue(const std::vector<std::uint8_t> raw_vector) noexcept -> std::vector<std::int16_t> {
+  std::vector<std::int16_t> int16_vector;
+
+  for (size_t i = 0; i < raw_vector.size() - 1; i += 2) {
+    auto first_byte = raw_vector.at(i);
+    auto second_byte = raw_vector.at(i + 1);
+    int16_vector.push_back(ConvertUint8BytesIntoInt16(first_byte, second_byte));
+  }
+  return int16_vector;
+}
+
+auto GeneralSensor::ConvertUint8BytesIntoInt16(std::uint8_t first_byte, std::uint8_t second_byte) noexcept -> std::int16_t {
+  if (little_endian == false) {
+    std::swap(first_byte, second_byte);
+  }
+
   return static_cast<std::int16_t>(first_byte << 8 | second_byte);
 }
 

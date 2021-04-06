@@ -7,7 +7,7 @@ auto SensorSingleValue::Update(void) noexcept -> types::DriverStatus {
 
   if (ImuConnectionSuccessful()) {
     SetSensorValue(
-        ConvertUint8BytesIntoInt16SensorValue(raw_values_.at(0), raw_values_.at(1)));
+        ConvertUint8BytesIntoInt16SensorValue(raw_values_).at(0));
     return types::DriverStatus::OK;
   }
 
