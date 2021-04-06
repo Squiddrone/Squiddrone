@@ -15,16 +15,16 @@ auto Mpu9255::Init(void) noexcept -> types::DriverStatus {
 }
 
 auto Mpu9255::CreateSensorPointer(void) noexcept -> void {
-  if (gyroscope_ == NULL) {
+  if (gyroscope_ == nullptr) {
     gyroscope_ = std::make_unique<imu::Gyroscope>(i2c_handler_);
   }
-  if (accelerometer_ == NULL) {
+  if (accelerometer_ == nullptr) {
     accelerometer_ = std::make_unique<imu::Accelerometer>(i2c_handler_);
   }
-  if (magnetometer_ == NULL) {
+  if (magnetometer_ == nullptr) {
     magnetometer_ = std::make_unique<imu::Magnetometer>(i2c_handler_);
   }
-  if (temperature_ == NULL) {
+  if (temperature_ == nullptr) {
     temperature_ = std::make_unique<imu::Temperature>(i2c_handler_);
   }
 }
