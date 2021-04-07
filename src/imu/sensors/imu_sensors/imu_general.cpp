@@ -97,7 +97,7 @@ auto GeneralSensor::ConvertUint8BytesIntoInt16SensorValue(const std::vector<std:
 }
 
 auto GeneralSensor::ConvertUint8BytesIntoInt16(std::uint8_t first_byte, std::uint8_t second_byte) noexcept -> std::int16_t {
-  if (little_endian == false) {
+  if (little_endian == true) {
     std::swap(first_byte, second_byte);
   }
 

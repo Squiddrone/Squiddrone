@@ -6,7 +6,7 @@ auto Gyroscope::Init(const std::uint8_t i2c_address) noexcept -> types::DriverSt
   sensor_data_register = imu::GYRO_MEASUREMENT_DATA;
   register_data_length_in_bytes = 6;
   config_register = imu::GYRO_CONFIG;
-  little_endian = true;
+  little_endian = false;
 
   return SensorWithSensitivity::Init(i2c_address);
 }
