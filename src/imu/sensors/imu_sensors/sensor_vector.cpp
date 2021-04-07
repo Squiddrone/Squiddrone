@@ -19,9 +19,9 @@ auto SensorVector::Get(void) noexcept -> types::EuclideanVector<int16_t> {
 }
 
 auto SensorVector::SetSensorValues(const std::vector<std::int16_t> &sensor_values) noexcept -> void {
-  sensor_values_.x = sensor_values.at(0);
-  sensor_values_.y = sensor_values.at(1);
-  sensor_values_.z = sensor_values.at(2);
+  sensor_values_.x = sensor_values.at(POSITION_X);
+  sensor_values_.y = sensor_values.at(POSITION_Y);
+  sensor_values_.z = sensor_values.at(POSITION_Z);
 }
 
 }  // namespace imu

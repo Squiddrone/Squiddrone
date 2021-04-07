@@ -99,9 +99,9 @@ auto Magnetometer::GetFactorADC2Magnetometer(void) noexcept -> float {
 auto Magnetometer::GetCalibrationValues(void) noexcept -> void {
   const std::vector<std::uint8_t> raw_calibration_values = ReadContentFromRegister(imu::AK8963_ASAX, 3);
 
-  calibration_values_.x = AdjustSensitivity(raw_calibration_values[0]);
-  calibration_values_.y = AdjustSensitivity(raw_calibration_values[1]);
-  calibration_values_.z = AdjustSensitivity(raw_calibration_values[2]);
+  calibration_values_.x = AdjustSensitivity(raw_calibration_values[POSITION_X]);
+  calibration_values_.y = AdjustSensitivity(raw_calibration_values[POSITION_Y]);
+  calibration_values_.z = AdjustSensitivity(raw_calibration_values[POSITION_Z]);
 }
 
 auto Magnetometer::AdjustSensitivity(const std::uint8_t sensitivity_adjustment_value) noexcept -> float {
