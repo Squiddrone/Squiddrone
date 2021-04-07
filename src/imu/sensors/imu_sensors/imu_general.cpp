@@ -85,7 +85,7 @@ auto GeneralSensor::SetI2CAdress(std::uint8_t i2c_address) noexcept -> void {
   i2c_address_ = i2c_address;
 }
 
-auto GeneralSensor::ConvertUint8BytesIntoInt16SensorValue(const std::vector<std::uint8_t> raw_vector) noexcept -> std::vector<std::int16_t> {
+auto GeneralSensor::ConvertUint8BytesIntoInt16SensorValue(const std::vector<std::uint8_t> &raw_vector) noexcept -> std::vector<std::int16_t> {
   std::vector<std::int16_t> int16_vector;
 
   for (size_t i = 0; i < raw_vector.size() - 1; i += 2) {

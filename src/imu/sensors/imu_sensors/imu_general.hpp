@@ -28,7 +28,7 @@ class GeneralSensor : public GeneralSensorInterface {
   auto ImuConnectionSuccessful(void) noexcept -> bool;
   auto ImuConnectionFailed(void) noexcept -> bool;
   auto SetI2CAdress(const std::uint8_t i2c_address) noexcept -> void;
-  auto ConvertUint8BytesIntoInt16SensorValue(const std::vector<std::uint8_t> raw_vector) noexcept -> std::vector<std::int16_t>;
+  auto ConvertUint8BytesIntoInt16SensorValue(const std::vector<std::uint8_t> &raw_vector) noexcept -> std::vector<std::int16_t>;
   auto ConvertUint8BytesIntoInt16(std::uint8_t first_byte, std::uint8_t second_byte) noexcept -> std::int16_t;
   auto IsInitialized(void) noexcept -> bool;
 

@@ -18,7 +18,7 @@ auto SensorVector::Get(void) noexcept -> types::EuclideanVector<int16_t> {
   return sensor_values_;
 }
 
-auto SensorVector::SetSensorValues(const std::vector<std::int16_t> sensor_values) noexcept -> void {
+auto SensorVector::SetSensorValues(const std::vector<std::int16_t> &sensor_values) noexcept -> void {
   sensor_values_.x = sensor_values.at(0);
   sensor_values_.y = sensor_values.at(1);
   sensor_values_.z = sensor_values.at(2);
