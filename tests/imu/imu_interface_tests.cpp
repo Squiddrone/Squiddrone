@@ -28,21 +28,41 @@ class ImuInterfaceTests : public ::testing::Test {
   }
 
   virtual void ConfigureUnitUnderTest() {
-    unit_under_test_ = std::make_unique<imu::InertialMeasurement>(std::move(i2c_handler_));
+    unit_under_test_ = std::make_unique<imu::InertialMeasurement>(i2c_handler_);
     unit_under_test_->UnitTestSetImuSeam(std::move(mock_mpu9255_));
   }
 
-  std::unique_ptr<i2c::MockI2C> i2c_handler_ = std::make_unique<NiceMock<i2c::MockI2C>>();
+  std::shared_ptr<i2c::MockI2C> i2c_handler_ = std::make_shared<NiceMock<i2c::MockI2C>>();
   std::unique_ptr<imu::MockMpu9255> mock_mpu9255_ = std::make_unique<NiceMock<imu::MockMpu9255>>();
   std::unique_ptr<imu::InertialMeasurement> unit_under_test_;
-  types::EuclideanVector<float> sensor_values_gyroscope{1.5, 2.5, 3.5};
-  types::EuclideanVector<float> sensor_values_accelerometer{4.5, 5.5, 6.5};
-  types::EuclideanVector<float> sensor_values_magnetometer{7.5, 8.5, 9.5};
+  types::EuclideanVector<std::int16_t> sensor_values_gyroscope{1, 2, 3};
+  types::EuclideanVector<std::int16_t> sensor_values_accelerometer{4, 5, 6};
+  types::EuclideanVector<std::int16_t> sensor_values_magnetometer{7, 8, 9};
 };
+
+TEST_F(ImuInterfaceTests, interface_Init) {
+  ON_CALL(*mock_mpu9255_, Init)
+      .WillByDefault(Return(types::DriverStatus::OK));
+
+  ConfigureUnitUnderTest();
+
+  EXPECT_EQ(unit_under_test_->Init(), types::DriverStatus::OK);
+}
+
+TEST_F(ImuInterfaceTests, interface_Update) {
+  ON_CALL(*mock_mpu9255_, Update)
+      .WillByDefault(Return(types::DriverStatus::OK));
+
+  ConfigureUnitUnderTest();
+
+  EXPECT_EQ(unit_under_test_->Update(), types::DriverStatus::OK);
+}
 
 TEST_F(ImuInterfaceTests, interface_set_gyroscope_sensitivity_finest) {
   ON_CALL(*mock_mpu9255_, GetGyroscopeSensitivity)
       .WillByDefault(Return(types::ImuSensitivity::FINEST));
+  ON_CALL(*mock_mpu9255_, SetGyroscopeSensitivity)
+      .WillByDefault(Return(types::DriverStatus::OK));
 
   ConfigureUnitUnderTest();
 
@@ -155,7 +175,7 @@ TEST_F(ImuInterfaceTests, interface_get_accelerometer_sensitivity_default) {
 TEST_F(ImuInterfaceTests, interface_get_gyroscope) {
   ConfigureUnitUnderTest();
 
-  types::EuclideanVector<float> expected_value{1.5, 2.5, 3.5};
+  types::EuclideanVector<std::int16_t> expected_value{1, 2, 3};
   auto gyroscope_return = unit_under_test_->GetGyroscope();
   EXPECT_EQ(gyroscope_return.x, expected_value.x);
   EXPECT_EQ(gyroscope_return.y, expected_value.y);
@@ -165,7 +185,7 @@ TEST_F(ImuInterfaceTests, interface_get_gyroscope) {
 TEST_F(ImuInterfaceTests, interface_get_accelerometer) {
   ConfigureUnitUnderTest();
 
-  types::EuclideanVector<float> expected_value{4.5, 5.5, 6.5};
+  types::EuclideanVector<std::int16_t> expected_value{4, 5, 6};
   auto accelerometer_return = unit_under_test_->GetAccelerometer();
   EXPECT_EQ(accelerometer_return.x, expected_value.x);
   EXPECT_EQ(accelerometer_return.y, expected_value.y);
@@ -175,7 +195,7 @@ TEST_F(ImuInterfaceTests, interface_get_accelerometer) {
 TEST_F(ImuInterfaceTests, interface_get_magnetometer) {
   ConfigureUnitUnderTest();
 
-  types::EuclideanVector<float> expected_value{7.5, 8.5, 9.5};
+  types::EuclideanVector<std::int16_t> expected_value{7, 8, 9};
   auto magnetometer_return = unit_under_test_->GetMagnetometer();
   EXPECT_EQ(magnetometer_return.x, expected_value.x);
   EXPECT_EQ(magnetometer_return.y, expected_value.y);
