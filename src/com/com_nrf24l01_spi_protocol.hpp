@@ -23,8 +23,8 @@ class NRF24L01SpiProtocol final {
   * @param register_address Addess of the target register as hex.
   * @return std::pair<types::DriverStatus, std::uint8_t> Status of the spi transfer and register content as byte.
   */
-
   auto ReadRegister(std::uint8_t register_address) noexcept -> std::pair<types::DriverStatus, std::uint8_t>;
+
   /**
    * @brief Read multiple byte register.
    * 
@@ -33,6 +33,7 @@ class NRF24L01SpiProtocol final {
    * @return std::pair<types::DriverStatus, std::vector<std::uint8_t>> Status of the spi transfer and register content as vector of bytes.
    */
   auto ReadRegister(std::uint8_t register_address, std::uint8_t length) noexcept -> std::pair<types::DriverStatus, std::vector<std::uint8_t>>;
+
   /**
    * @brief Simple single byte write action.
    * 
@@ -41,6 +42,7 @@ class NRF24L01SpiProtocol final {
    * @return types::DriverStatus Status of the spi transfer.
    */
   auto WriteRegister(std::uint8_t register_address, std::uint8_t register_content) noexcept -> types::DriverStatus;
+
   /**
    * @brief Write multiple bytes to register.
    * 
@@ -49,6 +51,7 @@ class NRF24L01SpiProtocol final {
    * @return types::DriverStatus Status of the spi transfer.
    */
   auto WriteRegister(std::uint8_t register_address, std::vector<std::uint8_t> &register_content) noexcept -> types::DriverStatus;
+
   /**
    * @brief Write to transmission payload buffer.
    * 
@@ -56,6 +59,7 @@ class NRF24L01SpiProtocol final {
    * @return types::DriverStatus Status of the spi transfer.
    */
   auto WritePayloadData(std::vector<std::uint8_t> &payload) noexcept -> types::DriverStatus;
+
   /**
    * @brief Get first level of the rx fifo buffer.
    * 
@@ -63,30 +67,35 @@ class NRF24L01SpiProtocol final {
    * @return types::DriverStatus Status of the spi transfer.
    */
   auto ReadPayloadData(std::vector<std::uint8_t> &payload) noexcept -> types::DriverStatus;
+
   /**
    * @brief Flush the transmission buffer on the NRF24L01 device.
    * 
    * @return types::DriverStatus Status of the spi transfer.
    */
   auto FlushTxBuffer() noexcept -> types::DriverStatus;
+
   /**
    * @brief Flush the receive buffer on the NRF24L01 device.
    * 
    * @return types::DriverStatus Status of the spi transfer.
    */
   auto FlushRxBuffer() noexcept -> types::DriverStatus;
+
   /**
    * @brief Get the current content of the status register and clear IRQ related flags.
    * 
    * @return std::pair<types::DriverStatus, std::uint8_t> Status of the spi transfer and status register content.
    */
   auto ReadAndClearIRQFlags() noexcept -> std::pair<types::DriverStatus, std::uint8_t>;
+
   /**
    * @brief Construct a new NRF24L01SpiProtocol object
    * 
-   * @param spi 
+   * @param spi Pointer to an instance of the SPI class.
    */
   explicit NRF24L01SpiProtocol(std::unique_ptr<spi::SPI> spi) : spi_(std::move(spi)){};
+
   NRF24L01SpiProtocol() = delete;
   /**
    * @brief Destroy the NRF24L01SpiProtocol object
