@@ -24,7 +24,7 @@ class NRF24L01SpiProtocol final {
   * @return std::uint8_t Register content as byte.
   */
 
-  auto ReadRegister(std::uint8_t register_address) noexcept -> std::uint8_t;
+  auto ReadRegister(std::uint8_t register_address) noexcept -> std::pair<types::DriverStatus, std::uint8_t>;
   /**
    * @brief Read multiple byte register.
    * 
@@ -32,7 +32,7 @@ class NRF24L01SpiProtocol final {
    * @param length Number of bytes to read.
    * @return std::vector<std::uint8_t> Register content as vector of bytes.
    */
-  auto ReadRegister(std::uint8_t register_address, std::uint8_t length) noexcept -> std::vector<std::uint8_t>;
+  auto ReadRegister(std::uint8_t register_address, std::uint8_t length) noexcept -> std::pair<types::DriverStatus, std::vector<std::uint8_t>>;
   /**
    * @brief Simple single byte write action.
    * 
@@ -80,7 +80,7 @@ class NRF24L01SpiProtocol final {
    * 
    * @return register_t Status register content.
    */
-  auto ReadAndClearIRQFlags() noexcept -> register_t;
+  auto ReadAndClearIRQFlags() noexcept -> std::pair<types::DriverStatus, std::uint8_t>;
   /**
    * @brief Construct a new NRF24L01SpiProtocol object
    * 
