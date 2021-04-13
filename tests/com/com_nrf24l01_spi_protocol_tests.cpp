@@ -26,11 +26,20 @@ types::DriverStatus ConstructTestVector(std::vector<std::uint8_t> &mosi, std::ve
   return types::DriverStatus::OK;
 }
 
-TEST_F(ComNRF24L01SpiProtocolTests, read_register) {
+TEST_F(ComNRF24L01SpiProtocolTests, read_register_spi_tx_ok) {
   std::uint8_t test_reg_addr = 0xfa;
   EXPECT_CALL(*spi_, Transfer(ElementsAre(com::instruction_word::R_REGISTER | test_reg_addr), ElementsAre(_, _)));
   unit_under_test_ = std::make_unique<com::NRF24L01SpiProtocol>(std::move(spi_));
-  unit_under_test_->ReadRegister(test_reg_addr);
+  auto rv = unit_under_test_->ReadRegister(test_reg_addr);
+  ASSERT_EQ(rv.first, types::DriverStatus::OK);
+}
+
+TEST_F(ComNRF24L01SpiProtocolTests, read_register_spi_tx_not_ok) {
+  std::uint8_t test_reg_addr = 0xfa;
+  EXPECT_CALL(*spi_, Transfer(_, _)).WillOnce(Return(types::DriverStatus::HAL_ERROR));
+  unit_under_test_ = std::make_unique<com::NRF24L01SpiProtocol>(std::move(spi_));
+  auto rv = unit_under_test_->ReadRegister(test_reg_addr);
+  ASSERT_EQ(rv.first, types::DriverStatus::HAL_ERROR);
 }
 
 TEST_F(ComNRF24L01SpiProtocolTests, write_register_spi_tx_ok) {
@@ -51,12 +60,22 @@ TEST_F(ComNRF24L01SpiProtocolTests, write_register_spi_tx_not_ok) {
   ASSERT_EQ(retval, types::DriverStatus::HAL_ERROR);
 }
 
-TEST_F(ComNRF24L01SpiProtocolTests, read_register_multibyte) {
+TEST_F(ComNRF24L01SpiProtocolTests, read_register_multibyte_spi_tx_ok) {
   std::uint8_t test_reg_addr = 0xfa;
   std::uint8_t length = 3;
   EXPECT_CALL(*spi_, Transfer(ElementsAre(com::instruction_word::R_REGISTER | test_reg_addr), ElementsAre(_, _, _, _)));
   unit_under_test_ = std::make_unique<com::NRF24L01SpiProtocol>(std::move(spi_));
-  unit_under_test_->ReadRegister(test_reg_addr, length);
+  auto rv = unit_under_test_->ReadRegister(test_reg_addr, length);
+  ASSERT_EQ(rv.first, types::DriverStatus::OK);
+}
+
+TEST_F(ComNRF24L01SpiProtocolTests, read_register_multibyte_spi_tx_not_ok) {
+  std::uint8_t test_reg_addr = 0xfa;
+  std::uint8_t length = 3;
+  EXPECT_CALL(*spi_, Transfer(_, _)).WillOnce(Return(types::DriverStatus::HAL_ERROR));
+  unit_under_test_ = std::make_unique<com::NRF24L01SpiProtocol>(std::move(spi_));
+  auto rv = unit_under_test_->ReadRegister(test_reg_addr, length);
+  ASSERT_EQ(rv.first, types::DriverStatus::HAL_ERROR);
 }
 
 TEST_F(ComNRF24L01SpiProtocolTests, write_register_multibyte_spi_tx_ok) {
@@ -98,13 +117,14 @@ TEST_F(ComNRF24L01SpiProtocolTests, flush_rx_buffer) {
   unit_under_test_->FlushRxBuffer();
 }
 
-TEST_F(ComNRF24L01SpiProtocolTests, read_and_clear_irq_flags) {
+TEST_F(ComNRF24L01SpiProtocolTests, read_and_clear_irq_flags_ok) {
   std::uint8_t test_reg_addr = com::reg::status::REG_ADDR;
   EXPECT_CALL(*spi_, Transfer(ElementsAre(com::instruction_word::W_REGISTER | test_reg_addr, _), _))
       .WillOnce(Invoke(&ConstructTestVector));
   unit_under_test_ = std::make_unique<com::NRF24L01SpiProtocol>(std::move(spi_));
   auto rv = unit_under_test_->ReadAndClearIRQFlags();
-  ASSERT_EQ(rv, 0xaa);
+  ASSERT_EQ(rv.second, 0xaa);
+  ASSERT_EQ(rv.first, types::DriverStatus::OK);
 }
 
 int main(int argc, char **argv) {

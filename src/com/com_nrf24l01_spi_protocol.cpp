@@ -3,27 +3,28 @@
 
 namespace com {
 
-auto NRF24L01SpiProtocol::ReadRegister(const std::uint8_t register_address) noexcept -> std::uint8_t {
+auto NRF24L01SpiProtocol::ReadRegister(const std::uint8_t register_address) noexcept -> std::pair<types::DriverStatus, std::uint8_t> {
   constexpr auto position_in_buffer = 1;
   constexpr auto spi_transfer_length = 2;
   std::vector<std::uint8_t> mosi_data_buffer;
   std::vector<std::uint8_t> miso_data_buffer(spi_transfer_length);
   mosi_data_buffer.push_back(instruction_word::R_REGISTER | register_address);
 
-  spi_->Transfer(mosi_data_buffer, miso_data_buffer);
+  auto spi_ret_val = spi_->Transfer(mosi_data_buffer, miso_data_buffer);
+  auto data = miso_data_buffer.at(position_in_buffer);
 
-  return miso_data_buffer.at(position_in_buffer);
+  return {spi_ret_val, data};
 }
 
-auto NRF24L01SpiProtocol::ReadRegister(const std::uint8_t register_address, std::uint8_t length) noexcept -> std::vector<std::uint8_t> {
+auto NRF24L01SpiProtocol::ReadRegister(const std::uint8_t register_address, std::uint8_t length) noexcept -> std::pair<types::DriverStatus, std::vector<std::uint8_t>> {
   std::vector<std::uint8_t> mosi_data_buffer;
   std::vector<std::uint8_t> miso_data_buffer(length + 1);
   mosi_data_buffer.push_back(instruction_word::R_REGISTER | register_address);
 
-  spi_->Transfer(mosi_data_buffer, miso_data_buffer);
+  auto spi_ret_val = spi_->Transfer(mosi_data_buffer, miso_data_buffer);
   miso_data_buffer.erase(miso_data_buffer.begin());
 
-  return miso_data_buffer;
+  return {spi_ret_val, miso_data_buffer};
 }
 
 auto NRF24L01SpiProtocol::WriteRegister(std::uint8_t register_address, std::uint8_t register_content) noexcept -> types::DriverStatus {
@@ -84,7 +85,7 @@ auto NRF24L01SpiProtocol::FlushRxBuffer() noexcept -> types::DriverStatus {
   return spi_ret_val;
 }
 
-auto NRF24L01SpiProtocol::ReadAndClearIRQFlags() noexcept -> register_t {
+auto NRF24L01SpiProtocol::ReadAndClearIRQFlags() noexcept -> std::pair<types::DriverStatus, std::uint8_t> {
   constexpr auto position_in_buffer = 0;
   constexpr auto spi_transfer_length = 2;
   std::vector<std::uint8_t> mosi_data;
@@ -98,9 +99,10 @@ auto NRF24L01SpiProtocol::ReadAndClearIRQFlags() noexcept -> register_t {
 
   mosi_data.push_back(instruction_word::W_REGISTER | reg::status::REG_ADDR);
   mosi_data.push_back(construct_byte.Get());
-  spi_->Transfer(mosi_data, miso_data);
+  auto spi_ret_val = spi_->Transfer(mosi_data, miso_data);
 
-  return miso_data.at(position_in_buffer);
+  auto data = miso_data.at(position_in_buffer);
+  return {spi_ret_val, data};
 }
 
 }  // namespace com

@@ -1,6 +1,6 @@
 #include <gmock/gmock.h>
+#include "accelerometer.hpp"
 #include "gtest/gtest.h"
-#include "gyroscope.hpp"
 #include "mock_i2c.hpp"
 
 using ::testing::_;
@@ -9,7 +9,7 @@ using ::testing::Return;
 
 namespace {
 
-class GyroscopeTests : public ::testing::Test {
+class AccelerometerTests : public ::testing::Test {
  protected:
   virtual void SetUp() {
     ON_CALL(*i2c_handler_, Write(_, _, _))
@@ -21,26 +21,26 @@ class GyroscopeTests : public ::testing::Test {
         .WillByDefault(Return(answer_to_who_am_i_MPU9255));
     ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::WHO_AM_I_AK8963_REGISTER, _, _))
         .WillByDefault(Return(answer_to_who_am_i_AK8963));
-    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::GYRO_CONFIG, _, _))
-        .WillByDefault(Return(answer_to_gyro_config));
-    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::GYRO_MEASUREMENT_DATA, _, _))
+    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::ACCEL_CONFIG, _, _))
+        .WillByDefault(Return(answer_to_accel_config));
+    ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::ACCEL_MEASUREMENT_DATA, _, _))
         .WillByDefault(Return(answer_to_update));
   }
 
   virtual void ConfigureUnitUnderTest() {
-    unit_under_test_ = std::make_unique<imu::Gyroscope>(i2c_handler_);
+    unit_under_test_ = std::make_unique<imu::Accelerometer>(i2c_handler_);
     unit_under_test_->SetSensitivity(types::ImuSensitivity::FINEST);
   }
 
   uint8_t i2c_address_ = imu::MPU9255_ADDRESS;
   std::shared_ptr<i2c::MockI2C> i2c_handler_ = std::make_shared<NiceMock<i2c::MockI2C>>();
-  std::unique_ptr<imu::Gyroscope> unit_under_test_;
+  std::unique_ptr<imu::Accelerometer> unit_under_test_;
 
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_who_am_i_MPU9255{
       types::DriverStatus::OK, {imu::WHO_AM_I_MPU9255_VALUE}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_who_am_i_AK8963{
       types::DriverStatus::OK, {imu::WHO_AM_I_AK8963_VALUE}};
-  std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_gyro_config{
+  std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_accel_config{
       types::DriverStatus::OK, {0b11111111}};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> answer_to_update{
       types::DriverStatus::OK, {0x7F, 0xFF, 0x00, 0x00, 0x80, 0x00}};
@@ -50,7 +50,7 @@ class GyroscopeTests : public ::testing::Test {
       types::DriverStatus::HAL_ERROR, {}};
 };
 
-TEST_F(GyroscopeTests, Init_OK) {
+TEST_F(AccelerometerTests, Init_OK) {
   ConfigureUnitUnderTest();
 
   auto init_return = unit_under_test_->Init(i2c_address_);
@@ -58,7 +58,7 @@ TEST_F(GyroscopeTests, Init_OK) {
   EXPECT_EQ(init_return, types::DriverStatus::OK);
 }
 
-TEST_F(GyroscopeTests, Init_failed) {
+TEST_F(AccelerometerTests, Init_failed) {
   ON_CALL(*i2c_handler_, Write(0, _, _))
       .WillByDefault(Return(types::DriverStatus::HAL_ERROR));
 
@@ -69,7 +69,7 @@ TEST_F(GyroscopeTests, Init_failed) {
   EXPECT_EQ(init_return, types::DriverStatus::HAL_ERROR);
 }
 
-TEST_F(GyroscopeTests, Update) {
+TEST_F(AccelerometerTests, Update) {
   ConfigureUnitUnderTest();
 
   unit_under_test_->Init(i2c_address_);
@@ -77,14 +77,14 @@ TEST_F(GyroscopeTests, Update) {
   EXPECT_EQ(update_return, types::DriverStatus::OK);
 }
 
-TEST_F(GyroscopeTests, Update_without_Init_first) {
+TEST_F(AccelerometerTests, Update_without_Init_first) {
   ConfigureUnitUnderTest();
 
   auto update_return = unit_under_test_->Update();
   EXPECT_EQ(update_return, types::DriverStatus::HAL_ERROR);
 }
 
-TEST_F(GyroscopeTests, Get_without_Update_and_Init_first) {
+TEST_F(AccelerometerTests, Get_without_Update_and_Init_first) {
   ConfigureUnitUnderTest();
 
   types::EuclideanVector<std::int16_t> expected_value{-1, -1, -1};
@@ -95,7 +95,7 @@ TEST_F(GyroscopeTests, Get_without_Update_and_Init_first) {
   EXPECT_EQ(get_return.z, expected_value.z);
 }
 
-TEST_F(GyroscopeTests, Get_without_Update_first) {
+TEST_F(AccelerometerTests, Get_without_Update_first) {
   ConfigureUnitUnderTest();
 
   types::EuclideanVector<std::int16_t> expected_value{0, 0, 0};
@@ -107,8 +107,8 @@ TEST_F(GyroscopeTests, Get_without_Update_first) {
   EXPECT_EQ(get_return.z, expected_value.z);
 }
 
-TEST_F(GyroscopeTests, Update_failes_in_ReadContentFromRegister) {
-  ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::GYRO_MEASUREMENT_DATA, _, _))
+TEST_F(AccelerometerTests, Update_failes_in_ReadContentFromRegister) {
+  ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::ACCEL_MEASUREMENT_DATA, _, _))
       .WillByDefault(Return(answer_invalid));
 
   ConfigureUnitUnderTest();
@@ -119,10 +119,10 @@ TEST_F(GyroscopeTests, Update_failes_in_ReadContentFromRegister) {
   EXPECT_EQ(update_return, types::DriverStatus::HAL_ERROR);
 }
 
-TEST_F(GyroscopeTests, full_finest) {
+TEST_F(AccelerometerTests, full_finest) {
   ConfigureUnitUnderTest();
 
-  types::EuclideanVector<std::int16_t> expected_value{2000, 0, -2000};
+  types::EuclideanVector<std::int16_t> expected_value{16, 0, -16};
   unit_under_test_->Init(i2c_address_);
   unit_under_test_->SetSensitivity(types::ImuSensitivity::FINEST);
   unit_under_test_->Update();
@@ -133,10 +133,10 @@ TEST_F(GyroscopeTests, full_finest) {
   EXPECT_EQ(get_return.z, expected_value.z);
 }
 
-TEST_F(GyroscopeTests, full_finer) {
+TEST_F(AccelerometerTests, full_finer) {
   ConfigureUnitUnderTest();
 
-  types::EuclideanVector<std::int16_t> expected_value{1000, 0, -1000};
+  types::EuclideanVector<std::int16_t> expected_value{8, 0, -8};
   unit_under_test_->Init(i2c_address_);
   unit_under_test_->SetSensitivity(types::ImuSensitivity::FINER);
   unit_under_test_->Update();
@@ -147,10 +147,10 @@ TEST_F(GyroscopeTests, full_finer) {
   EXPECT_EQ(get_return.z, expected_value.z);
 }
 
-TEST_F(GyroscopeTests, full_rougher) {
+TEST_F(AccelerometerTests, full_rougher) {
   ConfigureUnitUnderTest();
 
-  types::EuclideanVector<std::int16_t> expected_value{500, 0, -500};
+  types::EuclideanVector<std::int16_t> expected_value{4, 0, -4};
   unit_under_test_->Init(i2c_address_);
   unit_under_test_->SetSensitivity(types::ImuSensitivity::ROUGHER);
   unit_under_test_->Update();
@@ -161,10 +161,10 @@ TEST_F(GyroscopeTests, full_rougher) {
   EXPECT_EQ(get_return.z, expected_value.z);
 }
 
-TEST_F(GyroscopeTests, full_roughest) {
+TEST_F(AccelerometerTests, full_roughest) {
   ConfigureUnitUnderTest();
 
-  types::EuclideanVector<std::int16_t> expected_value{250, 0, -250};
+  types::EuclideanVector<std::int16_t> expected_value{2, 0, -2};
   unit_under_test_->Init(i2c_address_);
   unit_under_test_->SetSensitivity(types::ImuSensitivity::ROUGHEST);
   unit_under_test_->Update();
@@ -175,8 +175,8 @@ TEST_F(GyroscopeTests, full_roughest) {
   EXPECT_EQ(get_return.z, expected_value.z);
 }
 
-TEST_F(GyroscopeTests, SetSensitivity_finest) {
-  const std::vector<std::uint8_t> expected_data_finest{imu::GYRO_CONFIG, 0b11100111};
+TEST_F(AccelerometerTests, SetSensitivity_finest) {
+  const std::vector<std::uint8_t> expected_data_finest{imu::ACCEL_CONFIG, 0b11100111};
   EXPECT_CALL(*i2c_handler_, Write(i2c_address_, expected_data_finest, _))
       .WillOnce(Return(types::DriverStatus::OK))
       .WillOnce(Return(types::DriverStatus::OK));
@@ -188,9 +188,9 @@ TEST_F(GyroscopeTests, SetSensitivity_finest) {
   EXPECT_EQ(sensitivity_return, types::DriverStatus::OK);
 }
 
-TEST_F(GyroscopeTests, SetSensitivity_finer) {
-  const std::vector<std::uint8_t> expected_data_finest{imu::GYRO_CONFIG, 0b11100111};
-  const std::vector<std::uint8_t> expected_data_finer{imu::GYRO_CONFIG, 0b11101111};
+TEST_F(AccelerometerTests, SetSensitivity_finer) {
+  const std::vector<std::uint8_t> expected_data_finest{imu::ACCEL_CONFIG, 0b11100111};
+  const std::vector<std::uint8_t> expected_data_finer{imu::ACCEL_CONFIG, 0b11101111};
 
   EXPECT_CALL(*i2c_handler_, Write(i2c_address_, expected_data_finest, _))
       .WillOnce(Return(types::DriverStatus::OK));
@@ -204,9 +204,9 @@ TEST_F(GyroscopeTests, SetSensitivity_finer) {
   EXPECT_EQ(sensitivity_return, types::DriverStatus::OK);
 }
 
-TEST_F(GyroscopeTests, SetSensitivity_rougher) {
-  const std::vector<std::uint8_t> expected_data_finest{imu::GYRO_CONFIG, 0b11100111};
-  const std::vector<std::uint8_t> expected_data_rougher{imu::GYRO_CONFIG, 0b11110111};
+TEST_F(AccelerometerTests, SetSensitivity_rougher) {
+  const std::vector<std::uint8_t> expected_data_finest{imu::ACCEL_CONFIG, 0b11100111};
+  const std::vector<std::uint8_t> expected_data_rougher{imu::ACCEL_CONFIG, 0b11110111};
 
   EXPECT_CALL(*i2c_handler_, Write(i2c_address_, expected_data_finest, _))
       .WillOnce(Return(types::DriverStatus::OK));
@@ -220,9 +220,9 @@ TEST_F(GyroscopeTests, SetSensitivity_rougher) {
   EXPECT_EQ(sensitivity_return, types::DriverStatus::OK);
 }
 
-TEST_F(GyroscopeTests, SetSensitivity_roughest) {
-  const std::vector<std::uint8_t> expected_data_finest{imu::GYRO_CONFIG, 0b11100111};
-  const std::vector<std::uint8_t> expected_data_roughest{imu::GYRO_CONFIG, 0b11111111};
+TEST_F(AccelerometerTests, SetSensitivity_roughest) {
+  const std::vector<std::uint8_t> expected_data_finest{imu::ACCEL_CONFIG, 0b11100111};
+  const std::vector<std::uint8_t> expected_data_roughest{imu::ACCEL_CONFIG, 0b11111111};
 
   EXPECT_CALL(*i2c_handler_, Write(i2c_address_, expected_data_finest, _))
       .WillOnce(Return(types::DriverStatus::OK));
@@ -236,7 +236,7 @@ TEST_F(GyroscopeTests, SetSensitivity_roughest) {
   EXPECT_EQ(sensitivity_return, types::DriverStatus::OK);
 }
 
-TEST_F(GyroscopeTests, SetSensitivity_failes_stored_sensitivity_stays_same) {
+TEST_F(AccelerometerTests, SetSensitivity_failes_stored_sensitivity_stays_same) {
   ON_CALL(*i2c_handler_, ReadContentFromRegister(0, _, _, _))
       .WillByDefault(Return(answer_invalid));
 
@@ -255,14 +255,14 @@ TEST_F(GyroscopeTests, SetSensitivity_failes_stored_sensitivity_stays_same) {
   EXPECT_EQ(get, set_sensitivity);
 }
 
-TEST_F(GyroscopeTests, SetSensitivity_without_Init_first) {
+TEST_F(AccelerometerTests, SetSensitivity_without_Init_first) {
   ConfigureUnitUnderTest();
 
   auto sensitivity_return = unit_under_test_->SetSensitivity(types::ImuSensitivity::ROUGHEST);
   EXPECT_EQ(sensitivity_return, types::DriverStatus::HAL_ERROR);
 }
 
-TEST_F(GyroscopeTests, SetSensitivity_GetSensitivity) {
+TEST_F(AccelerometerTests, SetSensitivity_GetSensitivity) {
   ConfigureUnitUnderTest();
 
   unit_under_test_->Init(i2c_address_);
@@ -278,8 +278,8 @@ TEST_F(GyroscopeTests, SetSensitivity_GetSensitivity) {
   EXPECT_EQ(get, set_sensitivity);
 }
 
-TEST_F(GyroscopeTests, connection_failed_after_successful_init) {
-  ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::GYRO_MEASUREMENT_DATA, _, _))
+TEST_F(AccelerometerTests, connection_failed_after_successful_init) {
+  ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::ACCEL_MEASUREMENT_DATA, _, _))
       .WillByDefault(Return(answer_invalid));
 
   ConfigureUnitUnderTest();
@@ -291,19 +291,7 @@ TEST_F(GyroscopeTests, connection_failed_after_successful_init) {
   EXPECT_EQ(update_return, types::DriverStatus::HAL_ERROR);
 }
 
-TEST_F(GyroscopeTests, connection_failed_in_init_at_sending_of_sensitivity_data) {
-  const std::vector<std::uint8_t> expected_data_finest{imu::GYRO_CONFIG, 0b11100111};
-  ON_CALL(*i2c_handler_, Write(i2c_address_, expected_data_finest, _))
-      .WillByDefault(Return(types::DriverStatus::HAL_ERROR));
-
-  ConfigureUnitUnderTest();
-
-  auto init_return = unit_under_test_->Init(i2c_address_);
-
-  EXPECT_EQ(init_return, types::DriverStatus::HAL_ERROR);
-}
-
-TEST_F(GyroscopeTests, read_bytesize_mismatch) {
+TEST_F(AccelerometerTests, read_bytesize_mismatch) {
   ON_CALL(*i2c_handler_, ReadContentFromRegister(_, imu::WHO_AM_I_MPU9255_REGISTER, _, _))
       .WillByDefault(Return(answer_read_mismatch));
 
