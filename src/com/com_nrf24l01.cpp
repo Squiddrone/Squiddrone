@@ -216,7 +216,6 @@ auto NRF24L01::MaskInterruptOnIntPin(MaskeableInterrupts interrupt) -> types::Dr
 }
 
 auto NRF24L01::GetPipeAddress(DataPipe pipe_no) noexcept -> data_pipe_address {
-  std::vector<uint8_t> miso_data;
   uint8_t register_addr = reg::rx_addr_p0::REG_ADDR + static_cast<std::uint8_t>(pipe_no);
   data_pipe_address addr = {0};
   uint8_t counter = 0;
@@ -227,7 +226,7 @@ auto NRF24L01::GetPipeAddress(DataPipe pipe_no) noexcept -> data_pipe_address {
     case DataPipe::rx_pipe_0:
     case DataPipe::rx_pipe_1:
       get_miso_data = spi_protocol_->ReadRegister(register_addr, 5);
-      for (auto miso_data_byte : miso_data) {
+      for (auto miso_data_byte : get_miso_data.second) {
         addr.at(counter) = miso_data_byte;
         counter++;
       }

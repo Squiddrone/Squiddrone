@@ -26,7 +26,8 @@ class NRF24L01 final : public ComInterface {
                     std::unique_ptr<NRF24L01SpiProtocol> spi_protocol) : ComInterface(std::move(msg_buf)),
                                                                          spi_protocol_(std::move(spi_protocol)),
                                                                          current_operation_mode_(com::OperationMode::startup),
-                                                                         is_initialized_(false){};
+                                                                         is_initialized_(false),
+                                                                         irq_flags(0){};
   NRF24L01() = delete;
   ~NRF24L01() = default;
 
