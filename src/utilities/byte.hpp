@@ -32,21 +32,23 @@ class Byte {
   auto SetLowNibble(std::uint8_t value_between_0_and_15) noexcept -> void {
     byte_ &= 0xf0;
     byte_ |= (value_between_0_and_15);
-    auto IsBitHigh(const std::uint8_t bit_number_between_0_and_7) noexcept->bool {
-      return static_cast<bool>(byte_ & 1 << bit_number_between_0_and_7);
-    }
+  }
 
-    auto IsBitLow(const std::uint8_t bit_number_between_0_and_7) noexcept->bool {
-      return !IsBitHigh(bit_number_between_0_and_7);
-    }
+  auto IsBitHigh(const std::uint8_t bit_number_between_0_and_7) noexcept -> bool {
+    return static_cast<bool>(byte_ & 1 << bit_number_between_0_and_7);
+  }
 
-   private:
-    auto SetBitInByte(const std::uint8_t byte, const std::uint8_t bit_number_between_0_and_7) noexcept->std::uint8_t {
-      return static_cast<std::uint8_t>(byte | 1 << bit_number_between_0_and_7);
-    }
+  auto IsBitLow(const std::uint8_t bit_number_between_0_and_7) noexcept -> bool {
+    return !IsBitHigh(bit_number_between_0_and_7);
+  }
 
-    std::uint8_t byte_ = 0;
-  };
+ private:
+  auto SetBitInByte(const std::uint8_t byte, const std::uint8_t bit_number_between_0_and_7) noexcept -> std::uint8_t {
+    return static_cast<std::uint8_t>(byte | 1 << bit_number_between_0_and_7);
+  }
+
+  std::uint8_t byte_ = 0;
+};
 
 }  // namespace utilities
 
