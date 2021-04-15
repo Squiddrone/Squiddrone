@@ -65,7 +65,11 @@ auto NRF24L01::InitRx() noexcept -> types::DriverStatus {
 }
 
 auto NRF24L01::SetOperationMode(OperationMode mode) noexcept -> types::DriverStatus {
-  utilities::Byte config_register(spi_protocol_->ReadRegister(reg::config::REG_ADDR));
+  auto get_config_register = spi_protocol_->ReadRegister(reg::config::REG_ADDR);
+  if (get_config_register.first != types::DriverStatus::OK) {
+    return get_config_register.first;
+  }
+  utilities::Byte config_register(get_config_register.second);
 
   if (mode == OperationMode::prim_tx) {
     config_register.ClearBit(reg::config::PRIM_RX);
@@ -83,7 +87,11 @@ auto NRF24L01::SetRFChannel(std::uint8_t channel) noexcept -> types::DriverStatu
 }
 
 auto NRF24L01::SetDataRate(DataRateSetting data_rate) noexcept -> types::DriverStatus {
-  utilities::Byte config_register(spi_protocol_->ReadRegister(reg::rf_setup::REG_ADDR));
+  auto get_config_register = spi_protocol_->ReadRegister(reg::rf_setup::REG_ADDR);
+  if (get_config_register.first != types::DriverStatus::OK) {
+    return get_config_register.first;
+  }
+  utilities::Byte config_register(get_config_register.second);
 
   if (data_rate == DataRateSetting::rf_dr_1mbps) {
     config_register.ClearBit(reg::rf_setup::RF_DR);
@@ -96,14 +104,23 @@ auto NRF24L01::SetDataRate(DataRateSetting data_rate) noexcept -> types::DriverS
 }
 
 auto NRF24L01::EnableCRC() noexcept -> types::DriverStatus {
-  utilities::Byte config_register(spi_protocol_->ReadRegister(reg::config::REG_ADDR));
+  auto get_config_register = spi_protocol_->ReadRegister(reg::rf_setup::REG_ADDR);
+  if (get_config_register.first != types::DriverStatus::OK) {
+    return get_config_register.first;
+  }
+  utilities::Byte config_register(get_config_register.second);
   config_register.SetBit(reg::config::EN_CRC);
 
   return spi_protocol_->WriteRegister(reg::config::REG_ADDR, config_register.Get());
 }
 
 auto NRF24L01::SetCRCEncodingScheme(CRCEncodingScheme encoding_scheme) noexcept -> types::DriverStatus {
-  utilities::Byte config_register(spi_protocol_->ReadRegister(reg::config::REG_ADDR));
+  auto get_config_register = spi_protocol_->ReadRegister(reg::rf_setup::REG_ADDR);
+  if (get_config_register.first != types::DriverStatus::OK) {
+    return get_config_register.first;
+  }
+  utilities::Byte config_register(get_config_register.second);
+  ;
 
   if (encoding_scheme == CRCEncodingScheme::crc_8bit) {
     config_register.ClearBit(reg::config::CRCO);
@@ -116,7 +133,12 @@ auto NRF24L01::SetCRCEncodingScheme(CRCEncodingScheme encoding_scheme) noexcept 
 }
 
 auto NRF24L01::SetRFOutputPower(RFPowerSetting rf_power) noexcept -> types::DriverStatus {
-  register_t rf_setup_reg = spi_protocol_->ReadRegister(reg::rf_setup::REG_ADDR);
+  auto get_rf_setup_reg = spi_protocol_->ReadRegister(reg::rf_setup::REG_ADDR);
+  if (get_rf_setup_reg.first != types::DriverStatus::OK) {
+    return get_rf_setup_reg.first;
+  }
+
+  auto rf_setup_reg = get_rf_setup_reg.second;
 
   rf_setup_reg &= (0b11111001);
   rf_setup_reg |= static_cast<register_t>(static_cast<register_t>(rf_power) << reg::rf_setup::RF_PWR);
@@ -125,31 +147,47 @@ auto NRF24L01::SetRFOutputPower(RFPowerSetting rf_power) noexcept -> types::Driv
 }
 
 auto NRF24L01::SetPowerState(State power_state) noexcept -> types::DriverStatus {
-  utilities::Byte config_reg(spi_protocol_->ReadRegister(reg::config::REG_ADDR));
+  auto get_config_register = spi_protocol_->ReadRegister(reg::rf_setup::REG_ADDR);
+  if (get_config_register.first != types::DriverStatus::OK) {
+    return get_config_register.first;
+  }
+  utilities::Byte config_register(get_config_register.second);
   if (power_state == State::enabled) {
-    config_reg.SetBit(reg::config::PWR_UP);
+    config_register.SetBit(reg::config::PWR_UP);
   }
   if (power_state == State::disabled) {
-    config_reg.ClearBit(reg::config::PWR_UP);
+    config_register.ClearBit(reg::config::PWR_UP);
   }
 
-  return (spi_protocol_->WriteRegister(reg::config::REG_ADDR, config_reg.Get()));
+  return (spi_protocol_->WriteRegister(reg::config::REG_ADDR, config_register.Get()));
 }
 
 auto NRF24L01::EnableDataPipe(DataPipe pipe_no) noexcept -> types::DriverStatus {
-  utilities::Byte en_rxaddr_reg(spi_protocol_->ReadRegister(reg::en_rxaddr::REG_ADDR));
+  auto get_en_rxaddr_reg = spi_protocol_->ReadRegister(reg::rf_setup::REG_ADDR);
+  if (get_en_rxaddr_reg.first != types::DriverStatus::OK) {
+    return get_en_rxaddr_reg.first;
+  }
+  utilities::Byte en_rxaddr_reg(get_en_rxaddr_reg.second);
   en_rxaddr_reg.SetBit(static_cast<uint8_t>(pipe_no));
   return (spi_protocol_->WriteRegister(reg::en_rxaddr::REG_ADDR, en_rxaddr_reg.Get()));
 }
 
 auto NRF24L01::EnableAutoAck(DataPipe pipe_no) noexcept -> types::DriverStatus {
-  utilities::Byte en_aa_reg(spi_protocol_->ReadRegister(reg::en_aa::REG_ADDR));
+  auto get_en_aa_reg = spi_protocol_->ReadRegister(reg::rf_setup::REG_ADDR);
+  if (get_en_aa_reg.first != types::DriverStatus::OK) {
+    return get_en_aa_reg.first;
+  }
+  utilities::Byte en_aa_reg(get_en_aa_reg.second);
   en_aa_reg.SetBit(static_cast<uint8_t>(pipe_no));
   return (spi_protocol_->WriteRegister(reg::en_aa::REG_ADDR, en_aa_reg.Get()));
 }
 
 auto NRF24L01::ConfigAutoRetransmission(AutoRetransmissionDelay delay, AutoRetransmitCount count) noexcept -> types::DriverStatus {
-  utilities::Byte setup_retr_reg(spi_protocol_->ReadRegister(reg::setup_retr::REG_ADDR));
+  auto get_setup_retr_reg = spi_protocol_->ReadRegister(reg::rf_setup::REG_ADDR);
+  if (get_setup_retr_reg.first != types::DriverStatus::OK) {
+    return get_setup_retr_reg.first;
+  }
+  utilities::Byte setup_retr_reg(get_setup_retr_reg.second);
   setup_retr_reg.SetLowNibble(static_cast<uint8_t>(count));
   setup_retr_reg.SetHighNibble(static_cast<uint8_t>(delay));
   return (spi_protocol_->WriteRegister(reg::setup_retr::REG_ADDR, setup_retr_reg.Get()));
@@ -160,17 +198,21 @@ auto NRF24L01::SetRxAddress(DataPipe pipe_no, data_pipe_address rx_addr) const n
 }
 
 auto NRF24L01::MaskInterruptOnIntPin(MaskeableInterrupts interrupt) -> types::DriverStatus {
-  utilities::Byte config_reg(spi_protocol_->ReadRegister(reg::config::REG_ADDR));
+  auto get_config_register = spi_protocol_->ReadRegister(reg::rf_setup::REG_ADDR);
+  if (get_config_register.first != types::DriverStatus::OK) {
+    return get_config_register.first;
+  }
+  utilities::Byte config_register(get_config_register.second);
   if (interrupt == MaskeableInterrupts::max_nr_of_retries_reached) {
-    config_reg.SetBit(reg::config::MASK_MAX_RT);
+    config_register.SetBit(reg::config::MASK_MAX_RT);
   }
   if (interrupt == MaskeableInterrupts::rx_data_ready) {
-    config_reg.SetBit(reg::config::MASK_RX_DR);
+    config_register.SetBit(reg::config::MASK_RX_DR);
   }
   if (interrupt == MaskeableInterrupts::tx_data_sent) {
-    config_reg.SetBit(reg::config::MASK_TX_DS);
+    config_register.SetBit(reg::config::MASK_TX_DS);
   }
-  return (spi_protocol_->WriteRegister(reg::config::REG_ADDR, config_reg.Get()));
+  return (spi_protocol_->WriteRegister(reg::config::REG_ADDR, config_register.Get()));
 }
 
 auto NRF24L01::GetPipeAddress(DataPipe pipe_no) noexcept -> data_pipe_address {
@@ -178,14 +220,15 @@ auto NRF24L01::GetPipeAddress(DataPipe pipe_no) noexcept -> data_pipe_address {
   uint8_t register_addr = reg::rx_addr_p0::REG_ADDR + static_cast<std::uint8_t>(pipe_no);
   data_pipe_address addr = {0};
   uint8_t counter = 0;
+  std::pair<types::DriverStatus, std::vector<std::uint8_t>> get_miso_data;
 
   switch (pipe_no) {
     case DataPipe::tx_pipe:
     case DataPipe::rx_pipe_0:
     case DataPipe::rx_pipe_1:
-      miso_data = spi_protocol_->ReadRegister(register_addr, 5);
-      for (auto n : miso_data) {
-        addr.at(counter) = n;
+      get_miso_data = spi_protocol_->ReadRegister(register_addr, 5);
+      for (auto miso_data_byte : miso_data) {
+        addr.at(counter) = miso_data_byte;
         counter++;
       }
       break;
@@ -193,7 +236,7 @@ auto NRF24L01::GetPipeAddress(DataPipe pipe_no) noexcept -> data_pipe_address {
     case DataPipe::rx_pipe_3:
     case DataPipe::rx_pipe_4:
     case DataPipe::rx_pipe_5:
-      addr.at(0) = spi_protocol_->ReadRegister(register_addr);
+      //addr.at(0) = spi_protocol_->ReadRegister(register_addr);
       break;
   }
   return addr;
@@ -205,8 +248,6 @@ auto NRF24L01::GetDataPacket() const noexcept -> types::com_msg_frame {
 }
 
 auto NRF24L01::PutDataPacket(std::uint8_t target_id, types::com_msg_frame &payload) noexcept -> types::ComError {
-  register_t irq_flg = 0;
-
   InitTransceiver(20, DataRateSetting::rf_dr_1mbps, RFPowerSetting::rf_pwr_0dBm, CRCEncodingScheme::crc_16bit);
   InitTx();
   spi_protocol_->WriteRegister(0x1d, 0);
@@ -214,12 +255,10 @@ auto NRF24L01::PutDataPacket(std::uint8_t target_id, types::com_msg_frame &paylo
   spi_protocol_->WritePayloadData(payload);
 
   for (int i = 0; i < 10; i++) {
-    irq_flg = spi_protocol_->ReadAndClearIRQFlags();
-    if (irq_flg & ((1U << 5) | (1U << 4))) break;
+    auto get_irq_flg = spi_protocol_->ReadAndClearIRQFlags();
+    if (get_irq_flg.second & ((1U << 5) | (1U << 4))) break;
     HAL_Delay(1);
   }
-
-  register_t setup_retr_content = spi_protocol_->ReadRegister(reg::setup_retr::REG_ADDR);
 
   return types::ComError::COM_OK;
 }
