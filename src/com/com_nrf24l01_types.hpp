@@ -70,7 +70,7 @@ enum class AutoRetransmitCount : std::uint8_t {
 };
 
 enum class OperationMode : std::uint8_t {
-  startup = 0,
+  undefined = 0,
   prim_rx,
   prim_tx
 };
