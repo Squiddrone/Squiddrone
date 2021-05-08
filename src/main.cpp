@@ -24,7 +24,9 @@
 #include "timer_config.h"
 #include "uart_print.hpp"
 
-// #define SYSTEM_TEST_IMU
+#define SYSTEM_TEST_IMU false
+#define SYSTEM_TEST_COM true
+
 auto FormatEuclidVectorForPrintOut(const std::string &Sensor, types::EuclideanVector<std::int16_t> Vector) -> std::string;
 
 #include "com_nrf24l01.hpp"
@@ -46,6 +48,8 @@ int main() {
   MX_TIM16_Init();
   MX_TIM17_Init();
 
+#if (SYSTEM_TEST_COM == true)
+
   auto com_cs_pin = spi::CSPin(CSCOM_GPIO_Port, CSCOM_Pin, spi::CSActiveState::ACTIVE_LOW);
   auto com_spi = std::make_unique<spi::SPI>(com_cs_pin);
   auto com_spi_protocol = std::make_unique<com::NRF24L01SpiProtocol>(std::move(com_spi));
@@ -54,7 +58,13 @@ int main() {
 
   types::com_msg_frame payload{0xab, 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', '_', 'e', 'n', 'd'};
 
-#ifdef SYSTEM_TEST_IMU
+  while (1) {
+    com_device->PutDataPacket(0x0, payload);
+    utilities::Sleep(1000);
+  }
+#endif
+
+#if (SYSTEM_TEST_IMU == true)
 
   auto i2c = std::make_unique<i2c::I2C>();
   auto imu = std::make_unique<imu::InertialMeasurement>(std::move(i2c));
@@ -82,10 +92,10 @@ int main() {
     }
     utilities::Sleep(500);
   }
-#else
+#endif
+
+#if (SYSTEM_TEST_COM == false && SYSTEM_TEST_IMU == false)
   while (1) {
-    com_device->PutDataPacket(0x0, payload);
-    HAL_Delay(1000);
   }
 #endif
 
