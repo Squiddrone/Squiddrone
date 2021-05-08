@@ -1,4 +1,5 @@
 #include "com_nrf24l01.hpp"
+#include "sleep.hpp"
 
 namespace com {
 auto NRF24L01::InitTransceiver(std::uint8_t channel,
@@ -256,7 +257,7 @@ auto NRF24L01::PutDataPacket(std::uint8_t target_id, types::com_msg_frame &paylo
   for (int i = 0; i < 10; i++) {
     auto get_irq_flg = spi_protocol_->ReadAndClearIRQFlags();
     if (get_irq_flg.second & ((1U << 5) | (1U << 4))) break;
-    HAL_Delay(1);
+    utilities::Sleep(1);
   }
 
   return types::ComError::COM_OK;
