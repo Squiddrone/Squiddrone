@@ -29,6 +29,7 @@
 
 auto FormatEuclidVectorForPrintOut(const std::string &Sensor, types::EuclideanVector<std::int16_t> Vector) -> std::string;
 
+#include "com_interrupt_handler.hpp"
 #include "com_nrf24l01.hpp"
 
 int main() {
@@ -54,7 +55,8 @@ int main() {
   auto com_spi = std::make_unique<spi::SPI>(com_cs_pin);
   auto com_spi_protocol = std::make_unique<com::NRF24L01SpiProtocol>(std::move(com_spi));
   auto com_buffer = std::make_unique<com::ComMessageBuffer>();
-  auto com_device = std::make_unique<com::NRF24L01>(std::move(com_buffer), std::move(com_spi_protocol));
+  auto com_device = std::make_shared<com::NRF24L01>(std::move(com_buffer), std::move(com_spi_protocol));
+  auto com_interrupt_handler = std::make_unique<com::ComInterruptHandler>(com_device);
 
   types::com_msg_frame payload{0xab, 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', '_', 'e', 'n', 'd'};
 

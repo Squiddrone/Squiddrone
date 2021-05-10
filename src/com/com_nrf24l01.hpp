@@ -31,6 +31,8 @@ class NRF24L01 final : public ComInterface {
   NRF24L01() = delete;
   ~NRF24L01() = default;
 
+  auto HandleRxIRQ() -> void;
+
  private:
   std::unique_ptr<NRF24L01SpiProtocol> spi_protocol_;
   std::uint8_t irq_flags;

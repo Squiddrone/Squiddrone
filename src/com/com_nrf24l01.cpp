@@ -263,4 +263,8 @@ auto NRF24L01::PutDataPacket(std::uint8_t target_id, types::com_msg_frame &paylo
   return types::ComError::COM_OK;
 }
 
+auto NRF24L01::HandleRxIRQ() -> void {
+  spi_protocol_->ReadAndClearIRQFlags();
+}
+
 }  // namespace com
