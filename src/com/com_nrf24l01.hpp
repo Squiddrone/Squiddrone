@@ -21,6 +21,7 @@ class NRF24L01 final : public ComInterface {
   auto GetDataPacket() const noexcept -> types::com_msg_frame override;
   auto PutDataPacket(std::uint8_t target_id, types::com_msg_frame &payload) noexcept
       -> types::ComError override;
+  auto HandleRxIRQ() noexcept -> void;
 
   explicit NRF24L01(std::unique_ptr<com::ComMessageBuffer> msg_buf,
                     std::unique_ptr<NRF24L01SpiProtocol> spi_protocol) : ComInterface(std::move(msg_buf)),
@@ -30,8 +31,6 @@ class NRF24L01 final : public ComInterface {
                                                                          is_initialized_(false){};
   NRF24L01() = delete;
   ~NRF24L01() = default;
-
-  auto HandleRxIRQ() -> void;
 
  private:
   std::unique_ptr<NRF24L01SpiProtocol> spi_protocol_;
