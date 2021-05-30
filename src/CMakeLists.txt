@@ -5,6 +5,7 @@ add_subdirectory(imu)
 add_subdirectory(i2c)
 add_subdirectory(com)
 add_subdirectory(spi)
+add_subdirectory(utilities)
 
 target_include_directories(${ELF_FILE}
     PRIVATE

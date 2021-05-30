@@ -80,5 +80,5 @@
   },
   "cmake.buildDirectory": "${workspaceFolder}/build",
   "cmake.configureOnOpen": true,
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": true
 }

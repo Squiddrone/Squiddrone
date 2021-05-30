@@ -1,13 +1,55 @@
 
 add_testpackage(TEST_NAME 
+                    imu_integration_tests 
+                SOURCES 
+                    imu_integration_tests.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/interface/inertial_measurement.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/mpu9255/mpu9255.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/imu_general.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_vector.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_single_value.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_with_sensitivity.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/accelerometer.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/gyroscope.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/magnetometer.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/temperature.cpp
+                    ${CMAKE_SOURCE_DIR}/src/utilities/sleep.cpp
+                TEST_INCLUDE_DIRECTORIES
+                    ${CMAKE_SOURCE_DIR}/src/imu
+                    ${CMAKE_SOURCE_DIR}/src/imu/interface
+                    ${CMAKE_SOURCE_DIR}/src/imu/mpu9255
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors
+                    ${CMAKE_SOURCE_DIR}/src/types
+                    ${CMAKE_SOURCE_DIR}/src/utilities
+                    ${CMAKE_SOURCE_DIR}/src/i2c
+                    ${CMAKE_SOURCE_DIR}/tests/i2c/mock_libraries
+                    ${CMAKE_SOURCE_DIR}/tests/imu/mock_libraries
+)
+
+add_testpackage(TEST_NAME 
                     imu_interface 
                 SOURCES 
                     imu_interface_tests.cpp
-                    ${CMAKE_SOURCE_DIR}/src/imu/inertial_measurement.cpp
-                    ${CMAKE_SOURCE_DIR}/src/imu/mpu9255.cpp
-                TEST_INCLUDE_DIRECTORIES 
+                    ${CMAKE_SOURCE_DIR}/src/imu/interface/inertial_measurement.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/mpu9255/mpu9255.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/imu_general.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_vector.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_single_value.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_with_sensitivity.cpp
+                    ${CMAKE_SOURCE_DIR}/src/utilities/sleep.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/accelerometer.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/gyroscope.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/magnetometer.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/temperature.cpp
+                TEST_INCLUDE_DIRECTORIES
                     ${CMAKE_SOURCE_DIR}/src/imu
+                    ${CMAKE_SOURCE_DIR}/src/imu/interface
+                    ${CMAKE_SOURCE_DIR}/src/imu/mpu9255
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors
                     ${CMAKE_SOURCE_DIR}/src/types
+                    ${CMAKE_SOURCE_DIR}/src/utilities
                     ${CMAKE_SOURCE_DIR}/src/i2c
                     ${CMAKE_SOURCE_DIR}/tests/imu/mock_libraries
                     ${CMAKE_SOURCE_DIR}/tests/i2c/mock_libraries
@@ -17,13 +59,77 @@ add_testpackage(TEST_NAME
                     imu_sensors_gyroscope
                 SOURCES 
                     imu_gyroscope_tests.cpp
-                    ${CMAKE_SOURCE_DIR}/src/imu/imu_sensor.cpp
-                    ${CMAKE_SOURCE_DIR}/src/imu/imu_sensor_with_sensitivity.cpp
-                    ${CMAKE_SOURCE_DIR}/src/imu/gyroscope.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/imu_general.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_vector.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_with_sensitivity.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/gyroscope.cpp
                 TEST_INCLUDE_DIRECTORIES 
-                    ${CMAKE_SOURCE_DIR}/src
-                    ${CMAKE_SOURCE_DIR}/src/imu
+                    ${CMAKE_SOURCE_DIR}/src/imu/interface
+                    ${CMAKE_SOURCE_DIR}/src/imu/mpu9255
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors
                     ${CMAKE_SOURCE_DIR}/src/types
+                    ${CMAKE_SOURCE_DIR}/src/utilities
+                    ${CMAKE_SOURCE_DIR}/src/i2c
+                    ${CMAKE_SOURCE_DIR}/tests/imu/mock_libraries
+                    ${CMAKE_SOURCE_DIR}/tests/i2c/mock_libraries
+)
+
+add_testpackage(TEST_NAME 
+                    imu_sensors_accelerometer
+                SOURCES 
+                    imu_accelerometer_tests.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/imu_general.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_vector.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_with_sensitivity.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/accelerometer.cpp
+                TEST_INCLUDE_DIRECTORIES 
+                    ${CMAKE_SOURCE_DIR}/src/imu/interface
+                    ${CMAKE_SOURCE_DIR}/src/imu/mpu9255
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors
+                    ${CMAKE_SOURCE_DIR}/src/types
+                    ${CMAKE_SOURCE_DIR}/src/utilities
+                    ${CMAKE_SOURCE_DIR}/src/i2c
+                    ${CMAKE_SOURCE_DIR}/tests/imu/mock_libraries
+                    ${CMAKE_SOURCE_DIR}/tests/i2c/mock_libraries
+)
+
+add_testpackage(TEST_NAME 
+                    imu_sensors_magnetometer
+                SOURCES 
+                    imu_magnetometer_tests.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/imu_general.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_vector.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_with_sensitivity.cpp
+                    ${CMAKE_SOURCE_DIR}/src/utilities/sleep.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/magnetometer.cpp
+                TEST_INCLUDE_DIRECTORIES 
+                    ${CMAKE_SOURCE_DIR}/src/imu/interface
+                    ${CMAKE_SOURCE_DIR}/src/imu/mpu9255
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors
+                    ${CMAKE_SOURCE_DIR}/src/types
+                    ${CMAKE_SOURCE_DIR}/src/utilities
+                    ${CMAKE_SOURCE_DIR}/src/i2c
+                    ${CMAKE_SOURCE_DIR}/tests/imu/mock_libraries
+                    ${CMAKE_SOURCE_DIR}/tests/i2c/mock_libraries
+)
+
+add_testpackage(TEST_NAME 
+                    imu_sensors_temperature
+                SOURCES 
+                    imu_temperature_tests.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/imu_general.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_single_value.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/temperature.cpp
+                TEST_INCLUDE_DIRECTORIES 
+                    ${CMAKE_SOURCE_DIR}/src/imu/interface
+                    ${CMAKE_SOURCE_DIR}/src/imu/mpu9255
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors
+                    ${CMAKE_SOURCE_DIR}/src/types
+                    ${CMAKE_SOURCE_DIR}/src/utilities
                     ${CMAKE_SOURCE_DIR}/src/i2c
                     ${CMAKE_SOURCE_DIR}/tests/imu/mock_libraries
                     ${CMAKE_SOURCE_DIR}/tests/i2c/mock_libraries
@@ -33,10 +139,23 @@ add_testpackage(TEST_NAME
                     imu_mpu9255
                 SOURCES 
                     imu_mpu9255_tests.cpp
-                    ${CMAKE_SOURCE_DIR}/src/imu/mpu9255.cpp
-                TEST_INCLUDE_DIRECTORIES 
-                    ${CMAKE_SOURCE_DIR}/src/imu
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/imu_general.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_vector.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_single_value.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors/sensor_with_sensitivity.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/accelerometer.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/gyroscope.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/magnetometer.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/temperature.cpp
+                    ${CMAKE_SOURCE_DIR}/src/utilities/sleep.cpp
+                    ${CMAKE_SOURCE_DIR}/src/imu/mpu9255/mpu9255.cpp
+                TEST_INCLUDE_DIRECTORIES
+                    ${CMAKE_SOURCE_DIR}/src/imu/interface
+                    ${CMAKE_SOURCE_DIR}/src/imu/mpu9255
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors
+                    ${CMAKE_SOURCE_DIR}/src/imu/sensors/imu_sensors
                     ${CMAKE_SOURCE_DIR}/src/types
+                    ${CMAKE_SOURCE_DIR}/src/utilities
                     ${CMAKE_SOURCE_DIR}/src/i2c
                     ${CMAKE_SOURCE_DIR}/tests/imu/mock_libraries
                     ${CMAKE_SOURCE_DIR}/tests/i2c/mock_libraries

@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.3.4
 
       - name: Build
         run: ./build.sh
@@ -32,12 +32,11 @@ jobs:
 
       - name: Deploy
         if: success() && github.ref == 'refs/heads/master'
-        uses: JamesIves/github-pages-deploy-action@3.7.1
+        uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: ./build/doc_doxygen/html
-          CLEAN: true
+          branch: gh-pages
+          folder: ./build/doc_doxygen/html
+          clean: true
 
   test:
     name: Test - ${{ github.event_name }}
@@ -49,7 +48,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.3.4
 
       - name: Run Styleguide Checks
         run: ./check_styleguide.sh -r
@@ -64,4 +63,4 @@ jobs:
         run: ./generate_coverage.sh
 
       - name: Upload to CodeCov
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v1.5.0

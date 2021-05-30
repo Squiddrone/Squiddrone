@@ -16,16 +16,24 @@ class Byte {
     return byte_;
   }
 
-  auto SetBit(std::uint8_t bit_number_between_0_and_7) noexcept -> void {
+  auto SetBit(const std::uint8_t bit_number_between_0_and_7) noexcept -> void {
     byte_ = SetBitInByte(byte_, bit_number_between_0_and_7);
   }
 
-  auto ClearBit(std::uint8_t bit_number_between_0_and_7) noexcept -> void {
+  auto ClearBit(const std::uint8_t bit_number_between_0_and_7) noexcept -> void {
     byte_ = static_cast<std::uint8_t>(byte_ & ~SetBitInByte(0, bit_number_between_0_and_7));
   }
 
+  auto IsBitHigh(const std::uint8_t bit_number_between_0_and_7) noexcept -> bool {
+    return static_cast<bool>(byte_ & 1 << bit_number_between_0_and_7);
+  }
+
+  auto IsBitLow(const std::uint8_t bit_number_between_0_and_7) noexcept -> bool {
+    return !IsBitHigh(bit_number_between_0_and_7);
+  }
+
  private:
-  auto SetBitInByte(std::uint8_t byte, std::uint8_t bit_number_between_0_and_7) noexcept -> std::uint8_t {
+  auto SetBitInByte(const std::uint8_t byte, const std::uint8_t bit_number_between_0_and_7) noexcept -> std::uint8_t {
     return static_cast<std::uint8_t>(byte | 1 << bit_number_between_0_and_7);
   }
 

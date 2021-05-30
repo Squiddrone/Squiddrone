@@ -1,6 +1,10 @@
 target_include_directories(${ELF_FILE}
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/interface
+        ${CMAKE_CURRENT_SOURCE_DIR}/mpu9255
+        ${CMAKE_CURRENT_SOURCE_DIR}/sensors
+        ${CMAKE_CURRENT_SOURCE_DIR}/sensors/imu_sensors
         ${CMAKE_SOURCE_DIR}/src/i2c
         ${CMAKE_SOURCE_DIR}/src/utilities
         ${CMAKE_SOURCE_DIR}/tests/mock_libraries/imu
@@ -8,9 +12,14 @@ target_include_directories(${ELF_FILE}
 
 target_sources(${ELF_FILE}
     PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/inertial_measurement.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/mpu9255.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/gyroscope.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/imu_sensor.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/imu_sensor_with_sensitivity.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/interface/inertial_measurement.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/mpu9255/mpu9255.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/sensors/accelerometer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/sensors/gyroscope.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/sensors/magnetometer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/sensors/temperature.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/sensors/imu_sensors/imu_general.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/sensors/imu_sensors/sensor_vector.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/sensors/imu_sensors/sensor_single_value.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/sensors/imu_sensors/sensor_with_sensitivity.cpp
 )
