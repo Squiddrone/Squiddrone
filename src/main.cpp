@@ -26,7 +26,7 @@
 #include "timer_config.h"
 #include "uart_print.hpp"
 
-#define SYSTEM_TEST_IMU true
+#define SYSTEM_TEST_IMU false
 auto FormatEuclidVectorForPrintOut(const std::string &Sensor, types::EuclideanVector<std::int16_t> Vector) -> std::string;
 
 int main() {
