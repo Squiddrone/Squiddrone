@@ -25,8 +25,11 @@
 #include "spi_config.h"
 #include "timer_config.h"
 #include "uart_print.hpp"
+#include "sleep.hpp"
+
 
 #define SYSTEM_TEST_IMU false
+#define SYSTEM_TEST_PROPULSION true
 
 auto FormatEuclidVectorForPrintOut(const std::string &Sensor, types::EuclideanVector<std::int16_t> Vector) -> std::string;
 
@@ -47,18 +50,19 @@ int main() {
   MX_TIM16_Init();
   MX_TIM17_Init();
 
+#ifdef SYSTEM_TEST_PROPULSION
   std::unique_ptr<propulsion::AbstractMotorBuilder> builder = std::make_unique<propulsion::MotorBuilder>();
   propulsion::MotorDriver driver(std::move(builder));
-  //////while (1) {
-  //driver.ArmEscs();
-  //HAL_Delay(1000);
-  //driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_FRONT, 99.0);
-  //driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_FRONT, 75.1);
-  //driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_REAR, 50.0);
-  //driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_REAR, 10.0);
-  //}
-
-#ifdef SYSTEM_TEST_IMU
+  // driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_FRONT, 99.0);
+ // driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_FRONT, 75.1);
+ // driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_REAR, 50.0);
+ // driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_REAR, 10.0);
+  while (1) {
+    driver.ArmEscs();
+    utilities::Sleep(5000);
+  }
+ 
+#elif SYSTEM_TEST_IMU
 
   auto i2c = std::make_unique<i2c::I2C>();
   auto imu = std::make_unique<imu::InertialMeasurement>(std::move(i2c));
