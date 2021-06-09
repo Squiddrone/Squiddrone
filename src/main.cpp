@@ -61,8 +61,8 @@ int main() {
   types::com_msg_frame payload{0xab, 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', '_', 'e', 'n', 'd'};
 
   while (1) {
-    com_device->PutDataPacket(0x0, payload);
-    utilities::Sleep(1000);
+    //com_device->PutDataPacket(0x0, payload);
+    //utilities::Sleep(1000);
   }
 #endif
 
