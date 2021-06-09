@@ -15,7 +15,7 @@ class ComInterruptHandler {
     com_->HandleRxIRQ();
   };
 
-  explicit ComInterruptHandler(std::shared_ptr<com::NRF24L01> com_object) {
+  static auto SetComDriver(std::shared_ptr<com::NRF24L01> com_object) noexcept -> void{
     com_ = com_object;
   };
   ComInterruptHandler() = delete;
