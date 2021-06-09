@@ -21,8 +21,4 @@ class ComInterruptHandlerTests : public ::testing::Test {
 }  // namespace
 
 TEST_F(ComInterruptHandlerTests, is_constructible_with_com) {
-  unit_under_test_->HandleComInterrupt();
-  EXPECT_CALL(*com_, HandleRxIRQ()).Times(1);
-
-  //ASSERT_EQ(0xfa, unit_under_test->msg_buffer_->test_member);
 }
