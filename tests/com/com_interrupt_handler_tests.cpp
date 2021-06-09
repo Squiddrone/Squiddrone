@@ -12,10 +12,8 @@ class ComInterruptHandlerTests : public ::testing::Test {
  protected:
   virtual void SetUp() {
     com_ = std::make_shared<com::NRF24L01>();
-    unit_under_test_ = std::make_unique<com::ComInterruptHandler>(com_);
   }
 
-  std::unique_ptr<com::ComInterruptHandler> unit_under_test_;
   std::shared_ptr<com::NRF24L01> com_;
 };
 }  // namespace
