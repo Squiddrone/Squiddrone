@@ -36,6 +36,7 @@ add_testpackage(TEST_NAME
                 SOURCES
                     com_interrupt_handler_tests.cpp
                     ${CMAKE_SOURCE_DIR}/src/com/com_interrupt_handler.cpp
+                    ${CMAKE_SOURCE_DIR}/tests/com/mock_libraries/com_nrf24l01_mock.cpp
                 TEST_INCLUDE_DIRECTORIES
                     ${CMAKE_SOURCE_DIR}/src/com
                     ${CMAKE_SOURCE_DIR}/src/types
