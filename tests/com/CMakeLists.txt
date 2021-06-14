@@ -41,4 +41,8 @@ add_testpackage(TEST_NAME
                     ${CMAKE_SOURCE_DIR}/src/com
                     ${CMAKE_SOURCE_DIR}/src/types
                     ${CMAKE_SOURCE_DIR}/tests/com/mock_libraries
+                    ${CMAKE_SOURCE_DIR}/drivers
+                    ${CMAKE_SOURCE_DIR}/system
+                    ${CMAKE_SOURCE_DIR}/system/hal
+                    ${CMAKE_SOURCE_DIR}/system/cmsis
 )
