@@ -56,13 +56,14 @@ int main() {
   auto com_spi_protocol = std::make_unique<com::NRF24L01SpiProtocol>(std::move(com_spi));
   auto com_buffer = std::make_unique<com::ComMessageBuffer>();
   auto com_device = std::make_shared<com::NRF24L01>(std::move(com_buffer), std::move(com_spi_protocol));
-  auto com_interrupt_handler = std::make_unique<com::ComInterruptHandler>(com_device);
+  //auto com_interrupt_handler = std::make_unique<com::ComInterruptHandler>(com_device);
+  com::ComInterruptHandler::SetComDriver(com_device);
 
   types::com_msg_frame payload{0xab, 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', '_', 'e', 'n', 'd'};
 
   while (1) {
-    com_device->PutDataPacket(0x0, payload);
-    utilities::Sleep(1000);
+    //com_device->PutDataPacket(0x0, payload);
+    //utilities::Sleep(1000);
   }
 #endif
 

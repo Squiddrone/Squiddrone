@@ -2,27 +2,43 @@
 #include "gtest/gtest.h"
 
 #include "com_interrupt_handler.hpp"
+#include "stm32g4xx_hal_gpio.h"
 
+using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
-
 namespace {
-
 class ComInterruptHandlerTests : public ::testing::Test {
  protected:
   virtual void SetUp() {
-    com_ = std::make_shared<com::NRF24L01>();
-    unit_under_test_ = std::make_unique<com::ComInterruptHandler>(com_);
   }
 
-  std::unique_ptr<com::ComInterruptHandler> unit_under_test_;
   std::shared_ptr<com::NRF24L01> com_;
 };
 }  // namespace
 
 TEST_F(ComInterruptHandlerTests, is_constructible_with_com) {
-  unit_under_test_->HandleComInterrupt();
-  EXPECT_CALL(*com_, HandleRxIRQ()).Times(1);
+  com_ = std::make_shared<com::NRF24L01>();
+  com_->handle_rx_irq_was_called = false;
+  com::ComInterruptHandler::SetComDriver(com_);
 
-  //ASSERT_EQ(0xfa, unit_under_test->msg_buffer_->test_member);
+  com::ComInterruptHandler::HandleComInterrupt();
+
+  ASSERT_EQ(com_->handle_rx_irq_was_called, true);
+}
+
+TEST_F(ComInterruptHandlerTests, interrupt_handler_is_callable) {
+  uint16_t GPIO_Pin = 1;
+  com_ = std::make_shared<com::NRF24L01>();
+  com_->handle_rx_irq_was_called = false;
+  com::ComInterruptHandler::SetComDriver(com_);
+
+  HAL_GPIO_EXTI_Callback(GPIO_Pin);
+
+  ASSERT_EQ(com_->handle_rx_irq_was_called, true);
+}
+
+int main(int argc, char **argv) {
+  ::testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
 }

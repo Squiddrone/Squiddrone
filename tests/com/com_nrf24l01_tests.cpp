@@ -20,4 +20,9 @@ TEST_F(ComNRF24L01Tests, com_frame_length_exceeding_limit) {
   ASSERT_TRUE(true);
 }
 
+int main(int argc, char **argv) {
+  ::testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}
+
 }  // namespace
