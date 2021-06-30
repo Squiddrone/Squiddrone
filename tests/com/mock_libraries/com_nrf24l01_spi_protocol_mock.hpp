@@ -7,16 +7,20 @@
 
 namespace com {
 
+using ReadRegSinglebyteReturn = std::pair<types::DriverStatus, std::uint8_t>;
+using ReadRegMultibyteReturn = std::pair<types::DriverStatus, std::vector<std::uint8_t>>;
+
 class NRF24L01SpiProtocol {
  public:
   NRF24L01SpiProtocol() = default;
-  MOCK_METHOD((std::uint8_t), ReadRegister, (std::uint8_t), (noexcept));
-  MOCK_METHOD((std::vector<uint8_t>), ReadRegister, (std::uint8_t, std::uint8_t), (noexcept));
+  MOCK_METHOD(ReadRegSinglebyteReturn, ReadRegister, (std::uint8_t), (noexcept));
+  MOCK_METHOD(ReadRegMultibyteReturn, ReadRegister, (std::uint8_t, std::uint8_t), (noexcept));
   MOCK_METHOD((types::DriverStatus), WriteRegister, (std::uint8_t, std::uint8_t), (noexcept));
   MOCK_METHOD((types::DriverStatus), FlushTxBuffer, (), (noexcept));
   MOCK_METHOD((types::DriverStatus), FlushRxBuffer, (), (noexcept));
-  MOCK_METHOD((std::uint8_t), ReadAndClearIRQFlags, (), (noexcept));
-  MOCK_METHOD((types::DriverStatus), WritePayloadData, (std::vector<uint8_t>));
+  MOCK_METHOD((std::pair<types::DriverStatus, std::uint8_t>), ReadAndClearIRQFlags, (), (noexcept));
+  MOCK_METHOD((types::DriverStatus), WritePayloadData, (std::vector<std::uint8_t>), (noexcept));
+  MOCK_METHOD((types::DriverStatus), ReadPayloadData, (std::vector<std::uint8_t>), (noexcept));
 };
 }  // namespace com
 
