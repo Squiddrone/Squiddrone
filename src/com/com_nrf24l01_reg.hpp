@@ -18,8 +18,13 @@ static constexpr std::uint8_t NOP = 0xff;
 }  // namespace instruction_word
 
 namespace rf_config {
-static constexpr std::uint8_t rf_channel = 20;
+static constexpr std::uint8_t RF_CHANNEL = 20;
 }
+
+/// Default value for address width
+namespace addr_config {
+static constexpr std::uint8_t ADDR_WIDTH = 5U;
+}  // namespace addr_config
 
 namespace reg {
 /// configuration register
