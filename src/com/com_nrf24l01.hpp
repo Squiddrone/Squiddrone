@@ -1,12 +1,15 @@
 #ifndef SRC_COM_COM_NRF24L01_HPP_
 #define SRC_COM_COM_NRF24L01_HPP_
+#include <algorithm>
 
 #include "com_interface.hpp"
 #include "com_nrf24l01_reg.hpp"
 #include "com_nrf24l01_types.hpp"
 #ifndef UNIT_TEST
 #include "com_nrf24l01_spi_protocol.hpp"
+#include "utilities/byte.hpp"
 #else
+#include "byte_mock.hpp"
 #include "com_nrf24l01_spi_protocol_mock.hpp"
 #endif
 
@@ -30,7 +33,7 @@ class NRF24L01 final : public ComInterface {
                                                                          current_operation_mode_(com::OperationMode::undefined),
                                                                          is_initialized_(false){};
   NRF24L01() = delete;
-  ~NRF24L01() = default;
+  virtual ~NRF24L01() = default;
 
  private:
   std::unique_ptr<NRF24L01SpiProtocol> spi_protocol_;

@@ -1,5 +1,4 @@
 #include "com_nrf24l01.hpp"
-#include "sleep.hpp"
 
 namespace com {
 auto NRF24L01::InitTransceiver(std::uint8_t channel,
@@ -219,24 +218,24 @@ auto NRF24L01::MaskInterruptOnIntPin(MaskeableInterrupts interrupt) -> types::Dr
 auto NRF24L01::GetPipeAddress(DataPipe pipe_no) noexcept -> data_pipe_address {
   uint8_t register_addr = reg::rx_addr_p0::REG_ADDR + static_cast<std::uint8_t>(pipe_no);
   data_pipe_address addr = {0};
-  uint8_t counter = 0;
-  std::pair<types::DriverStatus, std::vector<std::uint8_t>> get_miso_data;
+  std::pair<types::DriverStatus, std::vector<std::uint8_t>> multibyte_addr;
+  std::pair<types::DriverStatus, std::uint8_t> singlebyte_addr;
 
   switch (pipe_no) {
     case DataPipe::tx_pipe:
     case DataPipe::rx_pipe_0:
     case DataPipe::rx_pipe_1:
-      get_miso_data = spi_protocol_->ReadRegister(register_addr, 5);
-      for (auto miso_data_byte : get_miso_data.second) {
-        addr.at(counter) = miso_data_byte;
-        counter++;
-      }
+      multibyte_addr = spi_protocol_->ReadRegister(register_addr, com::addr_config::ADDR_WIDTH);
+      std::copy(multibyte_addr.second.begin(),
+                multibyte_addr.second.end(),
+                addr.begin());
       break;
     case DataPipe::rx_pipe_2:
     case DataPipe::rx_pipe_3:
     case DataPipe::rx_pipe_4:
     case DataPipe::rx_pipe_5:
-      //addr.at(0) = spi_protocol_->ReadRegister(register_addr);
+      singlebyte_addr = spi_protocol_->ReadRegister(register_addr);
+      addr.at(0) = singlebyte_addr.second;
       break;
   }
   return addr;
@@ -248,7 +247,7 @@ auto NRF24L01::GetDataPacket() const noexcept -> types::com_msg_frame {
 }
 
 auto NRF24L01::PutDataPacket(std::uint8_t target_id, types::com_msg_frame &payload) noexcept -> types::ComError {
-  InitTransceiver(20, DataRateSetting::rf_dr_1mbps, RFPowerSetting::rf_pwr_0dBm, CRCEncodingScheme::crc_16bit);
+  InitTransceiver(com::rf_config::RF_CHANNEL, DataRateSetting::rf_dr_1mbps, RFPowerSetting::rf_pwr_0dBm, CRCEncodingScheme::crc_16bit);
   InitTx();
   spi_protocol_->WriteRegister(0x1d, 0);
 
@@ -257,14 +256,17 @@ auto NRF24L01::PutDataPacket(std::uint8_t target_id, types::com_msg_frame &paylo
   for (int i = 0; i < 10; i++) {
     auto get_irq_flg = spi_protocol_->ReadAndClearIRQFlags();
     if (get_irq_flg.second & ((1U << 5) | (1U << 4))) break;
-    utilities::Sleep(1);
   }
 
   return types::ComError::COM_OK;
 }
 
-auto NRF24L01::HandleRxIRQ() -> void {
+auto NRF24L01::HandleRxIRQ() noexcept -> void {
+  types::com_msg_frame payload(types::COM_MAX_FRAME_LENGTH);
   spi_protocol_->ReadAndClearIRQFlags();
+  spi_protocol_->ReadPayloadData(payload);
+
+  msg_buffer_->PutData(payload);
 }
 
 }  // namespace com
