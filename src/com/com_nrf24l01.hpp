@@ -30,8 +30,11 @@ class NRF24L01 final : public ComInterface {
                     std::unique_ptr<NRF24L01SpiProtocol> spi_protocol) : ComInterface(std::move(msg_buf)),
                                                                          spi_protocol_(std::move(spi_protocol)),
                                                                          irq_flags(0),
-                                                                         current_operation_mode_(com::OperationMode::undefined),
-                                                                         is_initialized_(false){};
+                                                                         current_operation_mode_(com::OperationMode::UNDEFINED),
+                                                                         is_initialized_(false) {
+    InitTransceiver(com::rf_config::RF_CHANNEL, DataRateSetting::RF_DR_1MBPS, RFPowerSetting::RF_PWR_0DBM, CRCEncodingScheme::CRC_16BIT);
+    InitRx();
+  };
   NRF24L01() = delete;
   virtual ~NRF24L01() = default;
 
