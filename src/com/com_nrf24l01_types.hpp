@@ -4,93 +4,93 @@
 namespace com {
 
 enum class State : std::uint8_t {
-  disabled = 0,
-  enabled
+  DISABLED = 0,
+  ENABLED
 };
 
 enum class CRCEncodingScheme : std::uint8_t {
-  crc_8bit,
-  crc_16bit
+  CRC_8BIT,
+  CRC_16BIT
 };
 
 enum class DataPipe : std::uint8_t {
-  rx_pipe_0 = 0,
-  rx_pipe_1,
-  rx_pipe_2,
-  rx_pipe_3,
-  rx_pipe_4,
-  rx_pipe_5,
-  tx_pipe
+  RX_PIPE_0 = 0,
+  RX_PIPE_1,
+  RX_PIPE_2,
+  RX_PIPE_3,
+  RX_PIPE_4,
+  RX_PIPE_5,
+  TX_PIPE
 };
 
 enum class DataPipeAddressWidth : std::uint8_t {
-  aw_3bytes = 0x1,
-  aw_4bytes = 0x2,
-  aw_5bytes = 0x3,
+  AW_3BYTES = 0x1,
+  AW_4BYTES = 0x2,
+  AW_5BYTES = 0x3,
 };
 
 enum class AutoRetransmissionDelay : std::uint8_t {
-  // auto retransmis delay 250-4000 us
-  ard250us = 0x0,
-  ard500us = 0x1,
-  ard750us = 0x2,
-  ard1000us = 0x3,
-  ard1250us = 0x4,
-  ard1500us = 0x5,
-  ard1750us = 0x6,
-  ard2000us = 0x7,
-  ard2250us = 0x8,
-  ard2500us = 0x9,
-  ard2750us = 0xa,
-  ard3000us = 0xb,
-  ard3250us = 0xc,
-  ard3500us = 0xd,
-  ard3750us = 0xe,
-  ard4000us = 0xf
+  // auto retransmission delay 250-4000 us
+  ARD250US = 0x0,
+  ARD500US = 0x1,
+  ARD750US = 0x2,
+  ARD1000US = 0x3,
+  ARD1250US = 0x4,
+  ARD1500US = 0x5,
+  ARD1750US = 0x6,
+  ARD2000US = 0x7,
+  ARD2250US = 0x8,
+  ARD2500US = 0x9,
+  ARD2750US = 0xa,
+  ARD3000US = 0xb,
+  ARD3250US = 0xc,
+  ARD3500US = 0xd,
+  ARD3750US = 0xe,
+  ARD4000US = 0xf
 };
 
 enum class AutoRetransmitCount : std::uint8_t {
-  // auto retransmit count 0-15 in case of failed AR
-  arc0 = 0x0,
-  arc1 = 0x1,
-  arc2 = 0x2,
-  arc3 = 0x3,
-  arc4 = 0x4,
-  arc5 = 0x5,
-  arc6 = 0x6,
-  arc7 = 0x7,
-  arc8 = 0x8,
-  arc9 = 0x9,
-  arc10 = 0xa,
-  arc11 = 0xb,
-  arc12 = 0xc,
-  arc13 = 0xd,
-  arc14 = 0xe,
-  arc15 = 0xf
+  // auto retransmit count 0-15 in case of failed auto retransmit
+  ARC0 = 0x0,
+  ARC1 = 0x1,
+  ARC2 = 0x2,
+  ARC3 = 0x3,
+  ARC4 = 0x4,
+  ARC5 = 0x5,
+  ARC6 = 0x6,
+  ARC7 = 0x7,
+  ARC8 = 0x8,
+  ARC9 = 0x9,
+  ARC10 = 0xa,
+  ARC11 = 0xb,
+  ARC12 = 0xc,
+  ARC13 = 0xd,
+  ARC14 = 0xe,
+  ARC15 = 0xf
 };
 
 enum class OperationMode : std::uint8_t {
-  undefined = 0,
-  prim_rx,
-  prim_tx
+  UNDEFINED = 0,
+  PRIM_RX,
+  PRIM_TX
 };
 
 enum class RFPowerSetting : std::uint8_t {
-  rf_pwr_18dBm = 0x0,
-  rf_pwr_12dBm = 0x1,
-  rf_pwr_6dBm = 0x2,
-  rf_pwr_0dBm = 0x3
+  RF_PWR_18DBM = 0x0,
+  RF_PWR_12DBM = 0x1,
+  RF_PWR_6DBM = 0x2,
+  RF_PWR_0DBM = 0x3
 };
 
 enum class DataRateSetting : std::uint8_t {
-  rf_dr_1mbps = 0,
-  rf_dr_2mbps = 1
+  RF_DR_1MBPS = 0,
+  RF_DR_2MPBS = 1
 };
 
 enum class MaskeableInterrupts : std::uint8_t {
-  max_nr_of_retries_reached = 4,
-  tx_data_sent = 5,
-  rx_data_ready = 6
+  MAX_NR_OF_RETRIES_REACHED = 4,
+  TX_DATA_SENT = 5,
+  RX_DATA_READY = 6
 };
 
 using data_pipe_address = std::array<std::uint8_t, 5>;
