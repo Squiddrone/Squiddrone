@@ -56,7 +56,7 @@ class ComInterface {
    * went wrong.
    */
   virtual auto PutDataPacket(std::uint8_t target_id, types::com_msg_frame &payload) noexcept
-      -> types::ComError = 0;
+      -> types::DriverStatus = 0;
 
  protected:
   /** 
