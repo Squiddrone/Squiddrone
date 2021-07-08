@@ -23,7 +23,7 @@ class NRF24L01 final : public ComInterface {
  public:
   auto GetDataPacket() const noexcept -> types::com_msg_frame override;
   auto PutDataPacket(std::uint8_t target_id, types::com_msg_frame &payload) noexcept
-      -> types::ComError override;
+      -> types::DriverStatus override;
   auto HandleRxIRQ() noexcept -> void;
 
   explicit NRF24L01(std::unique_ptr<com::ComMessageBuffer> msg_buf,

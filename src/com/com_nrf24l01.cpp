@@ -249,18 +249,27 @@ auto NRF24L01::GetDataPacket() const noexcept -> types::com_msg_frame {
   return rv;
 }
 
-auto NRF24L01::PutDataPacket(std::uint8_t target_id, types::com_msg_frame &payload) noexcept -> types::ComError {
+auto NRF24L01::PutDataPacket(std::uint8_t target_id, types::com_msg_frame &payload) noexcept -> types::DriverStatus {
+  if (payload.size() > types::COM_MAX_FRAME_LENGTH) {
+    return types::DriverStatus::INPUT_ERROR;
+  }
   InitTx();
-  spi_protocol_->WriteRegister(0x1d, 0);
+  auto rv = spi_protocol_->WriteRegister(0x1d, 0);
+  if (rv != types::DriverStatus::OK) {
+    return types::DriverStatus::HAL_ERROR;
+  }
 
-  spi_protocol_->WritePayloadData(payload);
+  rv = spi_protocol_->WritePayloadData(payload);
+  if (rv != types::DriverStatus::OK) {
+    return types::DriverStatus::HAL_ERROR;
+  }
 
   for (int i = 0; i < 10; i++) {
     auto get_irq_flg = spi_protocol_->ReadAndClearIRQFlags();
     if (get_irq_flg.second & ((1U << 5) | (1U << 4))) break;
   }
 
-  return types::ComError::COM_OK;
+  return types::DriverStatus::OK;
   InitRx();
 }
 
@@ -271,6 +280,7 @@ auto NRF24L01::HandleRxIRQ() noexcept -> void {
   spi_protocol_->ReadPayloadData(payload);
 
   msg_buffer_->PutData(payload);
+  // TODO: Error counter, falls was nicht klappt?
 }
 
 }  // namespace com
