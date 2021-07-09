@@ -268,9 +268,9 @@ auto NRF24L01::PutDataPacket(std::uint8_t target_id, types::com_msg_frame &paylo
     auto get_irq_flg = spi_protocol_->ReadAndClearIRQFlags();
     if (get_irq_flg.second & ((1U << 5) | (1U << 4))) break;
   }
+  InitRx();
 
   return types::DriverStatus::OK;
-  InitRx();
 }
 
 auto NRF24L01::HandleRxIRQ() noexcept -> void {
