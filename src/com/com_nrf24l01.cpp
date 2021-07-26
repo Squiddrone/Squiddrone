@@ -1,6 +1,39 @@
 #include "com_nrf24l01.hpp"
 
+#define ON_ERROR_RETURN(x)                               \
+  {                                                      \
+    types::DriverStatus macro_return_value;              \
+    macro_return_value = x;                              \
+    if (macro_return_value != types::DriverStatus::OK) { \
+      return macro_return_value;                         \
+    }                                                    \
+  }
+
 namespace com {
+
+auto NRF24L01::PutDataPacket(std::uint8_t target_id, types::com_msg_frame &payload) noexcept -> types::DriverStatus {
+  if (payload.size() > types::COM_MAX_FRAME_LENGTH) {
+    return types::DriverStatus::INPUT_ERROR;
+  }
+
+  ON_ERROR_RETURN(InitTx());
+
+  ON_ERROR_RETURN(spi_protocol_->WriteRegister(0x1d, 0));
+
+  ON_ERROR_RETURN(spi_protocol_->WritePayloadData(payload));
+
+  for (int i = 0; i < 10; i++) {
+    auto get_irq_flg = spi_protocol_->ReadAndClearIRQFlags();
+    ON_ERROR_RETURN(get_irq_flg.first);
+    if (get_irq_flg.second & ((1U << 5) | (1U << 4))) {
+      break;
+    }
+  }
+  ON_ERROR_RETURN(InitRx());
+
+  return types::DriverStatus::OK;
+}
+
 auto NRF24L01::InitTransceiver(std::uint8_t channel,
                                DataRateSetting data_rate,
                                RFPowerSetting rf_power,
@@ -21,23 +54,40 @@ auto NRF24L01::InitTransceiver(std::uint8_t channel,
 }
 
 auto NRF24L01::InitTx() noexcept -> types::DriverStatus {
-  spi_protocol_->FlushTxBuffer();
-  spi_protocol_->FlushRxBuffer();
-  spi_protocol_->ReadAndClearIRQFlags();
+  ON_ERROR_RETURN(spi_protocol_->FlushTxBuffer());
+  ON_ERROR_RETURN(spi_protocol_->FlushRxBuffer());
+  ON_ERROR_RETURN(spi_protocol_->ReadAndClearIRQFlags().first);
 
   if (current_operation_mode_ == OperationMode::PRIM_TX) {
     return types::DriverStatus::OK;
   }
 
-  SetOperationMode(OperationMode::PRIM_TX);
+  ON_ERROR_RETURN(SetOperationMode(OperationMode::PRIM_TX));
   /* needed in final implementation
     SetTxAddress(tx_addr);
     SetRxAddress(DataPipe::data_pipe_0, tx_addr);
   */
 
-  EnableDataPipe(DataPipe::RX_PIPE_0);
+  ON_ERROR_RETURN(EnableDataPipe(DataPipe::RX_PIPE_0));
   //EnableAutoAck(DataPipe::RX_PIPE_0);
-  ConfigAutoRetransmission(AutoRetransmissionDelay::ARD500US, AutoRetransmitCount::ARC0);
+  ON_ERROR_RETURN(ConfigAutoRetransmission(AutoRetransmissionDelay::ARD500US, AutoRetransmitCount::ARC0));
+
+  return types::DriverStatus::OK;
+}
+
+auto NRF24L01::InitRx() noexcept -> types::DriverStatus {
+  ON_ERROR_RETURN(spi_protocol_->FlushTxBuffer());
+  ON_ERROR_RETURN(spi_protocol_->FlushRxBuffer());
+
+  if (current_operation_mode_ == OperationMode::PRIM_RX) {
+    return types::DriverStatus::OK;
+  }
+
+  ON_ERROR_RETURN(SetOperationMode(OperationMode::PRIM_RX));
+
+  ON_ERROR_RETURN(EnableDataPipe(DataPipe::RX_PIPE_0));
+  ON_ERROR_RETURN(EnableAutoAck(DataPipe::RX_PIPE_0));
+  ON_ERROR_RETURN(SetRxPayloadSize(DataPipe::RX_PIPE_0, types::COM_MAX_FRAME_LENGTH));
 
   return types::DriverStatus::OK;
 }
@@ -45,23 +95,6 @@ auto NRF24L01::InitTx() noexcept -> types::DriverStatus {
 auto NRF24L01::SetRxPayloadSize(DataPipe pipe_no, std::size_t payload_size) const noexcept -> types::DriverStatus {
   return spi_protocol_->WriteRegister(reg::rx_pw_p0::REG_ADDR + static_cast<std::uint8_t>(pipe_no),
                                       static_cast<uint8_t>(payload_size));
-}
-
-auto NRF24L01::InitRx() noexcept -> types::DriverStatus {
-  spi_protocol_->FlushTxBuffer();
-  spi_protocol_->FlushRxBuffer();
-
-  if (current_operation_mode_ == OperationMode::PRIM_RX) {
-    return types::DriverStatus::OK;
-  }
-
-  SetOperationMode(OperationMode::PRIM_RX);
-
-  EnableDataPipe(DataPipe::RX_PIPE_0);
-  EnableAutoAck(DataPipe::RX_PIPE_0);
-  SetRxPayloadSize(DataPipe::RX_PIPE_0, 32);
-
-  return types::DriverStatus::OK;
 }
 
 auto NRF24L01::SetOperationMode(OperationMode mode) noexcept -> types::DriverStatus {
@@ -120,11 +153,11 @@ auto NRF24L01::SetCRCEncodingScheme(CRCEncodingScheme encoding_scheme) noexcept 
     return get_config_register.first;
   }
   utilities::Byte config_register(get_config_register.second);
-  ;
 
   if (encoding_scheme == CRCEncodingScheme::CRC_8BIT) {
     config_register.ClearBit(reg::config::CRCO);
   }
+
   if (encoding_scheme == CRCEncodingScheme::CRC_16BIT) {
     config_register.SetBit(reg::config::CRCO);
   }
@@ -199,9 +232,9 @@ auto NRF24L01::SetRxAddress(DataPipe pipe_no, data_pipe_address rx_addr) const n
 
 auto NRF24L01::MaskInterruptOnIntPin(MaskeableInterrupts interrupt) -> types::DriverStatus {
   auto get_config_register = spi_protocol_->ReadRegister(reg::rf_setup::REG_ADDR);
-  if (get_config_register.first != types::DriverStatus::OK) {
-    return get_config_register.first;
-  }
+
+  ON_ERROR_RETURN(get_config_register.first);
+
   utilities::Byte config_register(get_config_register.second);
   if (interrupt == MaskeableInterrupts::MAX_NR_OF_RETRIES_REACHED) {
     config_register.SetBit(reg::config::MASK_MAX_RT);
@@ -247,30 +280,6 @@ auto NRF24L01::GetDataPacket() const noexcept -> types::com_msg_frame {
     rv = msg_buffer_->GetData();
   }
   return rv;
-}
-
-auto NRF24L01::PutDataPacket(std::uint8_t target_id, types::com_msg_frame &payload) noexcept -> types::DriverStatus {
-  if (payload.size() > types::COM_MAX_FRAME_LENGTH) {
-    return types::DriverStatus::INPUT_ERROR;
-  }
-  InitTx();
-  auto rv = spi_protocol_->WriteRegister(0x1d, 0);
-  if (rv != types::DriverStatus::OK) {
-    return types::DriverStatus::HAL_ERROR;
-  }
-
-  rv = spi_protocol_->WritePayloadData(payload);
-  if (rv != types::DriverStatus::OK) {
-    return types::DriverStatus::HAL_ERROR;
-  }
-
-  for (int i = 0; i < 10; i++) {
-    auto get_irq_flg = spi_protocol_->ReadAndClearIRQFlags();
-    if (get_irq_flg.second & ((1U << 5) | (1U << 4))) break;
-  }
-  InitRx();
-
-  return types::DriverStatus::OK;
 }
 
 auto NRF24L01::HandleRxIRQ() noexcept -> void {

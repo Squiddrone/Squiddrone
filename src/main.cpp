@@ -59,11 +59,19 @@ int main() {
   //auto com_interrupt_handler = std::make_unique<com::ComInterruptHandler>(com_device);
   com::ComInterruptHandler::SetComDriver(com_device);
 
-  types::com_msg_frame payload{0xab, 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', '_', 'e', 'n', 'd'};
+  //types::com_msg_frame payload{0xab, 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', '_', 'e', 'n', 'd'};
 
   while (1) {
     //com_device->PutDataPacket(0x0, payload);
     //utilities::Sleep(1000);
+    /* {
+      auto rx_payload = com_device->GetDataPacket();
+      if (rx_payload.size() > 0) {
+        std::string debug_string(rx_payload.begin(), rx_payload.end());
+        utilities::UartPrint(debug_string);
+      }
+    } */
+    utilities::Sleep(1);
   }
 #endif
 
