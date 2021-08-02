@@ -55,17 +55,18 @@ int main() {
   auto com_spi = std::make_unique<spi::SPI>(com_cs_pin);
   auto com_spi_protocol = std::make_unique<com::NRF24L01SpiProtocol>(std::move(com_spi));
   auto com_buffer = std::make_unique<com::ComMessageBuffer>();
-  auto com_device = std::make_shared<com::NRF24L01>(std::move(com_buffer), std::move(com_spi_protocol));
+  auto com_nrf_core = std::make_unique<com::NRF24L01Core>(std::move(com_spi_protocol));
+  auto com_nrf = std::make_shared<com::NRF24L01>(std::move(com_buffer), std::move(com_nrf_core));
   //auto com_interrupt_handler = std::make_unique<com::ComInterruptHandler>(com_device);
-  com::ComInterruptHandler::SetComDriver(com_device);
+  com::ComInterruptHandler::SetComDriver(com_nrf);
 
   //types::com_msg_frame payload{0xab, 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', '_', 'e', 'n', 'd'};
 
   while (1) {
-    //com_device->PutDataPacket(0x0, payload);
+    //com_nrf->PutDataPacket(0x0, payload);
     //utilities::Sleep(1000);
     /* {
-      auto rx_payload = com_device->GetDataPacket();
+      auto rx_payload = com_nrf->GetDataPacket();
       if (rx_payload.size() > 0) {
         std::string debug_string(rx_payload.begin(), rx_payload.end());
         utilities::UartPrint(debug_string);
