@@ -54,7 +54,10 @@ class NRF24L01Core {
   auto SetTxPayload(std::vector<std::uint8_t> &payload) noexcept -> types::DriverStatus;
   auto GetRxPayload(std::vector<std::uint8_t> &payload) -> types::DriverStatus;
 
-  explicit NRF24L01Core(std::unique_ptr<NRF24L01SpiProtocol> spi_protocol) : spi_protocol_(std::move(spi_protocol)) {}
+  explicit NRF24L01Core(std::unique_ptr<NRF24L01SpiProtocol> spi_protocol) : spi_protocol_(std::move(spi_protocol)),
+                                                                             irq_flags(0),
+                                                                             current_operation_mode_(com::OperationMode::UNDEFINED),
+                                                                             is_initialized_(false) {}
   NRF24L01Core() = delete;
   virtual ~NRF24L01Core() = default;
 
