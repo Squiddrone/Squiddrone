@@ -29,7 +29,8 @@ class NRF24L01 final : public ComInterface {
 
   explicit NRF24L01(std::unique_ptr<com::ComMessageBuffer> msg_buf,
                     std::unique_ptr<com::NRF24L01Core> nrf) : ComInterface(std::move(msg_buf)),
-                                                              nrf_(std::move(nrf)) {
+                                                              nrf_(std::move(nrf)),
+                                                              irq_flags(0) {
     nrf_->InitTransceiver(com::rf_config::RF_CHANNEL, DataRateSetting::RF_DR_1MBPS, RFPowerSetting::RF_PWR_0DBM, CRCEncodingScheme::CRC_16BIT);
     nrf_->InitRx();
   };
