@@ -2,11 +2,16 @@
 #define SRC_COM_COM_NRF24L01_CORE_HPP_
 
 #include "com_nrf24l01_reg.hpp"
-#include "com_nrf24l01_spi_protocol.hpp"
 #include "com_nrf24l01_types.hpp"
-#include "types/com_types.hpp"
-#include "utilities/byte.hpp"
+#include "com_types.hpp"
 
+#ifndef UNIT_TEST
+#include "com_nrf24l01_spi_protocol.hpp"
+#include "utilities/byte.hpp"
+#else
+#include "byte_mock.hpp"
+#include "com_nrf24l01_spi_protocol_mock.hpp"
+#endif
 namespace com {
 
 class NRF24L01Core {
@@ -15,9 +20,8 @@ class NRF24L01Core {
   auto EnableDataPipe(DataPipe pipe_no) noexcept -> types::DriverStatus;
   auto DisableDataPipe(DataPipe pipe_no) noexcept -> types::DriverStatus;
 
-  auto SetTxAddress(data_pipe_address tx_addr) const noexcept -> types::DriverStatus;
-  auto SetRxAddress(DataPipe pipe_no, data_pipe_address rx_addr) const noexcept -> types::DriverStatus;
-  auto GetPipeAddress(DataPipe pipe_no) noexcept -> data_pipe_address;
+  auto SetPipeAddress(DataPipe pipe_no, data_pipe_address pipe_addr) noexcept -> types::DriverStatus;
+  //auto GetPipeAddress(DataPipe pipe_no) noexcept -> data_pipe_address;
 
   auto SetRxPayloadSize(DataPipe pipe_no, std::size_t payload_size) const noexcept -> types::DriverStatus;
   auto EnableAutoAck(DataPipe pipe_no) noexcept -> types::DriverStatus;

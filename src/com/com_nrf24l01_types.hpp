@@ -23,7 +23,7 @@ enum class CRCEncodingScheme : std::uint8_t {
 };
 
 enum class DataPipe : std::uint8_t {
-  RX_PIPE_0 = 0,
+  RX_PIPE_0 = 0U,
   RX_PIPE_1,
   RX_PIPE_2,
   RX_PIPE_3,

@@ -11,6 +11,7 @@
 #include "utilities/byte.hpp"
 #else
 #include "byte_mock.hpp"
+#include "com_nrf24l01_core_mock.hpp"
 #include "com_nrf24l01_spi_protocol_mock.hpp"
 #endif
 
