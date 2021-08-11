@@ -97,7 +97,7 @@ auto NRF24L01Core::SetDataRate(DataRateSetting data_rate) noexcept -> types::Dri
   if (data_rate == DataRateSetting::RF_DR_1MBPS) {
     config_register.ClearBit(reg::rf_setup::RF_DR);
   }
-  if (data_rate == DataRateSetting::RF_DR_2MPBS) {
+  if (data_rate == DataRateSetting::RF_DR_2MBPS) {
     config_register.SetBit(reg::rf_setup::RF_DR);
   }
 

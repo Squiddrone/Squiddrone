@@ -93,7 +93,7 @@ enum class RFPowerSetting : std::uint8_t {
 
 enum class DataRateSetting : std::uint8_t {
   RF_DR_1MBPS = 0,
-  RF_DR_2MPBS = 1
+  RF_DR_2MBPS = 1
 };
 
 enum class MaskeableInterrupts : std::uint8_t {
