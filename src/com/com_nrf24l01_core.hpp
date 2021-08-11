@@ -21,7 +21,7 @@ class NRF24L01Core {
   auto DisableDataPipe(DataPipe pipe_no) noexcept -> types::DriverStatus;
 
   auto SetPipeAddress(DataPipe pipe_no, data_pipe_address pipe_addr) noexcept -> types::DriverStatus;
-  //auto GetPipeAddress(DataPipe pipe_no) noexcept -> data_pipe_address;
+  auto GetPipeAddress(DataPipe pipe_no) noexcept -> std::pair<types::DriverStatus, data_pipe_address>;
 
   auto SetRxPayloadSize(DataPipe pipe_no, std::size_t payload_size) const noexcept -> types::DriverStatus;
   auto EnableAutoAck(DataPipe pipe_no) noexcept -> types::DriverStatus;
@@ -42,7 +42,7 @@ class NRF24L01Core {
   auto SetRFOutputPower(RFPowerSetting rf_power) noexcept -> types::DriverStatus;
   auto MaskInterruptOnIntPin(MaskeableInterrupts interrupt) -> types::DriverStatus;
   // Not sure if we ever need this
-  auto SetLNAGain(State state) noexcept -> types::DriverStatus;
+  // auto SetLNAGain(State state) noexcept -> types::DriverStatus;
 
   // General protocol configuration
   auto SetAddressWidth(DataPipeAddressWidth address_width) noexcept -> types::DriverStatus;
@@ -52,11 +52,11 @@ class NRF24L01Core {
 
   // Status register access
   auto GetIRQFlags() noexcept -> std::pair<types::DriverStatus, std::uint8_t>;
-  auto CarrierDetected() noexcept -> bool;
+  //auto CarrierDetected() noexcept -> bool;
 
   // Payload
   auto SetTxPayload(std::vector<std::uint8_t> &payload) noexcept -> types::DriverStatus;
-  auto GetRxPayload(std::vector<std::uint8_t> &payload) -> types::DriverStatus;
+  auto GetRxPayload(std::vector<std::uint8_t> &payload) noexcept -> types::DriverStatus;
 
   explicit NRF24L01Core(std::unique_ptr<NRF24L01SpiProtocol> spi_protocol) : spi_protocol_(std::move(spi_protocol)),
                                                                              irq_flags(0),
