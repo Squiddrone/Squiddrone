@@ -213,6 +213,7 @@ TEST_F(ComNRF24L01CoreTests, set_power_state_successful) {
   ON_CALL(*spi_protocol_, ReadRegister(_)).WillByDefault(Return(mock_return_value));
   unit_under_test_ = std::make_unique<com::NRF24L01Core>(std::move(spi_protocol_));
   EXPECT_EQ(unit_under_test_->SetPowerState(com::State::ENABLED), types::DriverStatus::OK);
+  EXPECT_EQ(unit_under_test_->SetPowerState(com::State::DISABLED), types::DriverStatus::OK);
 }
 
 TEST_F(ComNRF24L01CoreTests, set_power_state_read_register_fail_test) {
@@ -245,6 +246,7 @@ TEST_F(ComNRF24L01CoreTests, set_data_rate_successful) {
   std::pair<types::DriverStatus, std::uint8_t> mock_return_value = {types::DriverStatus::OK, 0};
   ON_CALL(*spi_protocol_, ReadRegister(_)).WillByDefault(Return(mock_return_value));
   unit_under_test_ = std::make_unique<com::NRF24L01Core>(std::move(spi_protocol_));
+  EXPECT_EQ(unit_under_test_->SetDataRate(com::DataRateSetting::RF_DR_1MPBS), types::DriverStatus::OK);
   EXPECT_EQ(unit_under_test_->SetDataRate(com::DataRateSetting::RF_DR_2MPBS), types::DriverStatus::OK);
 }
 
