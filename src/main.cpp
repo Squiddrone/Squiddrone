@@ -25,8 +25,6 @@
 #include "spi_config.h"
 #include "timer_config.h"
 #include "uart_print.hpp"
-#include "sleep.hpp"
-
 
 #define SYSTEM_TEST_IMU false
 #define SYSTEM_TEST_PROPULSION true
@@ -54,14 +52,15 @@ int main() {
   std::unique_ptr<propulsion::AbstractMotorBuilder> builder = std::make_unique<propulsion::MotorBuilder>();
   propulsion::MotorDriver driver(std::move(builder));
   // driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_FRONT, 99.0);
- // driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_FRONT, 75.1);
- // driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_REAR, 50.0);
- // driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_REAR, 10.0);
+  // driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_FRONT, 75.1);
+  // driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_REAR, 50.0);
+  // driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_REAR, 10.0);
+
   while (1) {
     driver.ArmEscs();
     utilities::Sleep(5000);
   }
- 
+
 #elif SYSTEM_TEST_IMU
 
   auto i2c = std::make_unique<i2c::I2C>();
