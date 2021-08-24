@@ -2,6 +2,7 @@
 #include "gtest/gtest.h"
 
 #include "com_interface.hpp"
+#include "com_types.hpp"
 
 using ::testing::NiceMock;
 using ::testing::Return;
@@ -19,7 +20,7 @@ class ConcreteComInterface final : public com::ComInterface {
     return msg_buffer_->GetData();
   }
 
-  auto PutDataPacket(std::uint8_t target_id, types::com_msg_frame &payload) noexcept -> types::DriverStatus override {
+  auto PutDataPacket(types::PutDataTarget target_id, types::com_msg_frame &payload) noexcept -> types::DriverStatus override {
     return types::DriverStatus::OK;
   }
 };
@@ -51,7 +52,7 @@ TEST_F(ComInterfaceTests, get_data_packet) {
 TEST_F(ComInterfaceTests, put_data_packet) {
   types::com_msg_frame data;
   auto unit_under_test = std::make_unique<ConcreteComInterface>(std::move(com_buffer_));
-  ASSERT_EQ(types::DriverStatus::OK, unit_under_test->PutDataPacket(1, data));
+  ASSERT_EQ(types::DriverStatus::OK, unit_under_test->PutDataPacket(types::PutDataTarget::TARGET_FRONT, data));
 }
 
 int main(int argc, char **argv) {
