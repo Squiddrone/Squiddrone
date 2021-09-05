@@ -19,7 +19,7 @@ enum class ComBufferError : std::int8_t {
 };
 
 /// Max depth for the com buffer.
-static constexpr std::uint8_t COM_BUFFER_MAX_QUEUE_LENGTH = 5;
+static constexpr std::uint8_t COM_BUFFER_MAX_QUEUE_LENGTH = 6;
 }  // namespace com
 
 #endif
