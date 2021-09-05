@@ -11,6 +11,16 @@ static constexpr std::uint8_t COM_MAX_FRAME_LENGTH = 32;
 
 /// Type alias for com message frame datatype
 using com_msg_frame = std::vector<std::uint8_t>;
+
+enum class PutDataTarget : std::uint8_t {
+  TARGET_FRONT = 0x0,
+  TARGET_BACK,
+  TARGET_LEFT,
+  TARGET_RIGHT,
+  TARGET_ABOVE,
+  TARGET_BELOW,
+  TARGET_GROUND_CONTROL = 0xff
+};
 }  // namespace types
 
 #endif
