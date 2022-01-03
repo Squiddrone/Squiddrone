@@ -2,8 +2,6 @@
 
 namespace utilities {
 
-auto UartPrint(std::string text) -> void{
-
-};
+auto UartPrint(std::string text) -> void{};
 
 }  // namespace utilities
