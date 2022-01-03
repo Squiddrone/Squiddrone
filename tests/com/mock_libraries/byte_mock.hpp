@@ -1,8 +1,6 @@
-#ifndef TESTS_COM_MOCK_LIBRARIES_BYTE_HPP_
-#define TESTS_COM_MOCK_LIBRARIES_BYTE_HPP_
+#ifndef TESTS_COM_MOCK_LIBRARIES_BYTE_MOCK_HPP_
+#define TESTS_COM_MOCK_LIBRARIES_BYTE_MOCK_HPP_
 
-#include <array>
-#include <queue>
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
 
@@ -16,8 +14,6 @@ class Byte {
   MOCK_METHOD(void, ClearBit, (std::uint8_t), (noexcept));
   MOCK_METHOD(void, SetLowNibble, (std::uint8_t), (noexcept));
   MOCK_METHOD(void, SetHighNibble, (std::uint8_t), (noexcept));
-
-  std::uint8_t test_member = 0;
 };
 }  // namespace utilities
 
