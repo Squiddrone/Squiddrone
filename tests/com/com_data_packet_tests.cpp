@@ -19,7 +19,7 @@ class ComDataPacketTests : public ::testing::Test {
 };
 
 TEST_F(ComDataPacketTests, serialize_packet) {
-    ASSERT_EQ(return_value, msg_frame);
+  ASSERT_EQ(return_value, msg_frame);
 }
 
 TEST_F(ComDataPacketTests, deserialize_packet) {

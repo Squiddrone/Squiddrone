@@ -22,7 +22,6 @@
 #include "sleep.hpp"
 #include "spi_config.h"
 #include "timer_config.h"
-#include "uart_print.hpp"
 
 #define SYSTEM_TEST_IMU false
 #define SYSTEM_TEST_COM true
@@ -59,6 +58,7 @@ int main() {
   auto com_nrf = std::make_shared<com::NRF24L01>(std::move(com_buffer), std::move(com_nrf_core));
   com::ComInterruptHandler::SetComDriver(com_nrf);
 
+  // Frame must always be 32 bytes long. Padd if necessary.
   types::com_msg_frame tx_data{'t', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', '_', 'e', 'n', 'd'};
   types::ComDataPacket tx_packet;
 
@@ -75,10 +75,10 @@ int main() {
     {
       auto rx_packet = com_nrf->GetDataPacket();
       if (rx_packet.data.size() > 0) {
-    	std::string type_string(std::to_string(static_cast<std::uint8_t>(rx_packet.type)));
-    	utilities::UartPrint("type: " + type_string);
-    	std::string target_string(std::to_string(static_cast<std::uint8_t>(rx_packet.target)));
-    	utilities::UartPrint("target: " + type_string);
+        std::string type_string(std::to_string(static_cast<std::uint8_t>(rx_packet.type)));
+        utilities::UartPrint("type: " + type_string);
+        std::string target_string(std::to_string(static_cast<std::uint8_t>(rx_packet.target)));
+        utilities::UartPrint("target: " + type_string);
         std::string data_string(rx_packet.data.begin(), rx_packet.data.end());
         utilities::UartPrint("data: " + data_string);
       }
