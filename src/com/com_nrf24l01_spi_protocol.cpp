@@ -60,6 +60,7 @@ auto NRF24L01SpiProtocol::WritePayloadData(std::vector<std::uint8_t> &payload) n
 auto NRF24L01SpiProtocol::ReadPayloadData(std::vector<std::uint8_t> &payload) noexcept -> types::DriverStatus {
   std::vector<std::uint8_t> mosi_data_buffer;
   mosi_data_buffer.push_back(instruction_word::R_RX_PAYLOAD);
+  payload.push_back(0);  //make room for additional byte. Is sent antiparallel to command byte and contains non-sense.
 
   auto spi_ret_val = spi_->Transfer(mosi_data_buffer, payload);
   payload.erase(payload.begin());
