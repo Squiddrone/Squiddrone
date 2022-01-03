@@ -68,7 +68,6 @@ add_testpackage(TEST_NAME
                     com_nrf24l01_core_tests.cpp
                     ${CMAKE_SOURCE_DIR}/src/com/com_nrf24l01_core.cpp
                     ${CMAKE_SOURCE_DIR}/tests/com/mock_libraries/stm32g4xx_hal.c
-                    ${CMAKE_SOURCE_DIR}/tests/com/mock_libraries/uart_print_mock.cpp
                     ${CMAKE_SOURCE_DIR}/tests/com/mock_libraries/sleep_mock.cpp
                 TEST_INCLUDE_DIRECTORIES
                     ${CMAKE_SOURCE_DIR}/src/com
