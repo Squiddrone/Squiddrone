@@ -4,13 +4,18 @@
 #include "com_nrf24l01_reg.hpp"
 #include "com_nrf24l01_types.hpp"
 #include "com_types.hpp"
+#include "mcu_settings.h"
+#include "stm32g4xx_hal.h"
 
 #ifndef UNIT_TEST
 #include "com_nrf24l01_spi_protocol.hpp"
 #include "utilities/byte.hpp"
+#include "utilities/sleep.hpp"
 #else
 #include "byte_mock.hpp"
 #include "com_nrf24l01_spi_protocol_mock.hpp"
+#include "sleep_mock.hpp"
+#include "uart_print_mock.hpp"
 #endif
 namespace com {
 
@@ -27,7 +32,7 @@ class NRF24L01Core {
   auto EnableAutoAck(DataPipe pipe_no) noexcept -> types::DriverStatus;
 
   // Mode switching
-  auto InitTx() noexcept -> types::DriverStatus;
+  auto InitTx(data_pipe_address tx_target_address) noexcept -> types::DriverStatus;
   auto InitRx() noexcept -> types::DriverStatus;
 
   // Transceiver hardware configuration
@@ -41,6 +46,7 @@ class NRF24L01Core {
   auto SetDataRate(DataRateSetting data_rate) noexcept -> types::DriverStatus;
   auto SetRFOutputPower(RFPowerSetting rf_power) noexcept -> types::DriverStatus;
   auto MaskInterruptOnIntPin(MaskeableInterrupts interrupt) -> types::DriverStatus;
+  auto SetChipEnable(State power_state) noexcept -> types::DriverStatus;
   // Not sure if we ever need this
   // auto SetLNAGain(State state) noexcept -> types::DriverStatus;
 

@@ -2,14 +2,22 @@
 
 namespace com {
 
-auto NRF24L01::PutDataPacket(std::uint8_t target_id, types::com_msg_frame &payload) noexcept -> types::DriverStatus {
-  if (payload.size() > types::COM_MAX_FRAME_LENGTH) {
+auto NRF24L01::PutDataPacket(types::PutDataTarget target_id, types::ComDataPacket &packet) noexcept -> types::DriverStatus {
+  if (packet.data.size() > types::COM_MAX_DATA_FIELD_LENGTH) {
     return types::DriverStatus::INPUT_ERROR;
   }
+  //auto target_address = LookupComPartnerAddress(target_id);
+  data_pipe_address tmp_addr = {0xe7, 0xe7, 0xe7, 0xe7, 0xe7};
+  //ToDo: Wieder durch target_address ersetzen. Nur zu Testzwecken.
+  ON_ERROR_RETURN(nrf_->InitTx(tmp_addr));
 
-  ON_ERROR_RETURN(nrf_->InitTx());
+  auto payload = packet.Serialize();
 
   ON_ERROR_RETURN(nrf_->SetTxPayload(payload));
+  ON_ERROR_RETURN(nrf_->GetIRQFlags().first);
+  ON_ERROR_RETURN(nrf_->SetChipEnable(State::ENABLED));
+  utilities::Sleep(1);
+  ON_ERROR_RETURN(nrf_->SetChipEnable(State::DISABLED));
 
   for (int i = 0; i < 10; i++) {
     auto get_irq_flg = nrf_->GetIRQFlags();
@@ -18,17 +26,18 @@ auto NRF24L01::PutDataPacket(std::uint8_t target_id, types::com_msg_frame &paylo
       break;
     }
   }
+
   ON_ERROR_RETURN(nrf_->InitRx());
 
   return types::DriverStatus::OK;
 }
 
-auto NRF24L01::GetDataPacket() const noexcept -> types::com_msg_frame {
-  types::com_msg_frame rv;
+auto NRF24L01::GetDataPacket() const noexcept -> types::ComDataPacket {
+  types::ComDataPacket packet;
   if (!(msg_buffer_->BufferIsEmpty())) {
-    rv = msg_buffer_->GetData();
+    packet.Deserialize(msg_buffer_->GetData());
   }
-  return rv;
+  return packet;
 }
 
 auto NRF24L01::HandleRxIRQ() noexcept -> void {
@@ -37,8 +46,32 @@ auto NRF24L01::HandleRxIRQ() noexcept -> void {
   nrf_->GetIRQFlags();
   nrf_->GetRxPayload(payload);
 
-  msg_buffer_->PutData(payload);
+  auto packet_type = static_cast<types::ComPacketType>(payload.at(types::OFFSET_TYPE));
+
+  if (packet_type == types::ComPacketType::COM_ADDR_CONFIG_PACKET) {
+    HandleConfigPacket(payload);
+    return;
+  }
+
+  HandleTelemetryPacket(payload);
   // TODO: Error counter, falls was nicht klappt?
+}
+
+auto NRF24L01::LookupComPartnerAddress(types::PutDataTarget target_id) noexcept -> data_pipe_address {
+  return partner_drone_address.at(static_cast<std::size_t>(target_id));
+}
+
+auto NRF24L01::HandleTelemetryPacket(types::com_msg_frame &msg_frame) -> types::DriverStatus {
+  auto ret_val = msg_buffer_->PutData(msg_frame);
+  if (ret_val != ComBufferError::COM_BUFFER_OK) {
+    return types::DriverStatus::INPUT_ERROR;
+  }
+  return types::DriverStatus::OK;
+}
+
+auto NRF24L01::HandleConfigPacket(types::com_msg_frame &msg_frame) -> types::DriverStatus {
+  nrf_->SetPipeAddress(DataPipe::RX_PIPE_0, {0, 0, 0, 0, 0});
+  return types::DriverStatus::OK;
 }
 
 }  // namespace com

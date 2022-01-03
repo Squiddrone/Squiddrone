@@ -9,35 +9,44 @@ auto NRF24L01Core::InitTransceiver(std::uint8_t channel,
   if (is_initialized_) {
     return types::DriverStatus::OK;
   }
+  ON_ERROR_RETURN(SetChipEnable(State::DISABLED));
+  ON_ERROR_RETURN(SetPowerState(State::DISABLED));
+  utilities::Sleep(1);
   ON_ERROR_RETURN(SetPowerState(State::ENABLED));
+  ON_ERROR_RETURN(SetChipEnable(State::ENABLED));
+  utilities::Sleep(2);
   ON_ERROR_RETURN(SetRFChannel(channel));
   ON_ERROR_RETURN(SetDataRate(data_rate));
   ON_ERROR_RETURN(EnableCRC());
   ON_ERROR_RETURN(SetCRCEncodingScheme(encoding_scheme));
-  ON_ERROR_RETURN(SetRFOutputPower(rf_power));
+  ON_ERROR_RETURN(SetRFOutputPower(rf_power));  //Diff
   ON_ERROR_RETURN(MaskInterruptOnIntPin(MaskeableInterrupts::MAX_NR_OF_RETRIES_REACHED));
   ON_ERROR_RETURN(MaskInterruptOnIntPin(MaskeableInterrupts::TX_DATA_SENT));
   is_initialized_ = true;
+
   return types::DriverStatus::OK;
 }
 
-auto NRF24L01Core::InitTx() noexcept -> types::DriverStatus {
+auto NRF24L01Core::InitTx(data_pipe_address tx_target_address) noexcept -> types::DriverStatus {
+  std::pair<types::DriverStatus, data_pipe_address> rx_pipe_0_address;
+
+  ON_ERROR_RETURN(SetChipEnable(State::DISABLED));
+
   ON_ERROR_RETURN(spi_protocol_->FlushTxBuffer());
   ON_ERROR_RETURN(spi_protocol_->FlushRxBuffer());
-  ON_ERROR_RETURN(spi_protocol_->ReadAndClearIRQFlags().first);
+
+  ON_ERROR_RETURN(SetPipeAddress(DataPipe::TX_PIPE, tx_target_address));
+  ON_ERROR_RETURN(SetPipeAddress(DataPipe::RX_PIPE_0, tx_target_address));
 
   if (current_operation_mode_ == OperationMode::PRIM_TX) {
     return types::DriverStatus::OK;
   }
 
   ON_ERROR_RETURN(SetOperationMode(OperationMode::PRIM_TX));
-  /* needed in final implementation
-    SetTxAddress(tx_addr);
-    SetRxAddress(DataPipe::data_pipe_0, tx_addr);
-  */
 
   ON_ERROR_RETURN(EnableDataPipe(DataPipe::RX_PIPE_0));
-  //EnableAutoAck(DataPipe::RX_PIPE_0);
+  ON_ERROR_RETURN(EnableAutoAck(DataPipe::RX_PIPE_0));
+
   ON_ERROR_RETURN(ConfigAutoRetransmission(AutoRetransmissionDelay::ARD500US, AutoRetransmitCount::ARC0));
 
   return types::DriverStatus::OK;
@@ -56,6 +65,8 @@ auto NRF24L01Core::InitRx() noexcept -> types::DriverStatus {
   ON_ERROR_RETURN(EnableDataPipe(DataPipe::RX_PIPE_0));
   ON_ERROR_RETURN(EnableAutoAck(DataPipe::RX_PIPE_0));
   ON_ERROR_RETURN(SetRxPayloadSize(DataPipe::RX_PIPE_0, types::COM_MAX_FRAME_LENGTH));
+
+  ON_ERROR_RETURN(SetChipEnable(State::ENABLED));
 
   return types::DriverStatus::OK;
 }
@@ -105,7 +116,7 @@ auto NRF24L01Core::SetDataRate(DataRateSetting data_rate) noexcept -> types::Dri
 }
 
 auto NRF24L01Core::EnableCRC() noexcept -> types::DriverStatus {
-  auto get_config_register = spi_protocol_->ReadRegister(reg::rf_setup::REG_ADDR);
+  auto get_config_register = spi_protocol_->ReadRegister(reg::config::REG_ADDR);
   if (get_config_register.first != types::DriverStatus::OK) {
     return get_config_register.first;
   }
@@ -116,7 +127,7 @@ auto NRF24L01Core::EnableCRC() noexcept -> types::DriverStatus {
 }
 
 auto NRF24L01Core::SetCRCEncodingScheme(CRCEncodingScheme encoding_scheme) noexcept -> types::DriverStatus {
-  auto get_config_register = spi_protocol_->ReadRegister(reg::rf_setup::REG_ADDR);
+  auto get_config_register = spi_protocol_->ReadRegister(reg::config::REG_ADDR);
   if (get_config_register.first != types::DriverStatus::OK) {
     return get_config_register.first;
   }
@@ -148,7 +159,7 @@ auto NRF24L01Core::SetRFOutputPower(RFPowerSetting rf_power) noexcept -> types::
 }
 
 auto NRF24L01Core::SetPowerState(State power_state) noexcept -> types::DriverStatus {
-  auto get_config_register = spi_protocol_->ReadRegister(reg::rf_setup::REG_ADDR);
+  auto get_config_register = spi_protocol_->ReadRegister(reg::config::REG_ADDR);
   if (get_config_register.first != types::DriverStatus::OK) {
     return get_config_register.first;
   }
@@ -164,7 +175,7 @@ auto NRF24L01Core::SetPowerState(State power_state) noexcept -> types::DriverSta
 }
 
 auto NRF24L01Core::EnableDataPipe(DataPipe pipe_no) noexcept -> types::DriverStatus {
-  auto get_en_rxaddr_reg = spi_protocol_->ReadRegister(reg::rf_setup::REG_ADDR);
+  auto get_en_rxaddr_reg = spi_protocol_->ReadRegister(reg::en_rxaddr::REG_ADDR);
   if (get_en_rxaddr_reg.first != types::DriverStatus::OK) {
     return get_en_rxaddr_reg.first;
   }
@@ -174,7 +185,7 @@ auto NRF24L01Core::EnableDataPipe(DataPipe pipe_no) noexcept -> types::DriverSta
 }
 
 auto NRF24L01Core::DisableDataPipe(DataPipe pipe_no) noexcept -> types::DriverStatus {
-  auto get_en_rxaddr_reg = spi_protocol_->ReadRegister(reg::rf_setup::REG_ADDR);
+  auto get_en_rxaddr_reg = spi_protocol_->ReadRegister(reg::en_rxaddr::REG_ADDR);
   if (get_en_rxaddr_reg.first != types::DriverStatus::OK) {
     return get_en_rxaddr_reg.first;
   }
@@ -184,7 +195,7 @@ auto NRF24L01Core::DisableDataPipe(DataPipe pipe_no) noexcept -> types::DriverSt
 }
 
 auto NRF24L01Core::EnableAutoAck(DataPipe pipe_no) noexcept -> types::DriverStatus {
-  auto get_en_aa_reg = spi_protocol_->ReadRegister(reg::rf_setup::REG_ADDR);
+  auto get_en_aa_reg = spi_protocol_->ReadRegister(reg::en_aa::REG_ADDR);
   if (get_en_aa_reg.first != types::DriverStatus::OK) {
     return get_en_aa_reg.first;
   }
@@ -194,7 +205,7 @@ auto NRF24L01Core::EnableAutoAck(DataPipe pipe_no) noexcept -> types::DriverStat
 }
 
 auto NRF24L01Core::ConfigAutoRetransmission(AutoRetransmissionDelay delay, AutoRetransmitCount count) noexcept -> types::DriverStatus {
-  auto get_setup_retr_reg = spi_protocol_->ReadRegister(reg::rf_setup::REG_ADDR);
+  auto get_setup_retr_reg = spi_protocol_->ReadRegister(reg::setup_retr::REG_ADDR);
   if (get_setup_retr_reg.first != types::DriverStatus::OK) {
     return get_setup_retr_reg.first;
   }
@@ -285,6 +296,17 @@ auto NRF24L01Core::GetIRQFlags() noexcept -> std::pair<types::DriverStatus, std:
 
 auto NRF24L01Core::SetAddressWidth(DataPipeAddressWidth addr_width) noexcept -> types::DriverStatus {
   return (spi_protocol_->WriteRegister(reg::setup_aw::REG_ADDR, static_cast<std::uint8_t>(addr_width)));
+}
+
+auto NRF24L01Core::SetChipEnable(State power_state) noexcept -> types::DriverStatus {
+  GPIO_PinState gpio_state = GPIO_PIN_RESET;
+
+  if (power_state == State::ENABLED) {
+    gpio_state = GPIO_PIN_SET;
+  }
+
+  HAL_GPIO_WritePin(ENCOM_GPIO_Port, ENCOM_Pin, gpio_state);
+  return types::DriverStatus::OK;
 }
 
 }  // namespace com

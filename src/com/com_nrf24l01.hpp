@@ -1,6 +1,5 @@
 #ifndef SRC_COM_COM_NRF24L01_HPP_
 #define SRC_COM_COM_NRF24L01_HPP_
-#include <algorithm>
 
 #include "com_interface.hpp"
 #include "com_nrf24l01_reg.hpp"
@@ -23,16 +22,15 @@ namespace com {
  */
 class NRF24L01 final : public ComInterface {
  public:
-  auto GetDataPacket() const noexcept -> types::com_msg_frame override;
-  auto PutDataPacket(std::uint8_t target_id, types::com_msg_frame &payload) noexcept
+  auto GetDataPacket() const noexcept -> types::ComDataPacket override;
+  auto PutDataPacket(types::PutDataTarget target_id, types::ComDataPacket &packet) noexcept
       -> types::DriverStatus override;
   auto HandleRxIRQ() noexcept -> void;
 
   explicit NRF24L01(std::unique_ptr<com::ComMessageBuffer> msg_buf,
                     std::unique_ptr<com::NRF24L01Core> nrf) : ComInterface(std::move(msg_buf)),
-                                                              nrf_(std::move(nrf)),
-                                                              irq_flags(0) {
-    nrf_->InitTransceiver(com::rf_config::RF_CHANNEL, DataRateSetting::RF_DR_1MBPS, RFPowerSetting::RF_PWR_0DBM, CRCEncodingScheme::CRC_16BIT);
+                                                              nrf_(std::move(nrf)) {
+    nrf_->InitTransceiver(com::rf_config::RF_CHANNEL, DataRateSetting::RF_DR_2MBPS, RFPowerSetting::RF_PWR_0DBM, CRCEncodingScheme::CRC_16BIT);
     nrf_->InitRx();
   };
   NRF24L01() = delete;
@@ -40,9 +38,12 @@ class NRF24L01 final : public ComInterface {
 
  private:
   std::unique_ptr<NRF24L01Core> nrf_;
-  std::uint8_t irq_flags;
   OperationMode current_operation_mode_;
-  bool is_initialized_;
+  std::array<data_pipe_address, 6> partner_drone_address = {0};
+
+  auto LookupComPartnerAddress(types::PutDataTarget target_id) noexcept -> data_pipe_address;
+  auto HandleTelemetryPacket(types::com_msg_frame &msg_frame) -> types::DriverStatus;
+  auto HandleConfigPacket(types::com_msg_frame &msg_frame) -> types::DriverStatus;
 };
 }  // namespace com
 

@@ -44,7 +44,7 @@ int main() {
   MX_I2C2_Init();
   MX_SPI1_Init();
   MX_TIM2_Init();
-  MX_TIM3_Init();
+  //MX_TIM3_Init();
   MX_TIM4_Init();
   MX_TIM16_Init();
   MX_TIM17_Init();
@@ -57,22 +57,32 @@ int main() {
   auto com_buffer = std::make_unique<com::ComMessageBuffer>();
   auto com_nrf_core = std::make_unique<com::NRF24L01Core>(std::move(com_spi_protocol));
   auto com_nrf = std::make_shared<com::NRF24L01>(std::move(com_buffer), std::move(com_nrf_core));
-  //auto com_interrupt_handler = std::make_unique<com::ComInterruptHandler>(com_device);
   com::ComInterruptHandler::SetComDriver(com_nrf);
 
-  //types::com_msg_frame payload{0xab, 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', '_', 'e', 'n', 'd'};
+  types::com_msg_frame tx_data{'t', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', '_', 'e', 'n', 'd'};
+  types::ComDataPacket tx_packet;
+
+  tx_packet.data = tx_data;
+  tx_packet.type = types::ComPacketType::TELEMETRY_PACKET;
+  tx_packet.target = types::PutDataTarget::TARGET_GROUND_CONTROL;
 
   while (1) {
-    //com_nrf->PutDataPacket(0x0, payload);
-    //utilities::Sleep(1000);
-    /* {
-      auto rx_payload = com_nrf->GetDataPacket();
-      if (rx_payload.size() > 0) {
-        std::string debug_string(rx_payload.begin(), rx_payload.end());
-        utilities::UartPrint(debug_string);
+    auto rv = com_nrf->PutDataPacket(types::PutDataTarget::TARGET_GROUND_CONTROL, tx_packet);
+    if (rv != types::DriverStatus::OK) {
+      utilities::UartPrint("Tx error...");
+    }
+    utilities::Sleep(2000);
+    {
+      auto rx_packet = com_nrf->GetDataPacket();
+      if (rx_packet.data.size() > 0) {
+    	std::string type_string(std::to_string(static_cast<std::uint8_t>(rx_packet.type)));
+    	utilities::UartPrint("type: " + type_string);
+    	std::string target_string(std::to_string(static_cast<std::uint8_t>(rx_packet.target)));
+    	utilities::UartPrint("target: " + type_string);
+        std::string data_string(rx_packet.data.begin(), rx_packet.data.end());
+        utilities::UartPrint("data: " + data_string);
       }
-    } */
-    utilities::Sleep(1);
+    }
   }
 #endif
 
