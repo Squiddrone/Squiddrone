@@ -22,6 +22,7 @@
 #include "sleep.hpp"
 #include "spi_config.h"
 #include "timer_config.h"
+#include "uart_print.hpp"
 
 #define SYSTEM_TEST_IMU false
 #define SYSTEM_TEST_COM true
