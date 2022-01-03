@@ -15,7 +15,6 @@
 #include "byte_mock.hpp"
 #include "com_nrf24l01_spi_protocol_mock.hpp"
 #include "sleep_mock.hpp"
-#include "uart_print_mock.hpp"
 #endif
 namespace com {
 
