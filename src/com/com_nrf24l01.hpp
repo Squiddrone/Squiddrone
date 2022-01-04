@@ -25,15 +25,36 @@ class NRF24L01 final : public ComInterface {
   auto GetDataPacket() const noexcept -> types::ComDataPacket override;
   auto PutDataPacket(types::PutDataTarget target_id, types::ComDataPacket &packet) noexcept
       -> types::DriverStatus override;
+  /**
+   * @brief IRQ handler function is called by HAL layer, when an incoming data frame triggers
+   * an interrupt.
+   * 
+   */
   auto HandleRxIRQ() noexcept -> void;
 
+  /**
+   * @brief Construct a new NRF24L01 object and initialize the transceiver.
+   * 
+   * @param msg_buf Unique pointer to an object of type com::ComMessageBuffer.
+   * @param nrf Unique pointer to an object of type NF24L01Core.
+   */
   explicit NRF24L01(std::unique_ptr<com::ComMessageBuffer> msg_buf,
                     std::unique_ptr<com::NRF24L01Core> nrf) : ComInterface(std::move(msg_buf)),
                                                               nrf_(std::move(nrf)) {
     nrf_->InitTransceiver(com::rf_config::RF_CHANNEL, DataRateSetting::RF_DR_2MBPS, RFPowerSetting::RF_PWR_0DBM, CRCEncodingScheme::CRC_16BIT);
     nrf_->InitRx();
   };
+
+  /**
+   * @brief Default constructor is not used.
+   * 
+   */
   NRF24L01() = delete;
+
+  /**
+   * @brief Destroy the NRF24L01 object
+   * 
+   */
   virtual ~NRF24L01() = default;
 
  private:
