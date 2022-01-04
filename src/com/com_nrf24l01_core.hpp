@@ -17,7 +17,10 @@
 #include "sleep_mock.hpp"
 #endif
 namespace com {
-
+/**
+ * @brief Control the main features of the NRF24L01 device.
+ * 
+ */
 class NRF24L01Core {
  public:
   //Pipe configuration
