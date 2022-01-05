@@ -8,11 +8,13 @@ namespace types {
 
 /// Max length for com message frames.
 static constexpr std::uint8_t COM_MAX_FRAME_LENGTH = 32;
+/// Max length for the data field of a data packet.
 static constexpr std::uint8_t COM_MAX_DATA_FIELD_LENGTH = 30;
 
 /// Type alias for com message frame datatype
 using com_msg_frame = std::vector<std::uint8_t>;
 
+/// Target directions during formation flight
 enum class PutDataTarget : std::uint8_t {
   TARGET_FRONT = 0x00,
   TARGET_BACK = 0xff,
@@ -23,21 +25,33 @@ enum class PutDataTarget : std::uint8_t {
   TARGET_GROUND_CONTROL = 0xaa
 };
 
+/// Packet types
 enum class ComPacketType : std::uint8_t {
+  /// Flight telemetry data
   TELEMETRY_PACKET = 0,
+  /// Packet to configure the targets address.
   COM_ADDR_CONFIG_PACKET
 };
 
-/// Packet setup
+// Packet structure
+/// Packet type position in data frame.
 static constexpr std::uint8_t OFFSET_TYPE = 0U;
+/// Packet target position in data frame.
 static constexpr std::uint8_t OFFSET_TARGET = 1U;
+/// Packet data position in data frame.
 static constexpr std::uint8_t OFFSET_DATA = 2U;
 
+/// Data packet definition. Also defines Serializer and Deserializer.
 struct ComDataPacket {
   ComPacketType type;
   types::PutDataTarget target;
   std::vector<std::uint8_t> data;
 
+  /**
+   * @brief Serialize entire package content.
+   * 
+   * @return com_msg_frame 
+   */
   com_msg_frame Serialize() {
     std::vector<std::uint8_t> serialized_data;
 
@@ -48,6 +62,11 @@ struct ComDataPacket {
     return serialized_data;
   }
 
+  /**
+   * @brief Deserialize data frame and populate package struct.
+   * 
+   * @param msg_frame 
+   */
   void Deserialize(com_msg_frame msg_frame) {
     type = static_cast<ComPacketType>(msg_frame.at(OFFSET_TYPE));
     target = static_cast<types::PutDataTarget>(msg_frame.at(OFFSET_TARGET));

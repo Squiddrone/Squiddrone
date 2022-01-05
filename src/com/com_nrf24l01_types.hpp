@@ -18,7 +18,9 @@ enum class State : std::uint8_t {
 };
 
 enum class CRCEncodingScheme : std::uint8_t {
+  /// Use 8 bit crc calculation.
   CRC_8BIT,
+  /// Use 16 bit crc calculation.
   CRC_16BIT
 };
 
@@ -33,13 +35,16 @@ enum class DataPipe : std::uint8_t {
 };
 
 enum class DataPipeAddressWidth : std::uint8_t {
+  /// Address width 3 bytes.
   AW_3BYTES = 0x1,
+  /// Address width 4 bytes.
   AW_4BYTES = 0x2,
-  AW_5BYTES = 0x3,
+  /// Address width 5 bytes.
+  AW_5BYTES = 0x3
 };
 
+/// auto retransmission delay 250-4000 us.
 enum class AutoRetransmissionDelay : std::uint8_t {
-  // auto retransmission delay 250-4000 us
   ARD250US = 0x0,
   ARD500US = 0x1,
   ARD750US = 0x2,
@@ -58,8 +63,8 @@ enum class AutoRetransmissionDelay : std::uint8_t {
   ARD4000US = 0xf
 };
 
+/// auto retransmit count 0-15 in case of failed auto retransmit
 enum class AutoRetransmitCount : std::uint8_t {
-  // auto retransmit count 0-15 in case of failed auto retransmit
   ARC0 = 0x0,
   ARC1 = 0x1,
   ARC2 = 0x2,
@@ -78,21 +83,30 @@ enum class AutoRetransmitCount : std::uint8_t {
   ARC15 = 0xf
 };
 
+/// Primary operation mode
 enum class OperationMode : std::uint8_t {
   UNDEFINED = 0,
+  /// Primary receiver
   PRIM_RX,
+  /// Primary transmitter
   PRIM_TX
 };
 
 enum class RFPowerSetting : std::uint8_t {
+  /// -18dBm rf power
   RF_PWR_18DBM = 0x0,
+  /// -12dBm rf power
   RF_PWR_12DBM = 0x1,
+  /// -6dBm rf power
   RF_PWR_6DBM = 0x2,
+  /// 0dBm rf power
   RF_PWR_0DBM = 0x3
 };
 
 enum class DataRateSetting : std::uint8_t {
+  /// Data rate 1Mbps
   RF_DR_1MBPS = 0,
+  /// Data rate 2Mbps
   RF_DR_2MBPS = 1
 };
 

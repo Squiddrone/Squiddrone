@@ -5,7 +5,7 @@
 #include <cstdint>
 
 namespace com {
-
+/// NRF24L01 instruction words. See manual for details.
 namespace instruction_word {
 static constexpr std::uint8_t R_REGISTER = 0x00;
 static constexpr std::uint8_t W_REGISTER = 0x20;
@@ -17,15 +17,17 @@ static constexpr std::uint8_t REUSE_TX_PL = 0xe3;
 static constexpr std::uint8_t NOP = 0xff;
 }  // namespace instruction_word
 
+/// Default RF frequency setting for squid drone communication.
 namespace rf_config {
 static constexpr std::uint8_t RF_CHANNEL = 20;
-}
+}  // namespace rf_config
 
 /// Default value for address width
 namespace addr_config {
 static constexpr std::uint8_t ADDR_WIDTH = 5U;
 }  // namespace addr_config
 
+/// Register content
 namespace reg {
 /// configuration register
 namespace config {
