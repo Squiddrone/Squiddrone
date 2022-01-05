@@ -164,10 +164,10 @@ class NRF24L01Core {
   /**
    * @brief Set the Chip Enable pin state.
    * 
-   * @param power_state State of the chip enable pin. See com::State.
+   * @param chip_enable_state State of the chip enable pin. See com::State.
    * @return types::DriverStatus 
    */
-  auto SetChipEnable(State power_state) noexcept -> types::DriverStatus;
+  auto SetChipEnable(State chip_enable_state) noexcept -> types::DriverStatus;
 
   // General protocol configuration
   /**
