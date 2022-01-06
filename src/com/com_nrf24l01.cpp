@@ -21,7 +21,7 @@ auto NRF24L01::PutDataPacket(types::PutDataTarget target_id, types::ComDataPacke
   for (int i = 0; i < 10; i++) {
     auto get_irq_flg = nrf_->GetIRQFlags();
     ON_ERROR_RETURN(get_irq_flg.first);
-    if (get_irq_flg.second & ((1U << 5) | (1U << 4))) {
+    if (get_irq_flg.second & ((1U << reg::status::TX_DS) | (1U << reg::status::MAX_RT))) {
       break;
     }
   }
