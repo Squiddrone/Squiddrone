@@ -6,6 +6,7 @@
 
 using ::testing::_;
 using ::testing::ElementsAre;
+using ::testing::Invoke;
 using ::testing::NiceMock;
 using ::testing::Return;
 namespace {
@@ -61,7 +62,12 @@ TEST_F(ComNRF24L01Tests, handle_incoming_telemetry_packet) {
   EXPECT_CALL(*com_msg_buffer, PutData(_)).WillOnce(Return(com::ComBufferError::COM_BUFFER_OK));
 
   auto com_nrf_core = std::make_unique<NiceMock<com::NRF24L01Core>>();
-  ON_CALL(*com_nrf_core, GetRxPayload(_)).WillByDefault(Return(types::DriverStatus::OK));
+  ON_CALL(*com_nrf_core, GetRxPayload(_))
+      .WillByDefault(Invoke(
+          [=](types::com_msg_frame &frame) {
+            frame = mock_payload;
+            return types::DriverStatus::OK;
+          }));
 
   auto unit_under_test = std::make_unique<com::NRF24L01>(std::move(com_msg_buffer), std::move(com_nrf_core));
 
@@ -74,7 +80,12 @@ TEST_F(ComNRF24L01Tests, handle_incoming_addr_config_packet) {
   auto com_msg_buffer = std::make_unique<NiceMock<com::ComMessageBuffer>>();
 
   auto com_nrf_core = std::make_unique<NiceMock<com::NRF24L01Core>>();
-  ON_CALL(*com_nrf_core, GetRxPayload(_)).WillByDefault(Return(types::DriverStatus::OK));
+  ON_CALL(*com_nrf_core, GetRxPayload(_))
+      .WillByDefault(Invoke(
+          [=](types::com_msg_frame &frame) {
+            frame = mock_payload;
+            return types::DriverStatus::OK;
+          }));
   EXPECT_CALL(*com_nrf_core, SetPipeAddress(_, _)).WillOnce(Return(types::DriverStatus::OK));
 
   auto unit_under_test = std::make_unique<com::NRF24L01>(std::move(com_msg_buffer), std::move(com_nrf_core));

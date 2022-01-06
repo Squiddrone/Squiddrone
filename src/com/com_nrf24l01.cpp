@@ -44,7 +44,6 @@ auto NRF24L01::HandleRxIRQ() noexcept -> void {
 
   nrf_->GetIRQFlags();
   nrf_->GetRxPayload(payload);
-  // Implement check for empty rx fifo.
 
   auto packet_type = static_cast<types::ComPacketType>(payload.at(types::OFFSET_TYPE));
 
