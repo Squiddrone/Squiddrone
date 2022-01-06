@@ -22,14 +22,13 @@ auto NRF24L01Core::InitTransceiver(std::uint8_t channel,
   ON_ERROR_RETURN(SetRFOutputPower(rf_power));
   ON_ERROR_RETURN(MaskInterruptOnIntPin(MaskeableInterrupts::MAX_NR_OF_RETRIES_REACHED));
   ON_ERROR_RETURN(MaskInterruptOnIntPin(MaskeableInterrupts::TX_DATA_SENT));
+  ON_ERROR_RETURN(InitRx());
   is_initialized_ = true;
 
   return types::DriverStatus::OK;
 }
 
 auto NRF24L01Core::InitTx(data_pipe_address tx_target_address) noexcept -> types::DriverStatus {
-  std::pair<types::DriverStatus, data_pipe_address> rx_pipe_0_address;
-
   ON_ERROR_RETURN(SetChipEnable(State::DISABLED));
 
   ON_ERROR_RETURN(spi_protocol_->FlushTxBuffer());

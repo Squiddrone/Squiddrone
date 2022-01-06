@@ -10,6 +10,7 @@
 #include <memory>
 #include "clock_config.h"
 #include "com/com_message_buffer.hpp"
+#include "com_nrf24l01_types.hpp"
 #include "cordic_config.h"
 #include "crc_config.h"
 #include "fmac_config.h"
@@ -58,6 +59,8 @@ int main() {
   auto com_nrf_core = std::make_unique<com::NRF24L01Core>(std::move(com_spi_protocol));
   auto com_nrf = std::make_shared<com::NRF24L01>(std::move(com_buffer), std::move(com_nrf_core));
   com::ComInterruptHandler::SetComDriver(com_nrf);
+
+  com_nrf_core->InitTransceiver(20, com::DataRateSetting::RF_DR_2MBPS, com::RFPowerSetting::RF_PWR_0DBM, com::CRCEncodingScheme::CRC_16BIT);
 
   // Frame must always be 32 bytes long. Padd if necessary.
   types::com_msg_frame tx_data{'t', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', '_', 'e', 'n', 'd'};
