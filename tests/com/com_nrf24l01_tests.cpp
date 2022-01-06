@@ -49,6 +49,10 @@ TEST_F(ComNRF24L01Tests, put_data_packet_successful) {
   ON_CALL(*com_msg_buffer, GetData).WillByDefault(Return(default_msg_frame_));
 
   auto com_nrf_core = std::make_unique<NiceMock<com::NRF24L01Core>>();
+
+  std::pair<types::DriverStatus, std::uint8_t> irq_flags = {types::DriverStatus::OK, 0xff};
+  ON_CALL(*com_nrf_core, GetIRQFlags()).WillByDefault(Return(irq_flags));
+
   auto unit_under_test = std::make_unique<com::NRF24L01>(std::move(com_msg_buffer), std::move(com_nrf_core));
 
   auto return_value = unit_under_test->PutDataPacket(types::PutDataTarget::TARGET_FRONT, default_data_packet_);
@@ -68,8 +72,6 @@ TEST_F(ComNRF24L01Tests, handle_incoming_telemetry_packet) {
             frame = mock_payload;
             return types::DriverStatus::OK;
           }));
-  std::pair<types::DriverStatus, std::uint8_t> irq_flags = {types::DriverStatus::OK, 0xff};
-  ON_CALL(*com_nrf_core, GetIRQFlags()).WillByDefault(Return(irq_flags));
   auto unit_under_test = std::make_unique<com::NRF24L01>(std::move(com_msg_buffer), std::move(com_nrf_core));
 
   unit_under_test->HandleRxIRQ();
