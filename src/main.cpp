@@ -25,7 +25,7 @@
 #include "uart_print.hpp"
 
 #define SYSTEM_TEST_IMU false
-#define SYSTEM_TEST_COM true
+#define SYSTEM_TEST_COM false
 
 auto FormatEuclidVectorForPrintOut(const std::string &Sensor, types::EuclideanVector<std::int16_t> Vector) -> std::string;
 
@@ -70,17 +70,14 @@ int main() {
   while (1) {
     auto rv = com_nrf->PutDataPacket(types::PutDataTarget::TARGET_GROUND_CONTROL, tx_packet);
 
-#ifndef UNIT_TEST
     if (rv != types::DriverStatus::OK) {
       utilities::UartPrint("Tx error...");
     }
-#endif
 
     utilities::Sleep(2000);
     {
       auto rx_packet = com_nrf->GetDataPacket();
 
-#ifndef UNIT_TEST
       if (rx_packet.data.size() > 0) {
         std::string type_string(std::to_string(static_cast<std::uint8_t>(rx_packet.type)));
         utilities::UartPrint("type: " + type_string);
@@ -89,7 +86,6 @@ int main() {
         std::string data_string(rx_packet.data.begin(), rx_packet.data.end());
         utilities::UartPrint("data: " + data_string);
       }
-#endif
     }
   }
 #endif

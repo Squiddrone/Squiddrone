@@ -36,6 +36,7 @@ class NRF24L01Core {
   MOCK_METHOD((std::pair<types::DriverStatus, std::uint8_t>), GetIRQFlags, (), (noexcept));
   MOCK_METHOD((types::DriverStatus), SetTxPayload, (std::vector<std::uint8_t> &), (noexcept));
   MOCK_METHOD((types::DriverStatus), GetRxPayload, (std::vector<std::uint8_t> &), (noexcept));
+  MOCK_METHOD((types::DriverStatus), SetChipEnable, (State), (noexcept));
 
   NRF24L01Core() = default;
   virtual ~NRF24L01Core() = default;

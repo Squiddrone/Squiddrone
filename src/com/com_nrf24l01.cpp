@@ -6,10 +6,9 @@ auto NRF24L01::PutDataPacket(types::PutDataTarget target_id, types::ComDataPacke
   if (packet.data.size() > types::COM_MAX_DATA_FIELD_LENGTH) {
     return types::DriverStatus::INPUT_ERROR;
   }
-  //auto target_address = LookupComPartnerAddress(target_id);
-  data_pipe_address tmp_addr = {0xe7, 0xe7, 0xe7, 0xe7, 0xe7};
-  //ToDo: Wieder durch target_address ersetzen. Nur zu Testzwecken.
-  ON_ERROR_RETURN(nrf_->InitTx(tmp_addr));
+  auto target_address = LookupComPartnerAddress(target_id);
+
+  ON_ERROR_RETURN(nrf_->InitTx(target_address));
 
   auto payload = packet.Serialize();
 
@@ -55,11 +54,10 @@ auto NRF24L01::HandleRxIRQ() noexcept -> void {
   }
 
   HandleTelemetryPacket(payload);
-  // TODO: Error counter, falls was nicht klappt?
 }
 
 auto NRF24L01::LookupComPartnerAddress(types::PutDataTarget target_id) noexcept -> data_pipe_address {
-  return partner_drone_address.at(static_cast<std::size_t>(target_id));
+  return partner_drone_address_.at(static_cast<std::size_t>(target_id));
 }
 
 auto NRF24L01::HandleTelemetryPacket(types::com_msg_frame &msg_frame) -> types::DriverStatus {

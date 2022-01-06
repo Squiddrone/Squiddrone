@@ -1,6 +1,7 @@
 #ifndef SRC_COM_COM_NRF24L01_CORE_HPP_
 #define SRC_COM_COM_NRF24L01_CORE_HPP_
 
+#include "com_nrf24l01_error_handler.hpp"
 #include "com_nrf24l01_reg.hpp"
 #include "com_nrf24l01_types.hpp"
 #include "com_types.hpp"
@@ -234,7 +235,7 @@ class NRF24L01Core {
    * @param spi_protocol Unique pointer to a spi protocol object. See NRF24L01SpiProtocol.
    */
   explicit NRF24L01Core(std::unique_ptr<NRF24L01SpiProtocol> spi_protocol) : spi_protocol_(std::move(spi_protocol)),
-                                                                             irq_flags(0),
+                                                                             irq_flags_(0),
                                                                              current_operation_mode_(com::OperationMode::UNDEFINED),
                                                                              is_initialized_(false) {}
 
@@ -252,7 +253,7 @@ class NRF24L01Core {
 
  private:
   std::unique_ptr<NRF24L01SpiProtocol> spi_protocol_;
-  std::uint8_t irq_flags;
+  std::uint8_t irq_flags_;
   OperationMode current_operation_mode_;
   bool is_initialized_;
 };

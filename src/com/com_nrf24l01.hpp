@@ -2,16 +2,19 @@
 #define SRC_COM_COM_NRF24L01_HPP_
 
 #include "com_interface.hpp"
+#include "com_nrf24l01_error_handler.hpp"
 #include "com_nrf24l01_reg.hpp"
 #include "com_nrf24l01_types.hpp"
 #ifndef UNIT_TEST
 #include "com_nrf24l01_core.hpp"
 #include "com_nrf24l01_spi_protocol.hpp"
 #include "utilities/byte.hpp"
+#include "utilities/sleep.hpp"
 #else
 #include "byte_mock.hpp"
 #include "com_nrf24l01_core_mock.hpp"
 #include "com_nrf24l01_spi_protocol_mock.hpp"
+#include "sleep_mock.hpp"
 #endif
 
 namespace com {
@@ -60,7 +63,7 @@ class NRF24L01 final : public ComInterface {
  private:
   std::unique_ptr<NRF24L01Core> nrf_;
   OperationMode current_operation_mode_;
-  std::array<data_pipe_address, 6> partner_drone_address = {0};
+  std::array<data_pipe_address, 7> partner_drone_address_ = {0};
 
   auto LookupComPartnerAddress(types::PutDataTarget target_id) noexcept -> data_pipe_address;
   auto HandleTelemetryPacket(types::com_msg_frame &msg_frame) -> types::DriverStatus;

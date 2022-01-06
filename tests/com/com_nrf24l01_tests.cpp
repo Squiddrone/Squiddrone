@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "com_nrf24l01.hpp"
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
@@ -11,32 +12,34 @@ namespace {
 class ComNRF24L01Tests : public ::testing::Test {
  protected:
   virtual void SetUp() {
-    //build mock msg frame
+    default_msg_frame_.resize(32);
+    std::fill(default_msg_frame_.begin(), default_msg_frame_.end(), 0xaa);
     default_msg_frame_.at(0) = 0;
+    default_data_packet_.Deserialize(default_msg_frame_);
   }
-  types::com_msg_frame default_msg_frame_(32) = {0xAA};
+  types::com_msg_frame default_msg_frame_;
+  types::ComDataPacket default_data_packet_;
 };
 
 TEST_F(ComNRF24L01Tests, get_data_packet_successful) {
   auto com_msg_buffer = std::make_unique<NiceMock<com::ComMessageBuffer>>();
   ON_CALL(*com_msg_buffer, GetData).WillByDefault(Return(default_msg_frame_));
-
   auto com_nrf_core = std::make_unique<NiceMock<com::NRF24L01Core>>();
-  types::com_msg_frame msg_frame = {0xAA};
   auto unit_under_test = std::make_unique<com::NRF24L01>(std::move(com_msg_buffer), std::move(com_nrf_core));
   auto return_value = unit_under_test->GetDataPacket();
-  ASSERT_EQ(return_value, msg_frame);
+  ASSERT_EQ(return_value.data, default_data_packet_.data);
+  ASSERT_EQ(return_value.target, default_data_packet_.target);
+  ASSERT_EQ(return_value.type, default_data_packet_.type);
 }
 
 TEST_F(ComNRF24L01Tests, frame_length_exceeding_limit) {
   auto com_msg_buffer = std::make_unique<NiceMock<com::ComMessageBuffer>>();
-  ON_CALL(*com_msg_buffer, GetData).WillByDefault(Return(default_msg_frame_));
-
   auto com_nrf_core = std::make_unique<NiceMock<com::NRF24L01Core>>();
   auto unit_under_test = std::make_unique<com::NRF24L01>(std::move(com_msg_buffer), std::move(com_nrf_core));
-  types::com_msg_frame long_msg_frame(33);
-
-  auto return_value = unit_under_test->PutDataPacket(types::PutDataTarget::TARGET_FRONT, long_msg_frame);
+  std::vector<std::uint8_t> long_data_field(31);
+  types::ComDataPacket mock_packet;
+  mock_packet.data = long_data_field;
+  auto return_value = unit_under_test->PutDataPacket(types::PutDataTarget::TARGET_FRONT, mock_packet);
   ASSERT_EQ(return_value, types::DriverStatus::INPUT_ERROR);
 }
 
@@ -47,7 +50,7 @@ TEST_F(ComNRF24L01Tests, put_data_packet_successful) {
   auto com_nrf_core = std::make_unique<NiceMock<com::NRF24L01Core>>();
   auto unit_under_test = std::make_unique<com::NRF24L01>(std::move(com_msg_buffer), std::move(com_nrf_core));
 
-  auto return_value = unit_under_test->PutDataPacket(types::PutDataTarget::TARGET_FRONT, packet);
+  auto return_value = unit_under_test->PutDataPacket(types::PutDataTarget::TARGET_FRONT, default_data_packet_);
   ASSERT_EQ(return_value, types::DriverStatus::OK);
 }
 
@@ -78,15 +81,5 @@ TEST_F(ComNRF24L01Tests, handle_incoming_addr_config_packet) {
 
   unit_under_test->HandleRxIRQ();
 }
-
-/* TEST_F(ComNRF24L01Tests, com_put_data_packet_hal_reg_access_not_successful) {
-  com::ReadRegSinglebyteReturn mock_ret_val = {types::DriverStatus::HAL_ERROR, 0};
-  //ON_CALL(*com_spi_protocol_, ReadRegister(com::reg::config::REG_ADDR)).WillByDefault(Return(mock_ret_val));
-
-  auto unit_under_test_ = std::make_unique<com::NRF24L01>(std::move(com_msg_buffer_), std::move(com_spi_protocol_));
-
-  auto return_value_1 = unit_under_test_->PutDataPacket(0, default_msg_frame_);
-  ASSERT_EQ(return_value_1, types::DriverStatus::HAL_ERROR);
-}*/
 
 }  // namespace

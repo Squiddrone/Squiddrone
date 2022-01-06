@@ -19,7 +19,7 @@ auto NRF24L01Core::InitTransceiver(std::uint8_t channel,
   ON_ERROR_RETURN(SetDataRate(data_rate));
   ON_ERROR_RETURN(EnableCRC());
   ON_ERROR_RETURN(SetCRCEncodingScheme(encoding_scheme));
-  ON_ERROR_RETURN(SetRFOutputPower(rf_power));  //Diff
+  ON_ERROR_RETURN(SetRFOutputPower(rf_power));
   ON_ERROR_RETURN(MaskInterruptOnIntPin(MaskeableInterrupts::MAX_NR_OF_RETRIES_REACHED));
   ON_ERROR_RETURN(MaskInterruptOnIntPin(MaskeableInterrupts::TX_DATA_SENT));
   is_initialized_ = true;
@@ -152,7 +152,9 @@ auto NRF24L01Core::SetRFOutputPower(RFPowerSetting rf_power) noexcept -> types::
 
   auto rf_setup_reg = get_rf_setup_reg.second;
 
-  rf_setup_reg &= (0b11111001);
+  std::uint8_t reset_rf_setup_bits = 0b11111001;
+
+  rf_setup_reg &= (reset_rf_setup_bits);
   rf_setup_reg |= static_cast<register_t>(static_cast<register_t>(rf_power) << reg::rf_setup::RF_PWR);
 
   return (spi_protocol_->WriteRegister(reg::rf_setup::REG_ADDR, rf_setup_reg));
