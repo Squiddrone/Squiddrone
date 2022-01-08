@@ -151,7 +151,7 @@ auto NRF24L01Core::SetRFOutputPower(RFPowerSetting rf_power) noexcept -> types::
 
   auto rf_setup_reg = get_rf_setup_reg.second;
 
-  std::uint8_t reset_rf_setup_bits = 0b11111001;
+  static constexpr std::uint8_t reset_rf_setup_bits = 0b11111001;
 
   rf_setup_reg &= (reset_rf_setup_bits);
   rf_setup_reg |= static_cast<register_t>(static_cast<register_t>(rf_power) << reg::rf_setup::RF_PWR);

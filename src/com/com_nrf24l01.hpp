@@ -59,7 +59,6 @@ class NRF24L01 final : public ComInterface {
 
  private:
   std::unique_ptr<NRF24L01Core> nrf_;
-  OperationMode current_operation_mode_;
   std::array<data_pipe_address, 7> partner_drone_address_ = {0};
 
   auto LookupComPartnerAddress(types::PutDataTarget target_id) noexcept -> data_pipe_address;

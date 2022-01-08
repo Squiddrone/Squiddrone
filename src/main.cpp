@@ -45,7 +45,6 @@ int main() {
   MX_I2C2_Init();
   MX_SPI1_Init();
   MX_TIM2_Init();
-  //MX_TIM3_Init();
   MX_TIM4_Init();
   MX_TIM16_Init();
   MX_TIM17_Init();
