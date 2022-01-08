@@ -5,7 +5,8 @@ namespace com {
 auto NRF24L01Core::InitTransceiver(std::uint8_t channel,
                                    DataRateSetting data_rate,
                                    RFPowerSetting rf_power,
-                                   CRCEncodingScheme encoding_scheme) noexcept -> types::DriverStatus {
+                                   CRCEncodingScheme encoding_scheme,
+                                   data_pipe_address base_address) noexcept -> types::DriverStatus {
   if (is_initialized_) {
     return types::DriverStatus::OK;
   }
@@ -22,7 +23,7 @@ auto NRF24L01Core::InitTransceiver(std::uint8_t channel,
   ON_ERROR_RETURN(SetRFOutputPower(rf_power));
   ON_ERROR_RETURN(MaskInterruptOnIntPin(MaskeableInterrupts::MAX_NR_OF_RETRIES_REACHED));
   ON_ERROR_RETURN(MaskInterruptOnIntPin(MaskeableInterrupts::TX_DATA_SENT));
-  ON_ERROR_RETURN(InitRx());
+  ON_ERROR_RETURN(InitRx(base_address));
   is_initialized_ = true;
 
   return types::DriverStatus::OK;
@@ -51,7 +52,7 @@ auto NRF24L01Core::InitTx(data_pipe_address tx_target_address) noexcept -> types
   return types::DriverStatus::OK;
 }
 
-auto NRF24L01Core::InitRx() noexcept -> types::DriverStatus {
+auto NRF24L01Core::InitRx(data_pipe_address base_address) noexcept -> types::DriverStatus {
   ON_ERROR_RETURN(spi_protocol_->FlushTxBuffer());
   ON_ERROR_RETURN(spi_protocol_->FlushRxBuffer());
 
@@ -61,6 +62,7 @@ auto NRF24L01Core::InitRx() noexcept -> types::DriverStatus {
 
   ON_ERROR_RETURN(SetOperationMode(OperationMode::PRIM_RX));
 
+  ON_ERROR_RETURN(SetPipeAddress(DataPipe::RX_PIPE_0, base_address));
   ON_ERROR_RETURN(EnableDataPipe(DataPipe::RX_PIPE_0));
   ON_ERROR_RETURN(EnableAutoAck(DataPipe::RX_PIPE_0));
   ON_ERROR_RETURN(SetRxPayloadSize(DataPipe::RX_PIPE_0, types::COM_MAX_FRAME_LENGTH));

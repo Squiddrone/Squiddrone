@@ -21,8 +21,8 @@ class NRF24L01Core {
   MOCK_METHOD((types::DriverStatus), SetRxPayloadSize, (DataPipe, std::size_t), (const noexcept));
   MOCK_METHOD((types::DriverStatus), EnableAutoAck, (DataPipe), (noexcept));
   MOCK_METHOD((types::DriverStatus), InitTx, (com::data_pipe_address tx_target_address), (noexcept));
-  MOCK_METHOD((types::DriverStatus), InitRx, (), (noexcept));
-  MOCK_METHOD((types::DriverStatus), InitTransceiver, (std::uint8_t, DataRateSetting, RFPowerSetting, CRCEncodingScheme), (noexcept));
+  MOCK_METHOD((types::DriverStatus), InitRx, (data_pipe_address), (noexcept));
+  MOCK_METHOD((types::DriverStatus), InitTransceiver, (std::uint8_t, DataRateSetting, RFPowerSetting, CRCEncodingScheme, data_pipe_address), (noexcept));
   MOCK_METHOD((types::DriverStatus), SetOperationMode, (OperationMode), (noexcept));
   MOCK_METHOD((types::DriverStatus), SetPowerState, (State), (noexcept));
   MOCK_METHOD((types::DriverStatus), SetRFChannel, (std::uint8_t), (noexcept));

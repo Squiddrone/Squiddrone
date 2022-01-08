@@ -59,18 +59,22 @@ int main() {
   auto com_nrf = std::make_shared<com::NRF24L01>(std::move(com_buffer), std::move(com_nrf_core));
   com::ComInterruptHandler::SetComDriver(com_nrf);
 
-  com_nrf_core->InitTransceiver(20, com::DataRateSetting::RF_DR_2MBPS, com::RFPowerSetting::RF_PWR_0DBM, com::CRCEncodingScheme::CRC_16BIT);
-
   // Frame must always be 32 bytes long. Padd if necessary.
   types::com_msg_frame tx_data{'t', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', '_', 'e', 'n', 'd'};
   types::ComDataPacket tx_packet;
 
   tx_packet.data = tx_data;
   tx_packet.type = types::ComPacketType::TELEMETRY_PACKET;
-  tx_packet.target = types::PutDataTarget::TARGET_GROUND_CONTROL;
+  tx_packet.target = types::PutDataTarget::TARGET_FALLBACK;
+
+  if (com_nrf->NRFInit() != types::DriverStatus::OK) {
+    utilities::UartPrint("Init error...");
+  }
+
+  utilities::UartPrint("Ready...");
 
   while (1) {
-    auto rv = com_nrf->PutDataPacket(types::PutDataTarget::TARGET_GROUND_CONTROL, tx_packet);
+    auto rv = com_nrf->PutDataPacket(types::PutDataTarget::TARGET_FALLBACK, tx_packet);
 
     if (rv != types::DriverStatus::OK) {
       utilities::UartPrint("Tx error...");

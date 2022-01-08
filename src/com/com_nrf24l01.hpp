@@ -36,6 +36,13 @@ class NRF24L01 final : public ComInterface {
   auto HandleRxIRQ() noexcept -> void;
 
   /**
+   * @brief Call initializing function for NRF.
+   * 
+   * @return types::DriverStatus 
+   */
+  auto NRFInit() noexcept -> types::DriverStatus;
+
+  /**
    * @brief Construct a new NRF24L01 object and initialize the transceiver.
    * 
    * @param msg_buf Unique pointer to an object of type com::ComMessageBuffer.
@@ -59,7 +66,18 @@ class NRF24L01 final : public ComInterface {
 
  private:
   std::unique_ptr<NRF24L01Core> nrf_;
-  std::array<data_pipe_address, 7> partner_drone_address_ = {0};
+  // Beware: The last line may never change! This is the default address of any NRF as fallback.
+  std::array<data_pipe_address, 8> partner_drone_address_{{
+      {{0, 0, 0, 0, 0}},
+      {{0, 0, 0, 0, 0}},
+      {{0, 0, 0, 0, 0}},
+      {{0, 0, 0, 0, 0}},
+      {{0, 0, 0, 0, 0}},
+      {{0, 0, 0, 0, 0}},
+      {{0, 0, 0, 0, 0}},
+      {{0xe7, 0xe7, 0xe7, 0xe7, 0xe7}},
+  }};
+  data_pipe_address base_address_{{0xe7, 0xe7, 0xe7, 0xe7, 0xe7}};
 
   auto LookupComPartnerAddress(types::PutDataTarget target_id) noexcept -> data_pipe_address;
   auto HandleTelemetryPacket(types::com_msg_frame &msg_frame) -> types::DriverStatus;

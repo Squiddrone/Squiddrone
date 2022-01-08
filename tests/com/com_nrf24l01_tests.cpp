@@ -109,4 +109,24 @@ TEST_F(ComNRF24L01Tests, handle_incoming_addr_config_packet) {
   unit_under_test->HandleRxIRQ();
 }
 
+TEST_F(ComNRF24L01Tests, nrfinit_successful) {
+  auto com_msg_buffer = std::make_unique<NiceMock<com::ComMessageBuffer>>();
+
+  auto com_nrf_core = std::make_unique<NiceMock<com::NRF24L01Core>>();
+  ON_CALL(*com_nrf_core, InitTransceiver(_, _, _, _, _)).WillByDefault(Return(types::DriverStatus::OK));
+
+  auto unit_under_test = std::make_unique<com::NRF24L01>(std::move(com_msg_buffer), std::move(com_nrf_core));
+  ASSERT_EQ(unit_under_test->NRFInit(), types::DriverStatus::OK);
+}
+
+TEST_F(ComNRF24L01Tests, nrfinit_not_successful) {
+  auto com_msg_buffer = std::make_unique<NiceMock<com::ComMessageBuffer>>();
+
+  auto com_nrf_core = std::make_unique<NiceMock<com::NRF24L01Core>>();
+  ON_CALL(*com_nrf_core, InitTransceiver(_, _, _, _, _)).WillByDefault(Return(types::DriverStatus::HAL_ERROR));
+
+  auto unit_under_test = std::make_unique<com::NRF24L01>(std::move(com_msg_buffer), std::move(com_nrf_core));
+  ASSERT_EQ(unit_under_test->NRFInit(), types::DriverStatus::HAL_ERROR);
+}
+
 }  // namespace

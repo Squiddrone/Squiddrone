@@ -88,10 +88,11 @@ class NRF24L01Core {
 
   /**
    * @brief Switch the device in reception mode.
+   * @param base_address The units own address.
    * 
    * @return types::DriverStatus 
    */
-  auto InitRx() noexcept -> types::DriverStatus;
+  auto InitRx(data_pipe_address base_address) noexcept -> types::DriverStatus;
 
   // Transceiver hardware configuration
   /**
@@ -107,12 +108,14 @@ class NRF24L01Core {
    * @param data_rate Transmission date rate. See com::DataRateSetting.
    * @param rf_power Transmission RF power. See com::RFPowerSetting.
    * @param encoding_scheme CRC encoding scheme. See com::CRCEncodingScheme.
+   * @param base_address The drones own address.
    * @return types::DriverStatus 
    */
   auto InitTransceiver(std::uint8_t channel,
                        DataRateSetting data_rate,
                        RFPowerSetting rf_power,
-                       CRCEncodingScheme encoding_scheme) noexcept -> types::DriverStatus;
+                       CRCEncodingScheme encoding_scheme,
+                       data_pipe_address base_address) noexcept -> types::DriverStatus;
 
   /**
    * @brief Set the Operation Mode.

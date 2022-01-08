@@ -16,13 +16,14 @@ using com_msg_frame = std::vector<std::uint8_t>;
 
 /// Target directions during formation flight
 enum class PutDataTarget : std::uint8_t {
-  TARGET_FRONT = 0x00,
-  TARGET_BACK = 0xff,
-  TARGET_LEFT = 0b00000001,
-  TARGET_RIGHT = 0b11111110,
-  TARGET_ABOVE = 0b00000010,
-  TARGET_BELOW = 0b11111101,
-  TARGET_GROUND_CONTROL = 0xaa
+  TARGET_FRONT = 0x0,
+  TARGET_BACK,
+  TARGET_LEFT,
+  TARGET_RIGHT,
+  TARGET_ABOVE,
+  TARGET_BELOW,
+  TARGET_GROUND_CONTROL,
+  TARGET_FALLBACK
 };
 
 /// Packet types

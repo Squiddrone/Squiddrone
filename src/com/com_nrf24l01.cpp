@@ -26,7 +26,7 @@ auto NRF24L01::PutDataPacket(types::PutDataTarget target_id, types::ComDataPacke
     }
   }
 
-  ON_ERROR_RETURN(nrf_->InitRx());
+  ON_ERROR_RETURN(nrf_->InitRx(base_address_));
 
   return types::DriverStatus::OK;
 }
@@ -56,6 +56,10 @@ auto NRF24L01::HandleRxIRQ() noexcept -> void {
 }
 
 auto NRF24L01::LookupComPartnerAddress(types::PutDataTarget target_id) noexcept -> data_pipe_address {
+  if (target_id > types::PutDataTarget::TARGET_FALLBACK) {
+    data_pipe_address retval = {0};
+    return retval;
+  }
   return partner_drone_address_.at(static_cast<std::size_t>(target_id));
 }
 
@@ -70,6 +74,10 @@ auto NRF24L01::HandleTelemetryPacket(types::com_msg_frame &msg_frame) -> types::
 auto NRF24L01::HandleConfigPacket(types::com_msg_frame &msg_frame) -> types::DriverStatus {
   nrf_->SetPipeAddress(DataPipe::RX_PIPE_0, {0, 0, 0, 0, 0});
   return types::DriverStatus::OK;
+}
+
+auto NRF24L01::NRFInit() noexcept -> types::DriverStatus {
+  return nrf_->InitTransceiver(20, com::DataRateSetting::RF_DR_2MBPS, com::RFPowerSetting::RF_PWR_0DBM, com::CRCEncodingScheme::CRC_16BIT, base_address_);
 }
 
 }  // namespace com

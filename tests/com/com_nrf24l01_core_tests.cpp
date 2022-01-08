@@ -18,6 +18,7 @@ class ComNRF24L01CoreTests : public ::testing::Test {
 
   std::unique_ptr<com::NRF24L01SpiProtocol> spi_protocol_;
   std::unique_ptr<com::NRF24L01Core> unit_under_test_;
+  com::data_pipe_address default_address_{{0xe7, 0xe7, 0xe7, 0xe7, 0xe7}};
 };
 
 TEST_F(ComNRF24L01CoreTests, enable_data_pipe_read_register_fail) {
@@ -156,15 +157,15 @@ TEST_F(ComNRF24L01CoreTests, init_rx_already_configured) {
   ON_CALL(*spi_protocol_, ReadRegister(_, _)).WillByDefault(Return(test_multi_byte_return_value));
   ON_CALL(*spi_protocol_, WriteRegister(_, Matcher<std::vector<std::uint8_t>>(_))).WillByDefault(Return(types::DriverStatus::OK));
   unit_under_test_ = std::make_unique<com::NRF24L01Core>(std::move(spi_protocol_));
-  auto init_tx_return_value = unit_under_test_->InitRx();
-  init_tx_return_value = unit_under_test_->InitRx();
+  auto init_tx_return_value = unit_under_test_->InitRx(default_address_);
+  init_tx_return_value = unit_under_test_->InitRx(default_address_);
   EXPECT_EQ(init_tx_return_value, types::DriverStatus::OK);
 }
 
 TEST_F(ComNRF24L01CoreTests, init_rx_not_successful) {
   EXPECT_CALL(*spi_protocol_, FlushTxBuffer()).WillRepeatedly(Return(types::DriverStatus::HAL_ERROR));
   unit_under_test_ = std::make_unique<com::NRF24L01Core>(std::move(spi_protocol_));
-  EXPECT_EQ(unit_under_test_->InitRx(), types::DriverStatus::HAL_ERROR);
+  EXPECT_EQ(unit_under_test_->InitRx(default_address_), types::DriverStatus::HAL_ERROR);
 }
 
 TEST_F(ComNRF24L01CoreTests, init_transceiver_already_configured) {
@@ -175,8 +176,8 @@ TEST_F(ComNRF24L01CoreTests, init_transceiver_already_configured) {
   ON_CALL(*spi_protocol_, ReadRegister(_, _)).WillByDefault(Return(test_multi_byte_return_value));
   ON_CALL(*spi_protocol_, WriteRegister(_, Matcher<std::vector<std::uint8_t>>(_))).WillByDefault(Return(types::DriverStatus::OK));
   unit_under_test_ = std::make_unique<com::NRF24L01Core>(std::move(spi_protocol_));
-  auto init_tx_return_value = unit_under_test_->InitTransceiver(30, com::DataRateSetting::RF_DR_2MBPS, com::RFPowerSetting::RF_PWR_0DBM, com::CRCEncodingScheme::CRC_16BIT);
-  init_tx_return_value = unit_under_test_->InitTransceiver(30, com::DataRateSetting::RF_DR_2MBPS, com::RFPowerSetting::RF_PWR_0DBM, com::CRCEncodingScheme::CRC_16BIT);
+  auto init_tx_return_value = unit_under_test_->InitTransceiver(30, com::DataRateSetting::RF_DR_2MBPS, com::RFPowerSetting::RF_PWR_0DBM, com::CRCEncodingScheme::CRC_16BIT, default_address_);
+  init_tx_return_value = unit_under_test_->InitTransceiver(30, com::DataRateSetting::RF_DR_2MBPS, com::RFPowerSetting::RF_PWR_0DBM, com::CRCEncodingScheme::CRC_16BIT, default_address_);
   EXPECT_EQ(init_tx_return_value, types::DriverStatus::OK);
 }
 
@@ -188,7 +189,8 @@ TEST_F(ComNRF24L01CoreTests, init_transceiver_not_successful) {
   ON_CALL(*spi_protocol_, ReadRegister(_, _)).WillByDefault(Return(test_multi_byte_return_value));
   ON_CALL(*spi_protocol_, WriteRegister(_, Matcher<std::vector<std::uint8_t>>(_))).WillByDefault(Return(types::DriverStatus::HAL_ERROR));
   unit_under_test_ = std::make_unique<com::NRF24L01Core>(std::move(spi_protocol_));
-  EXPECT_EQ(unit_under_test_->InitRx(), types::DriverStatus::HAL_ERROR);
+  auto init_tx_return_value = unit_under_test_->InitTransceiver(30, com::DataRateSetting::RF_DR_2MBPS, com::RFPowerSetting::RF_PWR_0DBM, com::CRCEncodingScheme::CRC_16BIT, default_address_);
+  EXPECT_EQ(init_tx_return_value, types::DriverStatus::HAL_ERROR);
 }
 
 TEST_F(ComNRF24L01CoreTests, set_operation_mode_successful) {
