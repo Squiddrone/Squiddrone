@@ -1,5 +1,6 @@
 #include "motor_driver.hpp"
 #include <cstdlib>
+#include "sleep.hpp"
 #include "stm32g4xx_hal.h"
 #include "timer_config.h"
 
@@ -61,12 +62,12 @@ auto MotorDriver::ArmEscs() const noexcept -> const types::DriverStatus {
   if (status != types::DriverStatus::OK) {
     return status;
   }
-  HAL_Delay(DELAY_TIME_MS_);
+  utilities::Sleep(DELAY_TIME_MS_);
   status = SetSpeedForAllMotors(max_speed);
   if (status != types::DriverStatus::OK) {
     return status;
   }
-  HAL_Delay(DELAY_TIME_MS_);
+  utilities::Sleep(DELAY_TIME_MS_);
   status = SetSpeedForAllMotors(min_speed);
   if (status != types::DriverStatus::OK) {
     return status;

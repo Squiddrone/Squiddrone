@@ -51,15 +51,43 @@ int main() {
 #ifdef SYSTEM_TEST_PROPULSION
   std::unique_ptr<propulsion::AbstractMotorBuilder> builder = std::make_unique<propulsion::MotorBuilder>();
   propulsion::MotorDriver driver(std::move(builder));
-  // driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_FRONT, 99.0);
-  // driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_FRONT, 75.1);
-  // driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_REAR, 50.0);
-  // driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_REAR, 10.0);
+  driver.ArmEscs();
+  utilities::Sleep(3000);
 
-  while (1) {
-    driver.ArmEscs();
-    utilities::Sleep(5000);
-  }
+  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_FRONT, 10);
+  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_FRONT, 10);
+  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_REAR, 10);
+  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_REAR, 10);
+
+  utilities::Sleep(3000);
+  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_FRONT, 3.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_FRONT, 3.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_REAR, 3.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_REAR, 3.0);
+
+  utilities::Sleep(5000);
+  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_FRONT, 10.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_FRONT, 10.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_REAR, 10.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_REAR, 10.0);
+
+  utilities::Sleep(5000);
+  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_FRONT, 8.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_FRONT, 8.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_REAR, 8.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_REAR, 8.0);
+
+  utilities::Sleep(5000);
+  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_FRONT, 3.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_FRONT, 3.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_REAR, 3.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_REAR, 3.0);
+
+  utilities::Sleep(5000);
+  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_FRONT, 0.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_FRONT, 0.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_REAR, 0.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_REAR, 0.0);
 
 #elif SYSTEM_TEST_IMU
 
