@@ -3,9 +3,15 @@
 namespace com {
 
 auto NRF24L01::PutDataPacket(types::PutDataTarget target_id, types::ComDataPacket &packet) noexcept -> types::DriverStatus {
+  auto return_value = types::DriverStatus::HAL_ERROR;
+
   if (packet.data.size() > types::COM_MAX_DATA_FIELD_LENGTH) {
     return types::DriverStatus::INPUT_ERROR;
   }
+  if (packet.target != target_id) {
+    return types::DriverStatus::INPUT_ERROR;
+  }
+
   auto target_address = LookupComPartnerAddress(target_id);
 
   ON_ERROR_RETURN(nrf_->InitTx(target_address));
@@ -21,14 +27,15 @@ auto NRF24L01::PutDataPacket(types::PutDataTarget target_id, types::ComDataPacke
   for (int i = 0; i < 10; i++) {
     auto get_irq_flg = nrf_->GetIRQFlags();
     ON_ERROR_RETURN(get_irq_flg.first);
-    if (get_irq_flg.second & ((1U << reg::status::TX_DS) | (1U << reg::status::MAX_RT))) {
+    if (get_irq_flg.second & (1U << reg::status::TX_DS)) {
+      return_value = types::DriverStatus::OK;
       break;
     }
   }
 
   ON_ERROR_RETURN(nrf_->InitRx(base_address_));
 
-  return types::DriverStatus::OK;
+  return return_value;
 }
 
 auto NRF24L01::GetDataPacket() const noexcept -> types::ComDataPacket {

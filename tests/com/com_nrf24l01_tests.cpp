@@ -16,6 +16,7 @@ class ComNRF24L01Tests : public ::testing::Test {
     default_msg_frame_.resize(32);
     std::fill(default_msg_frame_.begin(), default_msg_frame_.end(), 0xaa);
     default_msg_frame_.at(0) = 0;
+    default_msg_frame_.at(1) = 0;
     default_data_packet_.Deserialize(default_msg_frame_);
   }
   types::com_msg_frame default_msg_frame_;
@@ -57,6 +58,17 @@ TEST_F(ComNRF24L01Tests, put_data_packet_successful) {
 
   auto return_value = unit_under_test->PutDataPacket(types::PutDataTarget::TARGET_FRONT, default_data_packet_);
   ASSERT_EQ(return_value, types::DriverStatus::OK);
+}
+
+TEST_F(ComNRF24L01Tests, put_data_packet_failed_inconsistent_target) {
+  auto com_msg_buffer = std::make_unique<NiceMock<com::ComMessageBuffer>>();
+  auto com_nrf_core = std::make_unique<NiceMock<com::NRF24L01Core>>();
+  types::ComDataPacket mock_packet{
+      .type = types::ComPacketType::TELEMETRY_PACKET,
+      .target = types::PutDataTarget::TARGET_FRONT};
+  auto unit_under_test = std::make_unique<com::NRF24L01>(std::move(com_msg_buffer), std::move(com_nrf_core));
+  auto return_value = unit_under_test->PutDataPacket(types::PutDataTarget::TARGET_BACK, mock_packet);
+  ASSERT_EQ(return_value, types::DriverStatus::INPUT_ERROR);
 }
 
 TEST_F(ComNRF24L01Tests, handle_incoming_telemetry_packet) {
