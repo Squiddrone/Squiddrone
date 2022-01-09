@@ -25,11 +25,7 @@ MotorDriver::MotorDriver(std::unique_ptr<AbstractMotorBuilder> builder) : Abstra
 
 auto MotorDriver::InitializeMotor(MotorPosition position, PropulsionHardwareConfig &config) noexcept -> void {
   auto motor = motor_builder_->Create(config);
-  if (motor == nullptr) {
-    std::abort();
-  } else {
-    motors_.at(static_cast<int>(position)) = std::move(motor);
-  }
+  motors_.at(static_cast<int>(position)) = std::move(motor);
 }
 
 auto MotorDriver::SetMotorSpeed(const MotorPosition which_motor, const float speed) const noexcept -> const types::DriverStatus {
