@@ -1,8 +1,12 @@
 #include "motor_driver.hpp"
 #include <cstdlib>
-#include "sleep.hpp"
 #include "stm32g4xx_hal.h"
 #include "timer_config.h"
+#ifndef UNIT_TEST
+#include "sleep.hpp"
+#else
+#include "sleep_mock.hpp"
+#endif
 
 namespace propulsion {
 

@@ -33,7 +33,7 @@ struct MotorSpeedFloatFactory {
 
 class MotorDriverTest : public ::testing::Test {
  protected:
-  virtual void SetUp() override {
+  virtual void SetUp() {
     ON_CALL(*builder_, Create).WillByDefault([&](propulsion::PropulsionHardwareConfig &) {
       std::unique_ptr<NiceMock<propulsion::MotorMock>> motor = std::make_unique<NiceMock<propulsion::MotorMock>>();
       ON_CALL(*motor, SetSpeedInPercent).WillByDefault(Return(types::DriverStatus::OK));
