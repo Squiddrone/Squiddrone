@@ -49,8 +49,7 @@ class ComInterface {
   /** 
    * @brief Transmit dataframe of max length 32 byte via the drones' wifi interface.
    * 
-   * @param target_id target_id The id of the receiver. 0 - front, 1 - back, 2 - left, 3 - right,
-   * 4 - above, 5 - below and 255 - ground control.
+   * @param target_id target_id The id of the receiver. See also types::PutDataTarget.
    * @param packet A data packet of type types::ComDataPacket
    * @return types::DriverStatus COM_OK in case of successful transmission, error code in case something 
    * went wrong.
