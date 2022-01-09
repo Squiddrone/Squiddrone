@@ -119,8 +119,6 @@ int main() {
   }
 #else
   while (1) {
-    driver.ArmEscs();
-    HAL_Delay(1000);
   }
 
 #endif
