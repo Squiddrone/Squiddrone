@@ -63,10 +63,6 @@ auto NRF24L01::HandleRxIRQ() noexcept -> void {
 }
 
 auto NRF24L01::LookupComPartnerAddress(types::PutDataTarget target_id) noexcept -> data_pipe_address {
-  if (target_id > types::PutDataTarget::TARGET_FALLBACK) {
-    data_pipe_address retval = {0};
-    return retval;
-  }
   return partner_drone_address_.at(static_cast<std::size_t>(target_id));
 }
 

@@ -66,7 +66,11 @@ class NRF24L01 final : public ComInterface {
 
  private:
   std::unique_ptr<NRF24L01Core> nrf_;
-  // Beware: The last line may never change! This is the default address of any NRF as fallback.
+  /**
+   * @brief This array holds addresses of all valid put data targets. 
+   * Beware: The last line may never change! This is the default address of any NRF as fallback. 
+   * See also types::PutDataTarget.
+   */
   std::array<data_pipe_address, 8> partner_drone_address_{{
       {{0, 0, 0, 0, 0}},
       {{0, 0, 0, 0, 0}},
