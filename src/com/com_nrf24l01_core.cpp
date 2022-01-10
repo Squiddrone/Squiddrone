@@ -47,7 +47,7 @@ auto NRF24L01Core::InitTx(data_pipe_address tx_target_address) noexcept -> types
   ON_ERROR_RETURN(EnableDataPipe(DataPipe::RX_PIPE_0));
   ON_ERROR_RETURN(EnableAutoAck(DataPipe::RX_PIPE_0));
 
-  ON_ERROR_RETURN(ConfigAutoRetransmission(AutoRetransmissionDelay::ARD500US, AutoRetransmitCount::ARC0));
+  ON_ERROR_RETURN(ConfigAutoRetransmission(AutoRetransmissionDelay::ARD500US, AutoRetransmitCount::ARC5));
 
   return types::DriverStatus::OK;
 }
