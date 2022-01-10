@@ -21,18 +21,23 @@ auto NRF24L01::PutDataPacket(types::PutDataTarget target_id, types::ComDataPacke
   ON_ERROR_RETURN(nrf_->SetTxPayload(payload));
   ON_ERROR_RETURN(nrf_->GetIRQFlags().first);
   ON_ERROR_RETURN(nrf_->SetChipEnable(State::ENABLED));
-  utilities::Sleep(1);
-  ON_ERROR_RETURN(nrf_->SetChipEnable(State::DISABLED));
 
-  for (int i = 0; i < 10; i++) {
+  static constexpr int iterations_until_1ms = 10;
+
+  for (int i = 0; i < iterations_until_1ms; i++) {
     auto get_irq_flg = nrf_->GetIRQFlags();
     ON_ERROR_RETURN(get_irq_flg.first);
     if (get_irq_flg.second & (1U << reg::status::TX_DS)) {
       return_value = types::DriverStatus::OK;
       break;
     }
+    if (get_irq_flg.second & (1U << reg::status::MAX_RT)) {
+      return_value = types::DriverStatus::TIMEOUT;
+      break;
+    }
   }
 
+  ON_ERROR_RETURN(nrf_->SetChipEnable(State::DISABLED));
   ON_ERROR_RETURN(nrf_->InitRx(base_address_));
 
   return return_value;
