@@ -15,8 +15,8 @@
 #define USART2_TX_GPIO_Port GPIOA
 #define USART2_RX_Pin GPIO_PIN_3
 #define USART2_RX_GPIO_Port GPIOA
-#define PWM_LED_GREEN_Pin GPIO_PIN_4
-#define PWM_LED_GREEN_GPIO_Port GPIOA
+#define ENCOM_Pin GPIO_PIN_4
+#define ENCOM_GPIO_Port GPIOA
 #define PWM_ESC_2_Pin GPIO_PIN_6
 #define PWM_ESC_2_GPIO_Port GPIOA
 #define PWM_ESC_3_Pin GPIO_PIN_7

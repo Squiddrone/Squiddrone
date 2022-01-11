@@ -7,6 +7,7 @@
 #include "com_message_buffer_mock.hpp"
 #endif
 #include "com_types.hpp"
+#include "error_types.hpp"
 
 #include <memory>
 
@@ -41,21 +42,20 @@ class ComInterface {
   /** 
    * @brief Get the data packet object
    * 
-   * @return types::com_msg_frame Returns a dataframe array.
+   * @return types::ComDataPacket Returns a data packet of type types::ComDataPacket.
    */
-  virtual auto GetDataPacket() const noexcept -> types::com_msg_frame = 0;
+  virtual auto GetDataPacket() const noexcept -> types::ComDataPacket = 0;
 
   /** 
    * @brief Transmit dataframe of max length 32 byte via the drones' wifi interface.
    * 
-   * @param target_id target_id The wifi id of the receiver.
-   * @param payload payload An array of bytes. Max length 32 bytes. Must conform to SquidDrone 
-   * com protocol specification.
-   * @return types::ComError COM_OK in case of successful transmission, error code in case something 
+   * @param target_id target_id The id of the receiver. See also types::PutDataTarget.
+   * @param packet A data packet of type types::ComDataPacket
+   * @return types::DriverStatus COM_OK in case of successful transmission, error code in case something 
    * went wrong.
    */
-  virtual auto PutDataPacket(std::uint8_t target_id, types::com_msg_frame &payload) const noexcept
-      -> types::ComError = 0;
+  virtual auto PutDataPacket(types::PutDataTarget target_id, types::ComDataPacket &packet) noexcept
+      -> types::DriverStatus = 0;
 
  protected:
   /** 
