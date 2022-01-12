@@ -26,12 +26,13 @@
 #include "uart_print.hpp"
 
 #define SYSTEM_TEST_IMU false
-#define SYSTEM_TEST_COM false
+#define SYSTEM_TEST_COM true
 
 auto FormatEuclidVectorForPrintOut(const std::string &Sensor, types::EuclideanVector<std::int16_t> Vector) -> std::string;
 
 #include "com_interrupt_handler.hpp"
 #include "com_nrf24l01.hpp"
+#include "ota_config_types.hpp"
 
 int main() {
   HAL_Init();
@@ -70,6 +71,8 @@ int main() {
   if (com_nrf->NRFInit() != types::DriverStatus::OK) {
     utilities::UartPrint("Init error...");
   }
+
+  types::ota_config_data<types::PutDataTarget::TARGET_FRONT> addr;
 
   utilities::UartPrint("Ready...");
 

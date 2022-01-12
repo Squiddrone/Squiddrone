@@ -107,7 +107,6 @@ enum class MaskeableInterrupts : std::uint8_t {
   RX_DATA_READY = 6
 };
 
-using data_pipe_address = std::array<std::uint8_t, 5>;
 using register_t = std::uint8_t;
 
 }  // namespace com

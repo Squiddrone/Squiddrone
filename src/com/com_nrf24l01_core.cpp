@@ -6,7 +6,7 @@ auto NRF24L01Core::InitTransceiver(std::uint8_t channel,
                                    DataRateSetting data_rate,
                                    RFPowerSetting rf_power,
                                    CRCEncodingScheme encoding_scheme,
-                                   data_pipe_address base_address) noexcept -> types::DriverStatus {
+                                   types::data_pipe_address base_address) noexcept -> types::DriverStatus {
   if (is_initialized_) {
     return types::DriverStatus::OK;
   }
@@ -29,7 +29,7 @@ auto NRF24L01Core::InitTransceiver(std::uint8_t channel,
   return types::DriverStatus::OK;
 }
 
-auto NRF24L01Core::InitTx(data_pipe_address tx_target_address) noexcept -> types::DriverStatus {
+auto NRF24L01Core::InitTx(types::data_pipe_address tx_target_address) noexcept -> types::DriverStatus {
   ON_ERROR_RETURN(SetChipEnable(State::DISABLED));
 
   ON_ERROR_RETURN(spi_protocol_->FlushTxBuffer());
@@ -52,7 +52,7 @@ auto NRF24L01Core::InitTx(data_pipe_address tx_target_address) noexcept -> types
   return types::DriverStatus::OK;
 }
 
-auto NRF24L01Core::InitRx(data_pipe_address base_address) noexcept -> types::DriverStatus {
+auto NRF24L01Core::InitRx(types::data_pipe_address base_address) noexcept -> types::DriverStatus {
   ON_ERROR_RETURN(spi_protocol_->FlushTxBuffer());
   ON_ERROR_RETURN(spi_protocol_->FlushRxBuffer());
 
@@ -229,7 +229,7 @@ auto NRF24L01Core::MaskInterruptOnIntPin(MaskeableInterrupts interrupt) -> types
   return (spi_protocol_->WriteRegister(reg::config::REG_ADDR, config_register.Get()));
 }
 
-auto NRF24L01Core::SetPipeAddress(DataPipe pipe_no, data_pipe_address pipe_addr) noexcept -> types::DriverStatus {
+auto NRF24L01Core::SetPipeAddress(DataPipe pipe_no, types::data_pipe_address pipe_addr) noexcept -> types::DriverStatus {
   uint8_t register_addr = reg::rx_addr_p0::REG_ADDR + static_cast<std::uint8_t>(pipe_no);
   std::vector<std::uint8_t> multibyte_addr;
   std::uint8_t singlebyte_addr = 0;
@@ -256,9 +256,9 @@ auto NRF24L01Core::SetPipeAddress(DataPipe pipe_no, data_pipe_address pipe_addr)
   return return_value;
 }
 
-auto NRF24L01Core::GetPipeAddress(DataPipe pipe_no) noexcept -> std::pair<types::DriverStatus, data_pipe_address> {
+auto NRF24L01Core::GetPipeAddress(DataPipe pipe_no) noexcept -> std::pair<types::DriverStatus, types::data_pipe_address> {
   uint8_t register_addr = reg::rx_addr_p0::REG_ADDR + static_cast<std::uint8_t>(pipe_no);
-  data_pipe_address addr = {0};
+  types::data_pipe_address addr = {0};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> multibyte_addr;
   std::pair<types::DriverStatus, std::uint8_t> singlebyte_addr;
   types::DriverStatus return_value;

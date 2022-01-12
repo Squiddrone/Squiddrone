@@ -59,7 +59,7 @@ auto NRF24L01::HandleRxIRQ() noexcept -> void {
 
   auto packet_type = static_cast<types::ComPacketType>(payload.at(types::OFFSET_TYPE));
 
-  if (packet_type == types::ComPacketType::COM_ADDR_CONFIG_PACKET) {
+  if (packet_type == types::ComPacketType::COM_CONFIG_PACKET) {
     HandleConfigPacket(payload);
     return;
   }
@@ -67,7 +67,7 @@ auto NRF24L01::HandleRxIRQ() noexcept -> void {
   HandleTelemetryPacket(payload);
 }
 
-auto NRF24L01::LookupComPartnerAddress(types::PutDataTarget target_id) noexcept -> data_pipe_address {
+auto NRF24L01::LookupComPartnerAddress(types::PutDataTarget target_id) noexcept -> types::data_pipe_address {
   return partner_drone_address_.at(static_cast<std::size_t>(target_id));
 }
 

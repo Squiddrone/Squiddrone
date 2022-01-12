@@ -14,6 +14,9 @@ static constexpr std::uint8_t COM_MAX_DATA_FIELD_LENGTH = 30;
 /// Type alias for com message frame datatype
 using com_msg_frame = std::vector<std::uint8_t>;
 
+/// Type alias for data pipe address definition.
+using data_pipe_address = std::array<std::uint8_t, 5>;
+
 /// Target directions during formation flight
 enum class PutDataTarget : std::uint8_t {
   TARGET_FRONT = 0x0,
@@ -30,8 +33,8 @@ enum class PutDataTarget : std::uint8_t {
 enum class ComPacketType : std::uint8_t {
   /// Flight telemetry data
   TELEMETRY_PACKET = 0,
-  /// Packet to configure the targets address.
-  COM_ADDR_CONFIG_PACKET
+  /// Packet to configure the target.
+  COM_CONFIG_PACKET
 };
 
 // Packet structure

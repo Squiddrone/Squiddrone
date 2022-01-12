@@ -50,7 +50,7 @@ class NRF24L01Core {
    * other bytes may be zero.
    * @return types::DriverStatus 
    */
-  auto SetPipeAddress(DataPipe pipe_no, data_pipe_address pipe_addr) noexcept -> types::DriverStatus;
+  auto SetPipeAddress(DataPipe pipe_no, types::data_pipe_address pipe_addr) noexcept -> types::DriverStatus;
 
   /**
    * @brief Get the Pipe Address
@@ -58,7 +58,7 @@ class NRF24L01Core {
    * @param pipe_no The pipe to retrieve the address from.
    * @return std::pair<types::DriverStatus, data_pipe_address> 
    */
-  auto GetPipeAddress(DataPipe pipe_no) noexcept -> std::pair<types::DriverStatus, data_pipe_address>;
+  auto GetPipeAddress(DataPipe pipe_no) noexcept -> std::pair<types::DriverStatus, types::data_pipe_address>;
 
   /**
    * @brief Set the Rx Payload Size
@@ -84,7 +84,7 @@ class NRF24L01Core {
    * @param tx_target_address The address of the transmission target. See com::data_pipe_address.
    * @return types::DriverStatus 
    */
-  auto InitTx(data_pipe_address tx_target_address) noexcept -> types::DriverStatus;
+  auto InitTx(types::data_pipe_address tx_target_address) noexcept -> types::DriverStatus;
 
   /**
    * @brief Switch the device in reception mode.
@@ -92,7 +92,7 @@ class NRF24L01Core {
    * 
    * @return types::DriverStatus 
    */
-  auto InitRx(data_pipe_address base_address) noexcept -> types::DriverStatus;
+  auto InitRx(types::data_pipe_address base_address) noexcept -> types::DriverStatus;
 
   // Transceiver hardware configuration
   /**
@@ -115,7 +115,7 @@ class NRF24L01Core {
                        DataRateSetting data_rate,
                        RFPowerSetting rf_power,
                        CRCEncodingScheme encoding_scheme,
-                       data_pipe_address base_address) noexcept -> types::DriverStatus;
+                       types::data_pipe_address base_address) noexcept -> types::DriverStatus;
 
   /**
    * @brief Set the Operation Mode.
