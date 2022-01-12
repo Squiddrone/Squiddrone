@@ -18,15 +18,17 @@ using com_msg_frame = std::vector<std::uint8_t>;
 using data_pipe_address = std::array<std::uint8_t, 5>;
 
 /// Target directions during formation flight
-enum class PutDataTarget : std::uint8_t {
-  TARGET_FRONT = 0x0,
+enum class PutDataTarget : std::int8_t {
+  TARGET_INVALID = -1,
+  TARGET_FRONT = 0,
   TARGET_BACK,
   TARGET_LEFT,
   TARGET_RIGHT,
   TARGET_ABOVE,
   TARGET_BELOW,
   TARGET_GROUND_CONTROL,
-  TARGET_FALLBACK
+  TARGET_FALLBACK,
+  TARGET_SELF
 };
 
 /// Packet types

@@ -119,7 +119,9 @@ TEST_F(ComNRF24L01Tests, handle_incoming_telemetry_packet_buffer_error) {
 
 TEST_F(ComNRF24L01Tests, handle_incoming_addr_config_packet) {
   types::com_msg_frame mock_payload = default_msg_frame_;
-  mock_payload.at(0) = static_cast<std::uint8_t>(types::ComPacketType::COM_ADDR_CONFIG_PACKET);
+  mock_payload.at(0) = static_cast<std::uint8_t>(types::ComPacketType::COM_CONFIG_PACKET);
+  mock_payload.at(2) = types::ID_CONFIG_ADDRESS;
+
   auto com_msg_buffer = std::make_unique<NiceMock<com::ComMessageBuffer>>();
 
   auto com_nrf_core = std::make_unique<NiceMock<com::NRF24L01Core>>();
@@ -129,7 +131,7 @@ TEST_F(ComNRF24L01Tests, handle_incoming_addr_config_packet) {
             frame = mock_payload;
             return types::DriverStatus::OK;
           }));
-  EXPECT_CALL(*com_nrf_core, SetPipeAddress(_, _)).WillOnce(Return(types::DriverStatus::OK));
+  EXPECT_CALL(*com_nrf_core, InitTransceiver(_, _, _, _, _)).WillOnce(Return(types::DriverStatus::OK));
 
   auto unit_under_test = std::make_unique<com::NRF24L01>(std::move(com_msg_buffer), std::move(com_nrf_core));
 

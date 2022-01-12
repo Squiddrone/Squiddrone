@@ -18,7 +18,7 @@ class ComNRF24L01CoreTests : public ::testing::Test {
 
   std::unique_ptr<com::NRF24L01SpiProtocol> spi_protocol_;
   std::unique_ptr<com::NRF24L01Core> unit_under_test_;
-  com::data_pipe_address default_address_{{0xe7, 0xe7, 0xe7, 0xe7, 0xe7}};
+  types::data_pipe_address default_address_{{0xe7, 0xe7, 0xe7, 0xe7, 0xe7}};
 };
 
 TEST_F(ComNRF24L01CoreTests, enable_data_pipe_read_register_fail) {
@@ -49,28 +49,28 @@ TEST_F(ComNRF24L01CoreTests, disable_data_pipe_write_register_fail) {
 
 TEST_F(ComNRF24L01CoreTests, set_pipe_addr_multibyte_successful) {
   EXPECT_CALL(*spi_protocol_, WriteRegister(_, Matcher<std::vector<std::uint8_t>>(_))).WillRepeatedly(Return(types::DriverStatus::OK));
-  com::data_pipe_address test_pipe_address = {0x0, 0x1, 0x2, 0x3, 0x4};
+  types::data_pipe_address test_pipe_address = {0x0, 0x1, 0x2, 0x3, 0x4};
   unit_under_test_ = std::make_unique<com::NRF24L01Core>(std::move(spi_protocol_));
   EXPECT_EQ(unit_under_test_->SetPipeAddress(com::DataPipe::TX_PIPE, test_pipe_address), types::DriverStatus::OK);
 }
 
 TEST_F(ComNRF24L01CoreTests, set_pipe_addr_multibyte_failed) {
   EXPECT_CALL(*spi_protocol_, WriteRegister(_, Matcher<std::vector<std::uint8_t>>(_))).WillRepeatedly(Return(types::DriverStatus::HAL_ERROR));
-  com::data_pipe_address test_pipe_address = {0x0, 0x1, 0x2, 0x3, 0x4};
+  types::data_pipe_address test_pipe_address = {0x0, 0x1, 0x2, 0x3, 0x4};
   unit_under_test_ = std::make_unique<com::NRF24L01Core>(std::move(spi_protocol_));
   EXPECT_EQ(unit_under_test_->SetPipeAddress(com::DataPipe::TX_PIPE, test_pipe_address), types::DriverStatus::HAL_ERROR);
 }
 
 TEST_F(ComNRF24L01CoreTests, set_pipe_addr_singlebyte_successful) {
   EXPECT_CALL(*spi_protocol_, WriteRegister(_, Matcher<std::uint8_t>(_))).WillRepeatedly(Return(types::DriverStatus::OK));
-  com::data_pipe_address test_pipe_address = {0x0, 0x1, 0x2, 0x3, 0x4};
+  types::data_pipe_address test_pipe_address = {0x0, 0x1, 0x2, 0x3, 0x4};
   unit_under_test_ = std::make_unique<com::NRF24L01Core>(std::move(spi_protocol_));
   EXPECT_EQ(unit_under_test_->SetPipeAddress(com::DataPipe::RX_PIPE_2, test_pipe_address), types::DriverStatus::OK);
 }
 
 TEST_F(ComNRF24L01CoreTests, set_pipe_addr_singlebyte_failed) {
   EXPECT_CALL(*spi_protocol_, WriteRegister(_, Matcher<std::uint8_t>(_))).WillRepeatedly(Return(types::DriverStatus::HAL_ERROR));
-  com::data_pipe_address test_pipe_address = {0x0, 0x1, 0x2, 0x3, 0x4};
+  types::data_pipe_address test_pipe_address = {0x0, 0x1, 0x2, 0x3, 0x4};
   unit_under_test_ = std::make_unique<com::NRF24L01Core>(std::move(spi_protocol_));
   EXPECT_EQ(unit_under_test_->SetPipeAddress(com::DataPipe::RX_PIPE_2, test_pipe_address), types::DriverStatus::HAL_ERROR);
 }
@@ -131,7 +131,7 @@ TEST_F(ComNRF24L01CoreTests, enable_auto_ack_write_register_fail) {
 TEST_F(ComNRF24L01CoreTests, init_tx_already_configured) {
   std::pair<types::DriverStatus, std::uint8_t> test_single_byte_return_value = {types::DriverStatus::OK, 0};
   std::pair<types::DriverStatus, std::vector<uint8_t>> test_multi_byte_return_value = {types::DriverStatus::OK, {0}};
-  com::data_pipe_address mock_address = {0};
+  types::data_pipe_address mock_address = {0};
   ON_CALL(*spi_protocol_, ReadRegister(_)).WillByDefault(Return(test_single_byte_return_value));
   ON_CALL(*spi_protocol_, WriteRegister(_, Matcher<std::uint8_t>(_))).WillByDefault(Return(types::DriverStatus::OK));
   ON_CALL(*spi_protocol_, ReadRegister(_, _)).WillByDefault(Return(test_multi_byte_return_value));
@@ -143,7 +143,7 @@ TEST_F(ComNRF24L01CoreTests, init_tx_already_configured) {
 }
 
 TEST_F(ComNRF24L01CoreTests, init_tx_not_successful) {
-  com::data_pipe_address mock_address = {0};
+  types::data_pipe_address mock_address = {0};
   EXPECT_CALL(*spi_protocol_, FlushTxBuffer()).WillRepeatedly(Return(types::DriverStatus::HAL_ERROR));
   unit_under_test_ = std::make_unique<com::NRF24L01Core>(std::move(spi_protocol_));
   EXPECT_EQ(unit_under_test_->InitTx(mock_address), types::DriverStatus::HAL_ERROR);

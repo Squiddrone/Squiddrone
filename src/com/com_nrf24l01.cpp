@@ -68,6 +68,10 @@ auto NRF24L01::HandleRxIRQ() noexcept -> void {
 }
 
 auto NRF24L01::LookupComPartnerAddress(types::PutDataTarget target_id) noexcept -> types::data_pipe_address {
+  types::data_pipe_address failure_return_value{0};
+  if (target_id > types::PutDataTarget::TARGET_FALLBACK or target_id < types::PutDataTarget::TARGET_FRONT) {
+    return failure_return_value;
+  }
   return partner_drone_address_.at(static_cast<std::size_t>(target_id));
 }
 
@@ -80,7 +84,16 @@ auto NRF24L01::HandleTelemetryPacket(types::com_msg_frame &msg_frame) -> types::
 }
 
 auto NRF24L01::HandleConfigPacket(types::com_msg_frame &msg_frame) -> types::DriverStatus {
-  nrf_->SetPipeAddress(DataPipe::RX_PIPE_0, {0, 0, 0, 0, 0});
+  types::OtaConfigPacket config_packet;
+  config_packet.Deserialize(msg_frame);
+
+  if (config_packet.data.at(types::START_CONFIG_DATA_ID) == types::ID_CONFIG_ADDRESS) {
+    auto new_address_data = config_packet.DecodeAddressConfigPacket(config_packet.data);
+    if (new_address_data.first == types::PutDataTarget::TARGET_SELF) {
+      base_address_ = new_address_data.second;
+      NRFInit();
+    }
+  }
   return types::DriverStatus::OK;
 }
 

@@ -45,7 +45,7 @@ class NRF24L01Core {
    * @brief Set the Pipe Address
    * 
    * @param pipe_no The pipe for which the address shall be set.
-   * @param pipe_addr An array of five address bytes. See com::data_pipe_address. 
+   * @param pipe_addr An array of five address bytes. See types::data_pipe_address. 
    * Note that for pipes 2 through 5 only the first byte in the array is relevant, 
    * other bytes may be zero.
    * @return types::DriverStatus 

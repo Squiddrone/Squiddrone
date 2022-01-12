@@ -8,12 +8,14 @@
 #ifndef UNIT_TEST
 #include "com_nrf24l01_core.hpp"
 #include "com_nrf24l01_spi_protocol.hpp"
+#include "ota_config.hpp"
 #include "utilities/byte.hpp"
 #include "utilities/sleep.hpp"
 #else
 #include "byte_mock.hpp"
 #include "com_nrf24l01_core_mock.hpp"
 #include "com_nrf24l01_spi_protocol_mock.hpp"
+#include "ota_config_mock.hpp"
 #include "sleep_mock.hpp"
 #endif
 
