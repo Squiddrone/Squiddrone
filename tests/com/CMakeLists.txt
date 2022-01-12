@@ -75,3 +75,13 @@ add_testpackage(TEST_NAME
                     ${CMAKE_SOURCE_DIR}/src/types
                     ${CMAKE_SOURCE_DIR}/tests/com/mock_libraries
 )
+
+add_testpackage(TEST_NAME 
+                    com_data_packet
+                SOURCES
+                    com_data_packet_tests.cpp
+                TEST_INCLUDE_DIRECTORIES
+                    ${CMAKE_SOURCE_DIR}/src/com
+                    ${CMAKE_SOURCE_DIR}/src/types
+                    ${CMAKE_SOURCE_DIR}/tests/com/mock_libraries
+)
