@@ -14,15 +14,15 @@ class NRF24L01Core {
  public:
   MOCK_METHOD((types::DriverStatus), EnableDataPipe, (DataPipe), (noexcept));
   MOCK_METHOD((types::DriverStatus), DisableDataPipe, (DataPipe), (noexcept));
-  MOCK_METHOD((types::DriverStatus), SetTxAddress, (data_pipe_address), (const noexcept));
-  MOCK_METHOD((types::DriverStatus), SetRxAddress, (DataPipe, data_pipe_address), (const noexcept));
-  MOCK_METHOD((data_pipe_address), GetPipeAddress, (DataPipe), (noexcept));
-  MOCK_METHOD((types::DriverStatus), SetPipeAddress, (DataPipe, data_pipe_address), (noexcept));
+  MOCK_METHOD((types::DriverStatus), SetTxAddress, (types::data_pipe_address), (const noexcept));
+  MOCK_METHOD((types::DriverStatus), SetRxAddress, (DataPipe, types::data_pipe_address), (const noexcept));
+  MOCK_METHOD((types::data_pipe_address), GetPipeAddress, (DataPipe), (noexcept));
+  MOCK_METHOD((types::DriverStatus), SetPipeAddress, (DataPipe, types::data_pipe_address), (noexcept));
   MOCK_METHOD((types::DriverStatus), SetRxPayloadSize, (DataPipe, std::size_t), (const noexcept));
   MOCK_METHOD((types::DriverStatus), EnableAutoAck, (DataPipe), (noexcept));
-  MOCK_METHOD((types::DriverStatus), InitTx, (com::data_pipe_address tx_target_address), (noexcept));
-  MOCK_METHOD((types::DriverStatus), InitRx, (data_pipe_address), (noexcept));
-  MOCK_METHOD((types::DriverStatus), InitTransceiver, (std::uint8_t, DataRateSetting, RFPowerSetting, CRCEncodingScheme, data_pipe_address), (noexcept));
+  MOCK_METHOD((types::DriverStatus), InitTx, (types::data_pipe_address tx_target_address), (noexcept));
+  MOCK_METHOD((types::DriverStatus), InitRx, (types::data_pipe_address), (noexcept));
+  MOCK_METHOD((types::DriverStatus), InitTransceiver, (std::uint8_t, DataRateSetting, RFPowerSetting, CRCEncodingScheme, types::data_pipe_address), (noexcept));
   MOCK_METHOD((types::DriverStatus), SetOperationMode, (OperationMode), (noexcept));
   MOCK_METHOD((types::DriverStatus), SetPowerState, (State), (noexcept));
   MOCK_METHOD((types::DriverStatus), SetRFChannel, (std::uint8_t), (noexcept));
