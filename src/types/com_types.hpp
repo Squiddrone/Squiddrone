@@ -1,9 +1,9 @@
 #ifndef SRC_TYPES_COM_TYPES_HPP_
 #define SRC_TYPES_COM_TYPES_HPP_
 
+#include <array>
 #include <cstdint>
 #include <vector>
-#include <array>
 
 namespace types {
 
