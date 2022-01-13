@@ -32,7 +32,6 @@ auto FormatEuclidVectorForPrintOut(const std::string &Sensor, types::EuclideanVe
 
 #include "com_interrupt_handler.hpp"
 #include "com_nrf24l01.hpp"
-#include "ota_config_types.hpp"
 
 int main() {
   HAL_Init();
