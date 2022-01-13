@@ -91,7 +91,7 @@ auto NRF24L01::HandleConfigPacket(types::com_msg_frame &msg_frame) -> types::Dri
     auto new_address_data = config_packet.DecodeAddressConfigPacket(config_packet.data);
     if (new_address_data.first == types::PutDataTarget::TARGET_SELF) {
       base_address_ = new_address_data.second;
-      NRFInit();
+      UpdateAddress();
     }
   }
   return types::DriverStatus::OK;
@@ -99,6 +99,10 @@ auto NRF24L01::HandleConfigPacket(types::com_msg_frame &msg_frame) -> types::Dri
 
 auto NRF24L01::NRFInit() noexcept -> types::DriverStatus {
   return nrf_->InitTransceiver(20, com::DataRateSetting::RF_DR_2MBPS, com::RFPowerSetting::RF_PWR_0DBM, com::CRCEncodingScheme::CRC_16BIT, base_address_);
+}
+
+auto NRF24L01::UpdateAddress() noexcept -> types::DriverStatus {
+  ON_ERROR_RETURN(nrf_->SetPipeAddress(DataPipe::RX_PIPE_0, base_address_));
 }
 
 }  // namespace com

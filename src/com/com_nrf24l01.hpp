@@ -44,6 +44,8 @@ class NRF24L01 final : public ComInterface {
    */
   auto NRFInit() noexcept -> types::DriverStatus;
 
+  auto UpdateAddress() noexcept -> types::DriverStatus;
+
   /**
    * @brief Construct a new NRF24L01 object and initialize the transceiver.
    * 

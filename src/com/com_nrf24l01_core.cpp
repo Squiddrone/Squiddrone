@@ -23,6 +23,13 @@ auto NRF24L01Core::InitTransceiver(std::uint8_t channel,
   ON_ERROR_RETURN(SetRFOutputPower(rf_power));
   ON_ERROR_RETURN(MaskInterruptOnIntPin(MaskeableInterrupts::MAX_NR_OF_RETRIES_REACHED));
   ON_ERROR_RETURN(MaskInterruptOnIntPin(MaskeableInterrupts::TX_DATA_SENT));
+  // This must be refactored as soon as we introduce a com model that needs info from formation partners.
+  ON_ERROR_RETURN(DisableDataPipe(DataPipe::RX_PIPE_0));
+  ON_ERROR_RETURN(DisableDataPipe(DataPipe::RX_PIPE_1));
+  ON_ERROR_RETURN(DisableDataPipe(DataPipe::RX_PIPE_2));
+  ON_ERROR_RETURN(DisableDataPipe(DataPipe::RX_PIPE_3));
+  ON_ERROR_RETURN(DisableDataPipe(DataPipe::RX_PIPE_4));
+  ON_ERROR_RETURN(DisableDataPipe(DataPipe::RX_PIPE_5));
   ON_ERROR_RETURN(InitRx(base_address));
   is_initialized_ = true;
 
@@ -63,6 +70,7 @@ auto NRF24L01Core::InitRx(types::data_pipe_address base_address) noexcept -> typ
   ON_ERROR_RETURN(SetOperationMode(OperationMode::PRIM_RX));
 
   ON_ERROR_RETURN(SetPipeAddress(DataPipe::RX_PIPE_0, base_address));
+
   ON_ERROR_RETURN(EnableDataPipe(DataPipe::RX_PIPE_0));
   ON_ERROR_RETURN(EnableAutoAck(DataPipe::RX_PIPE_0));
   ON_ERROR_RETURN(SetRxPayloadSize(DataPipe::RX_PIPE_0, types::COM_MAX_FRAME_LENGTH));
