@@ -71,8 +71,6 @@ int main() {
     utilities::UartPrint("Init error...");
   }
 
-  types::ota_config_data<types::PutDataTarget::TARGET_FRONT> addr;
-
   utilities::UartPrint("Ready...");
 
   while (1) {
