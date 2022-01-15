@@ -101,7 +101,7 @@ TEST_F(ComNRF24L01SpiProtocolTests, read_payload_spi_tx_ok) {
   EXPECT_CALL(*spi_, Transfer(ElementsAre(com::instruction_word::R_RX_PAYLOAD), _));
   unit_under_test_ = std::make_unique<com::NRF24L01SpiProtocol>(std::move(spi_));
   auto retval = unit_under_test_->ReadPayloadData(test_payload);
-  EXPECT_THAT(test_payload, ElementsAre(_, _, _));
+  EXPECT_THAT(test_payload, ElementsAre(_, _, _, _));
   ASSERT_EQ(retval, types::DriverStatus::OK);
 }
 
