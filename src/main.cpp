@@ -92,7 +92,7 @@ int main() {
   driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_FRONT, 0.0);
   driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_REAR, 0.0);
   driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_REAR, 0.0);
-
+#endif
 #if (SYSTEM_TEST_COM == true)
 
   auto com_cs_pin = spi::CSPin(CSCOM_GPIO_Port, CSCOM_Pin, spi::CSActiveState::ACTIVE_LOW);
