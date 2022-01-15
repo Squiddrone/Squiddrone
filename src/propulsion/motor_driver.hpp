@@ -35,7 +35,7 @@ class MotorDriver : public AbstractMotorDriver {
 
   auto SetMotorSpeed(const MotorPosition which_motor, const float speed) const noexcept -> const types::DriverStatus override;
 
-  auto GetMotorSpeed(const MotorPosition which_motor) const noexcept -> std::pair<float, types::DriverStatus> override;
+  auto GetMotorSpeed(const MotorPosition which_motor) const noexcept -> std::pair<types::DriverStatus, float> override;
 
   auto ArmEscs() const noexcept -> const types::DriverStatus override;
 

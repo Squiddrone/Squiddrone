@@ -121,14 +121,14 @@ TEST_F(MotorDriverTest, get_motor_speed_get_legal_speed) {
   CreateUnitUnderTest();
   auto position = propulsion::MotorPosition::LEFT_FRONT;
   auto result = unit_under_test_->GetMotorSpeed(position);
-  ASSERT_FLOAT_EQ(result.first, DEFAULT_SPEED_);
+  ASSERT_FLOAT_EQ(result.second, DEFAULT_SPEED_);
 }
 
 TEST_F(MotorDriverTest, get_motor_speed_get_legal_status) {
   CreateUnitUnderTest();
   auto position = propulsion::MotorPosition::LEFT_FRONT;
   auto result = unit_under_test_->GetMotorSpeed(position);
-  ASSERT_EQ(result.second, types::DriverStatus::OK);
+  ASSERT_EQ(result.first, types::DriverStatus::OK);
 }
 
 TEST_F(MotorDriverTest, get_motor_speed_get_illegal_speed) {
@@ -136,7 +136,7 @@ TEST_F(MotorDriverTest, get_motor_speed_get_illegal_speed) {
   auto position = propulsion::MotorPosition::LEFT_FRONT;
   auto result = unit_under_test_->GetMotorSpeed(position);  //for using the MotorSpeedFloatFactory as intended
   result = unit_under_test_->GetMotorSpeed(position);
-  ASSERT_FLOAT_EQ(result.first, -1.0);
+  ASSERT_FLOAT_EQ(result.second, -1.0);
 }
 
 TEST_F(MotorDriverTest, get_motor_speed_get_illegal_status) {
@@ -144,7 +144,7 @@ TEST_F(MotorDriverTest, get_motor_speed_get_illegal_status) {
   auto position = propulsion::MotorPosition::LEFT_FRONT;
   auto result = unit_under_test_->GetMotorSpeed(position);  //for using the MotorSpeedFloatFactory as intended
   result = unit_under_test_->GetMotorSpeed(position);
-  ASSERT_EQ(result.second, types::DriverStatus::HAL_ERROR);
+  ASSERT_EQ(result.first, types::DriverStatus::HAL_ERROR);
 }
 
 TEST_F(MotorDriverTest, arm_escs_everything_works) {
