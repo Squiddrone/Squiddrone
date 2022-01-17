@@ -43,3 +43,15 @@ add_testpackage(TEST_NAME
                     ${CMAKE_SOURCE_DIR}/src/types
                     ${CMAKE_SOURCE_DIR}/tests/propulsion/mock_libraries
 )
+
+add_testpackage(TEST_NAME 
+                    motor_driver 
+                SOURCES 
+                    motor_driver_test.cpp
+                    ${CMAKE_SOURCE_DIR}/src/propulsion/motor_driver.cpp
+                    ${CMAKE_SOURCE_DIR}/tests/propulsion/mock_libraries/sleep_mock.cpp
+                TEST_INCLUDE_DIRECTORIES 
+                    ${CMAKE_SOURCE_DIR}/src/propulsion
+                    ${CMAKE_SOURCE_DIR}/src/types
+                    ${CMAKE_SOURCE_DIR}/tests/propulsion/mock_libraries
+)

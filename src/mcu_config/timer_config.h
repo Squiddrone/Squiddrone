@@ -1,9 +1,10 @@
 #ifndef SRC_MCU_CONFIG_TIMER_CONFIG_H_
 #define SRC_MCU_CONFIG_TIMER_CONFIG_H_
 
+#include "stm32g4xx.h"
 
 #ifdef __cplusplus
-	extern "C" {
+extern "C" {
 #endif
 
 extern TIM_HandleTypeDef htim2;
@@ -19,8 +20,7 @@ void MX_TIM16_Init(void);
 void MX_TIM17_Init(void);
 
 #ifdef __cplusplus
-	}
+}
 #endif
-
 
 #endif
