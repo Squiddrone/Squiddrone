@@ -3,13 +3,13 @@
 
 namespace propulsion {
 
-auto LittleBee20A::SetPulseDuration(int pulse_duration, int repetition_period) noexcept -> const types::DriverStatus {
+auto LittleBee20A::SetPulseDuration(const float pulse_duration, int repetition_period) noexcept -> const types::DriverStatus {
   types::DriverStatus error_state;
   const bool pulse_limit_breach =
       pulse_duration > ONESHOT_125_MAX_PULSE_DURATION_IN_US_ ||
       pulse_duration < ONESHOT_125_MIN_PULSE_DURATION_IN_US_;
   const bool period_limit_breach =
-      repetition_period < pulse_duration ||
+      repetition_period < static_cast<int>(pulse_duration) ||
       repetition_period > MAX_REPETITION_PERIOD_;
   if (pulse_limit_breach || period_limit_breach) {
     return types::DriverStatus::INPUT_ERROR;
