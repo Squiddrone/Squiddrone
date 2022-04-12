@@ -60,7 +60,7 @@ class Esc {
    * @return A types::DriverStatus type confirmation whether it was working or not
    * 
    */
-  virtual auto SetPulseDuration(int pulse_duration, int repetition_period) noexcept -> const types::DriverStatus = 0;
+  virtual auto SetPulseDuration(const float pulse_duration, int repetition_period) noexcept -> const types::DriverStatus = 0;
 
  protected:
   /**
