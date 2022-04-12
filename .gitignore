@@ -151,3 +151,4 @@ Release/
 build*/
 
 # End of https://www.gitignore.io/api/c,c++,eclipse
+.cproject
