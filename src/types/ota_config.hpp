@@ -11,7 +11,14 @@ namespace types {
 
 using ota_config_data = std::vector<std::uint8_t>;
 
-// Data structure
+/**
+ * @brief Data structure is as follows:
+ *  __________________________________
+ * | ID     | Address | PutDataTarget |
+ * |________|_________|_______________|
+ * | 1 byte | 5 bytes | 1 byte        |
+ * |________|_________|_______________|
+ */
 
 /// Position for config data id.
 static constexpr std::uint8_t START_CONFIG_DATA_ID = 0;
@@ -27,7 +34,7 @@ static constexpr std::uint8_t ID_CONFIG_ADDRESS = 0;
 
 /**
  * @brief Data packet for over the air configuration.
- * 
+ *
  */
 struct OtaConfigPacket : public ComDataPacket {
   auto EncodeAddressConfigPacket(PutDataTarget target, data_pipe_address address) noexcept -> ota_config_data;

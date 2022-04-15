@@ -10,6 +10,7 @@
 					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
@@ -18,9 +19,9 @@
 						<toolChain id="com.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.exe.debug.614449873" name="MCU ARM GCC" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.exe.debug">
 							<option id="com.st.stm32cube.ide.mcu.option.internal.toolchain.type.188190181" name="Internal Toolchain Type" superClass="com.st.stm32cube.ide.mcu.option.internal.toolchain.type" useByScannerDiscovery="false" value="com.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.base.gnu-tools-for-stm32" valueType="string"/>
 							<option id="com.st.stm32cube.ide.mcu.option.internal.toolchain.version.1733476986" name="Internal Toolchain Version" superClass="com.st.stm32cube.ide.mcu.option.internal.toolchain.version" useByScannerDiscovery="false" value="7-2018-q2-update" valueType="string"/>
-							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_mcu.613986579" name="Mcu" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_mcu" useByScannerDiscovery="false" value="STM32G431KBTx" valueType="string"/>
-							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_cpuid.160934590" name="CpuId" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_cpuid" useByScannerDiscovery="false" value="0" valueType="string"/>
-							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_coreid.1429958956" name="CpuCoreId" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_coreid" useByScannerDiscovery="false" value="0" valueType="string"/>
+							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_mcu.613986579" name="MCU" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_mcu" useByScannerDiscovery="false" value="STM32G431KBTx" valueType="string"/>
+							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_cpuid.160934590" name="CPU" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_cpuid" useByScannerDiscovery="false" value="0" valueType="string"/>
+							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_coreid.1429958956" name="Core" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_coreid" useByScannerDiscovery="false" value="0" valueType="string"/>
 							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.fpu.398173670" name="Floating-point unit" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.fpu" useByScannerDiscovery="false" value="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.fpu.value.fpv4-sp-d16" valueType="enumerated"/>
 							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.floatabi.1662680218" name="Floating-point ABI" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.floatabi" useByScannerDiscovery="false" value="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.floatabi.value.hard" valueType="enumerated"/>
 							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_board.607718112" name="Board" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_board" useByScannerDiscovery="false" value="NUCLEO-G431KB" valueType="string"/>
@@ -33,6 +34,13 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/startup}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/spi}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/i2c}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/imu/interface}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/imu/mpu9255}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/imu/sensors}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/imu/sensors/imu_sensors}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/propulsion}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/com}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/utilities}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.input.397393141" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.input"/>
 							</tool>
@@ -54,6 +62,13 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/startup}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/spi}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/i2c}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/imu/interface}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/imu/mpu9255}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/imu/sensors}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/imu/sensors/imu_sensors}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/propulsion}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/com}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/utilities}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.255845699" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>
@@ -79,6 +94,11 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/startup}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/spi}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/i2c}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/imu/interface}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/imu/mpu9255}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/imu/sensors}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/imu/sensors/imu_sensors}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/utilities}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.input.cpp.978901079" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.input.cpp"/>
 							</tool>
@@ -121,21 +141,22 @@
 					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 				<configuration artifactExtension="elf" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release" cleanCommand="rm -rf" description="" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.release.565081036" name="Release" parent="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.release">
 					<folderInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.release.565081036." name="/" resourcePath="">
 						<toolChain id="com.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.exe.release.1356849347" name="MCU ARM GCC" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.exe.release">
-							<option id="com.st.stm32cube.ide.mcu.option.internal.toolchain.type.1888932722" name="Internal Toolchain Type" superClass="com.st.stm32cube.ide.mcu.option.internal.toolchain.type" value="com.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.base.gnu-tools-for-stm32" valueType="string"/>
-							<option id="com.st.stm32cube.ide.mcu.option.internal.toolchain.version.1944077536" name="Internal Toolchain Version" superClass="com.st.stm32cube.ide.mcu.option.internal.toolchain.version" value="7-2018-q2-update" valueType="string"/>
-							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_mcu.178625215" name="Mcu" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_mcu" value="STM32G431KBTx" valueType="string"/>
-							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_cpuid.906519193" name="CpuId" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_cpuid" value="0" valueType="string"/>
-							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_coreid.1485964170" name="CpuCoreId" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_coreid" value="0" valueType="string"/>
-							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.fpu.1867805184" name="Floating-point unit" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.fpu" value="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.fpu.value.fpv4-sp-d16" valueType="enumerated"/>
-							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.floatabi.1636518667" name="Floating-point ABI" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.floatabi" value="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.floatabi.value.hard" valueType="enumerated"/>
-							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_board.711306847" name="Board" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_board" value="NUCLEO-G431KB" valueType="string"/>
-							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.defaults.744060974" name="Defaults" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.defaults" value="com.st.stm32cube.ide.common.services.build.inputs.revA.1.0.3 || Release || false || Executable || com.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.base.gnu-tools-for-stm32 || NUCLEO-G431KB || 0 || 0 || arm-none-eabi- || ${gnu_tools_for_stm32_compiler_path} || ../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy | ../Drivers/CMSIS/Include | ../Drivers/CMSIS/Device/ST/STM32G4xx/Include | ../Core/Inc | ../Drivers/STM32G4xx_HAL_Driver/Inc ||  ||  || STM32G431xx | USE_HAL_DRIVER ||  || Drivers | Core/Startup | Core ||  ||  || ${workspace_loc:/${ProjName}/STM32G431KBTX_FLASH.ld} || true || NonSecure ||  || secure_nsclib.o || " valueType="string"/>
+							<option id="com.st.stm32cube.ide.mcu.option.internal.toolchain.type.1888932722" name="Internal Toolchain Type" superClass="com.st.stm32cube.ide.mcu.option.internal.toolchain.type" useByScannerDiscovery="false" value="com.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.base.gnu-tools-for-stm32" valueType="string"/>
+							<option id="com.st.stm32cube.ide.mcu.option.internal.toolchain.version.1944077536" name="Internal Toolchain Version" superClass="com.st.stm32cube.ide.mcu.option.internal.toolchain.version" useByScannerDiscovery="false" value="7-2018-q2-update" valueType="string"/>
+							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_mcu.178625215" name="MCU" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_mcu" useByScannerDiscovery="true" value="STM32G431KBTx" valueType="string"/>
+							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_cpuid.906519193" name="CPU" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_cpuid" useByScannerDiscovery="false" value="0" valueType="string"/>
+							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_coreid.1485964170" name="Core" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_coreid" useByScannerDiscovery="false" value="0" valueType="string"/>
+							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.fpu.1867805184" name="Floating-point unit" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.fpu" useByScannerDiscovery="true" value="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.fpu.value.fpv4-sp-d16" valueType="enumerated"/>
+							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.floatabi.1636518667" name="Floating-point ABI" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.floatabi" useByScannerDiscovery="true" value="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.floatabi.value.hard" valueType="enumerated"/>
+							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_board.711306847" name="Board" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_board" useByScannerDiscovery="false" value="NUCLEO-G431KB" valueType="string"/>
+							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.defaults.744060974" name="Defaults" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.defaults" useByScannerDiscovery="false" value="com.st.stm32cube.ide.common.services.build.inputs.revA.1.0.3 || Release || false || Executable || com.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.base.gnu-tools-for-stm32 || NUCLEO-G431KB || 0 || 0 || arm-none-eabi- || ${gnu_tools_for_stm32_compiler_path} || ../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy | ../Drivers/CMSIS/Include | ../Drivers/CMSIS/Device/ST/STM32G4xx/Include | ../Core/Inc | ../Drivers/STM32G4xx_HAL_Driver/Inc ||  ||  || STM32G431xx | USE_HAL_DRIVER ||  || Drivers | Core/Startup | Core ||  ||  || ${workspace_loc:/${ProjName}/STM32G431KBTX_FLASH.ld} || true || NonSecure ||  || secure_nsclib.o || " valueType="string"/>
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.targetplatform.141240819" isAbstract="false" osList="all" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.targetplatform"/>
 							<builder buildPath="${workspace_loc:/SquidDrone}/Release" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.builder.1329354012" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.builder"/>
 							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.1104671822" name="MCU GCC Assembler" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler">
@@ -144,6 +165,13 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/startup}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/spi}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/i2c}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/imu/interface}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/imu/mpu9255}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/imu/sensors}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/imu/sensors/imu_sensors}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/propulsion}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/com}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/utilities}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.input.1351391234" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.input"/>
 							</tool>
@@ -163,6 +191,13 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/startup}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/spi}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/i2c}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/imu/interface}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/imu/mpu9255}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/imu/sensors}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/imu/sensors/imu_sensors}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/propulsion}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/com}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/utilities}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.1040321773" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>
@@ -182,6 +217,13 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/startup}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/spi}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/i2c}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/imu/interface}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/imu/mpu9255}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/imu/sensors}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/imu/sensors/imu_sensors}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/propulsion}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/com}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SquidDrone/src/utilities}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.input.cpp.195154246" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.input.cpp"/>
 							</tool>

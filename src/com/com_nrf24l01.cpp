@@ -103,6 +103,7 @@ auto NRF24L01::NRFInit() noexcept -> types::DriverStatus {
 
 auto NRF24L01::UpdateAddress() noexcept -> types::DriverStatus {
   ON_ERROR_RETURN(nrf_->SetPipeAddress(DataPipe::RX_PIPE_0, base_address_));
+  return types::DriverStatus::OK;
 }
 
 }  // namespace com
