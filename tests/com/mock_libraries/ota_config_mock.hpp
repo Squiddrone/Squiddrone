@@ -26,7 +26,9 @@ static constexpr std::uint8_t END_ADDR_CONFIG_DATA = 6;
 static constexpr std::uint8_t START_ADDR_TARGET_CONFIG_DATA = 7;
 
 /// ID for address configuration data.
-static constexpr std::uint8_t ID_CONFIG_ADDRESS = 0;
+enum class OtaConfigTypeId : std::uint8_t {
+  CONFIGURE_ADDRESS
+};
 
 /**
  * @brief Data packet for over the air configuration.
@@ -34,6 +36,7 @@ static constexpr std::uint8_t ID_CONFIG_ADDRESS = 0;
  */
 struct OtaConfigPacket : public ComDataPacket {
   MOCK_METHOD((ota_config_data), EncodeAddressConfigPacket, (types::PutDataPacketTarget, types::data_pipe_address), (noexcept));
+  MOCK_METHOD((types::OtaConfigTypeId), GetConfigPacketId, (), (noexcept));
   auto DecodeAddressConfigPacket(ota_config_data) -> std::pair<types::PutDataPacketTarget, types::data_pipe_address> {
     return {types::PutDataPacketTarget::TARGET_SELF, {0, 0, 0, 0, 0}};
   }

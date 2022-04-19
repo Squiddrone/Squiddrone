@@ -11,17 +11,17 @@ namespace {
 class ComDataPacketTests : public ::testing::Test {
  protected:
   virtual void SetUp() {
-    packet.type = types::ComPacketType::TELEMETRY_PACKET;
-    packet.target = types::PutDataTarget::TARGET_GROUND_CONTROL;
+    packet.type = types::ComDataPacketType::TELEMETRY_PACKET;
+    packet.target = types::PutDataPacketTarget::TARGET_GROUND_CONTROL;
     std::vector<std::uint8_t> mock_data(30, 0xAA);
     packet.data = mock_data;
     frame.resize(32);
     std::fill(frame.begin(), frame.end(), 0xaa);
-    frame.at(0) = static_cast<std::uint8_t>(types::ComPacketType::TELEMETRY_PACKET);
-    frame.at(1) = static_cast<std::uint8_t>(types::PutDataTarget::TARGET_GROUND_CONTROL);
+    frame.at(0) = static_cast<std::uint8_t>(types::ComDataPacketType::TELEMETRY_PACKET);
+    frame.at(1) = static_cast<std::uint8_t>(types::PutDataPacketTarget::TARGET_GROUND_CONTROL);
   }
   types::ComDataPacket packet;
-  types::com_msg_frame frame;
+  types::com_frame frame;
 };
 
 TEST_F(ComDataPacketTests, serialize_packet) {

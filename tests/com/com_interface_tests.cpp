@@ -19,7 +19,7 @@ class ConcreteComInterface final : public com::ComInterface {
     return mock_packet;
   }
 
-  auto PutDataPacket(types::PutDataTarget target_id, types::ComDataPacket &packet) noexcept -> types::DriverStatus override {
+  auto PutDataPacket(types::PutDataPacketTarget target_id, types::ComDataPacket &packet) noexcept -> types::DriverStatus override {
     return types::DriverStatus::OK;
   }
 };

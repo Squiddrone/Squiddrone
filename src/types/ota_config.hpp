@@ -13,11 +13,11 @@ using ota_config_data = std::vector<std::uint8_t>;
 
 /**
  * @brief Data structure is as follows:
- *  __________________________________
+ *  ________________________________________
  * | ID     | Address | PutDataPacketTarget |
- * |________|_________|_______________|
- * | 1 byte | 5 bytes | 1 byte        |
- * |________|_________|_______________|
+ * |________|_________|_____________________|
+ * | 1 byte | 5 bytes | 1 byte              |
+ * |________|_________|_____________________|
  */
 
 /// Position for config data id.
@@ -30,13 +30,16 @@ static constexpr std::uint8_t END_ADDR_CONFIG_DATA = 6;
 static constexpr std::uint8_t START_ADDR_TARGET_CONFIG_DATA = 7;
 
 /// ID for address configuration data.
-static constexpr std::uint8_t ID_CONFIG_ADDRESS = 0;
+enum class OtaConfigTypeId : std::uint8_t {
+  CONFIGURE_ADDRESS
+};
 
 /**
  * @brief Data packet for over the air configuration.
  *
  */
 struct OtaConfigPacket : public ComDataPacket {
+  auto GetConfigPacketId() noexcept -> OtaConfigTypeId;
   auto EncodeAddressConfigPacket(PutDataPacketTarget target, data_pipe_address address) noexcept -> ota_config_data;
   auto DecodeAddressConfigPacket(ota_config_data config_data) noexcept -> std::pair<PutDataPacketTarget, data_pipe_address>;
 

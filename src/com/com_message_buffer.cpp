@@ -2,7 +2,7 @@
 #include "com_types.hpp"
 
 namespace com {
-auto ComMessageBuffer::PutData(types::com_msg_frame &data) noexcept -> ComBufferError {
+auto ComMessageBuffer::PutData(types::com_frame &data) noexcept -> ComBufferError {
   if (data_.size() > COM_BUFFER_MAX_QUEUE_LENGTH) {
     return ComBufferError::COM_BUFFER_OVERFLOW;
   }
@@ -14,8 +14,8 @@ auto ComMessageBuffer::PutData(types::com_msg_frame &data) noexcept -> ComBuffer
   return ComBufferError::COM_BUFFER_OK;
 }
 
-auto ComMessageBuffer::GetData() noexcept -> types::com_msg_frame {
-  types::com_msg_frame queue_item = {0};
+auto ComMessageBuffer::GetData() noexcept -> types::com_frame {
+  types::com_frame queue_item = {0};
   if (!BufferIsEmpty()) {
     queue_item = data_.front();
     data_.pop();

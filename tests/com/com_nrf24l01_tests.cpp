@@ -19,7 +19,7 @@ class ComNRF24L01Tests : public ::testing::Test {
     default_msg_frame_.at(1) = 0;
     default_data_packet_.Deserialize(default_msg_frame_);
   }
-  types::com_msg_frame default_msg_frame_;
+  types::com_frame default_msg_frame_;
   types::ComDataPacket default_data_packet_;
 };
 
@@ -41,7 +41,7 @@ TEST_F(ComNRF24L01Tests, frame_length_exceeding_limit) {
   std::vector<std::uint8_t> long_data_field(31);
   types::ComDataPacket mock_packet;
   mock_packet.data = long_data_field;
-  auto return_value = unit_under_test->PutDataPacket(types::PutDataTarget::TARGET_FRONT, mock_packet);
+  auto return_value = unit_under_test->PutDataPacket(types::PutDataPacketTarget::TARGET_FRONT, mock_packet);
   ASSERT_EQ(return_value, types::DriverStatus::INPUT_ERROR);
 }
 
@@ -56,7 +56,7 @@ TEST_F(ComNRF24L01Tests, put_data_packet_successful) {
 
   auto unit_under_test = std::make_unique<com::NRF24L01>(std::move(com_msg_buffer), std::move(com_nrf_core));
 
-  auto return_value = unit_under_test->PutDataPacket(types::PutDataTarget::TARGET_FRONT, default_data_packet_);
+  auto return_value = unit_under_test->PutDataPacket(types::PutDataPacketTarget::TARGET_FRONT, default_data_packet_);
   ASSERT_EQ(return_value, types::DriverStatus::OK);
 }
 
@@ -71,7 +71,7 @@ TEST_F(ComNRF24L01Tests, put_data_packet_failed_tx_timeout) {
 
   auto unit_under_test = std::make_unique<com::NRF24L01>(std::move(com_msg_buffer), std::move(com_nrf_core));
 
-  auto return_value = unit_under_test->PutDataPacket(types::PutDataTarget::TARGET_FRONT, default_data_packet_);
+  auto return_value = unit_under_test->PutDataPacket(types::PutDataPacketTarget::TARGET_FRONT, default_data_packet_);
   ASSERT_EQ(return_value, types::DriverStatus::TIMEOUT);
 }
 
@@ -79,10 +79,10 @@ TEST_F(ComNRF24L01Tests, put_data_packet_failed_inconsistent_target) {
   auto com_msg_buffer = std::make_unique<NiceMock<com::ComMessageBuffer>>();
   auto com_nrf_core = std::make_unique<NiceMock<com::NRF24L01Core>>();
   types::ComDataPacket mock_packet{
-      .type = types::ComPacketType::TELEMETRY_PACKET,
-      .target = types::PutDataTarget::TARGET_FRONT};
+      .type = types::ComDataPacketType::TELEMETRY_PACKET,
+      .target = types::PutDataPacketTarget::TARGET_FRONT};
   auto unit_under_test = std::make_unique<com::NRF24L01>(std::move(com_msg_buffer), std::move(com_nrf_core));
-  auto return_value = unit_under_test->PutDataPacket(types::PutDataTarget::TARGET_BACK, mock_packet);
+  auto return_value = unit_under_test->PutDataPacket(types::PutDataPacketTarget::TARGET_BACK, mock_packet);
   ASSERT_EQ(return_value, types::DriverStatus::INPUT_ERROR);
 }
 
@@ -90,23 +90,23 @@ TEST_F(ComNRF24L01Tests, put_data_packet_failed_invalid_target) {
   auto com_msg_buffer = std::make_unique<NiceMock<com::ComMessageBuffer>>();
   auto com_nrf_core = std::make_unique<NiceMock<com::NRF24L01Core>>();
   types::ComDataPacket mock_packet{
-      .type = types::ComPacketType::TELEMETRY_PACKET,
-      .target = types::PutDataTarget::TARGET_SELF};
+      .type = types::ComDataPacketType::TELEMETRY_PACKET,
+      .target = types::PutDataPacketTarget::TARGET_SELF};
   auto unit_under_test = std::make_unique<com::NRF24L01>(std::move(com_msg_buffer), std::move(com_nrf_core));
-  auto return_value = unit_under_test->PutDataPacket(types::PutDataTarget::TARGET_SELF, mock_packet);
+  auto return_value = unit_under_test->PutDataPacket(types::PutDataPacketTarget::TARGET_SELF, mock_packet);
   ASSERT_EQ(return_value, types::DriverStatus::INPUT_ERROR);
 }
 
 TEST_F(ComNRF24L01Tests, handle_incoming_telemetry_packet) {
-  types::com_msg_frame mock_payload = default_msg_frame_;
-  mock_payload.at(0) = static_cast<std::uint8_t>(types::ComPacketType::TELEMETRY_PACKET);
+  types::com_frame mock_payload = default_msg_frame_;
+  mock_payload.at(0) = static_cast<std::uint8_t>(types::ComDataPacketType::TELEMETRY_PACKET);
   auto com_msg_buffer = std::make_unique<NiceMock<com::ComMessageBuffer>>();
   EXPECT_CALL(*com_msg_buffer, PutData(_)).WillOnce(Return(com::ComBufferError::COM_BUFFER_OK));
 
   auto com_nrf_core = std::make_unique<NiceMock<com::NRF24L01Core>>();
   ON_CALL(*com_nrf_core, GetRxPayload(_))
       .WillByDefault(Invoke(
-          [=](types::com_msg_frame &frame) {
+          [=](types::com_frame &frame) {
             frame = mock_payload;
             return types::DriverStatus::OK;
           }));
@@ -116,8 +116,8 @@ TEST_F(ComNRF24L01Tests, handle_incoming_telemetry_packet) {
 }
 
 TEST_F(ComNRF24L01Tests, handle_incoming_telemetry_packet_buffer_error) {
-  types::com_msg_frame mock_payload = default_msg_frame_;
-  mock_payload.at(0) = static_cast<std::uint8_t>(types::ComPacketType::TELEMETRY_PACKET);
+  types::com_frame mock_payload = default_msg_frame_;
+  mock_payload.at(0) = static_cast<std::uint8_t>(types::ComDataPacketType::TELEMETRY_PACKET);
   auto com_msg_buffer = std::make_unique<NiceMock<com::ComMessageBuffer>>();
   EXPECT_CALL(*com_msg_buffer, PutData(_)).WillOnce(Return(com::ComBufferError::COM_BUFFER_IO_ERROR));
 
@@ -129,16 +129,16 @@ TEST_F(ComNRF24L01Tests, handle_incoming_telemetry_packet_buffer_error) {
 }
 
 TEST_F(ComNRF24L01Tests, handle_incoming_addr_config_packet) {
-  types::com_msg_frame mock_payload = default_msg_frame_;
-  mock_payload.at(0) = static_cast<std::uint8_t>(types::ComPacketType::COM_CONFIG_PACKET);
-  mock_payload.at(2) = types::ID_CONFIG_ADDRESS;
+  types::com_frame mock_payload = default_msg_frame_;
+  mock_payload.at(0) = static_cast<std::uint8_t>(types::ComDataPacketType::COM_CONFIG_PACKET);
+  mock_payload.at(2) = static_cast<std::uint8_t>(types::OtaConfigTypeId::CONFIGURE_ADDRESS);
 
   auto com_msg_buffer = std::make_unique<NiceMock<com::ComMessageBuffer>>();
 
   auto com_nrf_core = std::make_unique<NiceMock<com::NRF24L01Core>>();
   ON_CALL(*com_nrf_core, GetRxPayload(_))
       .WillByDefault(Invoke(
-          [=](types::com_msg_frame &frame) {
+          [=](types::com_frame &frame) {
             frame = mock_payload;
             return types::DriverStatus::OK;
           }));

@@ -86,7 +86,7 @@ auto NRF24L01::HandleConfigPacket(types::com_frame &msg_frame) -> types::DriverS
   types::OtaConfigPacket config_packet;
   config_packet.Deserialize(msg_frame);
 
-  if (config_packet.data.at(types::START_CONFIG_DATA_ID) == types::ID_CONFIG_ADDRESS) {
+  if (config_packet.GetConfigPacketId() == types::OtaConfigTypeId::CONFIGURE_ADDRESS) {
     auto new_address_data = config_packet.DecodeAddressConfigPacket(config_packet.data);
     if (new_address_data.first == types::PutDataPacketTarget::TARGET_SELF) {
       base_address_ = new_address_data.second;

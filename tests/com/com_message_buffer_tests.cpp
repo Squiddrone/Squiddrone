@@ -9,7 +9,7 @@ class ComMessageBufferTests : public ::testing::Test {
     ref_data.resize(types::COM_MAX_FRAME_LENGTH);
     ref_data = {0xAA};
   }
-  types::com_msg_frame ref_data;
+  types::com_frame ref_data;
 };
 }  // namespace
 
@@ -30,7 +30,7 @@ TEST_F(ComMessageBufferTests, put_data_buffer_overflow) {
 
 TEST_F(ComMessageBufferTests, put_data_max_frame_size_exceeded) {
   auto com_buffer = std::make_unique<com::ComMessageBuffer>();
-  auto oversized_frame = types::com_msg_frame(types::COM_MAX_FRAME_LENGTH + 1);
+  auto oversized_frame = types::com_frame(types::COM_MAX_FRAME_LENGTH + 1);
   auto rv = com_buffer->PutData(oversized_frame);
   ASSERT_EQ(rv, com::ComBufferError::COM_BUFFER_IO_ERROR);
 }
@@ -44,7 +44,7 @@ TEST_F(ComMessageBufferTests, get_data) {
 
 TEST_F(ComMessageBufferTests, get_data_with_empty_queue) {
   auto com_buffer = std::make_unique<com::ComMessageBuffer>();
-  types::com_msg_frame comp_data = {0};
+  types::com_frame comp_data = {0};
   auto retrieved_data = com_buffer->GetData();
   ASSERT_EQ(comp_data, retrieved_data);
 }
