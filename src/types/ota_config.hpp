@@ -14,7 +14,7 @@ using ota_config_data = std::vector<std::uint8_t>;
 /**
  * @brief Data structure is as follows:
  *  __________________________________
- * | ID     | Address | PutDataTarget |
+ * | ID     | Address | PutDataPacketTarget |
  * |________|_________|_______________|
  * | 1 byte | 5 bytes | 1 byte        |
  * |________|_________|_______________|
@@ -37,11 +37,11 @@ static constexpr std::uint8_t ID_CONFIG_ADDRESS = 0;
  *
  */
 struct OtaConfigPacket : public ComDataPacket {
-  auto EncodeAddressConfigPacket(PutDataTarget target, data_pipe_address address) noexcept -> ota_config_data;
-  auto DecodeAddressConfigPacket(ota_config_data config_data) noexcept -> std::pair<PutDataTarget, data_pipe_address>;
+  auto EncodeAddressConfigPacket(PutDataPacketTarget target, data_pipe_address address) noexcept -> ota_config_data;
+  auto DecodeAddressConfigPacket(ota_config_data config_data) noexcept -> std::pair<PutDataPacketTarget, data_pipe_address>;
 
   explicit OtaConfigPacket(ota_config_data config_data) {
-    type = types::ComPacketType::COM_CONFIG_PACKET;
+    type = types::ComDataPacketType::COM_CONFIG_PACKET;
   };
 
   OtaConfigPacket() : ComDataPacket(){};

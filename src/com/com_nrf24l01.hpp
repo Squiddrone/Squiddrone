@@ -22,25 +22,25 @@
 namespace com {
 
 /**
- * @brief Driver for the NRF24L01 transceiver. 
- * 
+ * @brief Driver for the NRF24L01 transceiver.
+ *
  */
 class NRF24L01 final : public ComInterface {
  public:
   auto GetDataPacket() const noexcept -> types::ComDataPacket override;
-  auto PutDataPacket(types::PutDataTarget target_id, types::ComDataPacket &packet) noexcept
+  auto PutDataPacket(types::PutDataPacketTarget target_id, types::ComDataPacket &packet) noexcept
       -> types::DriverStatus override;
   /**
    * @brief IRQ handler function is called by HAL layer, when an incoming data frame triggers
    * an interrupt.
-   * 
+   *
    */
   auto HandleRxIRQ() noexcept -> void;
 
   /**
    * @brief Call initializing function for NRF.
-   * 
-   * @return types::DriverStatus 
+   *
+   * @return types::DriverStatus
    */
   auto NRFInit() noexcept -> types::DriverStatus;
 
@@ -48,7 +48,7 @@ class NRF24L01 final : public ComInterface {
 
   /**
    * @brief Construct a new NRF24L01 object and initialize the transceiver.
-   * 
+   *
    * @param msg_buf Unique pointer to an object of type com::ComMessageBuffer.
    * @param nrf Unique pointer to an object of type NF24L01Core.
    */
@@ -58,22 +58,22 @@ class NRF24L01 final : public ComInterface {
 
   /**
    * @brief Default constructor is not used.
-   * 
+   *
    */
   NRF24L01() = delete;
 
   /**
    * @brief Destroy the NRF24L01 object
-   * 
+   *
    */
   virtual ~NRF24L01() = default;
 
  private:
   std::unique_ptr<NRF24L01Core> nrf_;
   /**
-   * @brief This array holds addresses of all valid put data targets. 
-   * Beware: The last line may never change! This is the default address of any NRF as fallback. 
-   * See also types::PutDataTarget.
+   * @brief This array holds addresses of all valid put data targets.
+   * Beware: The last line may never change! This is the default address of any NRF as fallback.
+   * See also types::PutDataPacketTarget.
    */
   std::array<types::data_pipe_address, 8> partner_drone_address_{{
       {{0, 0, 0, 0, 0}},
@@ -87,9 +87,9 @@ class NRF24L01 final : public ComInterface {
   }};
   types::data_pipe_address base_address_{{0xe7, 0xe7, 0xe7, 0xe7, 0xe7}};
 
-  auto LookupComPartnerAddress(types::PutDataTarget target_id) noexcept -> types::data_pipe_address;
-  auto HandleTelemetryPacket(types::com_msg_frame &msg_frame) -> types::DriverStatus;
-  auto HandleConfigPacket(types::com_msg_frame &msg_frame) -> types::DriverStatus;
+  auto LookupComPartnerAddress(types::PutDataPacketTarget target_id) noexcept -> types::data_pipe_address;
+  auto HandleTelemetryPacket(types::com_frame &msg_frame) -> types::DriverStatus;
+  auto HandleConfigPacket(types::com_frame &msg_frame) -> types::DriverStatus;
 };
 }  // namespace com
 

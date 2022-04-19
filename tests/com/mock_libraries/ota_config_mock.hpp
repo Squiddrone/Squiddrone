@@ -30,15 +30,15 @@ static constexpr std::uint8_t ID_CONFIG_ADDRESS = 0;
 
 /**
  * @brief Data packet for over the air configuration.
- * 
+ *
  */
 struct OtaConfigPacket : public ComDataPacket {
-  MOCK_METHOD((ota_config_data), EncodeAddressConfigPacket, (types::PutDataTarget, types::data_pipe_address), (noexcept));
-  auto DecodeAddressConfigPacket(ota_config_data) -> std::pair<types::PutDataTarget, types::data_pipe_address> {
-    return {types::PutDataTarget::TARGET_SELF, {0, 0, 0, 0, 0}};
+  MOCK_METHOD((ota_config_data), EncodeAddressConfigPacket, (types::PutDataPacketTarget, types::data_pipe_address), (noexcept));
+  auto DecodeAddressConfigPacket(ota_config_data) -> std::pair<types::PutDataPacketTarget, types::data_pipe_address> {
+    return {types::PutDataPacketTarget::TARGET_SELF, {0, 0, 0, 0, 0}};
   }
   explicit OtaConfigPacket(ota_config_data config_data) {
-    type = types::ComPacketType::COM_CONFIG_PACKET;
+    type = types::ComDataPacketType::COM_CONFIG_PACKET;
   };
 
   OtaConfigPacket() : ComDataPacket(){};

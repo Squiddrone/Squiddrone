@@ -2,13 +2,16 @@
 
 namespace com {
 
-auto NRF24L01::PutDataPacket(types::PutDataTarget target_id, types::ComDataPacket &packet) noexcept -> types::DriverStatus {
+auto NRF24L01::PutDataPacket(types::PutDataPacketTarget target_id, types::ComDataPacket &packet) noexcept -> types::DriverStatus {
   auto return_value = types::DriverStatus::HAL_ERROR;
 
   if (packet.data.size() > types::COM_MAX_DATA_FIELD_LENGTH) {
     return types::DriverStatus::INPUT_ERROR;
   }
   if (packet.target != target_id) {
+    return types::DriverStatus::INPUT_ERROR;
+  }
+  if (target_id > types::PutDataPacketTarget::TARGET_FALLBACK or target_id < types::PutDataPacketTarget::TARGET_FRONT) {
     return types::DriverStatus::INPUT_ERROR;
   }
 
@@ -52,14 +55,14 @@ auto NRF24L01::GetDataPacket() const noexcept -> types::ComDataPacket {
 }
 
 auto NRF24L01::HandleRxIRQ() noexcept -> void {
-  types::com_msg_frame payload(types::COM_MAX_FRAME_LENGTH);
+  types::com_frame payload(types::COM_MAX_FRAME_LENGTH);
 
   nrf_->GetIRQFlags();
   nrf_->GetRxPayload(payload);
 
-  auto packet_type = static_cast<types::ComPacketType>(payload.at(types::OFFSET_TYPE));
+  auto packet_type = static_cast<types::ComDataPacketType>(payload.at(types::OFFSET_TYPE));
 
-  if (packet_type == types::ComPacketType::COM_CONFIG_PACKET) {
+  if (packet_type == types::ComDataPacketType::COM_CONFIG_PACKET) {
     HandleConfigPacket(payload);
     return;
   }
@@ -67,15 +70,11 @@ auto NRF24L01::HandleRxIRQ() noexcept -> void {
   HandleTelemetryPacket(payload);
 }
 
-auto NRF24L01::LookupComPartnerAddress(types::PutDataTarget target_id) noexcept -> types::data_pipe_address {
-  types::data_pipe_address failure_return_value{0};
-  if (target_id > types::PutDataTarget::TARGET_FALLBACK or target_id < types::PutDataTarget::TARGET_FRONT) {
-    return failure_return_value;
-  }
+auto NRF24L01::LookupComPartnerAddress(types::PutDataPacketTarget target_id) noexcept -> types::data_pipe_address {
   return partner_drone_address_.at(static_cast<std::size_t>(target_id));
 }
 
-auto NRF24L01::HandleTelemetryPacket(types::com_msg_frame &msg_frame) -> types::DriverStatus {
+auto NRF24L01::HandleTelemetryPacket(types::com_frame &msg_frame) -> types::DriverStatus {
   auto ret_val = msg_buffer_->PutData(msg_frame);
   if (ret_val != ComBufferError::COM_BUFFER_OK) {
     return types::DriverStatus::INPUT_ERROR;
@@ -83,13 +82,13 @@ auto NRF24L01::HandleTelemetryPacket(types::com_msg_frame &msg_frame) -> types::
   return types::DriverStatus::OK;
 }
 
-auto NRF24L01::HandleConfigPacket(types::com_msg_frame &msg_frame) -> types::DriverStatus {
+auto NRF24L01::HandleConfigPacket(types::com_frame &msg_frame) -> types::DriverStatus {
   types::OtaConfigPacket config_packet;
   config_packet.Deserialize(msg_frame);
 
   if (config_packet.data.at(types::START_CONFIG_DATA_ID) == types::ID_CONFIG_ADDRESS) {
     auto new_address_data = config_packet.DecodeAddressConfigPacket(config_packet.data);
-    if (new_address_data.first == types::PutDataTarget::TARGET_SELF) {
+    if (new_address_data.first == types::PutDataPacketTarget::TARGET_SELF) {
       base_address_ = new_address_data.second;
       UpdateAddress();
     }
