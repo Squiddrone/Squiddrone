@@ -29,13 +29,15 @@ enum class PutDataPacketTarget : std::int8_t {
   TARGET_BELOW,
   TARGET_GROUND_CONTROL,
   TARGET_FALLBACK,
-  TARGET_SELF
+  TARGET_SELF,
 };
 
 /// Packet types
 enum class ComDataPacketType : std::uint8_t {
   /// Flight telemetry data
   TELEMETRY_PACKET = 0,
+  /// Application level information (i.e. flight trajectory)
+  APPDATA_PACKET,
   /// Packet to configure the target.
   COM_CONFIG_PACKET
 };

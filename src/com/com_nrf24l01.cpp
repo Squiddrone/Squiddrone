@@ -67,14 +67,14 @@ auto NRF24L01::HandleRxIRQ() noexcept -> void {
     return;
   }
 
-  HandleTelemetryPacket(payload);
+  HandleAppDataPacket(payload);
 }
 
 auto NRF24L01::LookupComPartnerAddress(types::PutDataPacketTarget target_id) noexcept -> types::data_pipe_address {
   return partner_drone_address_.at(static_cast<std::size_t>(target_id));
 }
 
-auto NRF24L01::HandleTelemetryPacket(types::com_frame &msg_frame) -> types::DriverStatus {
+auto NRF24L01::HandleAppDataPacket(types::com_frame &msg_frame) -> types::DriverStatus {
   auto ret_val = msg_buffer_->PutData(msg_frame);
   if (ret_val != ComBufferError::COM_BUFFER_OK) {
     return types::DriverStatus::INPUT_ERROR;
@@ -86,11 +86,14 @@ auto NRF24L01::HandleConfigPacket(types::com_frame &msg_frame) -> types::DriverS
   types::OtaConfigPacket config_packet;
   config_packet.Deserialize(msg_frame);
 
-  if (config_packet.GetConfigPacketId() == types::OtaConfigTypeId::CONFIGURE_ADDRESS) {
-    auto new_address_data = config_packet.DecodeAddressConfigPacket(config_packet.data);
+  if (config_packet.GetConfigTypeId() == types::OtaConfigTypeId::CONFIGURE_ADDRESS) {
+    auto new_address_data = config_packet.DecodeAddressConfigPacket();
+    if (new_address_data.first > types::PutDataPacketTarget::TARGET_INVALID && new_address_data.first < types::PutDataPacketTarget::TARGET_GROUND_CONTROL) {
+      UpdatePartnerAddress(new_address_data.first, new_address_data.second);
+    }
     if (new_address_data.first == types::PutDataPacketTarget::TARGET_SELF) {
       base_address_ = new_address_data.second;
-      UpdateAddress();
+      UpdateBaseAddress();
     }
   }
   return types::DriverStatus::OK;
@@ -100,8 +103,13 @@ auto NRF24L01::NRFInit() noexcept -> types::DriverStatus {
   return nrf_->InitTransceiver(20, com::DataRateSetting::RF_DR_2MBPS, com::RFPowerSetting::RF_PWR_0DBM, com::CRCEncodingScheme::CRC_16BIT, base_address_);
 }
 
-auto NRF24L01::UpdateAddress() noexcept -> types::DriverStatus {
+auto NRF24L01::UpdateBaseAddress() noexcept -> types::DriverStatus {
   ON_ERROR_RETURN(nrf_->SetPipeAddress(DataPipe::RX_PIPE_0, base_address_));
+  return types::DriverStatus::OK;
+}
+
+auto NRF24L01::UpdatePartnerAddress(types::PutDataPacketTarget target, types::data_pipe_address address) noexcept -> types::DriverStatus {
+  partner_drone_address_.at(static_cast<std::size_t>(target)) = address;
   return types::DriverStatus::OK;
 }
 

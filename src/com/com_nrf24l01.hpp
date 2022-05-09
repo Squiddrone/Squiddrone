@@ -5,17 +5,16 @@
 #include "com_nrf24l01_error_handler.hpp"
 #include "com_nrf24l01_reg.hpp"
 #include "com_nrf24l01_types.hpp"
+#include "ota_config.hpp"
 #ifndef UNIT_TEST
 #include "com_nrf24l01_core.hpp"
 #include "com_nrf24l01_spi_protocol.hpp"
-#include "ota_config.hpp"
 #include "utilities/byte.hpp"
 #include "utilities/sleep.hpp"
 #else
 #include "byte_mock.hpp"
 #include "com_nrf24l01_core_mock.hpp"
 #include "com_nrf24l01_spi_protocol_mock.hpp"
-#include "ota_config_mock.hpp"
 #include "sleep_mock.hpp"
 #endif
 
@@ -43,8 +42,6 @@ class NRF24L01 final : public ComInterface {
    * @return types::DriverStatus
    */
   auto NRFInit() noexcept -> types::DriverStatus;
-
-  auto UpdateAddress() noexcept -> types::DriverStatus;
 
   /**
    * @brief Construct a new NRF24L01 object and initialize the transceiver.
@@ -82,14 +79,16 @@ class NRF24L01 final : public ComInterface {
       {{0, 0, 0, 0, 0}},
       {{0, 0, 0, 0, 0}},
       {{0, 0, 0, 0, 0}},
-      {{0, 0, 0, 0, 0}},
-      {{0xe7, 0xe7, 0xe7, 0xe7, 0xe7}},
+      {{0xaa, 0xaa, 0xaa, 0xaa, 0xaa}},  /// Ground Control
+      {{0xe7, 0xe7, 0xe7, 0xe7, 0xe7}},  /// Fallback address
   }};
   types::data_pipe_address base_address_{{0xe7, 0xe7, 0xe7, 0xe7, 0xe7}};
 
   auto LookupComPartnerAddress(types::PutDataPacketTarget target_id) noexcept -> types::data_pipe_address;
-  auto HandleTelemetryPacket(types::com_frame &msg_frame) -> types::DriverStatus;
+  auto HandleAppDataPacket(types::com_frame &msg_frame) -> types::DriverStatus;
   auto HandleConfigPacket(types::com_frame &msg_frame) -> types::DriverStatus;
+  auto UpdateBaseAddress() noexcept -> types::DriverStatus;
+  auto UpdatePartnerAddress(types::PutDataPacketTarget target, types::data_pipe_address address) noexcept -> types::DriverStatus;
 };
 }  // namespace com
 

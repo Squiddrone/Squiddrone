@@ -128,18 +128,36 @@ TEST_F(ComNRF24L01Tests, handle_incoming_telemetry_packet_buffer_error) {
   unit_under_test->HandleRxIRQ();
 }
 
-TEST_F(ComNRF24L01Tests, handle_incoming_addr_config_packet) {
-  types::com_frame mock_payload = default_msg_frame_;
-  mock_payload.at(0) = static_cast<std::uint8_t>(types::ComDataPacketType::COM_CONFIG_PACKET);
-  mock_payload.at(2) = static_cast<std::uint8_t>(types::OtaConfigTypeId::CONFIGURE_ADDRESS);
-
+TEST_F(ComNRF24L01Tests, handle_incoming_addr_config_packet_partner_addr) {
   auto com_msg_buffer = std::make_unique<NiceMock<com::ComMessageBuffer>>();
 
   auto com_nrf_core = std::make_unique<NiceMock<com::NRF24L01Core>>();
   ON_CALL(*com_nrf_core, GetRxPayload(_))
       .WillByDefault(Invoke(
           [=](types::com_frame &frame) {
-            frame = mock_payload;
+            types::OtaConfigPacket mock_ota_packet;
+            mock_ota_packet.type = types::ComDataPacketType::COM_CONFIG_PACKET;
+            mock_ota_packet.EncodeAddressConfigPacket(types::PutDataPacketTarget::TARGET_FRONT, {0xaa, 0xaa, 0xaa, 0xaa, 0xaa});
+            frame = mock_ota_packet.Serialize();
+            return types::DriverStatus::OK;
+          }));
+
+  auto unit_under_test = std::make_unique<com::NRF24L01>(std::move(com_msg_buffer), std::move(com_nrf_core));
+
+  unit_under_test->HandleRxIRQ();
+}
+
+TEST_F(ComNRF24L01Tests, handle_incoming_addr_config_packet_base_addr) {
+  auto com_msg_buffer = std::make_unique<NiceMock<com::ComMessageBuffer>>();
+
+  auto com_nrf_core = std::make_unique<NiceMock<com::NRF24L01Core>>();
+  ON_CALL(*com_nrf_core, GetRxPayload(_))
+      .WillByDefault(Invoke(
+          [=](types::com_frame &frame) {
+            types::OtaConfigPacket mock_ota_packet;
+            mock_ota_packet.type = types::ComDataPacketType::COM_CONFIG_PACKET;
+            mock_ota_packet.EncodeAddressConfigPacket(types::PutDataPacketTarget::TARGET_SELF, {0xaa, 0xaa, 0xaa, 0xaa, 0xaa});
+            frame = mock_ota_packet.Serialize();
             return types::DriverStatus::OK;
           }));
   EXPECT_CALL(*com_nrf_core, SetPipeAddress(_, _)).WillOnce(Return(types::DriverStatus::OK));

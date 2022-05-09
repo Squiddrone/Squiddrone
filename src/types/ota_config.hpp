@@ -12,7 +12,7 @@ namespace types {
 using ota_config_data = std::vector<std::uint8_t>;
 
 /**
- * @brief Data structure is as follows:
+ * @brief Data structure for address configuration data is as follows:
  *  ________________________________________
  * | ID     | Address | PutDataPacketTarget |
  * |________|_________|_____________________|
@@ -21,9 +21,9 @@ using ota_config_data = std::vector<std::uint8_t>;
  */
 
 /// Position for config data id.
-static constexpr std::uint8_t START_CONFIG_DATA_ID = 0;
+static constexpr std::uint8_t START_OTA_ID = 0;
 /// Begin of address data.
-static constexpr std::uint8_t START_ADDR_CONFIG_DATA = 1;
+static constexpr std::uint8_t START_OTA_ADDR_DATA = 1;
 /// End of address data.
 static constexpr std::uint8_t END_ADDR_CONFIG_DATA = 6;
 /// Begin of address target information.
@@ -39,15 +39,37 @@ enum class OtaConfigTypeId : std::uint8_t {
  *
  */
 struct OtaConfigPacket : public ComDataPacket {
-  auto GetConfigPacketId() noexcept -> OtaConfigTypeId;
-  auto EncodeAddressConfigPacket(PutDataPacketTarget target, data_pipe_address address) noexcept -> ota_config_data;
-  auto DecodeAddressConfigPacket(ota_config_data config_data) noexcept -> std::pair<PutDataPacketTarget, data_pipe_address>;
+  auto GetConfigTypeId() noexcept -> OtaConfigTypeId {
+    return static_cast<OtaConfigTypeId>(data.at(START_OTA_ID));
+  }
 
-  explicit OtaConfigPacket(ota_config_data config_data) {
+  auto EncodeAddressConfigPacket(PutDataPacketTarget target, data_pipe_address address) noexcept -> void {
+    ota_config_data return_value(32, 0);
+    return_value.at(START_OTA_ID) = static_cast<std::uint8_t>(OtaConfigTypeId::CONFIGURE_ADDRESS);
+    return_value.at(START_ADDR_TARGET_CONFIG_DATA) = static_cast<std::uint8_t>(target);
+    std::copy(address.begin(), address.end(), return_value.begin() + START_OTA_ADDR_DATA);
+    data = return_value;
+  }
+
+  auto DecodeAddressConfigPacket() noexcept -> std::pair<PutDataPacketTarget, data_pipe_address> {
+    data_pipe_address return_address{0};
+    if (data.at(START_OTA_ID) != static_cast<std::uint8_t>(OtaConfigTypeId::CONFIGURE_ADDRESS)) {
+      return {PutDataPacketTarget::TARGET_INVALID, return_address};
+    }
+
+    std::copy(data.begin() + START_OTA_ADDR_DATA,
+              data.begin() + END_ADDR_CONFIG_DATA,
+              return_address.begin());
+
+    PutDataPacketTarget return_target = static_cast<types::PutDataPacketTarget>(data.at(START_ADDR_TARGET_CONFIG_DATA));
+
+    return {return_target, return_address};
+  }
+
+  OtaConfigPacket() : ComDataPacket() {
     type = types::ComDataPacketType::COM_CONFIG_PACKET;
   };
 
-  OtaConfigPacket() : ComDataPacket(){};
   ~OtaConfigPacket() = default;
 };
 
