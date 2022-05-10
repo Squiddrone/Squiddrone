@@ -40,4 +40,14 @@ TEST_F(OTAConfigTests, decode_ota_target_successful) {
 
   EXPECT_EQ(types::PutDataPacketTarget::TARGET_SELF, test_packet.DecodeAddressConfigPacket().first);
 }
+
+TEST_F(OTAConfigTests, decode_ota_target_not_successful) {
+  types::OtaConfigPacket test_packet;
+  test_packet.EncodeAddressConfigPacket(types::PutDataPacketTarget::TARGET_SELF, {0xaa, 0xaa, 0xaa, 0xaa, 0xaa});
+  test_packet.data.at(types::START_OTA_ID) = 1;
+
+  auto rv = test_packet.DecodeAddressConfigPacket();
+
+  EXPECT_EQ(rv.first, types::PutDataPacketTarget::TARGET_INVALID);
+}
 }  // namespace
