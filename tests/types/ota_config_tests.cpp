@@ -29,25 +29,25 @@ TEST_F(OTAConfigTests, ota_config_type_id_correct) {
 
 TEST_F(OTAConfigTests, encode_ota_target_successful) {
   types::OtaConfigPacket test_packet;
-  test_packet.EncodeAddressConfigPacket(types::PutDataPacketTarget::TARGET_SELF, {0xaa, 0xaa, 0xaa, 0xaa, 0xaa});
+  test_packet.EncodeAddressConfigPacket(types::ComPartnerId::SELF, {0xaa, 0xaa, 0xaa, 0xaa, 0xaa});
 
-  EXPECT_EQ(types::PutDataPacketTarget::TARGET_SELF, static_cast<types::PutDataPacketTarget>(test_packet.data.at(types::START_ADDR_TARGET_CONFIG_DATA)));
+  EXPECT_EQ(types::ComPartnerId::SELF, static_cast<types::ComPartnerId>(test_packet.data.at(types::ota_addr_config::PARTNER_ID_START)));
 }
 
 TEST_F(OTAConfigTests, decode_ota_target_successful) {
   types::OtaConfigPacket test_packet;
-  test_packet.EncodeAddressConfigPacket(types::PutDataPacketTarget::TARGET_SELF, {0xaa, 0xaa, 0xaa, 0xaa, 0xaa});
+  test_packet.EncodeAddressConfigPacket(types::ComPartnerId::SELF, {0xaa, 0xaa, 0xaa, 0xaa, 0xaa});
 
-  EXPECT_EQ(types::PutDataPacketTarget::TARGET_SELF, test_packet.DecodeAddressConfigPacket().first);
+  EXPECT_EQ(types::ComPartnerId::SELF, test_packet.DecodeAddressConfigPacket().first);
 }
 
 TEST_F(OTAConfigTests, decode_ota_target_not_successful) {
   types::OtaConfigPacket test_packet;
-  test_packet.EncodeAddressConfigPacket(types::PutDataPacketTarget::TARGET_SELF, {0xaa, 0xaa, 0xaa, 0xaa, 0xaa});
-  test_packet.data.at(types::START_OTA_ID) = 1;
+  test_packet.EncodeAddressConfigPacket(types::ComPartnerId::SELF, {0xaa, 0xaa, 0xaa, 0xaa, 0xaa});
+  test_packet.data.at(types::OTA_ID_START) = 1;
 
   auto rv = test_packet.DecodeAddressConfigPacket();
 
-  EXPECT_EQ(rv.first, types::PutDataPacketTarget::TARGET_INVALID);
+  EXPECT_EQ(rv.first, types::ComPartnerId::INVALID);
 }
 }  // namespace

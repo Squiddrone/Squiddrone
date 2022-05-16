@@ -11,28 +11,35 @@ namespace types {
 
 using ota_config_data = std::vector<std::uint8_t>;
 
-/**
- * @brief Data structure for address configuration data is as follows:
- *  ________________________________________
- * | ID     | Address | PutDataPacketTarget |
- * |________|_________|_____________________|
- * | 1 byte | 5 bytes | 1 byte              |
- * |________|_________|_____________________|
- */
-
 /// Position for config data id.
-static constexpr std::uint8_t START_OTA_ID = 0;
-/// Begin of address data.
-static constexpr std::uint8_t START_OTA_ADDR_DATA = 1;
-/// End of address data.
-static constexpr std::uint8_t END_ADDR_CONFIG_DATA = 6;
-/// Begin of address target information.
-static constexpr std::uint8_t START_ADDR_TARGET_CONFIG_DATA = 7;
+static constexpr std::uint8_t OTA_ID_START = 0;
+/// Maximum length for ota data segment
+static constexpr std::uint8_t OTA_DATA_MAX_LEN = 30;
 
 /// ID for address configuration data.
 enum class OtaConfigTypeId : std::uint8_t {
   CONFIGURE_ADDRESS
 };
+
+namespace ota_addr_config {
+
+/**
+ * @brief Data structure for address configuration data is as follows:
+ *  ________________________________________
+ * | ID     | Address | ComPartnerId        |
+ * |________|_________|_____________________|
+ * | 1 byte | 5 bytes | 1 byte              |
+ * |________|_________|_____________________|
+ */
+
+/// Begin of address data.
+static constexpr std::uint8_t ADDR_DATA_START = 1;
+/// End of address data.
+static constexpr std::uint8_t ADDR_DATA_END = 6;
+/// Begin of address target information.
+static constexpr std::uint8_t PARTNER_ID_START = 7;
+
+}  // namespace ota_addr_config
 
 /**
  * @brief Data packet for over the air configuration.
@@ -40,28 +47,28 @@ enum class OtaConfigTypeId : std::uint8_t {
  */
 struct OtaConfigPacket : public ComDataPacket {
   auto GetConfigTypeId() noexcept -> OtaConfigTypeId {
-    return static_cast<OtaConfigTypeId>(data.at(START_OTA_ID));
+    return static_cast<OtaConfigTypeId>(data.at(OTA_ID_START));
   }
 
-  auto EncodeAddressConfigPacket(PutDataPacketTarget target, data_pipe_address address) noexcept -> void {
-    ota_config_data return_value(32, 0);
-    return_value.at(START_OTA_ID) = static_cast<std::uint8_t>(OtaConfigTypeId::CONFIGURE_ADDRESS);
-    return_value.at(START_ADDR_TARGET_CONFIG_DATA) = static_cast<std::uint8_t>(target);
-    std::copy(address.begin(), address.end(), return_value.begin() + START_OTA_ADDR_DATA);
+  inline auto EncodeAddressConfigPacket(ComPartnerId target, data_pipe_address address) noexcept -> void {
+    ota_config_data return_value(OTA_DATA_MAX_LEN);
+    return_value.at(OTA_ID_START) = static_cast<std::uint8_t>(OtaConfigTypeId::CONFIGURE_ADDRESS);
+    return_value.at(ota_addr_config::PARTNER_ID_START) = static_cast<std::uint8_t>(target);
+    std::copy(address.begin(), address.end(), return_value.begin() + ota_addr_config::ADDR_DATA_START);
     data = return_value;
   }
 
-  auto DecodeAddressConfigPacket() noexcept -> std::pair<PutDataPacketTarget, data_pipe_address> {
+  inline auto DecodeAddressConfigPacket() noexcept -> std::pair<ComPartnerId, data_pipe_address> {
     data_pipe_address return_address{0};
-    if (data.at(START_OTA_ID) != static_cast<std::uint8_t>(OtaConfigTypeId::CONFIGURE_ADDRESS)) {
-      return {PutDataPacketTarget::TARGET_INVALID, return_address};
+    if (data.at(OTA_ID_START) != static_cast<std::uint8_t>(OtaConfigTypeId::CONFIGURE_ADDRESS)) {
+      return {ComPartnerId::INVALID, return_address};
     }
 
-    std::copy(data.begin() + START_OTA_ADDR_DATA,
-              data.begin() + END_ADDR_CONFIG_DATA,
+    std::copy(data.begin() + ota_addr_config::ADDR_DATA_START,
+              data.begin() + ota_addr_config::ADDR_DATA_END,
               return_address.begin());
 
-    PutDataPacketTarget return_target = static_cast<types::PutDataPacketTarget>(data.at(START_ADDR_TARGET_CONFIG_DATA));
+    ComPartnerId return_target = static_cast<types::ComPartnerId>(data.at(ota_addr_config::PARTNER_ID_START));
 
     return {return_target, return_address};
   }

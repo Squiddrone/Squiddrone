@@ -27,7 +27,7 @@ namespace com {
 class NRF24L01 final : public ComInterface {
  public:
   auto GetDataPacket() const noexcept -> types::ComDataPacket override;
-  auto PutDataPacket(types::PutDataPacketTarget target_id, types::ComDataPacket &packet) noexcept
+  auto PutDataPacket(types::ComPartnerId partner_id, types::ComDataPacket &packet) noexcept
       -> types::DriverStatus override;
   /**
    * @brief IRQ handler function is called by HAL layer, when an incoming data frame triggers
@@ -68,9 +68,10 @@ class NRF24L01 final : public ComInterface {
  private:
   std::unique_ptr<NRF24L01Core> nrf_;
   /**
-   * @brief This array holds addresses of all valid put data targets.
+   * @brief This array holds addresses of all valid put data targets. Length of 8 because of
+   * configurable addresses for 6 potential partners + 2 fixed addresses.
    * Beware: The last line may never change! This is the default address of any NRF as fallback.
-   * See also types::PutDataPacketTarget.
+   * See also types::ComPartnerId.
    */
   std::array<types::data_pipe_address, 8> partner_drone_address_{{
       {{0, 0, 0, 0, 0}},
@@ -84,11 +85,11 @@ class NRF24L01 final : public ComInterface {
   }};
   types::data_pipe_address base_address_{{0xe7, 0xe7, 0xe7, 0xe7, 0xe7}};
 
-  auto LookupComPartnerAddress(types::PutDataPacketTarget target_id) noexcept -> types::data_pipe_address;
+  auto LookupComPartnerAddress(types::ComPartnerId partner_id) noexcept -> types::data_pipe_address;
   auto HandleAppDataPacket(types::com_frame &msg_frame) -> types::DriverStatus;
   auto HandleConfigPacket(types::com_frame &msg_frame) -> types::DriverStatus;
   auto UpdateBaseAddress() noexcept -> types::DriverStatus;
-  auto UpdatePartnerAddress(types::PutDataPacketTarget target, types::data_pipe_address address) noexcept -> types::DriverStatus;
+  auto UpdatePartnerAddress(types::ComPartnerId partner_id, types::data_pipe_address address) noexcept -> types::DriverStatus;
 };
 }  // namespace com
 

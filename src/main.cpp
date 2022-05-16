@@ -66,7 +66,7 @@ int main() {
 
   tx_packet.data = tx_data;
   tx_packet.type = types::ComDataPacketType::TELEMETRY_PACKET;
-  tx_packet.target = types::PutDataPacketTarget::TARGET_FALLBACK;
+  tx_packet.target = types::ComPartnerId::FALLBACK;
 
   if (com_nrf->NRFInit() != types::DriverStatus::OK) {
     utilities::UartPrint("Init error...");
@@ -75,7 +75,7 @@ int main() {
   utilities::UartPrint("Ready...");
 
   while (1) {
-    auto rv = com_nrf->PutDataPacket(types::PutDataPacketTarget::TARGET_FALLBACK, tx_packet);
+    auto rv = com_nrf->PutDataPacket(types::ComPartnerId::FALLBACK, tx_packet);
 
     if (rv != types::DriverStatus::OK) {
       utilities::UartPrint("Tx error...");

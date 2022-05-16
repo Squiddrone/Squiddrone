@@ -49,12 +49,12 @@ class ComInterface {
   /**
    * @brief Transmit dataframe of max length 32 byte via the drones' wifi interface.
    *
-   * @param target_id target_id The id of the receiver. See also types::PutDataPacketTarget.
+   * @param partner_id partner_id The id of the receiver. See also types::ComPartnerId.
    * @param packet A data packet of type types::ComDataPacket
    * @return types::DriverStatus COM_OK in case of successful transmission, error code in case something
    * went wrong.
    */
-  virtual auto PutDataPacket(types::PutDataPacketTarget target_id, types::ComDataPacket &packet) noexcept
+  virtual auto PutDataPacket(types::ComPartnerId partner_id, types::ComDataPacket &packet) noexcept
       -> types::DriverStatus = 0;
 
  protected:

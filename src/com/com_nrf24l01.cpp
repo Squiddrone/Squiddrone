@@ -2,20 +2,20 @@
 
 namespace com {
 
-auto NRF24L01::PutDataPacket(types::PutDataPacketTarget target_id, types::ComDataPacket &packet) noexcept -> types::DriverStatus {
+auto NRF24L01::PutDataPacket(types::ComPartnerId partner_id, types::ComDataPacket &packet) noexcept -> types::DriverStatus {
   auto return_value = types::DriverStatus::HAL_ERROR;
 
   if (packet.data.size() > types::COM_MAX_DATA_FIELD_LENGTH) {
     return types::DriverStatus::INPUT_ERROR;
   }
-  if (packet.target != target_id) {
+  if (packet.target != partner_id) {
     return types::DriverStatus::INPUT_ERROR;
   }
-  if (target_id > types::PutDataPacketTarget::TARGET_FALLBACK or target_id < types::PutDataPacketTarget::TARGET_FRONT) {
+  if (partner_id > types::ComPartnerId::FALLBACK or partner_id < types::ComPartnerId::PARTNER_ID_0) {
     return types::DriverStatus::INPUT_ERROR;
   }
 
-  auto target_address = LookupComPartnerAddress(target_id);
+  auto target_address = LookupComPartnerAddress(partner_id);
 
   ON_ERROR_RETURN(nrf_->InitTx(target_address));
 
@@ -70,8 +70,8 @@ auto NRF24L01::HandleRxIRQ() noexcept -> void {
   HandleAppDataPacket(payload);
 }
 
-auto NRF24L01::LookupComPartnerAddress(types::PutDataPacketTarget target_id) noexcept -> types::data_pipe_address {
-  return partner_drone_address_.at(static_cast<std::size_t>(target_id));
+auto NRF24L01::LookupComPartnerAddress(types::ComPartnerId partner_id) noexcept -> types::data_pipe_address {
+  return partner_drone_address_.at(static_cast<std::size_t>(partner_id));
 }
 
 auto NRF24L01::HandleAppDataPacket(types::com_frame &msg_frame) -> types::DriverStatus {
@@ -87,11 +87,11 @@ auto NRF24L01::HandleConfigPacket(types::com_frame &msg_frame) -> types::DriverS
   config_packet.Deserialize(msg_frame);
 
   if (config_packet.GetConfigTypeId() == types::OtaConfigTypeId::CONFIGURE_ADDRESS) {
-    auto new_address_data = config_packet.DecodeAddressConfigPacket();
-    if (new_address_data.first > types::PutDataPacketTarget::TARGET_INVALID && new_address_data.first < types::PutDataPacketTarget::TARGET_GROUND_CONTROL) {
+    const auto new_address_data = config_packet.DecodeAddressConfigPacket();
+    if (new_address_data.first > types::ComPartnerId::INVALID && new_address_data.first < types::ComPartnerId::GROUND_CONTROL) {
       UpdatePartnerAddress(new_address_data.first, new_address_data.second);
     }
-    if (new_address_data.first == types::PutDataPacketTarget::TARGET_SELF) {
+    if (new_address_data.first == types::ComPartnerId::SELF) {
       base_address_ = new_address_data.second;
       UpdateBaseAddress();
     }
@@ -108,7 +108,7 @@ auto NRF24L01::UpdateBaseAddress() noexcept -> types::DriverStatus {
   return types::DriverStatus::OK;
 }
 
-auto NRF24L01::UpdatePartnerAddress(types::PutDataPacketTarget target, types::data_pipe_address address) noexcept -> types::DriverStatus {
+auto NRF24L01::UpdatePartnerAddress(types::ComPartnerId target, types::data_pipe_address address) noexcept -> types::DriverStatus {
   partner_drone_address_.at(static_cast<std::size_t>(target)) = address;
   return types::DriverStatus::OK;
 }

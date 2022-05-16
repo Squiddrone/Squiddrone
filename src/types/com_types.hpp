@@ -19,17 +19,17 @@ using com_frame = std::vector<std::uint8_t>;
 using data_pipe_address = std::array<std::uint8_t, 5>;
 
 /// Target directions during formation flight
-enum class PutDataPacketTarget : std::int8_t {
-  TARGET_INVALID = -1,
-  TARGET_FRONT = 0,
-  TARGET_BACK,
-  TARGET_LEFT,
-  TARGET_RIGHT,
-  TARGET_ABOVE,
-  TARGET_BELOW,
-  TARGET_GROUND_CONTROL,
-  TARGET_FALLBACK,
-  TARGET_SELF,
+enum class ComPartnerId : std::int8_t {
+  INVALID = -1,
+  PARTNER_ID_0 = 0,
+  PARTNER_ID_1,
+  PARTNER_ID_2,
+  PARTNER_ID_3,
+  PARTNER_ID_4,
+  PARTNER_ID_5,
+  GROUND_CONTROL,
+  FALLBACK,
+  SELF,
 };
 
 /// Packet types
@@ -53,7 +53,7 @@ static constexpr std::uint8_t OFFSET_DATA = 2U;
 /// Data packet definition. Also defines Serializer and Deserializer.
 struct ComDataPacket {
   ComDataPacketType type;
-  types::PutDataPacketTarget target;
+  types::ComPartnerId target;
   std::vector<std::uint8_t> data;
 
   /**
@@ -78,7 +78,7 @@ struct ComDataPacket {
    */
   void Deserialize(com_frame msg_frame) {
     type = static_cast<ComDataPacketType>(msg_frame.at(OFFSET_TYPE));
-    target = static_cast<types::PutDataPacketTarget>(msg_frame.at(OFFSET_TARGET));
+    target = static_cast<types::ComPartnerId>(msg_frame.at(OFFSET_TARGET));
     data.insert(data.begin(), msg_frame.begin() + OFFSET_DATA, msg_frame.end());
   }
 };

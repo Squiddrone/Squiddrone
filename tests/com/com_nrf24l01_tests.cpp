@@ -41,7 +41,7 @@ TEST_F(ComNRF24L01Tests, frame_length_exceeding_limit) {
   std::vector<std::uint8_t> long_data_field(31);
   types::ComDataPacket mock_packet;
   mock_packet.data = long_data_field;
-  auto return_value = unit_under_test->PutDataPacket(types::PutDataPacketTarget::TARGET_FRONT, mock_packet);
+  auto return_value = unit_under_test->PutDataPacket(types::ComPartnerId::PARTNER_ID_0, mock_packet);
   ASSERT_EQ(return_value, types::DriverStatus::INPUT_ERROR);
 }
 
@@ -56,7 +56,7 @@ TEST_F(ComNRF24L01Tests, put_data_packet_successful) {
 
   auto unit_under_test = std::make_unique<com::NRF24L01>(std::move(com_msg_buffer), std::move(com_nrf_core));
 
-  auto return_value = unit_under_test->PutDataPacket(types::PutDataPacketTarget::TARGET_FRONT, default_data_packet_);
+  auto return_value = unit_under_test->PutDataPacket(types::ComPartnerId::PARTNER_ID_0, default_data_packet_);
   ASSERT_EQ(return_value, types::DriverStatus::OK);
 }
 
@@ -71,7 +71,7 @@ TEST_F(ComNRF24L01Tests, put_data_packet_failed_tx_timeout) {
 
   auto unit_under_test = std::make_unique<com::NRF24L01>(std::move(com_msg_buffer), std::move(com_nrf_core));
 
-  auto return_value = unit_under_test->PutDataPacket(types::PutDataPacketTarget::TARGET_FRONT, default_data_packet_);
+  auto return_value = unit_under_test->PutDataPacket(types::ComPartnerId::PARTNER_ID_0, default_data_packet_);
   ASSERT_EQ(return_value, types::DriverStatus::TIMEOUT);
 }
 
@@ -80,9 +80,9 @@ TEST_F(ComNRF24L01Tests, put_data_packet_failed_inconsistent_target) {
   auto com_nrf_core = std::make_unique<NiceMock<com::NRF24L01Core>>();
   types::ComDataPacket mock_packet{
       .type = types::ComDataPacketType::TELEMETRY_PACKET,
-      .target = types::PutDataPacketTarget::TARGET_FRONT};
+      .target = types::ComPartnerId::PARTNER_ID_0};
   auto unit_under_test = std::make_unique<com::NRF24L01>(std::move(com_msg_buffer), std::move(com_nrf_core));
-  auto return_value = unit_under_test->PutDataPacket(types::PutDataPacketTarget::TARGET_BACK, mock_packet);
+  auto return_value = unit_under_test->PutDataPacket(types::ComPartnerId::PARTNER_ID_1, mock_packet);
   ASSERT_EQ(return_value, types::DriverStatus::INPUT_ERROR);
 }
 
@@ -91,9 +91,9 @@ TEST_F(ComNRF24L01Tests, put_data_packet_failed_invalid_target) {
   auto com_nrf_core = std::make_unique<NiceMock<com::NRF24L01Core>>();
   types::ComDataPacket mock_packet{
       .type = types::ComDataPacketType::TELEMETRY_PACKET,
-      .target = types::PutDataPacketTarget::TARGET_SELF};
+      .target = types::ComPartnerId::SELF};
   auto unit_under_test = std::make_unique<com::NRF24L01>(std::move(com_msg_buffer), std::move(com_nrf_core));
-  auto return_value = unit_under_test->PutDataPacket(types::PutDataPacketTarget::TARGET_SELF, mock_packet);
+  auto return_value = unit_under_test->PutDataPacket(types::ComPartnerId::SELF, mock_packet);
   ASSERT_EQ(return_value, types::DriverStatus::INPUT_ERROR);
 }
 
@@ -137,7 +137,7 @@ TEST_F(ComNRF24L01Tests, handle_incoming_addr_config_packet_partner_addr) {
           [=](types::com_frame &frame) {
             types::OtaConfigPacket mock_ota_packet;
             mock_ota_packet.type = types::ComDataPacketType::COM_CONFIG_PACKET;
-            mock_ota_packet.EncodeAddressConfigPacket(types::PutDataPacketTarget::TARGET_FRONT, {0xaa, 0xaa, 0xaa, 0xaa, 0xaa});
+            mock_ota_packet.EncodeAddressConfigPacket(types::ComPartnerId::PARTNER_ID_0, {0xaa, 0xaa, 0xaa, 0xaa, 0xaa});
             frame = mock_ota_packet.Serialize();
             return types::DriverStatus::OK;
           }));
@@ -156,7 +156,7 @@ TEST_F(ComNRF24L01Tests, handle_incoming_addr_config_packet_base_addr) {
           [=](types::com_frame &frame) {
             types::OtaConfigPacket mock_ota_packet;
             mock_ota_packet.type = types::ComDataPacketType::COM_CONFIG_PACKET;
-            mock_ota_packet.EncodeAddressConfigPacket(types::PutDataPacketTarget::TARGET_SELF, {0xaa, 0xaa, 0xaa, 0xaa, 0xaa});
+            mock_ota_packet.EncodeAddressConfigPacket(types::ComPartnerId::SELF, {0xaa, 0xaa, 0xaa, 0xaa, 0xaa});
             frame = mock_ota_packet.Serialize();
             return types::DriverStatus::OK;
           }));
