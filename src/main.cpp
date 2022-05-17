@@ -66,7 +66,7 @@ int main() {
 
   tx_packet.data = tx_data;
   tx_packet.type = types::ComDataPacketType::TELEMETRY_PACKET;
-  tx_packet.target = types::ComPartnerId::FALLBACK;
+  tx_packet.partner_id = types::ComPartnerId::FALLBACK;
 
   if (com_nrf->NRFInit() != types::DriverStatus::OK) {
     utilities::UartPrint("Init error...");
@@ -78,17 +78,18 @@ int main() {
     auto rv = com_nrf->PutDataPacket(types::ComPartnerId::FALLBACK, tx_packet);
 
     if (rv != types::DriverStatus::OK) {
-      utilities::UartPrint("Tx error...");
+      std::string err_str(std::to_string(static_cast<uint8_t>(rv)));
+      utilities::UartPrint("Tx error " + err_str);
     }
 
-    utilities::Sleep(2000);
+    utilities::Sleep(1000);
     {
       auto rx_packet = com_nrf->GetDataPacket();
 
       if (rx_packet.data.size() > 0) {
         std::string type_string(std::to_string(static_cast<std::uint8_t>(rx_packet.type)));
         utilities::UartPrint("type: " + type_string);
-        std::string target_string(std::to_string(static_cast<std::uint8_t>(rx_packet.target)));
+        std::string target_string(std::to_string(static_cast<std::uint8_t>(rx_packet.partner_id)));
         utilities::UartPrint("target: " + type_string);
         std::string data_string(rx_packet.data.begin(), rx_packet.data.end());
         utilities::UartPrint("data: " + data_string);

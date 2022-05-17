@@ -8,7 +8,7 @@ auto NRF24L01::PutDataPacket(types::ComPartnerId partner_id, types::ComDataPacke
   if (packet.data.size() > types::COM_MAX_DATA_FIELD_LENGTH) {
     return types::DriverStatus::INPUT_ERROR;
   }
-  if (packet.target != partner_id) {
+  if (packet.partner_id != partner_id) {
     return types::DriverStatus::INPUT_ERROR;
   }
   if (partner_id > types::ComPartnerId::FALLBACK or partner_id < types::ComPartnerId::PARTNER_ID_0) {

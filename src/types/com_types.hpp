@@ -53,7 +53,7 @@ static constexpr std::uint8_t OFFSET_DATA = 2U;
 /// Data packet definition. Also defines Serializer and Deserializer.
 struct ComDataPacket {
   ComDataPacketType type;
-  types::ComPartnerId target;
+  types::ComPartnerId partner_id;
   std::vector<std::uint8_t> data;
 
   /**
@@ -65,7 +65,7 @@ struct ComDataPacket {
     std::vector<std::uint8_t> serialized_data;
 
     serialized_data.push_back(static_cast<std::uint8_t>(type));
-    serialized_data.push_back(static_cast<std::uint8_t>(target));
+    serialized_data.push_back(static_cast<std::uint8_t>(partner_id));
     serialized_data.insert(serialized_data.end(), data.begin(), data.end());
 
     return serialized_data;
@@ -78,7 +78,7 @@ struct ComDataPacket {
    */
   void Deserialize(com_frame msg_frame) {
     type = static_cast<ComDataPacketType>(msg_frame.at(OFFSET_TYPE));
-    target = static_cast<types::ComPartnerId>(msg_frame.at(OFFSET_TARGET));
+    partner_id = static_cast<types::ComPartnerId>(msg_frame.at(OFFSET_TARGET));
     data.insert(data.begin(), msg_frame.begin() + OFFSET_DATA, msg_frame.end());
   }
 };
