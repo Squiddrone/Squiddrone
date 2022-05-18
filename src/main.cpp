@@ -26,7 +26,7 @@
 #include "uart_print.hpp"
 
 #define SYSTEM_TEST_IMU false
-#define SYSTEM_TEST_COM true
+#define SYSTEM_TEST_COM false
 
 auto FormatEuclidVectorForPrintOut(const std::string &Sensor, types::EuclideanVector<std::int16_t> Vector) -> std::string;
 
@@ -90,7 +90,7 @@ int main() {
         std::string type_string(std::to_string(static_cast<std::uint8_t>(rx_packet.type)));
         utilities::UartPrint("type: " + type_string);
         std::string target_string(std::to_string(static_cast<std::uint8_t>(rx_packet.partner_id)));
-        utilities::UartPrint("target: " + type_string);
+        utilities::UartPrint("partner: " + target_string);
         std::string data_string(rx_packet.data.begin(), rx_packet.data.end());
         utilities::UartPrint("data: " + data_string);
       }
