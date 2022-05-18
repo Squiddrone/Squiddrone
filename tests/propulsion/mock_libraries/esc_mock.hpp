@@ -12,7 +12,7 @@ class MockEsc : public propulsion::Esc {
   MockEsc(TIM_HandleTypeDef* timer, std::uint32_t channel) : Esc(nullptr, 0) {}
   MOCK_METHOD(const int, GetMaxPulseDurationInMicroSeconds, (), (const, noexcept, override));
   MOCK_METHOD(const int, GetMinPulseDurationInMicroSeconds, (), (const, noexcept, override));
-  MOCK_METHOD(const types::DriverStatus, SetPulseDuration, (int pulse_duration, int repetition_period), (noexcept, override));
+  MOCK_METHOD(const types::DriverStatus, SetPulseDuration, (const float pulse_duration, int repetition_period), (noexcept, override));
 };
 
 #endif

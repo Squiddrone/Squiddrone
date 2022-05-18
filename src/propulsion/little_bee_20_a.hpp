@@ -63,11 +63,11 @@ class LittleBee20A final : public Esc {
    *         types::DriverStatus::HAL_ERROR if timer config didn't work
    * 
    */
-  auto SetPulseDuration(int pulse_duration, int repetition_period) noexcept -> const types::DriverStatus override;
+  auto SetPulseDuration(const float pulse_duration, int repetition_period) noexcept -> const types::DriverStatus override;
 
  private:
-  static constexpr auto ONESHOT_125_MAX_PULSE_DURATION_IN_US_ = 250;
-  static constexpr auto ONESHOT_125_MIN_PULSE_DURATION_IN_US_ = 125;
+  static constexpr auto ONESHOT_125_MAX_PULSE_DURATION_IN_US_ = 250.0;
+  static constexpr auto ONESHOT_125_MIN_PULSE_DURATION_IN_US_ = 125.0;
   static constexpr auto MAX_REPETITION_PERIOD_ = 20000;
   static constexpr auto TARGET_TIMER_CLOCK_RATE_ = 10000000;
   static constexpr auto MICROSECONDS_PER_SECOND_ = 1000000;

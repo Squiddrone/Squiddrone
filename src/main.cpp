@@ -19,6 +19,8 @@
 #include "i2c_config.h"
 #include "inertial_measurement.hpp"
 #include "mcu_settings.h"
+#include "motor_builder.hpp"
+#include "motor_driver.hpp"
 #include "serial_config.h"
 #include "sleep.hpp"
 #include "spi_config.h"
@@ -26,6 +28,7 @@
 #include "uart_print.hpp"
 
 #define SYSTEM_TEST_IMU false
+#define SYSTEM_TEST_PROPULSION false
 #define SYSTEM_TEST_COM false
 
 auto FormatEuclidVectorForPrintOut(const std::string &Sensor, types::EuclideanVector<std::int16_t> Vector) -> std::string;
@@ -49,6 +52,47 @@ int main() {
   MX_TIM16_Init();
   MX_TIM17_Init();
 
+#if (SYSTEM_TEST_PROPULSION == true)
+  std::unique_ptr<propulsion::AbstractMotorBuilder> builder = std::make_unique<propulsion::MotorBuilder>();
+  propulsion::MotorDriver driver(std::move(builder));
+  driver.ArmEscs();
+  utilities::Sleep(3000);
+
+  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_FRONT, 10);
+  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_FRONT, 10);
+  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_REAR, 10);
+  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_REAR, 10);
+
+  utilities::Sleep(3000);
+  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_FRONT, 3.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_FRONT, 3.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_REAR, 3.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_REAR, 3.0);
+
+  utilities::Sleep(5000);
+  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_FRONT, 10.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_FRONT, 10.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_REAR, 10.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_REAR, 10.0);
+
+  utilities::Sleep(5000);
+  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_FRONT, 8.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_FRONT, 8.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_REAR, 8.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_REAR, 8.0);
+
+  utilities::Sleep(5000);
+  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_FRONT, 3.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_FRONT, 3.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_REAR, 3.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_REAR, 3.0);
+
+  utilities::Sleep(5000);
+  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_FRONT, 0.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_FRONT, 0.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_REAR, 0.0);
+  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_REAR, 0.0);
+#endif
 #if (SYSTEM_TEST_COM == true)
 
   auto com_cs_pin = spi::CSPin(CSCOM_GPIO_Port, CSCOM_Pin, spi::CSActiveState::ACTIVE_LOW);
@@ -128,9 +172,10 @@ int main() {
   }
 #endif
 
-#if (SYSTEM_TEST_COM == false && SYSTEM_TEST_IMU == false)
+#if (SYSTEM_TEST_COM == false && SYSTEM_TEST_IMU == false && SYSTEM_TEST_PROPULSION == false)
   while (1) {
   }
+
 #endif
 
   return 0;

@@ -13,14 +13,14 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
 
       - name: Build
         run: ./build.sh
 
       - name: Upload Artifact
         if: success()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: SquidDrone.bin
           path: ${{ github.workspace }}/build/SquidDrone.bin
@@ -32,7 +32,7 @@ jobs:
 
       - name: Deploy
         if: success() && github.ref == 'refs/heads/master'
-        uses: JamesIves/github-pages-deploy-action@4.2.0
+        uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
           branch: gh-pages
           folder: ./build/doc_doxygen/html
@@ -48,7 +48,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
 
       - name: Run Styleguide Checks
         run: ./check_styleguide.sh -r
@@ -63,4 +63,4 @@ jobs:
         run: ./generate_coverage.sh
 
       - name: Upload to CodeCov
-        uses: codecov/codecov-action@v2.1.0
+        uses: codecov/codecov-action@v3.1.0
