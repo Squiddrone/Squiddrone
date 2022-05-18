@@ -30,7 +30,7 @@ TEST_F(ComNRF24L01Tests, get_data_packet_successful) {
   auto unit_under_test = std::make_unique<com::NRF24L01>(std::move(com_msg_buffer), std::move(com_nrf_core));
   auto return_value = unit_under_test->GetDataPacket();
   ASSERT_EQ(return_value.data, default_data_packet_.data);
-  ASSERT_EQ(return_value.target, default_data_packet_.target);
+  ASSERT_EQ(return_value.partner_id, default_data_packet_.partner_id);
   ASSERT_EQ(return_value.type, default_data_packet_.type);
 }
 
@@ -78,10 +78,12 @@ TEST_F(ComNRF24L01Tests, put_data_packet_failed_tx_timeout) {
 TEST_F(ComNRF24L01Tests, put_data_packet_failed_inconsistent_target) {
   auto com_msg_buffer = std::make_unique<NiceMock<com::ComMessageBuffer>>();
   auto com_nrf_core = std::make_unique<NiceMock<com::NRF24L01Core>>();
-  types::ComDataPacket mock_packet{
-      .type = types::ComDataPacketType::TELEMETRY_PACKET,
-      .target = types::ComPartnerId::PARTNER_ID_0};
+  types::ComDataPacket mock_packet;
+  mock_packet.type = types::ComDataPacketType::TELEMETRY_PACKET;
+  mock_packet.partner_id = types::ComPartnerId::PARTNER_ID_0;
+
   auto unit_under_test = std::make_unique<com::NRF24L01>(std::move(com_msg_buffer), std::move(com_nrf_core));
+
   auto return_value = unit_under_test->PutDataPacket(types::ComPartnerId::PARTNER_ID_1, mock_packet);
   ASSERT_EQ(return_value, types::DriverStatus::INPUT_ERROR);
 }
@@ -89,10 +91,12 @@ TEST_F(ComNRF24L01Tests, put_data_packet_failed_inconsistent_target) {
 TEST_F(ComNRF24L01Tests, put_data_packet_failed_invalid_target) {
   auto com_msg_buffer = std::make_unique<NiceMock<com::ComMessageBuffer>>();
   auto com_nrf_core = std::make_unique<NiceMock<com::NRF24L01Core>>();
-  types::ComDataPacket mock_packet{
-      .type = types::ComDataPacketType::TELEMETRY_PACKET,
-      .target = types::ComPartnerId::SELF};
+  types::ComDataPacket mock_packet;
+  mock_packet.type = types::ComDataPacketType::TELEMETRY_PACKET;
+  mock_packet.partner_id = types::ComPartnerId::SELF;
+
   auto unit_under_test = std::make_unique<com::NRF24L01>(std::move(com_msg_buffer), std::move(com_nrf_core));
+
   auto return_value = unit_under_test->PutDataPacket(types::ComPartnerId::SELF, mock_packet);
   ASSERT_EQ(return_value, types::DriverStatus::INPUT_ERROR);
 }
