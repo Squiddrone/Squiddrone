@@ -12,14 +12,14 @@
 namespace com {
 
 /**
- * @brief Driver for the NRF24L01 transceiver. 
- * 
+ * @brief Driver for the NRF24L01 transceiver.
+ *
  */
 
 class NRF24L01 {
  public:
-  MOCK_METHOD((types::com_msg_frame), GetDataPacket, (), (const noexcept));
-  MOCK_METHOD((types::DriverStatus), PutDataPacket, (std::uint8_t, types::com_msg_frame &), (noexcept));
+  MOCK_METHOD((types::com_frame), GetDataPacket, (), (const noexcept));
+  MOCK_METHOD((types::DriverStatus), PutDataPacket, (std::uint8_t, types::com_frame &), (noexcept));
   // Necessary to use a fake, because of a leakage problem.
   auto HandleRxIRQ() noexcept -> void;
 

@@ -103,13 +103,14 @@ int main() {
   auto com_nrf = std::make_shared<com::NRF24L01>(std::move(com_buffer), std::move(com_nrf_core));
   com::ComInterruptHandler::SetComDriver(com_nrf);
 
-  // Frame must always be 32 bytes long. Padd if necessary.
-  types::com_msg_frame tx_data{'t', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', '_', 'e', 'n', 'd'};
+  // Data field must always be 30 bytes long. Padd if necessary.
+  types::com_frame tx_data{'b', 'e', 'g', 'i', 'n', '_', '_', '_', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', '_', '_', 'e', 'n', 'd', '\0'};
+
   types::ComDataPacket tx_packet;
 
   tx_packet.data = tx_data;
-  tx_packet.type = types::ComPacketType::TELEMETRY_PACKET;
-  tx_packet.target = types::PutDataTarget::TARGET_FALLBACK;
+  tx_packet.type = types::ComDataPacketType::TELEMETRY_PACKET;
+  tx_packet.partner_id = types::ComPartnerId::FALLBACK;
 
   if (com_nrf->NRFInit() != types::DriverStatus::OK) {
     utilities::UartPrint("Init error...");
@@ -118,21 +119,22 @@ int main() {
   utilities::UartPrint("Ready...");
 
   while (1) {
-    auto rv = com_nrf->PutDataPacket(types::PutDataTarget::TARGET_FALLBACK, tx_packet);
+    auto rv = com_nrf->PutDataPacket(types::ComPartnerId::FALLBACK, tx_packet);
 
     if (rv != types::DriverStatus::OK) {
-      utilities::UartPrint("Tx error...");
+      std::string err_str(std::to_string(static_cast<uint8_t>(rv)));
+      utilities::UartPrint("Tx error " + err_str);
     }
 
-    utilities::Sleep(2000);
+    utilities::Sleep(1000);
     {
       auto rx_packet = com_nrf->GetDataPacket();
 
       if (rx_packet.data.size() > 0) {
         std::string type_string(std::to_string(static_cast<std::uint8_t>(rx_packet.type)));
         utilities::UartPrint("type: " + type_string);
-        std::string target_string(std::to_string(static_cast<std::uint8_t>(rx_packet.target)));
-        utilities::UartPrint("target: " + type_string);
+        std::string target_string(std::to_string(static_cast<std::uint8_t>(rx_packet.partner_id)));
+        utilities::UartPrint("partner: " + target_string);
         std::string data_string(rx_packet.data.begin(), rx_packet.data.end());
         utilities::UartPrint("data: " + data_string);
       }

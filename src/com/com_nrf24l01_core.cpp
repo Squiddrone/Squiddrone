@@ -6,7 +6,7 @@ auto NRF24L01Core::InitTransceiver(std::uint8_t channel,
                                    DataRateSetting data_rate,
                                    RFPowerSetting rf_power,
                                    CRCEncodingScheme encoding_scheme,
-                                   data_pipe_address base_address) noexcept -> types::DriverStatus {
+                                   types::data_pipe_address base_address) noexcept -> types::DriverStatus {
   if (is_initialized_) {
     return types::DriverStatus::OK;
   }
@@ -23,13 +23,20 @@ auto NRF24L01Core::InitTransceiver(std::uint8_t channel,
   ON_ERROR_RETURN(SetRFOutputPower(rf_power));
   ON_ERROR_RETURN(MaskInterruptOnIntPin(MaskeableInterrupts::MAX_NR_OF_RETRIES_REACHED));
   ON_ERROR_RETURN(MaskInterruptOnIntPin(MaskeableInterrupts::TX_DATA_SENT));
+  // This must be refactored as soon as we introduce a com model that needs info from formation partners.
+  ON_ERROR_RETURN(DisableDataPipe(DataPipe::RX_PIPE_0));
+  ON_ERROR_RETURN(DisableDataPipe(DataPipe::RX_PIPE_1));
+  ON_ERROR_RETURN(DisableDataPipe(DataPipe::RX_PIPE_2));
+  ON_ERROR_RETURN(DisableDataPipe(DataPipe::RX_PIPE_3));
+  ON_ERROR_RETURN(DisableDataPipe(DataPipe::RX_PIPE_4));
+  ON_ERROR_RETURN(DisableDataPipe(DataPipe::RX_PIPE_5));
   ON_ERROR_RETURN(InitRx(base_address));
   is_initialized_ = true;
 
   return types::DriverStatus::OK;
 }
 
-auto NRF24L01Core::InitTx(data_pipe_address tx_target_address) noexcept -> types::DriverStatus {
+auto NRF24L01Core::InitTx(types::data_pipe_address tx_target_address) noexcept -> types::DriverStatus {
   ON_ERROR_RETURN(SetChipEnable(State::DISABLED));
 
   ON_ERROR_RETURN(spi_protocol_->FlushTxBuffer());
@@ -52,7 +59,7 @@ auto NRF24L01Core::InitTx(data_pipe_address tx_target_address) noexcept -> types
   return types::DriverStatus::OK;
 }
 
-auto NRF24L01Core::InitRx(data_pipe_address base_address) noexcept -> types::DriverStatus {
+auto NRF24L01Core::InitRx(types::data_pipe_address base_address) noexcept -> types::DriverStatus {
   ON_ERROR_RETURN(spi_protocol_->FlushTxBuffer());
   ON_ERROR_RETURN(spi_protocol_->FlushRxBuffer());
 
@@ -63,6 +70,7 @@ auto NRF24L01Core::InitRx(data_pipe_address base_address) noexcept -> types::Dri
   ON_ERROR_RETURN(SetOperationMode(OperationMode::PRIM_RX));
 
   ON_ERROR_RETURN(SetPipeAddress(DataPipe::RX_PIPE_0, base_address));
+
   ON_ERROR_RETURN(EnableDataPipe(DataPipe::RX_PIPE_0));
   ON_ERROR_RETURN(EnableAutoAck(DataPipe::RX_PIPE_0));
   ON_ERROR_RETURN(SetRxPayloadSize(DataPipe::RX_PIPE_0, types::COM_MAX_FRAME_LENGTH));
@@ -229,7 +237,7 @@ auto NRF24L01Core::MaskInterruptOnIntPin(MaskeableInterrupts interrupt) -> types
   return (spi_protocol_->WriteRegister(reg::config::REG_ADDR, config_register.Get()));
 }
 
-auto NRF24L01Core::SetPipeAddress(DataPipe pipe_no, data_pipe_address pipe_addr) noexcept -> types::DriverStatus {
+auto NRF24L01Core::SetPipeAddress(DataPipe pipe_no, types::data_pipe_address pipe_addr) noexcept -> types::DriverStatus {
   uint8_t register_addr = reg::rx_addr_p0::REG_ADDR + static_cast<std::uint8_t>(pipe_no);
   std::vector<std::uint8_t> multibyte_addr;
   std::uint8_t singlebyte_addr = 0;
@@ -256,9 +264,9 @@ auto NRF24L01Core::SetPipeAddress(DataPipe pipe_no, data_pipe_address pipe_addr)
   return return_value;
 }
 
-auto NRF24L01Core::GetPipeAddress(DataPipe pipe_no) noexcept -> std::pair<types::DriverStatus, data_pipe_address> {
+auto NRF24L01Core::GetPipeAddress(DataPipe pipe_no) noexcept -> std::pair<types::DriverStatus, types::data_pipe_address> {
   uint8_t register_addr = reg::rx_addr_p0::REG_ADDR + static_cast<std::uint8_t>(pipe_no);
-  data_pipe_address addr = {0};
+  types::data_pipe_address addr = {0};
   std::pair<types::DriverStatus, std::vector<std::uint8_t>> multibyte_addr;
   std::pair<types::DriverStatus, std::uint8_t> singlebyte_addr;
   types::DriverStatus return_value;
