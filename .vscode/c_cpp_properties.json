@@ -3,7 +3,10 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/drivers",
+                "${workspaceFolder}/src/**",
+                "${workspaceFolder}/startup/**",
+                "${workspaceFolder}/system/**"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

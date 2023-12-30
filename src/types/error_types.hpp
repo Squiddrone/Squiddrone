@@ -8,7 +8,7 @@ namespace types {
 /**
  * @brief The error type for the drivers layer
  *  of the software
- * 
+ *
  */
 enum class DriverStatus : int {
   OK = 0,

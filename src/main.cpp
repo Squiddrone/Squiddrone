@@ -5,19 +5,24 @@
  *      Author: aron
  */
 
+#include "stm32g431xx.h"
 #include "stm32g4xx_hal.h"
 //
 #include <memory>
 #include "clock_config.h"
 #include "com/com_message_buffer.hpp"
+#include "com_interrupt_handler.hpp"
+#include "com_nrf24l01.hpp"
 #include "com_nrf24l01_types.hpp"
 #include "cordic_config.h"
 #include "crc_config.h"
+// #include "filter.hpp"
 #include "fmac_config.h"
 #include "gpio_config.h"
 #include "i2c.hpp"
 #include "i2c_config.h"
 #include "inertial_measurement.hpp"
+#include "math.h"
 #include "mcu_settings.h"
 #include "motor_builder.hpp"
 #include "motor_driver.hpp"
@@ -33,8 +38,27 @@
 
 auto FormatEuclidVectorForPrintOut(const std::string &Sensor, types::EuclideanVector<std::int16_t> Vector) -> std::string;
 
-#include "com_interrupt_handler.hpp"
-#include "com_nrf24l01.hpp"
+struct RCDataPacket : public types::ComDataPacket {
+  union {
+    float f;
+    uint8_t u[sizeof(float)];
+  } throttle_cast;
+
+  inline auto Decode() noexcept -> float {
+    std::copy(data.begin(),
+              data.begin() + sizeof(float),
+              std::begin(throttle_cast.u));
+    return throttle_cast.f;
+  }
+
+  RCDataPacket() : types::ComDataPacket(){};
+  RCDataPacket(const types::ComDataPacket &p) : types::ComDataPacket() {
+    data = p.data;
+  }
+  ~RCDataPacket() = default;
+};
+
+// MedianFilter<float, 9> median_filter;
 
 int main() {
   HAL_Init();
@@ -52,49 +76,6 @@ int main() {
   MX_TIM16_Init();
   MX_TIM17_Init();
 
-#if (SYSTEM_TEST_PROPULSION == true)
-  std::unique_ptr<propulsion::AbstractMotorBuilder> builder = std::make_unique<propulsion::MotorBuilder>();
-  propulsion::MotorDriver driver(std::move(builder));
-  driver.ArmEscs();
-  utilities::Sleep(3000);
-
-  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_FRONT, 10);
-  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_FRONT, 10);
-  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_REAR, 10);
-  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_REAR, 10);
-
-  utilities::Sleep(3000);
-  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_FRONT, 3.0);
-  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_FRONT, 3.0);
-  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_REAR, 3.0);
-  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_REAR, 3.0);
-
-  utilities::Sleep(5000);
-  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_FRONT, 10.0);
-  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_FRONT, 10.0);
-  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_REAR, 10.0);
-  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_REAR, 10.0);
-
-  utilities::Sleep(5000);
-  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_FRONT, 8.0);
-  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_FRONT, 8.0);
-  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_REAR, 8.0);
-  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_REAR, 8.0);
-
-  utilities::Sleep(5000);
-  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_FRONT, 3.0);
-  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_FRONT, 3.0);
-  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_REAR, 3.0);
-  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_REAR, 3.0);
-
-  utilities::Sleep(5000);
-  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_FRONT, 0.0);
-  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_FRONT, 0.0);
-  driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_REAR, 0.0);
-  driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_REAR, 0.0);
-#endif
-#if (SYSTEM_TEST_COM == true)
-
   auto com_cs_pin = spi::CSPin(CSCOM_GPIO_Port, CSCOM_Pin, spi::CSActiveState::ACTIVE_LOW);
   auto com_spi = std::make_unique<spi::SPI>(com_cs_pin);
   auto com_spi_protocol = std::make_unique<com::NRF24L01SpiProtocol>(std::move(com_spi));
@@ -103,81 +84,85 @@ int main() {
   auto com_nrf = std::make_shared<com::NRF24L01>(std::move(com_buffer), std::move(com_nrf_core));
   com::ComInterruptHandler::SetComDriver(com_nrf);
 
-  // Data field must always be 30 bytes long. Padd if necessary.
-  types::com_frame tx_data{'b', 'e', 'g', 'i', 'n', '_', '_', '_', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', 't', 'e', 's', 't', '_', '_', 'e', 'n', 'd', '\0'};
-
-  types::ComDataPacket tx_packet;
-
-  tx_packet.data = tx_data;
-  tx_packet.type = types::ComDataPacketType::TELEMETRY_PACKET;
-  tx_packet.partner_id = types::ComPartnerId::FALLBACK;
-
   if (com_nrf->NRFInit() != types::DriverStatus::OK) {
     utilities::UartPrint("Init error...");
+    while (true) {
+    };
   }
-
-  utilities::UartPrint("Ready...");
-
-  while (1) {
-    auto rv = com_nrf->PutDataPacket(types::ComPartnerId::FALLBACK, tx_packet);
-
-    if (rv != types::DriverStatus::OK) {
-      std::string err_str(std::to_string(static_cast<uint8_t>(rv)));
-      utilities::UartPrint("Tx error " + err_str);
-    }
-
-    utilities::Sleep(1000);
-    {
-      auto rx_packet = com_nrf->GetDataPacket();
-
-      if (rx_packet.data.size() > 0) {
-        std::string type_string(std::to_string(static_cast<std::uint8_t>(rx_packet.type)));
-        utilities::UartPrint("type: " + type_string);
-        std::string target_string(std::to_string(static_cast<std::uint8_t>(rx_packet.partner_id)));
-        utilities::UartPrint("partner: " + target_string);
-        std::string data_string(rx_packet.data.begin(), rx_packet.data.end());
-        utilities::UartPrint("data: " + data_string);
-      }
-    }
-  }
-#endif
-
-#if (SYSTEM_TEST_IMU == true)
 
   auto i2c = std::make_unique<i2c::I2C>();
   auto imu = std::make_unique<imu::InertialMeasurement>(std::move(i2c));
   bool init_successful = false;
 
+  utilities::UartPrint("Begin IMU calibration");
   if (imu->Init() == types::DriverStatus::OK) {
-    utilities::UartPrint("Init successfull.");
+    imu->SetGyroscopeSensitivity(types::ImuSensitivity::FINEST);
+    imu->SetAccelerometerSensitivity(types::ImuSensitivity::ROUGHEST);
+    utilities::UartPrint("IMU Init successfull.");
     init_successful = true;
   } else {
-    utilities::UartPrint("Init failed.");
+    utilities::UartPrint("IMU Init failed.");
   }
 
-  utilities::Sleep(500);
+  std::unique_ptr<propulsion::AbstractMotorBuilder> builder = std::make_unique<propulsion::MotorBuilder>();
+  propulsion::MotorDriver driver(std::move(builder));
+  driver.ArmEscs();
+  utilities::Sleep(3000);
+
+  utilities::UartPrint("Ready...");
+
+  float throttle = 0.0f;
+  float err_x_I = 0.0f;
+  float throttle_x_control = 0.0f;
 
   while (1) {
     if (init_successful == true) {
       if (imu->Update() == types::DriverStatus::OK) {
-        utilities::UartPrint(FormatEuclidVectorForPrintOut("Gyroscope", imu->GetGyroscope()));
-        utilities::UartPrint(FormatEuclidVectorForPrintOut("Accelerometer", imu->GetAccelerometer()));
-        utilities::UartPrint(FormatEuclidVectorForPrintOut("Magnetometer", imu->GetMagnetometer()));
-        utilities::UartPrint("Temperature: " + std::to_string(imu->GetTemperature()));
-      } else {
-        utilities::UartPrint("Update failed.");
+        auto accel_vector = imu->GetAccelerometer();
+        static constexpr float pi = 3.14159265f;
+        static constexpr float G = 2048.0;
+        float angle_x = atan((static_cast<float>(accel_vector.x) / G) / ((1.0f - static_cast<float>(accel_vector.z) / G))) * 180.0f / pi;
+        utilities::UartPrint("Angle X: " + std::to_string(static_cast<int16_t>(angle_x)));
+        // auto angle_y = atan((static_cast<float>(accel_vector.y) / G) / ((1.0 - static_cast<float>(accel_vector.z) / G))) * 180.0 / pi;
+
+        auto err_x = 0.0f - angle_x;
+
+        static constexpr float k_I = 0.01f;
+        err_x_I += k_I * err_x;
+
+        static constexpr float k_P = 0.1f;
+
+        throttle_x_control = err_x * k_P + err_x_I;
+
+        float threshold = 0.1f * throttle;
+
+        if (abs(throttle_x_control) > threshold) {
+          if (throttle_x_control > 0) {
+            throttle_x_control = threshold;
+          }
+          if (throttle_x_control < 0) {
+            throttle_x_control = -threshold;
+          }
+        }
       }
     }
-    utilities::Sleep(500);
+    RCDataPacket rc_data(com_nrf->GetDataPacket());
+    if (rc_data.data.size() > 0) {
+      throttle = rc_data.Decode();
+      utilities::UartPrint("Throttle: " + std::to_string(static_cast<int>(throttle * 100)));
+      // auto throttle_filt = median_filter.Insert(throttle);
+    }
+
+    if (throttle < 0.0) {
+      throttle = 0.0;
+    }
+    // utilities::UartPrint("Control: " + std::to_string(static_cast<int>(throttle_x_control*100)));
+    driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_FRONT, throttle + throttle_x_control);
+    driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_FRONT, throttle + throttle_x_control);
+    driver.SetMotorSpeed(propulsion::MotorPosition::LEFT_REAR, throttle - throttle_x_control);
+    driver.SetMotorSpeed(propulsion::MotorPosition::RIGHT_REAR, throttle - throttle_x_control);
+    utilities::Sleep(100);
   }
-#endif
-
-#if (SYSTEM_TEST_COM == false && SYSTEM_TEST_IMU == false && SYSTEM_TEST_PROPULSION == false)
-  while (1) {
-  }
-
-#endif
-
   return 0;
 }
 
