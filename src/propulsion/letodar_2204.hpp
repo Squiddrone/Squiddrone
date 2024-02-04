@@ -7,26 +7,26 @@ namespace propulsion {
 
 /**
  * @brief The concrete implementation of the LeTodar2204 Motor
- * 
+ *
  */
 class LeTodar2204 final : public Motor {
  public:
   /**
    * @brief Default ctor not needed
-   * 
+   *
    */
   LeTodar2204() = delete;
 
   /**
    * @brief Custom ctor by using a pointer to a concrete Esc, identified by its abstract interface
    * @param esc A unique pointer to a instance of a ESC
-   * 
+   *
    */
   explicit LeTodar2204(std::unique_ptr<Esc> esc) : Motor(std::move(esc)), speed_(0.0) {}
 
   /**
    * @brief Returns the last known speed in percent
-   * 
+   *
    */
   auto GetCurrentSpeedInPercent() const noexcept -> const float override;
 
@@ -36,15 +36,15 @@ class LeTodar2204 final : public Motor {
    * @return types::DriverStatus::OK if everything is working fine.
    *         types::DriverStatus::INPUT_ERROR if speed exceeds lower and upper limits
    *         types::DriverStatus::HAL_ERROR if input caused the HAL to fail and throw an error.
-   * 
+   *
    */
   auto SetSpeedInPercent(const float speed) noexcept -> types::DriverStatus override;
 
  private:
   static constexpr int REPETITION_TIME_IN_MS = 500;
-  static constexpr auto UPPER_LEGAL_RANGE_LIMIT_IN_PERCENT = 100.0;
-  static constexpr auto LOWER_LEGAL_RANGE_LIMIT_IN_PERCENT = 0.0;
-  static constexpr auto PERCENTAGE_FACTOR = 100.0;
+  static constexpr auto UPPER_LEGAL_RANGE_LIMIT_IN_PERCENT = 100.0f;
+  static constexpr auto LOWER_LEGAL_RANGE_LIMIT_IN_PERCENT = 0.0f;
+  static constexpr auto PERCENTAGE_FACTOR = 100.0f;
   float speed_;
 };
 }  // namespace propulsion

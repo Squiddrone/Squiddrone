@@ -1,8 +1,10 @@
 #ifndef SRC_MPU9255_HPP_
 #define SRC_MPU9255_HPP_
 
+#include <chrono>
 #include "accelerometer.hpp"
 #include "accelerometer_interface.hpp"
+#include "basic_types.hpp"
 #include "byte.hpp"
 #include "generic_imu.hpp"
 #include "gyroscope.hpp"
@@ -11,6 +13,8 @@
 #include "magnetometer_interface.hpp"
 #include "temperature.hpp"
 #include "temperature_interface.hpp"
+
+using namespace std::chrono_literals;
 
 namespace imu {
 
@@ -30,6 +34,10 @@ class Mpu9255 final : public GenericInertialMeasurementUnit {
   auto GetMagnetometer(void) noexcept -> types::EuclideanVector<std::int16_t> override;
   auto GetTemperature(void) noexcept -> int override;
   auto IsInitialized(void) noexcept -> bool;
+  auto SetAccelBandwidth(accel::Bandwidth bandwidth) noexcept -> void;
+  auto SetGyroBandwidth(gyro::Bandwidth bandwidth) noexcept -> void;
+  auto AdjustOffset(void) noexcept -> void;
+  auto PerformCalibration(void) noexcept -> void;
 
   auto UnitTestSetGyroscope(std::unique_ptr<imu::GyroscopeInterface> gyroscope) noexcept -> void;
   auto UnitTestSetAccelerometer(std::unique_ptr<imu::AccelerometerInterface> accelerometer) noexcept -> void;
@@ -41,9 +49,13 @@ class Mpu9255 final : public GenericInertialMeasurementUnit {
   auto SetInitConfigMPU9255(void) noexcept -> void;
   auto SetInitConfigAK8963(void) noexcept -> void;
   auto SetMPU9255Register(const std::uint8_t register_, const std::uint8_t register_value) noexcept -> void;
+  auto GetMPU9255Register(const std::uint8_t register_, const std::uint16_t register_size) noexcept -> std::vector<std::uint8_t>;
   auto InitAllSensors(void) noexcept -> bool;
   auto UpdateAllSensors(void) noexcept -> bool;
   auto SetToInitialized(void) noexcept -> void;
+  auto GetFactoryOffsetValues(void) noexcept -> void;
+  auto SetGyroOffset(types::EuclideanVector<int16_t> offset, Axis axis) noexcept -> void;
+  auto SetAccelOffset(types::EuclideanVector<int16_t> offset, Axis axis) noexcept -> void;
   auto ReturnVectorDefault(void) noexcept -> types::EuclideanVector<std::int16_t>;
 
   bool initialized_ = false;
@@ -51,6 +63,9 @@ class Mpu9255 final : public GenericInertialMeasurementUnit {
   std::unique_ptr<imu::AccelerometerInterface> accelerometer_ = NULL;
   std::unique_ptr<imu::MagnetometerInterface> magnetometer_ = NULL;
   std::unique_ptr<imu::TemperatureInterface> temperature_ = NULL;
+
+  types::EuclideanVector<int16_t> gyro_offset;
+  types::EuclideanVector<int16_t> accel_offset;
 };
 
 }  // namespace imu

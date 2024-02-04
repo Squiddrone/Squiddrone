@@ -9,7 +9,7 @@ namespace propulsion {
 /**
  * @brief The concrete class implementation of the abstract Esc class for
  * the Little Bee 20 a hardware.
- * 
+ *
  */
 class LittleBee20A final : public Esc {
  public:
@@ -24,25 +24,25 @@ class LittleBee20A final : public Esc {
    * Raw pointer will be used in order to comply with C HAL
    * @param timer See ESC.hpp
    * @param channel See ESC.hpp
-   * 
+   *
    */
-  explicit LittleBee20A(TIM_HandleTypeDef* timer, std::uint32_t channel) : Esc(timer, channel), timer_is_configured_(false) {}
+  explicit LittleBee20A(TIM_HandleTypeDef* timer, std::uint32_t channel) : Esc(timer, channel), timer_is_configured_(false), period_(0) {}
 
   /**
-   * @brief Implementation of abstract method for getting max pulse duration.  
+   * @brief Implementation of abstract method for getting max pulse duration.
    * Needs to be defined in header, because of type deduction.
    * @return Oneshot 125 maximum pulse duration for full throttle
-   * 
+   *
    */
   auto GetMaxPulseDurationInMicroSeconds() const noexcept -> const int override {
     return ONESHOT_125_MAX_PULSE_DURATION_IN_US_;
   }
 
   /**
-   * @brief Implementation of abstract method for getting min pulse duration.  
+   * @brief Implementation of abstract method for getting min pulse duration.
    * Needs to be defined in header, because of type deduction.
    * @return Oneshot 125 minimum pulse duration for no throttle
-   * 
+   *
    */
   auto GetMinPulseDurationInMicroSeconds() const noexcept -> const int override {
     return ONESHOT_125_MIN_PULSE_DURATION_IN_US_;
@@ -61,7 +61,7 @@ class LittleBee20A final : public Esc {
    * @return types::DriverStatus::OK if there is no error
    *         types::DriverStatus::INPUT_ERROR if new pulse duration didn't work
    *         types::DriverStatus::HAL_ERROR if timer config didn't work
-   * 
+   *
    */
   auto SetPulseDuration(const float pulse_duration, int repetition_period) noexcept -> const types::DriverStatus override;
 
@@ -77,7 +77,7 @@ class LittleBee20A final : public Esc {
    * @brief Does the initial reconfiguration based on prescaler
    * @return types::DriverStatus::OK if everything went fine
    *         types::DriverStatus::HAL_ERROR if an error occured
-   * 
+   *
    */
   auto ConfigureTimer() noexcept -> const types::DriverStatus;
 
@@ -90,11 +90,12 @@ class LittleBee20A final : public Esc {
    * @param pulse The actual pulse PWM pulse count number.
    * @return types::DriverStatus::OK if everything went fine
    *         types::DriverStatus::HAL_ERROR if an error occured
-   * 
+   *
    */
-  auto SetPwm(std::uint32_t period, std::uint32_t pulse) const noexcept -> const types::DriverStatus;
+  auto SetPwm(std::uint32_t period, std::uint32_t pulse) noexcept -> const types::DriverStatus;
 
   bool timer_is_configured_;
+  std::uint32_t period_;
 };
 
 }  // namespace propulsion

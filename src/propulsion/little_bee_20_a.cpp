@@ -34,7 +34,7 @@ auto LittleBee20A::ConfigureTimer() noexcept -> const types::DriverStatus {
     return types::DriverStatus::HAL_ERROR;
   }
   std::uint32_t prescaler_10_mhz =
-      __HAL_TIM_CALC_PSC(TIMER_CLOCK, TARGET_TIMER_CLOCK_RATE_);  //calculate timer input clock
+      __HAL_TIM_CALC_PSC(TIMER_CLOCK, TARGET_TIMER_CLOCK_RATE_);  // calculate timer input clock
   timer_->Init.Prescaler = prescaler_10_mhz;
   if (HAL_TIM_PWM_Init(timer_) != HAL_OK) {
     return types::DriverStatus::HAL_ERROR;
@@ -43,14 +43,17 @@ auto LittleBee20A::ConfigureTimer() noexcept -> const types::DriverStatus {
   return types::DriverStatus::OK;
 }
 
-auto LittleBee20A::SetPwm(std::uint32_t period, std::uint32_t pulse) const noexcept -> const types::DriverStatus {
+auto LittleBee20A::SetPwm(std::uint32_t period, std::uint32_t pulse) noexcept -> const types::DriverStatus {
   if (HAL_TIM_PWM_Stop(timer_, channel_) != HAL_OK) {
     return types::DriverStatus::HAL_ERROR;
   }
   TIM_OC_InitTypeDef new_timer_configuration = {0};
-  timer_->Init.Period = period;
-  if (HAL_TIM_PWM_Init(timer_) != HAL_OK) {
-    return types::DriverStatus::HAL_ERROR;
+  if (period != period_) {
+    timer_->Init.Period = period;
+    period_ = period;
+    if (HAL_TIM_PWM_Init(timer_) != HAL_OK) {
+      return types::DriverStatus::HAL_ERROR;
+    }
   }
   new_timer_configuration.OCMode = TIM_OCMODE_PWM1;
   new_timer_configuration.Pulse = pulse;
