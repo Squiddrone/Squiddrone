@@ -13,10 +13,10 @@ auto Accelerometer::Init(const std::uint8_t i2c_address) noexcept -> types::Driv
 
 auto Accelerometer::Update(void) noexcept -> types::DriverStatus {
   if (SensorVector::Update() == types::DriverStatus::OK) {
-    /*auto adc_2_accel = GetFactorADC2Accelerometer();
+    auto adc_2_accel = GetFactorADC2Accelerometer();
     sensor_values_.x = static_cast<std::int16_t>(adc_2_accel * static_cast<float>(sensor_values_.x));
     sensor_values_.y = static_cast<std::int16_t>(adc_2_accel * static_cast<float>(sensor_values_.y));
-    sensor_values_.z = static_cast<std::int16_t>(adc_2_accel * static_cast<float>(sensor_values_.z));*/
+    sensor_values_.z = static_cast<std::int16_t>(adc_2_accel * static_cast<float>(sensor_values_.z));
     return types::DriverStatus::OK;
   } else {
     return types::DriverStatus::HAL_ERROR;

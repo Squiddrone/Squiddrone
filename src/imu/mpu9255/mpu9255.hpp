@@ -1,6 +1,7 @@
 #ifndef SRC_MPU9255_HPP_
 #define SRC_MPU9255_HPP_
 
+#include <chrono>
 #include "accelerometer.hpp"
 #include "accelerometer_interface.hpp"
 #include "basic_types.hpp"
@@ -12,6 +13,8 @@
 #include "magnetometer_interface.hpp"
 #include "temperature.hpp"
 #include "temperature_interface.hpp"
+
+using namespace std::chrono_literals;
 
 namespace imu {
 
@@ -34,6 +37,7 @@ class Mpu9255 final : public GenericInertialMeasurementUnit {
   auto SetAccelBandwidth(accel::Bandwidth bandwidth) noexcept -> void;
   auto SetGyroBandwidth(gyro::Bandwidth bandwidth) noexcept -> void;
   auto AdjustOffset(void) noexcept -> void;
+  auto PerformCalibration(void) noexcept -> void;
 
   auto UnitTestSetGyroscope(std::unique_ptr<imu::GyroscopeInterface> gyroscope) noexcept -> void;
   auto UnitTestSetAccelerometer(std::unique_ptr<imu::AccelerometerInterface> accelerometer) noexcept -> void;

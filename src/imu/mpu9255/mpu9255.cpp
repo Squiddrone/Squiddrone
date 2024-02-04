@@ -10,15 +10,6 @@ auto Mpu9255::Init(void) noexcept -> types::DriverStatus {
 
   if (InitAllSensors()) {
     SetToInitialized();
-
-    UpdateAllSensors();
-    GetFactoryOffsetValues();
-    SetAccelBandwidth(accel::Bandwidth::acc_5Hz);
-    SetGyroBandwidth(gyro::Bandwidth::gyro_5Hz);
-    AdjustOffset();
-    SetGyroBandwidth(gyro::Bandwidth::gyro_8800Hz);
-    SetAccelBandwidth(accel::Bandwidth::acc_184Hz);
-
     return types::DriverStatus::OK;
   }
   return types::DriverStatus::HAL_ERROR;
@@ -241,52 +232,37 @@ auto Mpu9255::SetAccelOffset(types::EuclideanVector<int16_t> offset, Axis axis) 
 }
 
 auto Mpu9255::SetAccelBandwidth(accel::Bandwidth bandwidth) noexcept -> void {
-  std::unique_ptr<utilities::Byte> accel_config_2_reg = nullptr;
+  std::unique_ptr<utilities::Byte> accel_config_2_reg = std::make_unique<utilities::Byte>(GetMPU9255Register(ACCEL_CONFIG_2, 1).at(0));
   switch (bandwidth) {
     case accel::Bandwidth::acc_1113Hz:
-      accel_config_2_reg = std::make_unique<utilities::Byte>(GetMPU9255Register(ACCEL_CONFIG_2, 1).at(0));
       accel_config_2_reg->SetBit(3);
       // write_OR(MPU_address, ACCEL_CONFIG_2, (1 << 3));  // set accel_fchoice_b to 1
       break;
-
     case accel::Bandwidth::acc_460Hz:
       // set accel_fchoice_b to 0 and  A_DLPF_CFG to 0(000)
-      accel_config_2_reg = std::make_unique<utilities::Byte>(GetMPU9255Register(ACCEL_CONFIG_2, 1).at(0));
       accel_config_2_reg->SetLowNibble(0U);
       break;
-
     case accel::Bandwidth::acc_184Hz:
-      accel_config_2_reg = std::make_unique<utilities::Byte>(GetMPU9255Register(ACCEL_CONFIG_2, 1).at(0));
       accel_config_2_reg->SetLowNibble(0x1U);
       break;
-
     case accel::Bandwidth::acc_92Hz:
-      accel_config_2_reg = std::make_unique<utilities::Byte>(GetMPU9255Register(ACCEL_CONFIG_2, 1).at(0));
       accel_config_2_reg->SetLowNibble(0x2U);
       break;
-
     case accel::Bandwidth::acc_41Hz:
-      accel_config_2_reg = std::make_unique<utilities::Byte>(GetMPU9255Register(ACCEL_CONFIG_2, 1).at(0));
       accel_config_2_reg->SetLowNibble(0x3U);
       break;
-
     case accel::Bandwidth::acc_20Hz:
-      accel_config_2_reg = std::make_unique<utilities::Byte>(GetMPU9255Register(ACCEL_CONFIG_2, 1).at(0));
       accel_config_2_reg->SetLowNibble(0x4U);
       break;
-
     case accel::Bandwidth::acc_10Hz:
-      accel_config_2_reg = std::make_unique<utilities::Byte>(GetMPU9255Register(ACCEL_CONFIG_2, 1).at(0));
       accel_config_2_reg->SetLowNibble(0x5U);
       break;
-
     case accel::Bandwidth::acc_5Hz:
-      accel_config_2_reg = std::make_unique<utilities::Byte>(GetMPU9255Register(ACCEL_CONFIG_2, 1).at(0));
       accel_config_2_reg->SetLowNibble(0x6U);
       break;
   }
   if (accel_config_2_reg != nullptr) {
-    // SetMPU9255Register(ACCEL_CONFIG_2, accel_config_2_reg->Get());
+    SetMPU9255Register(ACCEL_CONFIG_2, accel_config_2_reg->Get());
   }
 }
 
@@ -404,7 +380,18 @@ auto Mpu9255::AdjustOffset(void) noexcept -> void {
 
   utilities::Sleep(10);
 
+  // Prepare a time out check
+  const auto start_calibration_time{std::chrono::steady_clock::now()};
+  double timeout_in_seconds{10.0};
+
   while (1) {
+    const auto current_calibration_time{std::chrono::steady_clock::now()};
+    const std::chrono::duration<double> elapsed_time{current_calibration_time - start_calibration_time};
+
+    if ((elapsed_time / 1s) > timeout_in_seconds) {
+      break;
+    }
+
     Update();
     auto gyro_output = GetGyroscope();
     auto accel_output = GetAccelerometer();
@@ -476,6 +463,16 @@ auto Mpu9255::AdjustOffset(void) noexcept -> void {
     SetGyroOffset(gyro_offset, Axis::ALL);
     SetAccelOffset(accel_offset, Axis::ALL);
   }
+}
+
+auto Mpu9255::PerformCalibration(void) noexcept -> void {
+  UpdateAllSensors();
+  GetFactoryOffsetValues();
+  SetAccelBandwidth(accel::Bandwidth::acc_5Hz);
+  SetGyroBandwidth(gyro::Bandwidth::gyro_5Hz);
+  AdjustOffset();
+  SetGyroBandwidth(gyro::Bandwidth::gyro_8800Hz);
+  SetAccelBandwidth(accel::Bandwidth::acc_184Hz);
 }
 
 auto Mpu9255::UnitTestSetGyroscope(std::unique_ptr<imu::GyroscopeInterface> gyroscope) noexcept -> void {
