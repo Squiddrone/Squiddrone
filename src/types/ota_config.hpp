@@ -18,7 +18,8 @@ static constexpr std::uint8_t OTA_DATA_MAX_LEN = 30;
 
 /// ID for address configuration data.
 enum class OtaConfigTypeId : std::uint8_t {
-  CONFIGURE_ADDRESS
+  CONFIGURE_ADDRESS,
+  RC_THROTTLE
 };
 
 namespace ota_addr_config {

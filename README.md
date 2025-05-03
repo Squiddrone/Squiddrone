@@ -1,5 +1,4 @@
 ![Build and Test](https://github.com/Squiddrone/Squiddrone/workflows/Build%20and%20Test/badge.svg)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/88da9a5c932545adb22b885a39a1ae35)](https://www.codacy.com/manual/SquidSquad/Squiddrone?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Squiddrone/Squiddrone&amp;utm_campaign=Badge_Grade)
 [![CodeFactor](https://www.codefactor.io/repository/github/squiddrone/squiddrone/badge)](https://www.codefactor.io/repository/github/squiddrone/squiddrone)
 [![codecov](https://codecov.io/gh/Squiddrone/Squiddrone/branch/dev/graph/badge.svg)](https://codecov.io/gh/Squiddrone/Squiddrone)
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/Squiddrone/Squiddrone/tree/dev) 

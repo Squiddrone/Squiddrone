@@ -15,8 +15,8 @@ auto LeTodar2204::SetSpeedInPercent(const float speed) noexcept -> types::Driver
     speed_ = speed;
     auto max_pulse_duration = esc_->GetMaxPulseDurationInMicroSeconds();
     auto min_pulse_duration = esc_->GetMinPulseDurationInMicroSeconds();
-    auto one_percent_in_ms = (max_pulse_duration - min_pulse_duration) / PERCENTAGE_FACTOR;
-    auto speed_in_ms_pulse_duration = min_pulse_duration + (speed * one_percent_in_ms);
+    auto one_percent_in_ms = static_cast<float>(max_pulse_duration - min_pulse_duration) / PERCENTAGE_FACTOR;
+    auto speed_in_ms_pulse_duration = static_cast<float>(min_pulse_duration) + (speed * one_percent_in_ms);
     auto set_pulse_error = esc_->SetPulseDuration(speed_in_ms_pulse_duration, REPETITION_TIME_IN_MS);
     if (set_pulse_error != types::DriverStatus::OK) {
       return types::DriverStatus::HAL_ERROR;

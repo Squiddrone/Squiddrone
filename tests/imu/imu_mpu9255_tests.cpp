@@ -1,4 +1,5 @@
 #include <gmock/gmock.h>
+#include <chrono>
 #include "gtest/gtest.h"
 #include "mock_accelerometer.hpp"
 #include "mock_gyroscope.hpp"
@@ -284,6 +285,25 @@ TEST_F(Mpu9255Tests, mpu9255_GetTemperature_without_Init) {
 
   EXPECT_EQ(temperature_return, -1);
 }
+
+/* Deaktiviert, da jedesmal der 10 sec. timeout abgewartet werden muss. Hat als Entwicklertest funktioniert.
+TEST_F(Mpu9255Tests, mpu9255_calibration_timeout) {
+  std::pair<types::DriverStatus, std::vector<uint8_t>> i2c_return_value{types::DriverStatus::OK, {0}};
+  ON_CALL(*mock_accelerometer_, Get)
+      .WillByDefault(Return(sensor_values_accelerometer));
+  ON_CALL(*i2c_handler_, ReadContentFromRegister).WillByDefault(Return(i2c_return_value));
+
+  ConfigureUnitUnderTest();
+
+  unit_under_test_->Init();
+  auto time_measurement_start{std::chrono::steady_clock::now()};
+  unit_under_test_->PerformCalibration();
+  auto time_measurement_end{std::chrono::steady_clock::now()};
+  std::chrono::duration<double> time_measurement{time_measurement_end - time_measurement_start};
+  EXPECT_GT(time_measurement / 1s, 9.0);
+  EXPECT_LT(time_measurement / 1s, 11.0);
+}
+*/
 
 }  // namespace
 
