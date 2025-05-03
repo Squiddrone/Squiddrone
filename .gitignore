@@ -1,6 +1,7 @@
 launch.json
 tasks.json
 .cortex-debug*
+settings.json
 
 
 # Created by https://www.gitignore.io/api/c,c++,eclipse
