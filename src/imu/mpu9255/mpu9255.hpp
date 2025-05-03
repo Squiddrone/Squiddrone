@@ -47,9 +47,7 @@ class Mpu9255 final : public GenericInertialMeasurementUnit {
   auto IsInitialized(void) noexcept -> bool;
   auto SetAccelBandwidth(accel::Bandwidth bandwidth) noexcept -> void;
   auto SetGyroBandwidth(gyro::Bandwidth bandwidth) noexcept -> void;
-  auto Calibrate(void) noexcept -> bool;
   auto PerformCalibration(void) noexcept -> void;
-
   auto UnitTestSetGyroscope(std::unique_ptr<imu::GyroscopeInterface> gyroscope) noexcept -> void;
   auto UnitTestSetAccelerometer(std::unique_ptr<imu::AccelerometerInterface> accelerometer) noexcept -> void;
   auto UnitTestSetMagnetometer(std::unique_ptr<imu::MagnetometerInterface> magnetometer) noexcept -> void;
@@ -58,6 +56,7 @@ class Mpu9255 final : public GenericInertialMeasurementUnit {
  protected:
   auto AdjustOffset(lock is_locked, int16_t output, int16_t offset) noexcept -> int16_t;
   auto SetCalibrationLock(types::EuclideanVector<int16_t> output, AxisLock &lock, int16_t max_error) noexcept -> void;
+  auto Calibrate(void) noexcept -> bool;
   auto CreateSensorPointer(void) noexcept -> void;
   auto SetInitConfigMPU9255(void) noexcept -> void;
   auto SetInitConfigAK8963(void) noexcept -> void;
