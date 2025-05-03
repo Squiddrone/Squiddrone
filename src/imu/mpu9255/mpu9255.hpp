@@ -22,10 +22,6 @@ enum lock : int8_t {
   locked = -1,
   unlocked = 1
 };
-
-/**
- *
- */
 struct AxisLock {
   explicit AxisLock(lock x, lock y, lock z) : x(unlocked), y(unlocked), z(unlocked) {};
   lock x;
