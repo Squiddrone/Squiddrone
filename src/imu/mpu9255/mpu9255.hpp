@@ -23,7 +23,7 @@ enum lock : int8_t {
   unlocked = 1
 };
 struct AxisLock {
-  explicit AxisLock(lock x, lock y, lock z) : x(unlocked), y(unlocked), z(unlocked) {};
+  explicit AxisLock(lock x, lock y, lock z) : x(unlocked), y(unlocked), z(unlocked){};
   lock x;
   lock y;
   lock z;
