@@ -77,6 +77,9 @@ enum class Bandwidth : std::uint8_t {
 };
 }
 
+static constexpr int16_t MAX_ERROR_GYRO = 1;
+static constexpr int16_t MAX_ERROR_ACCEL = 1;
+
 }  // namespace imu
 
 #endif

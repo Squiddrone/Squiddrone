@@ -18,6 +18,21 @@ using namespace std::chrono_literals;
 
 namespace imu {
 
+enum lock : int8_t {
+  locked = -1,
+  unlocked = 1
+};
+
+/**
+ *
+ */
+struct AxisLock {
+  explicit AxisLock(lock x, lock y, lock z) : x(unlocked), y(unlocked), z(unlocked) {};
+  lock x;
+  lock y;
+  lock z;
+};
+
 class Mpu9255 final : public GenericInertialMeasurementUnit {
  public:
   Mpu9255() = delete;
@@ -36,7 +51,7 @@ class Mpu9255 final : public GenericInertialMeasurementUnit {
   auto IsInitialized(void) noexcept -> bool;
   auto SetAccelBandwidth(accel::Bandwidth bandwidth) noexcept -> void;
   auto SetGyroBandwidth(gyro::Bandwidth bandwidth) noexcept -> void;
-  auto AdjustOffset(void) noexcept -> void;
+  auto Calibrate(void) noexcept -> bool;
   auto PerformCalibration(void) noexcept -> void;
 
   auto UnitTestSetGyroscope(std::unique_ptr<imu::GyroscopeInterface> gyroscope) noexcept -> void;
@@ -45,6 +60,8 @@ class Mpu9255 final : public GenericInertialMeasurementUnit {
   auto UnitTestSetTemperature(std::unique_ptr<imu::TemperatureInterface> temperature) noexcept -> void;
 
  protected:
+  auto AdjustOffset(lock is_locked, int16_t output, int16_t offset) noexcept -> int16_t;
+  auto SetCalibrationLock(types::EuclideanVector<int16_t> output, AxisLock &lock, int16_t max_error) noexcept -> void;
   auto CreateSensorPointer(void) noexcept -> void;
   auto SetInitConfigMPU9255(void) noexcept -> void;
   auto SetInitConfigAK8963(void) noexcept -> void;

@@ -354,22 +354,30 @@ auto Mpu9255::SetGyroBandwidth(gyro::Bandwidth bandwidth) noexcept -> void {
   }
 }
 
-auto Mpu9255::AdjustOffset(void) noexcept -> void {
-  const auto max_error_gyro = 1;
-  const auto max_error_accel = 1;
+auto Mpu9255::AdjustOffset(lock is_locked, int16_t output, int16_t offset) noexcept -> int16_t {
+  if (is_locked == unlocked && output < 0) {
+    ++offset;
+  }
+  if (is_locked == unlocked && output > 0) {
+    --offset;
+  }
 
-  enum lock : int8_t {
-    locked = -1,
-    unlocked = 1
-  };
+  return offset;
+}
 
-  struct AxisLock {
-    explicit AxisLock(lock x, lock y, lock z) : x(unlocked), y(unlocked), z(unlocked){};
-    lock x;
-    lock y;
-    lock z;
-  };
+auto Mpu9255::SetCalibrationLock(types::EuclideanVector<int16_t> output, AxisLock &lock, int16_t max_error) noexcept -> void {
+  if ((abs(output.x) - max_error) <= 0) {
+    lock.x = locked;
+  }
+  if ((abs(output.y) - max_error) <= 0) {
+    lock.y = locked;
+  }
+  if ((abs(output.z) - max_error) <= 0) {
+    lock.z = locked;
+  }
+}
 
+auto Mpu9255::Calibrate(void) noexcept -> bool {
   types::EuclideanVector<int16_t>
       gyro_offset(0, 0, 0);
   types::EuclideanVector<int16_t> accel_offset(0, 0, 0);
@@ -396,61 +404,16 @@ auto Mpu9255::AdjustOffset(void) noexcept -> void {
     auto gyro_output = GetGyroscope();
     auto accel_output = GetAccelerometer();
 
-    if (lock_gyro_offset.x == unlocked && gyro_output.x < 0) {
-      ++gyro_offset.x;
-    }
-    if (lock_gyro_offset.x == unlocked && gyro_output.x > 0) {
-      --gyro_offset.x;
-    }
-    if (lock_gyro_offset.y == unlocked && gyro_output.y < 0) {
-      ++gyro_offset.y;
-    }
-    if (lock_gyro_offset.y == unlocked && gyro_output.y > 0) {
-      --gyro_offset.y;
-    }
-    if (lock_gyro_offset.z == unlocked && gyro_output.z < 0) {
-      ++gyro_offset.z;
-    }
-    if (lock_gyro_offset.z == unlocked && gyro_output.z > 0) {
-      --gyro_offset.z;
-    }
-    if (lock_accel_offset.x == unlocked && accel_output.x < 0) {
-      ++accel_offset.x;
-    }
-    if (lock_accel_offset.x == unlocked && accel_output.x > 0) {
-      --accel_offset.x;
-    }
-    if (lock_accel_offset.y == unlocked && accel_output.y < 0) {
-      ++accel_offset.y;
-    }
-    if (lock_accel_offset.y == unlocked && accel_output.y > 0) {
-      --accel_offset.y;
-    }
-    if (lock_accel_offset.z == unlocked && accel_output.z < 0) {
-      ++accel_offset.z;
-    }
-    if (lock_accel_offset.z == unlocked && accel_output.z > 0) {
-      --accel_offset.z;
-    }
+    gyro_offset.x = AdjustOffset(lock_gyro_offset.x, gyro_output.x, gyro_offset.x);
+    gyro_offset.x = AdjustOffset(lock_gyro_offset.y, gyro_output.y, gyro_offset.y);
+    gyro_offset.z = AdjustOffset(lock_gyro_offset.z, gyro_output.z, gyro_offset.z);
 
-    if ((abs(gyro_output.x) - max_error_gyro) <= 0) {
-      lock_gyro_offset.x = locked;
-    }
-    if ((abs(gyro_output.y) - max_error_gyro) <= 0) {
-      lock_gyro_offset.y = locked;
-    }
-    if ((abs(gyro_output.z) - max_error_gyro) <= 0) {
-      lock_gyro_offset.z = locked;
-    }
-    if ((abs(accel_output.x) - max_error_accel) <= 0) {
-      lock_accel_offset.x = locked;
-    }
-    if ((abs(accel_output.y) - max_error_accel) <= 0) {
-      lock_accel_offset.y = locked;
-    }
-    if ((abs(accel_output.z) - max_error_accel) <= 0) {
-      lock_accel_offset.z = locked;
-    }
+    accel_offset.x = AdjustOffset(lock_accel_offset.x, accel_output.x, accel_offset.x);
+    accel_offset.y = AdjustOffset(lock_accel_offset.y, accel_output.y, accel_offset.y);
+    accel_offset.z = AdjustOffset(lock_accel_offset.z, accel_output.z, accel_offset.z);
+
+    SetCalibrationLock(gyro_output, lock_gyro_offset, MAX_ERROR_GYRO);
+    SetCalibrationLock(accel_output, lock_accel_offset, MAX_ERROR_ACCEL);
 
     if (lock_gyro_offset.x == locked &&
         lock_gyro_offset.y == locked &&
@@ -460,9 +423,12 @@ auto Mpu9255::AdjustOffset(void) noexcept -> void {
         lock_accel_offset.z == locked) {
       break;
     }
+
     SetGyroOffset(gyro_offset, Axis::ALL);
     SetAccelOffset(accel_offset, Axis::ALL);
   }
+
+  return true;
 }
 
 auto Mpu9255::PerformCalibration(void) noexcept -> void {
@@ -470,7 +436,7 @@ auto Mpu9255::PerformCalibration(void) noexcept -> void {
   GetFactoryOffsetValues();
   SetAccelBandwidth(accel::Bandwidth::acc_5Hz);
   SetGyroBandwidth(gyro::Bandwidth::gyro_5Hz);
-  AdjustOffset();
+  Calibrate();
   SetGyroBandwidth(gyro::Bandwidth::gyro_8800Hz);
   SetAccelBandwidth(accel::Bandwidth::acc_184Hz);
 }
